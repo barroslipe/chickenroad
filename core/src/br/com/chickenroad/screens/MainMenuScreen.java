@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector3;
 
 import br.com.chickenroad.ChickenRoadGame;
 
@@ -70,7 +71,6 @@ public class MainMenuScreen implements Screen {
 		textureRegionSound = new TextureRegion(textureSound,0,0,100,100);
 		spriteSound = new Sprite(textureRegionSound);
 		
-	
 	}
 
 	@Override
@@ -90,15 +90,31 @@ public class MainMenuScreen implements Screen {
 		
 		chickenRoadGame.getSpriteBatch().begin();
 		
-
 		drawBackground();
 		drawMenuButtons();
 
-		
 		chickenRoadGame.getSpriteBatch().end();
+		
+		if(Gdx.input.justTouched()){
+			
+			Vector3 touchPoint = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
+			orthographicCamera.unproject(touchPoint);
+
+			if(spriteQuit.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
+				Gdx.app.exit();
+			}else if(spritePlay.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
+				//TODO
+				System.out.println("Clicou no play");
+			}else if(spriteSound.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
+				//TODO
+				System.out.println("Clicou no som");
+			}else{
+				System.out.println("Não clicou nos botões");
+			}
+		}
 
 	}
-
+	
 	private void drawMenuButtons() {
 		
 		spritePlay.setPosition(WIDTH/2-50, HEIGHT/2-100);
@@ -143,9 +159,8 @@ public class MainMenuScreen implements Screen {
 
 	@Override
 	public void dispose() {
+		// TODO Auto-generated method stub
 		
-	
-
 	}
 
 }
