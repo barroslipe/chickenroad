@@ -16,15 +16,33 @@ public class MainMenuScreen implements Screen {
 	private final int WIDTH = 700;
 	private final int HEIGHT = 480;
 	
-	//TODO modificar a figura
+	//TODO modificar as figuras
 	private final String URL_BACKGROUND = "telaInicial.jpg";
-	
+	private final String URL_PLAY_BUTTON = "play.jpg";
+	private final String URL_QUIT_BUTTON = "play.jpg";
+	private final String URL_SOUND_BUTTON = "play.jpg";
+
 	private ChickenRoadGame chickenRoadGame;
 	
 	//background
 	private Texture textureBackground;
 	private TextureRegion textureRegionBackground;
 	private Sprite spriteBackground;
+	
+	//play button
+	private Texture texturePlay;
+	private TextureRegion textureRegionPlay;
+	private Sprite spritePlay;
+	
+	//quit button
+	private Texture textureQuit;
+	private TextureRegion textureRegionQuit;
+	private Sprite spriteQuit;
+	
+	//sound button
+	private Texture textureSound;
+	private TextureRegion textureRegionSound;
+	private Sprite spriteSound;
 	
 	
 	private OrthographicCamera orthographicCamera;
@@ -33,13 +51,25 @@ public class MainMenuScreen implements Screen {
 		
 		this.chickenRoadGame = chickenRoadGame;
 		
+		orthographicCamera = new OrthographicCamera();
+		orthographicCamera.setToOrtho(false, WIDTH,HEIGHT);
+		
 		textureBackground = new Texture(URL_BACKGROUND);
 		textureRegionBackground = new TextureRegion(textureBackground, 0,0,WIDTH,HEIGHT);
 		spriteBackground = new Sprite(textureRegionBackground);
-
 		
-		orthographicCamera = new OrthographicCamera();
-		orthographicCamera.setToOrtho(false, WIDTH,HEIGHT);
+		texturePlay = new Texture(URL_PLAY_BUTTON);
+		textureRegionPlay = new TextureRegion(texturePlay,0,0,100,100);
+		spritePlay = new Sprite(textureRegionPlay);
+		
+		textureQuit = new Texture(URL_QUIT_BUTTON);
+		textureRegionQuit = new TextureRegion(textureQuit,0,0,100,100);
+		spriteQuit = new Sprite(textureRegionQuit);
+		
+		textureSound = new Texture(URL_SOUND_BUTTON);
+		textureRegionSound = new TextureRegion(textureSound,0,0,100,100);
+		spriteSound = new Sprite(textureRegionSound);
+		
 	
 	}
 
@@ -62,9 +92,22 @@ public class MainMenuScreen implements Screen {
 		
 
 		drawBackground();
+		drawMenuButtons();
 
 		
 		chickenRoadGame.getSpriteBatch().end();
+
+	}
+
+	private void drawMenuButtons() {
+		
+		spritePlay.setPosition(WIDTH/2-50, HEIGHT/2-100);
+		spriteQuit.setPosition(WIDTH/2-50, HEIGHT/2-200);
+		spriteSound.setPosition(0, 0);
+
+		spritePlay.draw(chickenRoadGame.getSpriteBatch());
+		spriteQuit.draw(chickenRoadGame.getSpriteBatch());
+		spriteSound.draw(chickenRoadGame.getSpriteBatch());
 
 	}
 
