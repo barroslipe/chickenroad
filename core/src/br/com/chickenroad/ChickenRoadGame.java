@@ -1,27 +1,42 @@
 package br.com.chickenroad;
 
-import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class ChickenRoadGame extends ApplicationAdapter {
-	SpriteBatch batch;
-	Texture img;
+import br.com.chickenroad.screens.MainMenuScreen;
+
+public class ChickenRoadGame extends Game {
+	
+	private SpriteBatch spriteBatch;
+	
+	private BitmapFont bitmapFont;
+		
 	
 	@Override
 	public void create () {
-		batch = new SpriteBatch();
-		img = new Texture("badlogic.jpg");
+		spriteBatch = new SpriteBatch();
+		bitmapFont = new BitmapFont();
+		
+		//menu inicial da tela de abertura 
+		setScreen(new MainMenuScreen(this));	
 	}
 
 	@Override
 	public void render () {
-		Gdx.gl.glClearColor(1, 0, 0, 1);
-		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
-		batch.begin();
-		batch.draw(img, 0, 0);
-		batch.end();
+		super.render();
 	}
+	
+	public void dispose(){
+		spriteBatch.dispose();
+	}
+	
+	public SpriteBatch getSpriteBatch() {
+		return spriteBatch;
+	}
+
+	public BitmapFont getBitmapFont() {
+		return bitmapFont;
+	}
+
 }
