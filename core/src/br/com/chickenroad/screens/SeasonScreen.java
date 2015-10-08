@@ -31,13 +31,12 @@ public class SeasonScreen implements Screen {
 	private TextureRegion textureRegionArrowLeft;
 	private Sprite spriteArrowLeft;
 	
-	//com varias fases, uma lista será criada
-	private String faseList[] = {"fase1.png", "fase1.png", "fase1.png", "fase1.png", "fase1.png"};
-	
+	//com varias fases, trocar figuras
+	private String faseList[] = {"fase1.png", "faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png"};
+
 	private ArrayList<Texture> textureFaseList;
 	private ArrayList<TextureRegion> textureRegionFaseList;
 	private ArrayList<Sprite> spriteFaseList;
-	
 	
 	//background
 	private Texture textureBackground;
@@ -116,8 +115,6 @@ public class SeasonScreen implements Screen {
 			Vector3 touchPoint = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
 			orthographicCamera.unproject(touchPoint);
 
-			System.out.println("-> x = "+ touchPoint.x + " , y = "+touchPoint.y);
-
 			if(spriteArrowLeft.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
 				//TODO liberar tudo
 				dispose();
@@ -126,7 +123,10 @@ public class SeasonScreen implements Screen {
 				//TODO abrir fase 1
 				System.out.println("Abrir fase 1");
 			}else{
-				System.out.println("Clicou em nada ou a fase está bloqueado");
+				for(int i=1;i<faseList.length;i++){
+					if(spriteFaseList.get(i).getBoundingRectangle().contains(touchPoint.x, touchPoint.y))
+						System.out.println("Fase bloqueada");
+				}
 			}
 		}
 
