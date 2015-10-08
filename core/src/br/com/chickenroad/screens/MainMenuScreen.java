@@ -51,8 +51,7 @@ public class MainMenuScreen implements Screen {
 	private TextureRegion textureRegionSoundOff;
 	private Sprite spriteSoundOff;
 
-	private boolean soundOn = true;
-
+	private boolean soundOnFlag = true;
 
 	private OrthographicCamera orthographicCamera;
 
@@ -116,15 +115,13 @@ public class MainMenuScreen implements Screen {
 			if(spriteQuit.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
 				Gdx.app.exit();
 			}else if(spritePlay.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
-				//TODO
-				System.out.println("Clicou no play");
+				//TODO liberar tudo
+				dispose();
+				chickenRoadGame.setScreen(new SeasonScreen(chickenRoadGame));
 			}else if(spriteSoundOn.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
-				//TODO
-				soundOn = !soundOn;
-
-				System.out.println("Clicou no som");
+				//TODO tocar o som
+				soundOnFlag = !soundOnFlag;
 			}else{
-				System.out.println("N�o clicou nos bot�es");
 			}
 		}
 
@@ -138,7 +135,7 @@ public class MainMenuScreen implements Screen {
 		spritePlay.draw(chickenRoadGame.getSpriteBatch());
 		spriteQuit.draw(chickenRoadGame.getSpriteBatch());
 
-		if(soundOn){
+		if(soundOnFlag){
 			spriteSoundOn.setPosition(20, 20);
 			spriteSoundOn.draw(chickenRoadGame.getSpriteBatch());
 		}else{
