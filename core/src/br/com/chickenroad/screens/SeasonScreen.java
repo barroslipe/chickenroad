@@ -131,17 +131,16 @@ public class SeasonScreen implements Screen {
 			if(spriteArrowBACK.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
 				//TODO liberar tudo
 				soundClick.play();
+				dispose();
 				chickenRoadGame.setScreen(new MainMenuScreen(chickenRoadGame));
 			}else if(spriteFaseList.get(0).getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
 				//TODO abrir fase 1
 				soundClick.play();
-
-				System.out.println("Abrir fase 1");
+				dispose();
 			}else{
 				for(int i=1;i<faseList.length;i++){
 					if(spriteFaseList.get(i).getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
 						soundClick.play();
-
 						System.out.println("Fase bloqueada");
 					}
 				}
@@ -176,8 +175,10 @@ public class SeasonScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
 
+		//soundClick.dispose();
+		//soundMenuBackground.dispose();
+		soundMenuBackground.stop();
 	}
 
 }

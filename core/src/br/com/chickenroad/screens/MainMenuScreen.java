@@ -1,5 +1,7 @@
 package br.com.chickenroad.screens;
 
+import javax.lang.model.SourceVersion;
+
 import br.com.chickenroad.ChickenRoadGame;
 
 import com.badlogic.gdx.Gdx;
@@ -135,10 +137,12 @@ public class MainMenuScreen implements Screen {
 
 			if(spriteExit.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
 				soundClick.play();
+				dispose();
 				Gdx.app.exit();
 			}else if(spritePlay.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
 				//TODO liberar tudo
 				soundClick.play();
+				dispose();
 				chickenRoadGame.setScreen(new SeasonScreen(chickenRoadGame));
 			}else if(spriteSoundOn.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
 				//TODO tocar o som
@@ -206,7 +210,8 @@ public class MainMenuScreen implements Screen {
 	@Override
 	public void dispose() {
 
-		soundMenuBackground.dispose();
+		//soundMenuBackground.dispose();
+		soundMenuBackground.stop();
 	}
 
 }
