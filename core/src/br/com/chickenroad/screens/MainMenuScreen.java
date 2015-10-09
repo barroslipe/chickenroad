@@ -1,11 +1,11 @@
 package br.com.chickenroad.screens;
 
-import javax.lang.model.SourceVersion;
-
 import br.com.chickenroad.ChickenRoadGame;
+import br.com.chickenroad.screens.util.Constantes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -16,26 +16,9 @@ import com.badlogic.gdx.math.Vector3;
 
 public class MainMenuScreen implements Screen {
 
-	//TODO buscar uma maneira de trabalhar essas constantes
-	private final int WIDTH_BACKGROUND = 893;
-	private final int HEIGHT_BACKGROUND = 540;
-	private final int HEIGHT_SOUNDOFF_BUTTON = 57;
-	private final int WIDTH_SOUNDOFF_BUTTON = 72;
-	private final int HEIGHT_SOUNDON_BUTTON = 57;
-	private final int WIDTH_SOUNDON_BUTTON = 80;
-	private final int HEIGHT_EXIT_BUTTON = 41;
-	private final int WIDTH_EXIT_BUTTON = 96;
-	private final int HEIGHT_PLAY_BUTTON = 35;
-	private final int WIDTH_PLAY_BUTTON = 96;
-
-	//TODO modificar as figuras
-	private final String URL_BACKGROUND = "backgroundMenu.jpg";
-	private final String URL_PLAY_BUTTON = "playButton.jpg";
-	private final String URL_EXIT_BUTTON = "exitButton.jpg";
-	private final String URL_SOUND_ON_BUTTON = "soundOnButton.jpg";
-	private final String URL_SOUND_OFF_BUTTON = "soundOffButton.jpg";
-
 	private ChickenRoadGame chickenRoadGame;
+	private AssetManager assetManager;
+
 
 	//background
 	private Texture textureBackground;
@@ -62,42 +45,40 @@ public class MainMenuScreen implements Screen {
 	private TextureRegion textureRegionSoundOff;
 	private Sprite spriteSoundOff;
 
-	public static boolean soundOnFlag = true;
-
 	private OrthographicCamera orthographicCamera;
 	
 	private Music soundMenuBackground, soundClick;
 
-
 	public MainMenuScreen(ChickenRoadGame chickenRoadGame) {
 
 		this.chickenRoadGame = chickenRoadGame;
-
+		this.assetManager = chickenRoadGame.getResourceManager().getAssetManager();
+		
 		orthographicCamera = new OrthographicCamera();
-		orthographicCamera.setToOrtho(false, WIDTH_BACKGROUND,HEIGHT_BACKGROUND);
+		orthographicCamera.setToOrtho(false, Constantes.WIDTH_BACKGROUND,Constantes.HEIGHT_BACKGROUND);
 
-		textureBackground = new Texture(URL_BACKGROUND);
-		textureRegionBackground = new TextureRegion(textureBackground, 0,0,WIDTH_BACKGROUND,HEIGHT_BACKGROUND);
+		textureBackground = assetManager.get(Constantes.URL_BACKGROUND);
+		textureRegionBackground = new TextureRegion(textureBackground, 0,0,Constantes.WIDTH_BACKGROUND,Constantes.HEIGHT_BACKGROUND);
 		spriteBackground = new Sprite(textureRegionBackground);
 
-		texturePlay = new Texture(URL_PLAY_BUTTON);
-		textureRegionPlay = new TextureRegion(texturePlay,0,0,WIDTH_PLAY_BUTTON,HEIGHT_PLAY_BUTTON);
+		texturePlay = assetManager.get(Constantes.URL_PLAY_BUTTON);
+		textureRegionPlay = new TextureRegion(texturePlay,0,0,Constantes.WIDTH_PLAY_BUTTON,Constantes.HEIGHT_PLAY_BUTTON);
 		spritePlay = new Sprite(textureRegionPlay);
 
-		textureExit = new Texture(URL_EXIT_BUTTON);
-		textureRegionExit = new TextureRegion(textureExit,0,0,WIDTH_EXIT_BUTTON,HEIGHT_EXIT_BUTTON);
+		textureExit = assetManager.get(Constantes.URL_EXIT_BUTTON);
+		textureRegionExit = new TextureRegion(textureExit,0,0,Constantes.WIDTH_EXIT_BUTTON,Constantes.HEIGHT_EXIT_BUTTON);
 		spriteExit = new Sprite(textureRegionExit);
 
-		textureSoundOn = new Texture(URL_SOUND_ON_BUTTON);
-		textureRegionSoundOn = new TextureRegion(textureSoundOn,0,0,WIDTH_SOUNDON_BUTTON,HEIGHT_SOUNDON_BUTTON);
+		textureSoundOn = assetManager.get(Constantes.URL_SOUND_ON_BUTTON);
+		textureRegionSoundOn = new TextureRegion(textureSoundOn,0,0,Constantes.WIDTH_SOUNDON_BUTTON,Constantes.HEIGHT_SOUNDON_BUTTON);
 		spriteSoundOn = new Sprite(textureRegionSoundOn);
 
-		textureSoundOff = new Texture(URL_SOUND_OFF_BUTTON);
-		textureRegionSoundOff = new TextureRegion(textureSoundOff,0,0,WIDTH_SOUNDOFF_BUTTON,HEIGHT_SOUNDOFF_BUTTON);
+		textureSoundOff = assetManager.get(Constantes.URL_SOUND_OFF_BUTTON);
+		textureRegionSoundOff = new TextureRegion(textureSoundOff,0,0,Constantes.WIDTH_SOUNDOFF_BUTTON,Constantes.HEIGHT_SOUNDOFF_BUTTON);
 		spriteSoundOff = new Sprite(textureRegionSoundOff);
 		
-		soundMenuBackground = Gdx.audio.newMusic(Gdx.files.internal("sounds/soundMenuBackground.mp3"));
-		soundClick = Gdx.audio.newMusic(Gdx.files.internal("sounds/soundClick.mp3"));
+		soundMenuBackground = assetManager.get(Constantes.URL_SOUND_MENU_BACKGROUND);
+		soundClick = assetManager.get(Constantes.URL_SOUND_CLICK);
 
 	}
 
@@ -122,7 +103,7 @@ public class MainMenuScreen implements Screen {
 
 		chickenRoadGame.getSpriteBatch().end();
 
-		if(!soundMenuBackground.isPlaying() && soundOnFlag) soundMenuBackground.play(); 
+		if(!soundMenuBackground.isPlaying() && Constantes.SOUND_ON_FLAG) soundMenuBackground.play(); 
 
 		input();
 			
@@ -147,8 +128,8 @@ public class MainMenuScreen implements Screen {
 			}else if(spriteSoundOn.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
 				//TODO tocar o som
 				soundClick.play();
-				soundOnFlag = !soundOnFlag;
-				if(!soundOnFlag) soundMenuBackground.stop();
+				Constantes.SOUND_ON_FLAG = !Constantes.SOUND_ON_FLAG;
+				if(!Constantes.SOUND_ON_FLAG) soundMenuBackground.stop();
 			}else{
 			}
 		}
@@ -161,15 +142,15 @@ public class MainMenuScreen implements Screen {
 		final int positionYMenu = 60;
 		
 
-		spritePlay.setPosition(WIDTH_BACKGROUND/2-positionXMenu, HEIGHT_BACKGROUND/2);
-		spriteExit.setPosition(WIDTH_BACKGROUND/2-positionXMenu, HEIGHT_BACKGROUND/2-positionYMenu);
+		spritePlay.setPosition(Constantes.WIDTH_BACKGROUND/2-positionXMenu, Constantes.HEIGHT_BACKGROUND/2);
+		spriteExit.setPosition(Constantes.WIDTH_BACKGROUND/2-positionXMenu, Constantes.HEIGHT_BACKGROUND/2-positionYMenu);
 
 		spritePlay.draw(chickenRoadGame.getSpriteBatch());
 		spriteExit.draw(chickenRoadGame.getSpriteBatch());
 
 		final int positionSound = 20;
 		
-		if(soundOnFlag){
+		if(Constantes.SOUND_ON_FLAG){
 			spriteSoundOn.setPosition(positionSound, positionSound);
 			spriteSoundOn.draw(chickenRoadGame.getSpriteBatch());
 		}else{

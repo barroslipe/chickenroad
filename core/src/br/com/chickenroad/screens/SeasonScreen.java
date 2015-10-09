@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -13,23 +14,14 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 
 import br.com.chickenroad.ChickenRoadGame;
+import br.com.chickenroad.screens.util.Constantes;
 
 //TODO avaliar melhor o background. Além disso, avaliar se será uma classe como a principal.
 //Não consegui adicionar outro background.
 public class SeasonScreen implements Screen {
 
-	
-	//TODO buscar uma maneira de trabalhar essas constantes
-	private final int WIDTH_BACKGROUND = 893;
-	private final int HEIGHT_BACKGROUND = 540;
-	private final int HEIGHT_BACK_BUTTON = 96;
-	private final int WIDTH_BACK_BUTTON = 96;
-
-	private final String URL_BACK_BUTTON = "backButton.png";
-	//TODO trocar o background
-	private final String URL_BACKGROUND = "backgroundMenu.jpg";
-
 	private ChickenRoadGame chickenRoadGame;
+	private AssetManager assetManager;
 
 	private Texture textureBACK;
 	private TextureRegion textureRegionBACK;
@@ -51,17 +43,16 @@ public class SeasonScreen implements Screen {
 
 	private Music soundMenuBackground, soundClick;
 
-
 	public SeasonScreen(ChickenRoadGame chickenRoadGame) {
 
 		this.chickenRoadGame = chickenRoadGame;
+		assetManager = chickenRoadGame.getResourceManager().getAssetManager();
 
-		
 		orthographicCamera = new OrthographicCamera();
-		orthographicCamera.setToOrtho(false, WIDTH_BACKGROUND,HEIGHT_BACKGROUND);
+		orthographicCamera.setToOrtho(false, Constantes.WIDTH_BACKGROUND,Constantes.HEIGHT_BACKGROUND);
 		
-		textureBACK = new Texture(URL_BACK_BUTTON);
-		textureRegionBACK = new TextureRegion(textureBACK,0,0,WIDTH_BACK_BUTTON,HEIGHT_BACK_BUTTON);
+		textureBACK = assetManager.get(Constantes.URL_BACK_BUTTON);
+		textureRegionBACK = new TextureRegion(textureBACK,0,0,Constantes.WIDTH_BACK_BUTTON,Constantes.HEIGHT_BACK_BUTTON);
 		spriteArrowBACK = new Sprite(textureRegionBACK);
 		
 		//TODO trocar figura e string
@@ -80,15 +71,12 @@ public class SeasonScreen implements Screen {
 			
 		}
 		
-		textureBackground = new Texture(URL_BACKGROUND);
-		textureRegionBackground = new TextureRegion(textureBackground, 0,0,WIDTH_BACKGROUND,HEIGHT_BACKGROUND);
+		textureBackground = assetManager.get(Constantes.URL_BACKGROUND);
+		textureRegionBackground = new TextureRegion(textureBackground, 0,0,Constantes.WIDTH_BACKGROUND,Constantes.HEIGHT_BACKGROUND);
 		spriteBackground = new Sprite(textureRegionBackground);
 	
-
-		soundMenuBackground = Gdx.audio.newMusic(Gdx.files.internal("sounds/soundMenuBackground.mp3"));
-		soundClick = Gdx.audio.newMusic(Gdx.files.internal("sounds/soundClick.mp3"));
-
-		
+		soundMenuBackground = assetManager.get(Constantes.URL_SOUND_MENU_BACKGROUND);
+		soundClick = assetManager.get(Constantes.URL_SOUND_CLICK);
 	}
 
 	@Override
@@ -103,7 +91,6 @@ public class SeasonScreen implements Screen {
 		Gdx.gl.glClearColor(0,0,0,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		
 		orthographicCamera.update();
 		chickenRoadGame.getSpriteBatch().setProjectionMatrix(orthographicCamera.combined);
 		
@@ -112,7 +99,7 @@ public class SeasonScreen implements Screen {
 		spriteBackground.draw(chickenRoadGame.getSpriteBatch());
 		
 		for(int i=0;i<faseList.length;i++){
-			spriteFaseList.get(i).setPosition(WIDTH_BACKGROUND/2-200+90*i, HEIGHT_BACKGROUND/2-70);
+			spriteFaseList.get(i).setPosition(Constantes.WIDTH_BACKGROUND/2-200+90*i, Constantes.HEIGHT_BACKGROUND/2-70);
 			spriteFaseList.get(i).draw(chickenRoadGame.getSpriteBatch());
 			
 		}
@@ -121,7 +108,7 @@ public class SeasonScreen implements Screen {
 
 		chickenRoadGame.getSpriteBatch().end();
 
-		if(!soundMenuBackground.isPlaying() && MainMenuScreen.soundOnFlag) soundMenuBackground.play(); 
+		if(!soundMenuBackground.isPlaying() && Constantes.SOUND_ON_FLAG) soundMenuBackground.play(); 
 
 		if(Gdx.input.justTouched()){
 
