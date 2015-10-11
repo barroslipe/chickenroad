@@ -1,6 +1,6 @@
 package br.com.chickenroad;
 
-import br.com.chickenroad.screens.MainMenuScreen;
+import br.com.chickenroad.screens.SplashScreen;
 import br.com.chickenroad.screens.util.ResourceManager;
 
 import com.badlogic.gdx.Game;
@@ -21,14 +21,13 @@ public class ChickenRoadGame extends Game {
 	public void create () {
 		spriteBatch = new SpriteBatch();
 		bitmapFont = new BitmapFont();
+		resourceManager = new ResourceManager();
 		
 		//carregar os arquivos
-		resourceManager = new ResourceManager();		
 		resourceManager.load();
-				
-		//menu inicial da tela de abertura 
-		if(!resourceManager.isLoaded())
-			setScreen(new MainMenuScreen(this));	
+		
+		setScreen(new SplashScreen(this));
+		
 	}
 
 	@Override
