@@ -27,6 +27,8 @@ public class SplashScreen implements Screen {
 	private Sprite spriteBackground;
 	
 	private OrthographicCamera orthographicCamera;
+	
+	final long start = System.currentTimeMillis();
 
 	public SplashScreen(ChickenRoadGame chickenRoadGame) {
 		this.chickenRoadGame = chickenRoadGame;
@@ -37,6 +39,8 @@ public class SplashScreen implements Screen {
 		textureBackground = new Texture("splashScreenBackground.jpg");
 		textureRegionBackground = new TextureRegion(textureBackground, 0, 0, 640, 480);
 		spriteBackground = new Sprite(textureRegionBackground);
+		
+
 		
 	}
 
@@ -55,17 +59,21 @@ public class SplashScreen implements Screen {
 		//capturar o progresso do carregamento
 		chickenRoadGame.getResourceManager().getAssetManager().update();
 		orthographicCamera.update();
+		
 		chickenRoadGame.getSpriteBatch().setProjectionMatrix(orthographicCamera.combined);
 		chickenRoadGame.getSpriteBatch().begin();
 		
 		spriteBackground.draw(chickenRoadGame.getSpriteBatch());
 		//desenhar a porcentagem do carregamento dos dados
-		new BitmapFont().draw(chickenRoadGame.getSpriteBatch(), "Carregando "+chickenRoadGame.getResourceManager().getAssetManager().getProgress()*100, 640/2, 480/2 - 70);
+		new BitmapFont().draw(chickenRoadGame.getSpriteBatch(), "Carregando... "+chickenRoadGame.getResourceManager().getAssetManager().getProgress()*100 + "%", 640/2, 480/2 - 70);
 
 		chickenRoadGame.getSpriteBatch().end();
 		
-		if(chickenRoadGame.getResourceManager().getAssetManager().getProgress() == 1)
-			chickenRoadGame.setScreen(new MainMenuScreen(chickenRoadGame));
+		if(chickenRoadGame.getResourceManager().getAssetManager().getProgress() == 1){
+			long now = System.currentTimeMillis() - start;
+			if(now > 2000)
+				chickenRoadGame.setScreen(new MainMenuScreen(chickenRoadGame));
+		}
 		
 	}
 
@@ -95,8 +103,8 @@ public class SplashScreen implements Screen {
 
 	@Override
 	public void dispose() {
-		// TODO Auto-generated method stub
 
+		textureBackground.dispose();
 	}
 
 }
