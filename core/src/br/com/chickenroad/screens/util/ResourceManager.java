@@ -32,15 +32,6 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_SOUND_CLICK, Music.class);
 		assetManager.load(Constantes.URL_SOUND_MENU_BACKGROUND, Music.class);
 		
-		//musica de tamano grande para simular splashScreen carregando
-		assetManager.load("testeCarregamento.mp3", Music.class);
-		assetManager.load("testeCarregamento2.mp3", Music.class);
-		assetManager.load("testeCarregamento3.mp3", Music.class);
-		assetManager.load("testeCarregamento4.mp3", Music.class);
-		assetManager.load("testeCarregamento5.mp3", Music.class);
-		assetManager.load("testeCarregamento6.mp3", Music.class);
-
-		
 	}
 	
 	public boolean isLoaded(){

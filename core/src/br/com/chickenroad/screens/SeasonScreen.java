@@ -15,6 +15,7 @@ import com.badlogic.gdx.math.Vector3;
 
 import br.com.chickenroad.ChickenRoadGame;
 import br.com.chickenroad.screens.util.Constantes;
+import br.com.chickenroad.screens.util.PreferencesUser;
 
 //TODO avaliar melhor o background. Al√©m disso, avaliar se ser√° uma classe como a principal.
 //N√£o consegui adicionar outro background.
@@ -38,7 +39,6 @@ public class SeasonScreen implements Screen {
 	private ArrayList<TextureRegion> textureRegionFaseList;
 	private ArrayList<Sprite> spriteFaseList;
 
-	
 	//background
 	private Texture textureBackground;
 	private TextureRegion textureRegionBackground;
@@ -48,10 +48,15 @@ public class SeasonScreen implements Screen {
 
 	private Music soundMenuBackground, soundClick;
 
+	private int fase_atual = 0;
+	
 	public SeasonScreen(ChickenRoadGame chickenRoadGame) {
 
 		this.chickenRoadGame = chickenRoadGame;
 		assetManager = chickenRoadGame.getResourceManager().getAssetManager();
+		
+		//PreferencesUser.setFase(0);
+		fase_atual = PreferencesUser.getFase();
 
 		orthographicCamera = new OrthographicCamera();
 		orthographicCamera.setToOrtho(false, Constantes.WIDTH_BACKGROUND,Constantes.HEIGHT_BACKGROUND);
@@ -60,14 +65,20 @@ public class SeasonScreen implements Screen {
 		textureRegionBACK = new TextureRegion(textureBACK,0,0,Constantes.WIDTH_BACK_BUTTON,Constantes.HEIGHT_BACK_BUTTON);
 		spriteArrowBACK = new Sprite(textureRegionBACK);
 				
-		
 		//TODO trocar figura e string
 		textureFaseList = new ArrayList<Texture>();
 		textureRegionFaseList = new ArrayList<TextureRegion>();
 		spriteFaseList = new ArrayList<Sprite>();
 		
+		
+		String picture;
 		for(int i=0;i<faseList.length;i++){
-			Texture texture = new Texture(faseList[i]);
+			if(i <= fase_atual)
+				picture = faseList[0];    //Aqui ser· apontada a fase correta. Por enquanto, ser· a figura de fase 1 para todas as fases ABERTAS.
+			else
+				picture = "faseBloqueada.png";
+			
+			Texture texture = new Texture(picture);
 			TextureRegion textureRegion = new TextureRegion(texture, 0,0,96,94);
 			Sprite sprite = new Sprite(textureRegion);
 			
@@ -82,6 +93,7 @@ public class SeasonScreen implements Screen {
 	
 		soundMenuBackground = assetManager.get(Constantes.URL_SOUND_MENU_BACKGROUND);
 		soundClick = assetManager.get(Constantes.URL_SOUND_CLICK);
+		
 	}
 
 	@Override
@@ -137,25 +149,27 @@ public class SeasonScreen implements Screen {
 				soundClick.play();
 				dispose();
 				chickenRoadGame.setScreen(new MainMenuScreen(chickenRoadGame));
-			}else if(spriteFaseList.get(0).getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
-				//TODO abrir fase 1
-				System.out.println("Fase 1");
-				
-				//13.10.2015 - inicia primeira fase
-				chickenRoadGame.setScreen(new Play());
-				
-				soundClick.play();
-				dispose();
 			}else{
-				for(int i=1;i<faseList.length;i++){
+				for(int i=0;i<faseList.length;i++){
 					if(spriteFaseList.get(i).getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
 						soundClick.play();
-						System.out.println("Fase bloqueada");
+						if(i<=fase_atual){
+							openFase(i);
+						}else
+							System.out.println("Fase bloqueada");
 					}
 				}
 			}
 		}
 
+	}
+
+	private void openFase(int i) {
+		//TODO
+		if(i==0)
+			chickenRoadGame.setScreen(new Play());
+		
+		//dispose();
 	}
 
 	@Override
