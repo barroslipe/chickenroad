@@ -1,7 +1,5 @@
 package br.com.chickenroad.screens;
 
-import br.com.chickenroad.ChickenRoadGame;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
@@ -10,6 +8,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
+import br.com.chickenroad.ChickenRoadGame;
 
 
 /**
@@ -65,13 +65,14 @@ public class SplashScreen implements Screen {
 		
 		spriteBackground.draw(chickenRoadGame.getSpriteBatch());
 		//desenhar a porcentagem do carregamento dos dados
-		new BitmapFont().draw(chickenRoadGame.getSpriteBatch(), "Carregando... "+chickenRoadGame.getResourceManager().getAssetManager().getProgress()*100 + "%", 640/2, 480/2 - 70);
+		new BitmapFont().draw(chickenRoadGame.getSpriteBatch(), "Carregando... "+
+				chickenRoadGame.getResourceManager().getAssetManager().getProgress()*100 + "%", 640/8, 480/2 - 20);
 
 		chickenRoadGame.getSpriteBatch().end();
 		
 		if(chickenRoadGame.getResourceManager().getAssetManager().getProgress() == 1){
 			long now = System.currentTimeMillis() - start;
-			if(now > 2000)
+			if(now > 3000)
 				chickenRoadGame.setScreen(new MainMenuScreen(chickenRoadGame));
 		}
 		

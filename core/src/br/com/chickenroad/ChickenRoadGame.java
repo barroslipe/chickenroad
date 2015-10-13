@@ -1,11 +1,11 @@
 package br.com.chickenroad;
 
-import br.com.chickenroad.screens.SplashScreen;
-import br.com.chickenroad.screens.util.ResourceManager;
-
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+import br.com.chickenroad.screens.SplashScreen;
+import br.com.chickenroad.screens.util.ResourceManager;
 
 public class ChickenRoadGame extends Game {
 	

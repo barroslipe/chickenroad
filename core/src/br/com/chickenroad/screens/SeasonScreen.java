@@ -28,11 +28,16 @@ public class SeasonScreen implements Screen {
 	private Sprite spriteArrowBACK;
 	
 	//com varias fases, trocar figuras
-	private String faseList[] = {"fase1.png", "faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png"};
+	private String faseList[] = {"fase1.png", "faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png",
+			"faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png",
+			"faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png",
+			"faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png",
+			"faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png"};
 
 	private ArrayList<Texture> textureFaseList;
 	private ArrayList<TextureRegion> textureRegionFaseList;
 	private ArrayList<Sprite> spriteFaseList;
+
 	
 	//background
 	private Texture textureBackground;
@@ -54,6 +59,7 @@ public class SeasonScreen implements Screen {
 		textureBACK = assetManager.get(Constantes.URL_BACK_BUTTON);
 		textureRegionBACK = new TextureRegion(textureBACK,0,0,Constantes.WIDTH_BACK_BUTTON,Constantes.HEIGHT_BACK_BUTTON);
 		spriteArrowBACK = new Sprite(textureRegionBACK);
+				
 		
 		//TODO trocar figura e string
 		textureFaseList = new ArrayList<Texture>();
@@ -62,13 +68,12 @@ public class SeasonScreen implements Screen {
 		
 		for(int i=0;i<faseList.length;i++){
 			Texture texture = new Texture(faseList[i]);
-			TextureRegion textureRegion = new TextureRegion(texture, 0,0,68,95);
+			TextureRegion textureRegion = new TextureRegion(texture, 0,0,96,94);
 			Sprite sprite = new Sprite(textureRegion);
 			
 			textureFaseList.add(texture);
 			textureRegionFaseList.add(textureRegion);
 			spriteFaseList.add(sprite);
-			
 		}
 		
 		textureBackground = assetManager.get(Constantes.URL_BACKGROUND);
@@ -87,7 +92,6 @@ public class SeasonScreen implements Screen {
 
 	@Override
 	public void render(float delta) {
-
 		Gdx.gl.glClearColor(0,0,0,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -98,10 +102,23 @@ public class SeasonScreen implements Screen {
 
 		spriteBackground.draw(chickenRoadGame.getSpriteBatch());
 		
+		// 12.10.15 - exibe as fases em forma de matriz de 3x6
+		float spriteFaseListHeight = Constantes.HEIGHT_BACKGROUND/2+50;
+		int cont = 0;
+		
 		for(int i=0;i<faseList.length;i++){
-			spriteFaseList.get(i).setPosition(Constantes.WIDTH_BACKGROUND/2-200+90*i, Constantes.HEIGHT_BACKGROUND/2-70);
-			spriteFaseList.get(i).draw(chickenRoadGame.getSpriteBatch());
-			
+			if((i+1)%7 == 0) {
+				cont = 0;
+				spriteFaseListHeight -= 110; 
+				spriteFaseList.get(i).setPosition(Constantes.WIDTH_BACKGROUND/2-320+110*cont, 
+						spriteFaseListHeight);
+			}
+			else {
+				spriteFaseList.get(i).setPosition(Constantes.WIDTH_BACKGROUND/2-320+110*cont, 
+						spriteFaseListHeight);
+				cont+=1;
+			}
+			spriteFaseList.get(i).draw(chickenRoadGame.getSpriteBatch());	
 		}
 		
 		spriteArrowBACK.draw(chickenRoadGame.getSpriteBatch());
@@ -122,6 +139,11 @@ public class SeasonScreen implements Screen {
 				chickenRoadGame.setScreen(new MainMenuScreen(chickenRoadGame));
 			}else if(spriteFaseList.get(0).getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
 				//TODO abrir fase 1
+				System.out.println("Fase 1");
+				
+				//13.10.2015 - inicia primeira fase
+				chickenRoadGame.setScreen(new Play());
+				
 				soundClick.play();
 				dispose();
 			}else{
@@ -167,5 +189,4 @@ public class SeasonScreen implements Screen {
 		//soundMenuBackground.dispose();
 		soundMenuBackground.stop();
 	}
-
 }

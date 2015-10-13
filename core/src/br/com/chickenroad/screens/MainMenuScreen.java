@@ -1,8 +1,5 @@
 package br.com.chickenroad.screens;
 
-import br.com.chickenroad.ChickenRoadGame;
-import br.com.chickenroad.screens.util.Constantes;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
@@ -14,11 +11,13 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 
+import br.com.chickenroad.ChickenRoadGame;
+import br.com.chickenroad.screens.util.Constantes;
+
 public class MainMenuScreen implements Screen {
 
 	private ChickenRoadGame chickenRoadGame;
 	private AssetManager assetManager;
-
 
 	//background
 	private Texture textureBackground;
@@ -121,7 +120,7 @@ public class MainMenuScreen implements Screen {
 				dispose();
 				Gdx.app.exit();
 			}else if(spritePlay.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
-				//TODO liberar tudo
+				//se pressionar PLAY
 				soundClick.play();
 				dispose();
 				chickenRoadGame.setScreen(new SeasonScreen(chickenRoadGame));
@@ -138,8 +137,8 @@ public class MainMenuScreen implements Screen {
 
 	private void drawMenuButtons() {
 		
-		final int positionXMenu = 48;
-		final int positionYMenu = 60;
+		final int positionXMenu = 68;
+		final int positionYMenu = 120;
 		
 
 		spritePlay.setPosition(Constantes.WIDTH_BACKGROUND/2-positionXMenu, Constantes.HEIGHT_BACKGROUND/2);
