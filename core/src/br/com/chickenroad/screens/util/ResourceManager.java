@@ -27,19 +27,15 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_PLAY_BUTTON, Texture.class);
 		assetManager.load(Constantes.URL_SOUND_OFF_BUTTON, Texture.class);
 		assetManager.load(Constantes.URL_SOUND_ON_BUTTON, Texture.class);
-		
+	
+		assetManager.load(Constantes.URL_POPUP_YES_BUTTON, Texture.class);
+		assetManager.load(Constantes.URL_POPUP_EXIT_BUTTON, Texture.class);
+		assetManager.load(Constantes.URL_POPUP_EXIT_BACKGROUND, Texture.class);
+	
 		//sons
 		assetManager.load(Constantes.URL_SOUND_CLICK, Music.class);
 		assetManager.load(Constantes.URL_SOUND_MENU_BACKGROUND, Music.class);
 		
-	}
-	
-	public boolean isLoaded(){
-		
-		while(!assetManager.update()){
-			System.out.println("Carregando: "+assetManager.getProgress()*100 + "%");
-		}
-		return false;
 	}
 	
 	public void dispose(){

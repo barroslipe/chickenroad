@@ -26,5 +26,8 @@ public class Constantes {
 	public static final String URL_YES_EXIT_BUTTON = "yesExit.jpg";
 	public static final String URL_NO_EXIT_BUTTON = "noExit.jpg";
 	public static final String URL_SOUND_MENU_BACKGROUND = "sounds/soundMenuBackground.mp3";
-	public static final String URL_SOUND_CLICK = "sounds/soundClick.mp3"; 
+	public static final String URL_SOUND_CLICK = "sounds/soundClick.mp3";
+	public static final String URL_POPUP_EXIT_BUTTON = "popupExitButton.png";
+	public static final String URL_POPUP_YES_BUTTON = "popupYesButton.png";
+	public static final String URL_POPUP_EXIT_BACKGROUND = "popupExitBackground.png";
 }

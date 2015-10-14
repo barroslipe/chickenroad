@@ -1,5 +1,8 @@
 package br.com.chickenroad.screens;
 
+import br.com.chickenroad.ChickenRoadGame;
+import br.com.chickenroad.screens.util.Constantes;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
@@ -10,9 +13,6 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
-
-import br.com.chickenroad.ChickenRoadGame;
-import br.com.chickenroad.screens.util.Constantes;
 
 public class MainMenuScreen implements Screen {
 
@@ -44,15 +44,29 @@ public class MainMenuScreen implements Screen {
 	private TextureRegion textureRegionSoundOff;
 	private Sprite spriteSoundOff;
 
+	private Texture texturePopupExit;
+	private TextureRegion textureRegionPopupExit;
+	private Sprite spritePopupExit;
+
+
+	private Texture texturePopupYes;
+	private TextureRegion textureRegionPopupYes;
+	private Sprite spritePopupYes;
+
+	private Texture texturePopupBackground;
+	private TextureRegion textureRegionPopupBackground;
+	private Sprite spritePopupBackground;
+
 	private OrthographicCamera orthographicCamera;
-	
+
 	private Music soundMenuBackground, soundClick;
+	private boolean showPopupExitFlag;
 
 	public MainMenuScreen(ChickenRoadGame chickenRoadGame) {
 
 		this.chickenRoadGame = chickenRoadGame;
 		this.assetManager = chickenRoadGame.getResourceManager().getAssetManager();
-		
+
 		orthographicCamera = new OrthographicCamera();
 		orthographicCamera.setToOrtho(false, Constantes.WIDTH_BACKGROUND,Constantes.HEIGHT_BACKGROUND);
 
@@ -75,15 +89,29 @@ public class MainMenuScreen implements Screen {
 		textureSoundOff = assetManager.get(Constantes.URL_SOUND_OFF_BUTTON);
 		textureRegionSoundOff = new TextureRegion(textureSoundOff,0,0,Constantes.WIDTH_SOUNDOFF_BUTTON,Constantes.HEIGHT_SOUNDOFF_BUTTON);
 		spriteSoundOff = new Sprite(textureRegionSoundOff);
-		
+
 		soundMenuBackground = assetManager.get(Constantes.URL_SOUND_MENU_BACKGROUND);
 		soundClick = assetManager.get(Constantes.URL_SOUND_CLICK);
+
+		texturePopupYes = assetManager.get(Constantes.URL_POPUP_YES_BUTTON);
+		textureRegionPopupYes = new TextureRegion(texturePopupYes,0,0,56,55);
+		spritePopupYes = new Sprite(textureRegionPopupYes);
+
+		texturePopupExit = assetManager.get(Constantes.URL_POPUP_EXIT_BUTTON);
+		textureRegionPopupExit = new TextureRegion(texturePopupExit,0,0,56,53);
+		spritePopupExit = new Sprite(textureRegionPopupExit);
+
+		texturePopupBackground = assetManager.get(Constantes.URL_POPUP_EXIT_BACKGROUND);
+		textureRegionPopupBackground = new TextureRegion(texturePopupBackground,0,0,500,131);
+		spritePopupBackground = new Sprite(textureRegionPopupBackground);
+
+		showPopupExitFlag = false;
 
 	}
 
 	@Override
 	public void show() {
-		
+
 	}
 
 	@Override
@@ -98,14 +126,15 @@ public class MainMenuScreen implements Screen {
 		chickenRoadGame.getSpriteBatch().begin();
 
 		drawBackground();
-		drawMenuButtons();		
+		drawMenuButtons();
+		drawPopupExit();
 
 		chickenRoadGame.getSpriteBatch().end();
 
 		if(!soundMenuBackground.isPlaying() && Constantes.SOUND_ON_FLAG) soundMenuBackground.play(); 
 
 		input();
-			
+
 	}
 
 	private void input() {
@@ -115,31 +144,60 @@ public class MainMenuScreen implements Screen {
 			Vector3 touchPoint = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
 			orthographicCamera.unproject(touchPoint);
 
-			if(spriteExit.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
-				soundClick.play();
-				dispose();
-				Gdx.app.exit();
-			}else if(spritePlay.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
-				//se pressionar PLAY
-				soundClick.play();
-				dispose();
-				chickenRoadGame.setScreen(new SeasonScreen(chickenRoadGame));
-			}else if(spriteSoundOn.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
-				//TODO tocar o som
-				soundClick.play();
-				Constantes.SOUND_ON_FLAG = !Constantes.SOUND_ON_FLAG;
-				if(!Constantes.SOUND_ON_FLAG) soundMenuBackground.stop();
+			if(showPopupExitFlag){
+				
+				if(spritePopupYes.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
+					soundClick.play();
+					dispose();
+					Gdx.app.exit();
+				}else if(spritePopupExit.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
+					soundClick.play();
+					showPopupExitFlag=false;
+				}
+
 			}else{
+
+				if(spriteExit.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
+					soundClick.play();
+					showPopupExitFlag = true;
+
+				}else if(spritePlay.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
+					//se pressionar PLAY
+					soundClick.play();
+					dispose();
+					chickenRoadGame.setScreen(new SeasonScreen(chickenRoadGame));
+				}else if(spriteSoundOn.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
+					//TODO tocar o som
+					soundClick.play();
+					Constantes.SOUND_ON_FLAG = !Constantes.SOUND_ON_FLAG;
+					if(!Constantes.SOUND_ON_FLAG) soundMenuBackground.stop();
+				}
+
 			}
 		}
-		
+
+	}
+
+	private void drawPopupExit(){
+		if(showPopupExitFlag == true){
+
+			spritePopupExit.setPosition(Constantes.WIDTH_BACKGROUND/2 - 200, Constantes.HEIGHT_BACKGROUND/2 - 50);
+			spritePopupYes.setPosition(Constantes.WIDTH_BACKGROUND/2 + 200, Constantes.HEIGHT_BACKGROUND/2 - 50);
+			spritePopupBackground.setPosition(Constantes.WIDTH_BACKGROUND/2- 225, Constantes.HEIGHT_BACKGROUND/2 - 80);
+
+			spritePopupBackground.draw(chickenRoadGame.getSpriteBatch());
+			spritePopupExit.draw(chickenRoadGame.getSpriteBatch());
+			spritePopupYes.draw(chickenRoadGame.getSpriteBatch());	
+
+		}
+
 	}
 
 	private void drawMenuButtons() {
-		
+
 		final int positionXMenu = 68;
 		final int positionYMenu = 120;
-		
+
 
 		spritePlay.setPosition(Constantes.WIDTH_BACKGROUND/2-positionXMenu, Constantes.HEIGHT_BACKGROUND/2);
 		spriteExit.setPosition(Constantes.WIDTH_BACKGROUND/2-positionXMenu, Constantes.HEIGHT_BACKGROUND/2-positionYMenu);
@@ -148,7 +206,7 @@ public class MainMenuScreen implements Screen {
 		spriteExit.draw(chickenRoadGame.getSpriteBatch());
 
 		final int positionSound = 20;
-		
+
 		if(Constantes.SOUND_ON_FLAG){
 			spriteSoundOn.setPosition(positionSound, positionSound);
 			spriteSoundOn.draw(chickenRoadGame.getSpriteBatch());
