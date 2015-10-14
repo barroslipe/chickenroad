@@ -165,10 +165,15 @@ public class SeasonScreen implements Screen {
 	}
 
 	private void openFase(int i) {
-		//TODO
-		if(i==0)
-			chickenRoadGame.setScreen(new Play());
 		
+		String map = "maps/";
+		
+		//TODO
+		//fase 1
+		if(i==0){
+			map += "desert.tmx";
+			chickenRoadGame.setScreen(new Play(map, chickenRoadGame));
+		}
 		//dispose();
 	}
 

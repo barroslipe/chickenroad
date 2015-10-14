@@ -2,11 +2,13 @@ package br.com.chickenroad.entities;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
+import br.com.chickenroad.ChickenRoadGame;
 import br.com.chickenroad.screens.Play;
 
 //executada a cada frame
@@ -14,17 +16,19 @@ public class Player extends Sprite implements InputProcessor {
 	private Vector2 velocity = new Vector2();
 	float speed = 60*2;
 	float gravity = 60*0.8f;
-	public SpriteBatch batch;
 	private int pontoX = 0; //ponto de click/toque na tela
 	private int pontoY = 0;
 	public boolean movendoX1 = false;//x positivo - diz ppara que lado o avatar esta movendo
 	public boolean movendoX2 = false;//x negativo 
 	public boolean movendoY1 = false;//y positivo 
-	public boolean movendoY2 = false;//y negativo 
+	public boolean movendoY2 = false;//y negativo
 	
-	public Player(Sprite sprite) {
-		super(sprite);
-		batch = new SpriteBatch();
+	private ChickenRoadGame chickenRoadGame;
+	
+	public Player(String sprite, ChickenRoadGame aChickenRoadGame) {
+		super(new Texture(sprite));
+		
+		this.chickenRoadGame = aChickenRoadGame;
 	}
 	
 	public void update(float delta) {
@@ -115,7 +119,8 @@ public class Player extends Sprite implements InputProcessor {
 	public void draw(SpriteBatch spritebatch) {
 		//desenha o personagem
 		update(Gdx.graphics.getDeltaTime());
-		super.draw(batch);
+		super.draw(chickenRoadGame.getSpriteBatch());
+		
 	}
 	@Override
 	public boolean keyDown(int keycode) {
@@ -144,7 +149,7 @@ public class Player extends Sprite implements InputProcessor {
 	@Override
 	//evento para liberação de toque na tela - quando solta a tela
 	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-		Vector3 ponto = Play.camera.unproject(new Vector3(screenX, screenY, 0)); //usa o screenZ=0 (2D)
+		Vector3 ponto = Play.orthographicCamera.unproject(new Vector3(screenX, screenY, 0)); //usa o screenZ=0 (2D)
 		pontoX = (int)ponto.x;
 		pontoY = (int)ponto.y;
 		
