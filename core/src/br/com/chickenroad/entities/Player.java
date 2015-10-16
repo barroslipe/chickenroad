@@ -47,53 +47,6 @@ public class Player extends Sprite implements InputProcessor {
 		if(velocity.y < -speed)
 			velocity.y = -speed;
 
-		//usando ao acelerometro 
-
-		//esquerda
-		if(Gdx.input.getPitch() > 15) {
-			velocity.x = -speed/2;
-			movendoX1 = false;
-			movendoX2 = false;
-			movendoY1 = false;
-			movendoY2 = false;
-		}
-
-		//direita
-		else if(Gdx.input.getPitch() < -15) {
-			velocity.x = speed/2;
-			movendoX1 = false;
-			movendoX2 = false;
-			movendoY1 = false;
-			movendoY2 = false;
-		}
-
-		else if(!movendoX1 && !movendoX2 &&
-				!movendoY1 && !movendoY2) {
-			velocity.x = 0;
-		}
-
-		//cima
-		if(Gdx.input.getRoll() > 15) {
-			velocity.y = -speed/2;
-			movendoX1 = false;
-			movendoX2 = false;
-			movendoY1 = false;
-			movendoY2 = false;
-		}
-
-		//baixo
-		else if(Gdx.input.getRoll() < -15) {
-			velocity.y = speed/2;
-			movendoX1 = false;
-			movendoX2 = false;
-			movendoY1 = false;
-			movendoY2 = false;
-		}
-
-		else if(!movendoX1 && !movendoX2 &&
-				!movendoY1 && !movendoY2)
-			velocity.y = 0;
-
 		float newPositionX = this.getX()+velocity.x*delta;
 		float newPositionY = this.getY()+velocity.y*delta;
 

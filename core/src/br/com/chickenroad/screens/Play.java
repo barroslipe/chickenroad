@@ -24,10 +24,14 @@ public class Play implements Screen {
 	private OrthogonalTiledMapRenderer orthogonalTiledMapRenderer; //guarda o renderizador do mapa
 	public static OrthographicCamera orthographicCamera;//cria camera
 	private Player player;
+	
+	private int fase;
 
-	public Play(String aMap, ChickenRoadGame aChickenRoadGame) {
+	public Play(String aMap, ChickenRoadGame aChickenRoadGame, int aFase) {
 		this.url_map = aMap;
 		this.chickenRoadGame = aChickenRoadGame;
+		
+		this.fase = aFase;
 	}
 
 	@Override
@@ -49,7 +53,7 @@ public class Play implements Screen {
 		//TODO parametrizar, o ponto de origem do jogador pode mudar de acordo com o mapa a ser apresentado
 		player.setX(0);
 		player.setY(0);
-
+		
 		Gdx.input.setInputProcessor(player);
 
 	}
@@ -66,7 +70,6 @@ public class Play implements Screen {
 
 		//faz a camera seguir o player
 		orthographicCamera.position.set(player.getX(), player.getY(), 0);
-
 
 		chickenRoadGame.getSpriteBatch().begin();
 		player.draw(chickenRoadGame.getSpriteBatch());

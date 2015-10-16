@@ -55,7 +55,7 @@ public class SeasonScreen implements Screen {
 		this.chickenRoadGame = chickenRoadGame;
 		assetManager = chickenRoadGame.getResourceManager().getAssetManager();
 		
-		//PreferencesUser.setFase(0);
+		PreferencesUser.setFase(1);
 		fase_atual = PreferencesUser.getFase();
 
 		orthographicCamera = new OrthographicCamera();
@@ -74,7 +74,7 @@ public class SeasonScreen implements Screen {
 		String picture;
 		for(int i=0;i<faseList.length;i++){
 			if(i <= fase_atual)
-				picture = faseList[0];    //Aqui será apontada a fase correta. Por enquanto, será a figura de fase 1 para todas as fases ABERTAS.
+				picture = faseList[0];    //Aqui serï¿½ apontada a fase correta. Por enquanto, serï¿½ a figura de fase 1 para todas as fases ABERTAS.
 			else
 				picture = "faseBloqueada.png";
 			
@@ -170,7 +170,10 @@ public class SeasonScreen implements Screen {
 		//TODO
 		//fase 1
 		if(i==0){
-			chickenRoadGame.setScreen(new Play(Constantes.URL_MAP_FASE_1_0_1, chickenRoadGame));
+			chickenRoadGame.setScreen(new Play(Constantes.URL_MAP_FASE_1_0_1, chickenRoadGame, i+1));
+		}else if(i==1){
+			chickenRoadGame.setScreen(new Play(Constantes.URL_MAP_FASE_1_0_2, chickenRoadGame, i+1));
+
 		}
 		//dispose();
 	}
