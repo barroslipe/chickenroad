@@ -30,4 +30,7 @@ public class Constantes {
 	public static final String URL_POPUP_EXIT_BUTTON = "popupExitButton.png";
 	public static final String URL_POPUP_YES_BUTTON = "popupYesButton.png";
 	public static final String URL_POPUP_EXIT_BACKGROUND = "popupExitBackground.png";
+	
+	//mapas
+	public static final String URL_MAP_FASE_1_0_1 = "maps/fase2_estrada.tmx";
 }
