@@ -171,7 +171,7 @@ public class SeasonScreen implements Screen {
 		//TODO
 		//fase 1
 		if(i==0){
-			map += "desert.tmx";
+			map += "fase2_estrada.tmx";
 			chickenRoadGame.setScreen(new Play(map, chickenRoadGame));
 		}
 		//dispose();
