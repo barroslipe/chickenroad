@@ -1,11 +1,12 @@
 package br.com.chickenroad;
 
-import com.badlogic.gdx.Game;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
 import br.com.chickenroad.screens.SplashScreen;
 import br.com.chickenroad.screens.util.ResourceManager;
+
+import com.badlogic.gdx.Game;
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class ChickenRoadGame extends Game {
 	
@@ -23,6 +24,8 @@ public class ChickenRoadGame extends Game {
 		bitmapFont = new BitmapFont();
 		resourceManager = new ResourceManager();
 		
+        Gdx.input.setCatchBackKey(true);
+
 		//carregar os arquivos
 		resourceManager.load();
 		

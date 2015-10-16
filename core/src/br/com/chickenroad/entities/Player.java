@@ -6,8 +6,6 @@ import br.com.chickenroad.ChickenRoadGame;
 import br.com.chickenroad.screens.Play;
 import br.com.chickenroad.screens.util.Constantes;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -16,7 +14,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
-public class Player extends Sprite implements InputProcessor {
+public class Player extends Sprite{
 
 	private Vector2 velocity = new Vector2();
 	float speed = 60*2;
@@ -30,21 +28,17 @@ public class Player extends Sprite implements InputProcessor {
 	private int widthTiledMap, heightTileMap;
 
 	private ChickenRoadGame chickenRoadGame;
-
-	private List<Rectangle> tiles;
-
-	public Player(String sprite, ChickenRoadGame aChickenRoadGame, int aWidthTiledMap, int aHeightTiledMap, List<Rectangle> aTiles) {
+	
+	public Player(String sprite, ChickenRoadGame aChickenRoadGame, int aWidthTiledMap, int aHeightTiledMap) {
 		super(new Texture(sprite));
 
 		this.chickenRoadGame = aChickenRoadGame;
 		this.widthTiledMap = aWidthTiledMap;
 		this.heightTileMap = aHeightTiledMap;
-
-		this.tiles = aTiles;
-
+		
 	}
 
-	public void update(float delta) {
+	public void update(float delta, List<Rectangle> tiles) {
 
 
 		if(velocity.x > speed)
@@ -69,7 +63,7 @@ public class Player extends Sprite implements InputProcessor {
 			newPositionY = 0;
 
 
-		if(!checkColision(newPositionX, newPositionY)){
+		if(!checkColision(newPositionX, newPositionY, tiles)){
 			this.setX(newPositionX);
 			this.setY(newPositionY);
 		}
@@ -97,7 +91,7 @@ public class Player extends Sprite implements InputProcessor {
 		}
 	}
 
-	private boolean checkColision(float newPositionX, float newPositionY) {
+	private boolean checkColision(float newPositionX, float newPositionY, List<Rectangle> tiles) {
 		
 		Rectangle playerPosition = new Rectangle(newPositionX, newPositionY, Constantes.WIDTH_PLAYER, Constantes.HEIGHT_PLAYER);
 		
@@ -111,38 +105,11 @@ public class Player extends Sprite implements InputProcessor {
 	}
 
 	public void draw(SpriteBatch spritebatch) {
-		//desenha o personagem
-		update(Gdx.graphics.getDeltaTime());
 		super.draw(chickenRoadGame.getSpriteBatch());
 
 	}
-	@Override
-	public boolean keyDown(int keycode) {
-		return false;
-	}
 
-	@Override
-	//evento para teclado
-	public boolean keyUp(int keycode) {
-		return false;
-	}
-
-	@Override
-	//evento para teclado
-	public boolean keyTyped(char character) {
-		return false;
-	}
-
-	@Override
-	//evento para mouse ou dedo
-	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	//evento para liberação de toque na tela - quando solta a tela
-	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+	public void movimentar(int screenX, int screenY) {
 
 		Vector3 ponto = Play.orthographicCamera.unproject(new Vector3(screenX, screenY, 0));
 		pontoX = (int)ponto.x;
@@ -164,25 +131,7 @@ public class Player extends Sprite implements InputProcessor {
 			velocity.y = -speed;
 			movendoY2 = true;
 		}
-		return false;
-	}
-
-	@Override
-	public boolean touchDragged(int screenX, int screenY, int pointer) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean mouseMoved(int screenX, int screenY) {
-		// TODO Auto-generated method stub
-		return false;
-	}
-
-	@Override
-	public boolean scrolled(int amount) {
-		// TODO Auto-generated method stub
-		return false;
+		
 	}
 
 }
