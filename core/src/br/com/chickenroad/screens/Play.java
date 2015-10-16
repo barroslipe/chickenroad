@@ -2,6 +2,7 @@ package br.com.chickenroad.screens;
 
 import br.com.chickenroad.ChickenRoadGame;
 import br.com.chickenroad.entities.Player;
+import br.com.chickenroad.screens.util.Constantes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Screen;
@@ -43,7 +44,7 @@ public class Play implements Screen {
 		orthographicCamera.setToOrtho(false, 640,480);
 
 		//TODO parametrizar para iniciar com outro personagem
-		player = new Player("player/chk1.png", chickenRoadGame, widthTiledMap, heightTiledMap);
+		player = new Player(Constantes.URL_PLAYER_AVATAR, chickenRoadGame, widthTiledMap, heightTiledMap);
 
 		//TODO parametrizar, o ponto de origem do jogador pode mudar de acordo com o mapa a ser apresentado
 		player.setX(0);

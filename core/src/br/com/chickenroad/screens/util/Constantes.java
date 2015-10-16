@@ -32,5 +32,6 @@ public class Constantes {
 	public static final String URL_POPUP_EXIT_BACKGROUND = "popupExitBackground.png";
 	
 	//mapas
-	public static final String URL_MAP_FASE_1_0_1 = "maps/fase2_estrada.tmx";
+	public static final String URL_MAP_FASE_1_0_1 = "maps/fase2_estradas.tmx";
+	public static final String URL_PLAYER_AVATAR="player/player.png";
 }
