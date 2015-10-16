@@ -1,13 +1,18 @@
 package br.com.chickenroad.entities;
 
+import java.util.List;
+
 import br.com.chickenroad.ChickenRoadGame;
 import br.com.chickenroad.screens.Play;
+import br.com.chickenroad.screens.util.Constantes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
@@ -26,12 +31,16 @@ public class Player extends Sprite implements InputProcessor {
 
 	private ChickenRoadGame chickenRoadGame;
 
-	public Player(String sprite, ChickenRoadGame aChickenRoadGame, int aWidthTiledMap, int aHeightTiledMap) {
+	private List<Rectangle> tiles;
+
+	public Player(String sprite, ChickenRoadGame aChickenRoadGame, int aWidthTiledMap, int aHeightTiledMap, List<Rectangle> aTiles) {
 		super(new Texture(sprite));
 
 		this.chickenRoadGame = aChickenRoadGame;
 		this.widthTiledMap = aWidthTiledMap;
 		this.heightTileMap = aHeightTiledMap;
+
+		this.tiles = aTiles;
 
 	}
 
@@ -59,8 +68,11 @@ public class Player extends Sprite implements InputProcessor {
 		if(newPositionY <0)
 			newPositionY = 0;
 
-		this.setX(newPositionX);
-		this.setY(newPositionY);
+
+		if(!checkColision(newPositionX, newPositionY)){
+			this.setX(newPositionX);
+			this.setY(newPositionY);
+		}
 
 
 		//regras de parada de movimento
@@ -83,6 +95,19 @@ public class Player extends Sprite implements InputProcessor {
 			movendoY2 = false;
 			velocity.y = 0;
 		}
+	}
+
+	private boolean checkColision(float newPositionX, float newPositionY) {
+		
+		Rectangle playerPosition = new Rectangle(newPositionX, newPositionY, Constantes.WIDTH_PLAYER, Constantes.HEIGHT_PLAYER);
+		
+		for(Rectangle object : tiles){
+			if(Intersector.overlaps(object, playerPosition)){
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 	public void draw(SpriteBatch spritebatch) {

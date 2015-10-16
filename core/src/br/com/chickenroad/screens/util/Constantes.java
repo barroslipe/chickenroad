@@ -36,4 +36,9 @@ public class Constantes {
 	public static final String URL_PLAYER_AVATAR="player/player.png";
 
 	public static final String URL_MAP_FASE_1_0_2 = "maps/map_102/map102.tmx";
+
+	public static final int WIDTH_TILE = 32;
+	public static final int HEIGHT_TILE = 32;
+	public static final float WIDTH_PLAYER = 20;
+	public static final float HEIGHT_PLAYER = 30;
 }
