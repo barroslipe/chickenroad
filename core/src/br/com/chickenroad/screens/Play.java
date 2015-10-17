@@ -12,7 +12,11 @@ import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector3;
 
 /**
  * Responsável pelo controle da fase. Gerencia os componetes de mapa e player para renderizar a fase.
@@ -25,18 +29,34 @@ public class Play implements Screen {
 
 	private Player player;
 	private MyMap myMap;
-
-	public static OrthographicCamera orthographicCamera;//cria camera
-	
-	private int fase;
-	
 	private StateGame stateGame;
-	
+
+	float deltaXPositionButtons=0, deltaYPositionButtons=0;
+	public static OrthographicCamera orthographicCamera;//cria camera
+
+	private int fase;
+
+	private Sprite spritePause, spriteRestart, spritePlay, spriteListFase;
 
 	public Play(String urlMap, ChickenRoadGame aChickenRoadGame, int aFase) {
 		this.myMap = new MyMap(urlMap);
 		this.chickenRoadGame = aChickenRoadGame;
 		this.fase = aFase;
+
+		Texture pauseFase = chickenRoadGame.getResourceManager().getAssetManager().get("pauseFaseButton.png");
+		this.spritePause = new Sprite(new TextureRegion(pauseFase));
+
+		Texture playFase = chickenRoadGame.getResourceManager().getAssetManager().get("playFaseButton.png");
+		this.spritePlay = new Sprite(new TextureRegion(playFase));
+
+		Texture restartFase = chickenRoadGame.getResourceManager().getAssetManager().get("restartFaseButton.png");
+		this.spriteRestart = new Sprite(new TextureRegion(restartFase));
+
+		Texture listFase = chickenRoadGame.getResourceManager().getAssetManager().get("listFaseButton.png");
+		this.spriteListFase = new Sprite(new TextureRegion(listFase));
+
+		stateGame = StateGame.PLAYING;
+
 	}
 
 	@Override
@@ -49,64 +69,82 @@ public class Play implements Screen {
 
 		//TODO parametrizar para iniciar com outro personagem
 		player = new Player(Constantes.URL_PLAYER_AVATAR, chickenRoadGame, myMap.getWidthTiledMap(), myMap.getHeightTiledMap());
-
-		//TODO parametrizar, o ponto de origem do jogador pode mudar de acordo com o mapa a ser apresentado
-		player.setX(0);
-		player.setY(0);
+		player.inicializar();
 
 		Gdx.input.setInputProcessor(new InputAdapter(){
 			@Override
 			public boolean keyDown(int keycode) {
-				
+
 				if((keycode == Keys.BACK)|| (keycode == Keys.ESCAPE)){
-					if(stateGame == StateGame.RUN)
+					if(stateGame == StateGame.PLAYING)
 						stateGame = StateGame.PAUSE;
 					else
-						stateGame = StateGame.RUN;
-					
+						stateGame = StateGame.PLAYING;
+
 					return true;
 				}
 				return false;
 			}
-			
+
 			@Override
 			//evento para liberação de toque na tela - quando solta a tela
 			public boolean touchUp(int screenX, int screenY, int pointer, int button) {
 
-				//para que o sistema não guarde o ponto que o usuario clique no jogo pausado.
-				if(stateGame == StateGame.PAUSE)
-					return false;
-				
+				Vector3 touchPoint = new Vector3(screenX, screenY, 0);
+				orthographicCamera.unproject(touchPoint);
+
+				if((stateGame != StateGame.PAUSE) && spritePause.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
+					stateGame = StateGame.PAUSE;
+					return true;
+				}
+
+				if(spritePlay.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
+					stateGame = StateGame.PLAYING;
+					return true;
+				}
+				if(spriteRestart.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
+					stateGame = StateGame.RESTART;
+					return true;
+				}
+				if(spriteListFase.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
+					chickenRoadGame.setScreen(new SeasonScreen(chickenRoadGame));
+
+					return true;
+				}
+
 				player.movimentar(screenX, screenY);
-				
+
 				return false;
 			}
 		});
-		
-		stateGame = StateGame.RUN;
-
 	}
 
 	@Override
 	public void render(float delta) {
 
 		switch (stateGame) {
-		case RUN:
+		case PLAYING:
 			player.update(Gdx.graphics.getDeltaTime(), myMap.getTiles());
 			break;
-			
-		case PAUSE:
-			
+
+		case RESTART:
+			restartFase();
 			break;
-			
-		case RESUME:
-			
+
+		case GAME_OVER:
 			break;
 
 		default:
 			break;
 		}
 		draw();
+	}
+
+	private void restartFase() {
+
+		stateGame = StateGame.PLAYING;
+		player.inicializar();
+
 	}
 
 	private void draw() {
@@ -122,24 +160,38 @@ public class Play implements Screen {
 		orthographicCamera.position.set(player.getX(), player.getY(), 0);
 
 		chickenRoadGame.getSpriteBatch().begin();
-		
-		new BitmapFont().draw(chickenRoadGame.getSpriteBatch(), "Fase "+fase, 100, 100);
-		
+
+		new BitmapFont().draw(chickenRoadGame.getSpriteBatch(), "Fase "+fase, 580+deltaXPositionButtons, 440+deltaYPositionButtons);
+
 		player.draw(chickenRoadGame.getSpriteBatch());
 		drawState();
-		
+
 		chickenRoadGame.getSpriteBatch().end();
-	
+
 		positionCamera();
 		orthographicCamera.update();
 		chickenRoadGame.getSpriteBatch().setProjectionMatrix(orthographicCamera.combined);		
 	}
 
 	private void drawState() {
-		
-		//TODO desenhar alguma figura para indicar pause e poder retornar à fase ou sair dela.
-		if(stateGame == StateGame.PAUSE)
-			new BitmapFont().draw(chickenRoadGame.getSpriteBatch(), stateGame.toString(), 200, 200);
+
+		System.out.println("x-> "+orthographicCamera.position.x + " , y-> "+orthographicCamera.position.y);
+
+
+		if(stateGame == StateGame.PLAYING){
+			spritePause.setPosition(10+deltaXPositionButtons,  440+deltaYPositionButtons);
+			spritePause.draw(chickenRoadGame.getSpriteBatch());
+		}else{
+			spritePlay.setPosition(10+deltaXPositionButtons,  440+deltaYPositionButtons);
+			spritePlay.draw(chickenRoadGame.getSpriteBatch());
+		}
+
+		spriteRestart.setPosition(50+deltaXPositionButtons,  440+deltaYPositionButtons);
+		spriteRestart.draw(chickenRoadGame.getSpriteBatch());
+
+		spriteListFase.setPosition(90+deltaXPositionButtons,  440+deltaYPositionButtons);
+		spriteListFase.draw(chickenRoadGame.getSpriteBatch());
+
 	}
 
 	private void positionCamera() {
@@ -155,11 +207,15 @@ public class Play implements Screen {
 
 		if(orthographicCamera.position.x > myMap.getWidthTiledMap()-320) {
 			orthographicCamera.position.x = myMap.getWidthTiledMap()-320;
+
 		}
 
 		if(orthographicCamera.position.y > myMap.getHeightTiledMap()-240) {
 			orthographicCamera.position.y = myMap.getHeightTiledMap()-240;
 		}
+
+		deltaYPositionButtons = (orthographicCamera.position.y - 240 > 0 ? orthographicCamera.position.y - 240 : 0);
+		deltaXPositionButtons = (orthographicCamera.position.x - 320 > 0 ? orthographicCamera.position.x - 320 : 0);
 
 	}
 
@@ -176,7 +232,6 @@ public class Play implements Screen {
 
 	@Override
 	public void resume() {
-		stateGame = StateGame.RESUME;
 
 	}
 
@@ -188,7 +243,7 @@ public class Play implements Screen {
 
 	@Override
 	public void dispose() {
-		player.getTexture().dispose();
+		player.dispose();
 		myMap.dispose();
 	}
 

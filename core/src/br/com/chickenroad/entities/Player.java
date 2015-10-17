@@ -40,7 +40,6 @@ public class Player extends Sprite{
 
 	public void update(float delta, List<Rectangle> tiles) {
 
-
 		if(velocity.x > speed)
 			velocity.x = speed;
 		if(velocity.x < -speed)
@@ -53,12 +52,12 @@ public class Player extends Sprite{
 		float newPositionX = this.getX()+velocity.x*delta;
 		float newPositionY = this.getY()+velocity.y*delta;
 
-		if(newPositionX > widthTiledMap-40)
-			newPositionX = widthTiledMap-40;
+		if(newPositionX > widthTiledMap-32)
+			newPositionX = widthTiledMap-32;
 		if(newPositionX < 0)
 			newPositionX = 0;
-		if(newPositionY > heightTileMap-64)
-			newPositionY = heightTileMap-64;
+		if(newPositionY > heightTileMap-20)
+			newPositionY = heightTileMap-20;
 		if(newPositionY <0)
 			newPositionY = 0;
 
@@ -132,6 +131,21 @@ public class Player extends Sprite{
 			movendoY2 = true;
 		}
 		
+	}
+
+	public void inicializar() {
+		setPosition(0, 0);
+		velocity.x = 0;
+		velocity.y = 0;
+		movendoX1 = false;
+		movendoX2 = false;
+		movendoY1 = false;
+		movendoY2 = false;
+	}
+
+	public void dispose() {
+
+		getTexture().dispose();
 	}
 
 }

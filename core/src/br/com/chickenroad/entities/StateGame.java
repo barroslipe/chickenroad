@@ -7,7 +7,7 @@ package br.com.chickenroad.entities;
 public enum StateGame {
 
 		PAUSE,
-		RUN, 
-		RESUME,
-		STOP;
+		PLAYING,
+		RESTART,
+		GAME_OVER;
 }
