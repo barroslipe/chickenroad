@@ -32,7 +32,7 @@ public class Constantes {
 	public static final String URL_POPUP_EXIT_BACKGROUND = "popupExitBackground.png";
 	
 	//mapas
-	public static final String URL_MAP_FASE_1_0_1 = "maps/map_101/fase1_fazenda.tmx";
+	public static final String URL_MAP_FASE_1_0_1 = "maps/map_101/map101.tmx";
 	public static final String URL_PLAYER_AVATAR="player/player.png";
 
 	public static final String URL_MAP_FASE_1_0_2 = "maps/map_102/map102.tmx";
