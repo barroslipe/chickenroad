@@ -133,8 +133,8 @@ public class Player extends Sprite{
 		
 	}
 
-	public void inicializar() {
-		setPosition(0, 0);
+	public void inicializar(Vector2 vector2) {
+		setPosition(vector2.x, vector2.y);
 		velocity.x = 0;
 		velocity.y = 0;
 		movendoX1 = false;

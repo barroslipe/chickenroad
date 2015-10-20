@@ -1,11 +1,5 @@
 package br.com.chickenroad.screens;
 
-import br.com.chickenroad.ChickenRoadGame;
-import br.com.chickenroad.entities.MyMap;
-import br.com.chickenroad.entities.Player;
-import br.com.chickenroad.entities.StateGame;
-import br.com.chickenroad.screens.util.Constantes;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
@@ -17,6 +11,12 @@ import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
+
+import br.com.chickenroad.ChickenRoadGame;
+import br.com.chickenroad.entities.MyMap;
+import br.com.chickenroad.entities.Player;
+import br.com.chickenroad.entities.StateGame;
+import br.com.chickenroad.screens.util.Constantes;
 
 /**
  * Responsável pelo controle da fase. Gerencia os componetes de mapa e player para renderizar a fase.
@@ -69,7 +69,7 @@ public class Play implements Screen {
 
 		//TODO parametrizar para iniciar com outro personagem
 		player = new Player(Constantes.URL_PLAYER_AVATAR, chickenRoadGame, myMap.getWidthTiledMap(), myMap.getHeightTiledMap());
-		player.inicializar();
+		player.inicializar(this.myMap.getPlayerOrigin());
 
 		Gdx.input.setInputProcessor(new InputAdapter(){
 			@Override
@@ -143,7 +143,7 @@ public class Play implements Screen {
 	private void restartFase() {
 
 		stateGame = StateGame.PLAYING;
-		player.inicializar();
+		player.inicializar(this.myMap.getPlayerOrigin());
 
 	}
 
@@ -174,9 +174,6 @@ public class Play implements Screen {
 	}
 
 	private void drawState() {
-
-		System.out.println("x-> "+orthographicCamera.position.x + " , y-> "+orthographicCamera.position.y);
-
 
 		if(stateGame == StateGame.PLAYING){
 			spritePause.setPosition(10+deltaXPositionButtons,  440+deltaYPositionButtons);
