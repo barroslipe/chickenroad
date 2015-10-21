@@ -4,10 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TiledMapTile;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
-import com.badlogic.gdx.maps.tiled.TiledMapTileSet;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Intersector;
@@ -15,6 +13,7 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 import br.com.chickenroad.screens.util.Constantes;
+import br.com.chickenroad.screens.util.MyProperties;
 
 /**
  * Guardar informaÃ§Ãµes relativas ao mapa
@@ -30,21 +29,29 @@ public class MyMap {
 
 	private List<Rectangle> tiles;
 
-	private Vector2 origin;
+	private Vector2 playerOrigin;
+	
+	private List<Road> roadList;
+	
+	private MyProperties myProperties;
 
 	public MyMap(String aUrlMap) {
 
-		tiledMap = new TmxMapLoader().load(aUrlMap);
+		tiledMap = new TmxMapLoader().load(aUrlMap + ".tmx");
 		orthogonalTiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
 		widthTiledMap = tiledMap.getProperties().get("width", Integer.class)*tiledMap.getProperties().get("tilewidth", Integer.class);
 		heightTiledMap = tiledMap.getProperties().get("height", Integer.class)*tiledMap.getProperties().get("tileheight", Integer.class);
+		
+		playerOrigin = new Vector2(0,0);
 
-		origin = new Vector2(0,0);
+		myProperties = new MyProperties();
 
-		getOriginPlayer();
+		myProperties.loadProperties(aUrlMap + ".properties");
+		
+		calcPlayerOrigin();
 		saveColisionTiles();
+		saveRoads();
 	}
-
 
 	public int getWidthTiledMap() {
 		return widthTiledMap;
@@ -52,6 +59,25 @@ public class MyMap {
 
 	public int getHeightTiledMap() {
 		return heightTiledMap;
+	}
+
+	public List<Rectangle> getTiles() {
+		return tiles;
+	}
+
+	public OrthogonalTiledMapRenderer getOrthogonalTiledMapRenderer() {
+		return orthogonalTiledMapRenderer;
+	}
+
+	public void dispose() {
+
+		orthogonalTiledMapRenderer.dispose();
+		tiledMap.dispose();
+	}
+
+
+	public Vector2 getPlayerOrigin() {
+		return playerOrigin;
 	}
 
 	private void saveColisionTiles() {
@@ -123,49 +149,40 @@ public class MyMap {
 			tiles.add(new Rectangle(tilesPre.get(p1).getX(), tilesPre.get(p1).getY(), width, height));
 		}
 
-		System.out.println("Origem do player: x-> "+origin.x+", y-> "+origin.y);
+		System.out.println("Origem do player: x-> "+playerOrigin.x+", y-> "+playerOrigin.y);
 		System.out.println("Número de tiles para colisão ANTES do processamento: "+tilesPre.size());
 		System.out.println("Número de tiles para colisão APÓS o processamento: "+ tiles.size());
 
 	}
 	
 	/**
-	 * Capturar a posição inicial do player. Baseia-se na inclusão de uma tag player com o valor das coordenadas (x,y).
+	 * Capturar a posição inicial do player.
 	 */
-	private void getOriginPlayer() {
-		String[] points = null;
+	private void calcPlayerOrigin() {
+		String[] points = myProperties.getOriginPlayer().split(",");
+		playerOrigin.set(Float.parseFloat(points[0])*Constantes.WIDTH_TILE, heightTiledMap - Float.parseFloat(points[1])*Constantes.HEIGHT_TILE);
+	}
 
-		TiledMapTileSet tiledMapTileSet = tiledMap.getTileSets().getTileSet("origem");
-		for(TiledMapTile tiledMapTile : tiledMapTileSet){
-			Object value = tiledMapTile.getProperties().get("player");
-			if( value != null){
-				points = ((String)value).split(",");
-			}
-
+	/**
+	 * Capturar e salvar todas as estradas do mapa
+	 */
+	private void saveRoads() {
+		
+		ArrayList<String> stringList = myProperties.getRoads();
+		roadList = new ArrayList<Road>();
+		
+		float x, y, width, height;
+		String[] values = new String[2];
+		
+		for (int i = 0; i < stringList.size(); i++) {
+			
+			values = stringList.get(i).split(",");
+			x = Float.parseFloat(values[0])*Constantes.WIDTH_TILE;
+			y = heightTiledMap - Float.parseFloat(values[1])*Constantes.HEIGHT_TILE;
+			width = Float.parseFloat(values[0])*Constantes.WIDTH_TILE;
+			height = Float.parseFloat(values[1])*Constantes.HEIGHT_TILE;
+			
+			roadList.add(new Road(x, y, width, height));
 		}
-		if(points != null)
-			origin.set(Float.parseFloat(points[0])*Constantes.WIDTH_TILE, heightTiledMap - Float.parseFloat(points[1])*Constantes.HEIGHT_TILE);
-
 	}
-
-
-	public List<Rectangle> getTiles() {
-		return tiles;
-	}
-
-	public OrthogonalTiledMapRenderer getOrthogonalTiledMapRenderer() {
-		return orthogonalTiledMapRenderer;
-	}
-
-	public void dispose() {
-
-		orthogonalTiledMapRenderer.dispose();
-		tiledMap.dispose();
-	}
-
-
-	public Vector2 getPlayerOrigin() {
-		return origin;
-	}
-
 }

@@ -1,7 +1,7 @@
 package br.com.chickenroad.screens.util;
 
 public class Constantes {
-	
+
 	public static boolean SOUND_ON_FLAG = true;
 
 	public static final int WIDTH_BACKGROUND = 893;
@@ -30,12 +30,13 @@ public class Constantes {
 	public static final String URL_POPUP_EXIT_BUTTON = "popupExitButton.png";
 	public static final String URL_POPUP_YES_BUTTON = "popupYesButton.png";
 	public static final String URL_POPUP_EXIT_BACKGROUND = "popupExitBackground.png";
-	
-	//mapas
-	public static final String URL_MAP_FASE_1_0_1 = "maps/map_101/map101.tmx";
-	public static final String URL_PLAYER_AVATAR="player/player.png";
 
-	public static final String URL_MAP_FASE_1_0_2 = "maps/map_102/map102.tmx";
+	//mapas
+
+	public static final String URL_MAP_FASE_1_0_1 = "maps/map_101/map_101";
+	public static final String URL_MAP_FASE_1_0_2 = "maps/map_102/map_102";
+
+	public static final String URL_PLAYER_AVATAR="player/player.png";
 
 	public static final int WIDTH_TILE = 32;
 	public static final int HEIGHT_TILE = 32;
