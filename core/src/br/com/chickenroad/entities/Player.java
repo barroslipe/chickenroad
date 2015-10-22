@@ -2,17 +2,15 @@ package br.com.chickenroad.entities;
 
 import java.util.List;
 
-import br.com.chickenroad.ChickenRoadGame;
-import br.com.chickenroad.screens.Play;
-import br.com.chickenroad.screens.util.Constantes;
-
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+
+import br.com.chickenroad.screens.Play;
+import br.com.chickenroad.screens.util.Constantes;
 
 public class Player extends Sprite{
 
@@ -26,13 +24,10 @@ public class Player extends Sprite{
 	private boolean movendoY2 = false;//y negativo
 
 	private int widthTiledMap, heightTileMap;
-
-	private ChickenRoadGame chickenRoadGame;
 	
-	public Player(String sprite, ChickenRoadGame aChickenRoadGame, int aWidthTiledMap, int aHeightTiledMap) {
+	public Player(String sprite, int aWidthTiledMap, int aHeightTiledMap) {
 		super(new Texture(sprite));
 
-		this.chickenRoadGame = aChickenRoadGame;
 		this.widthTiledMap = aWidthTiledMap;
 		this.heightTileMap = aHeightTiledMap;
 		
@@ -101,11 +96,6 @@ public class Player extends Sprite{
 		}
 
 		return false;
-	}
-
-	public void draw(SpriteBatch spritebatch) {
-		super.draw(chickenRoadGame.getSpriteBatch());
-
 	}
 
 	public void movimentar(int screenX, int screenY) {

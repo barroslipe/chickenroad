@@ -1,5 +1,7 @@
 package br.com.chickenroad.screens;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
@@ -15,8 +17,11 @@ import com.badlogic.gdx.math.Vector3;
 import br.com.chickenroad.ChickenRoadGame;
 import br.com.chickenroad.entities.MyMap;
 import br.com.chickenroad.entities.Player;
+import br.com.chickenroad.entities.Road;
 import br.com.chickenroad.entities.StateGame;
+import br.com.chickenroad.entities.Vehicle;
 import br.com.chickenroad.screens.util.Constantes;
+import br.com.chickenroad.screens.util.Util;
 
 /**
  * ResponsÃ¡vel pelo controle da fase. Gerencia os componetes de mapa e player para renderizar a fase.
@@ -30,6 +35,7 @@ public class Play implements Screen {
 	private Player player;
 	private MyMap myMap;
 	private StateGame stateGame;
+	private ArrayList<Vehicle> vehicleList;
 
 	float deltaXPositionButtons=0, deltaYPositionButtons=0;
 	public static OrthographicCamera orthographicCamera;//cria camera
@@ -37,6 +43,8 @@ public class Play implements Screen {
 	private int fase;
 
 	private Sprite spritePause, spriteRestart, spritePlay, spriteListFase;
+	
+	private float timer = 1F;	
 
 	public Play(String urlMap, ChickenRoadGame aChickenRoadGame, int aFase) {
 		this.myMap = new MyMap(urlMap);
@@ -56,6 +64,9 @@ public class Play implements Screen {
 		this.spriteListFase = new Sprite(new TextureRegion(listFase));
 
 		stateGame = StateGame.PLAYING;
+		
+		//lista de veiculos
+		vehicleList = new ArrayList<Vehicle>();
 
 	}
 
@@ -68,7 +79,7 @@ public class Play implements Screen {
 		orthographicCamera.setToOrtho(false, 640,480);
 
 		//TODO parametrizar para iniciar com outro personagem
-		player = new Player(Constantes.URL_PLAYER_AVATAR, chickenRoadGame, myMap.getWidthTiledMap(), myMap.getHeightTiledMap());
+		player = new Player(Constantes.URL_PLAYER_AVATAR, myMap.getWidthTiledMap(), myMap.getHeightTiledMap());
 		player.inicializar(this.myMap.getPlayerOrigin());
 
 		Gdx.input.setInputProcessor(new InputAdapter(){
@@ -117,6 +128,39 @@ public class Play implements Screen {
 				return false;
 			}
 		});
+
+
+		createVehicles();
+	}
+
+	/**
+	 * Criar os veículos.
+	 */
+	private void createVehicles() {
+
+		String[] pictures = {"tractor.png"};
+		
+		
+		int carsNumber = 10;		
+		
+		Vehicle vehicle;
+		
+		//quantidade de estradas
+		for(int i=0;i<myMap.getRoadList().size();i++){
+			
+			Road road = myMap.getRoadList().get(i);
+			
+			
+			for(int j=0;j<carsNumber;j++){
+				
+				int positionY = Util.getRandomPosition(road.getPoint().y, (road.getPoint().y+ road.getHeight()));
+				float speed = Util.getRandomPosition(0.5f);
+				vehicle = new Vehicle(pictures[0], road);
+				vehicle.setSpeed(speed);
+				vehicle.init(road.getPoint().x, positionY);
+				vehicleList.add(vehicle);
+			}
+		}
 	}
 
 	@Override
@@ -164,6 +208,7 @@ public class Play implements Screen {
 		new BitmapFont().draw(chickenRoadGame.getSpriteBatch(), "Fase "+fase, 580+deltaXPositionButtons, 440+deltaYPositionButtons);
 
 		player.draw(chickenRoadGame.getSpriteBatch());
+		drawVehicles();		
 		drawState();
 
 		chickenRoadGame.getSpriteBatch().end();
@@ -171,6 +216,33 @@ public class Play implements Screen {
 		positionCamera();
 		orthographicCamera.update();
 		chickenRoadGame.getSpriteBatch().setProjectionMatrix(orthographicCamera.combined);		
+	}
+
+	/**
+	 * desenhar os veículos. Por enquanto, apenas 1
+	 */
+	private void drawVehicles() {
+		
+		timer -= Gdx.graphics.getDeltaTime();
+		
+		//TODO avaliar se o carro está sendo visível antes de desenhar para não gastar processamento
+		for(int i=0;i<vehicleList.size();i++){
+			if(vehicleList.get(i).isStart()){
+				
+				//faço andar
+				
+				vehicleList.get(i).walkX();
+				vehicleList.get(i).draw(chickenRoadGame.getSpriteBatch());
+			}
+			
+			if(!vehicleList.get(i).isStart() && timer <= 0){
+				vehicleList.get(i).setStart(true);
+				break;
+			}
+		}
+		if(timer <= 0){
+			timer = 1F;
+		}
 	}
 
 	private void drawState() {
@@ -241,6 +313,7 @@ public class Play implements Screen {
 	@Override
 	public void dispose() {
 		player.dispose();
+		vehicleList = null;
 		myMap.dispose();
 	}
 

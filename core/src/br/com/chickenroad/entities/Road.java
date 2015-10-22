@@ -22,6 +22,14 @@ public class Road {
 		return point;
 	}
 	
+	public float getWidth() {
+		return width;
+	}
+
+	public float getHeight() {
+		return height;
+	}
+
 	@Override
 	public String toString(){
 		return "Ponto (x,y) => ("+point.x+", "+point.y+") / width: "+width +" , height: "+height;

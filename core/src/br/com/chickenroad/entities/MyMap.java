@@ -160,7 +160,7 @@ public class MyMap {
 	 */
 	private void calcPlayerOrigin() {
 		String[] points = myProperties.getOriginPlayer().split(",");
-		playerOrigin.set(Float.parseFloat(points[0])*Constantes.WIDTH_TILE, heightTiledMap - Float.parseFloat(points[1])*Constantes.HEIGHT_TILE);
+		playerOrigin.set(Float.parseFloat(points[0])*Constantes.WIDTH_TILE, Float.parseFloat(points[1])*Constantes.HEIGHT_TILE);
 	}
 
 	/**
@@ -178,11 +178,14 @@ public class MyMap {
 			
 			values = stringList.get(i).split(",");
 			x = Float.parseFloat(values[0])*Constantes.WIDTH_TILE;
-			y = heightTiledMap - Float.parseFloat(values[1])*Constantes.HEIGHT_TILE;
-			width = Float.parseFloat(values[0])*Constantes.WIDTH_TILE;
-			height = Float.parseFloat(values[1])*Constantes.HEIGHT_TILE;
-			
+			y = Float.parseFloat(values[1])*Constantes.HEIGHT_TILE;
+			width = Float.parseFloat(values[2])*Constantes.WIDTH_TILE;
+			height = (Float.parseFloat(values[3]))*Constantes.HEIGHT_TILE;
 			roadList.add(new Road(x, y, width, height));
 		}
+	}
+
+	public List<Road> getRoadList() {
+		return roadList;
 	}
 }
