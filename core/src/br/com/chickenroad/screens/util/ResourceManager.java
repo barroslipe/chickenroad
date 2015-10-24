@@ -29,7 +29,7 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_SOUND_ON_BUTTON, Texture.class);
 
 		assetManager.load(Constantes.URL_POPUP_YES_BUTTON, Texture.class);
-		assetManager.load(Constantes.URL_POPUP_EXIT_BUTTON, Texture.class);
+		assetManager.load(Constantes.URL_POPUP_NO_BUTTON, Texture.class);
 		assetManager.load(Constantes.URL_POPUP_EXIT_BACKGROUND, Texture.class);
 
 		//sons

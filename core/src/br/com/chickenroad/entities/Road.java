@@ -1,5 +1,7 @@
 package br.com.chickenroad.entities;
 
+import java.util.ArrayList;
+
 import com.badlogic.gdx.math.Vector2;
 
 /**
@@ -11,11 +13,15 @@ public class Road {
 
 	private Vector2 point;
 	private float width, height;
+	private int maximumCarsNumber;
+	private ArrayList<RoadFaixa> roadFaixaList;
 	
-	public Road(float pointX, float pointY, float width, float height){
+	public Road(float pointX, float pointY, float width, float height, int aMaximumCarsNumber, ArrayList<RoadFaixa> aRoadFaixaList){
 		point = new Vector2(pointX, pointY);
 		this.width = width;
 		this.height = height;
+		this.maximumCarsNumber = aMaximumCarsNumber;
+		this.roadFaixaList = aRoadFaixaList;
 	}
 
 	public Vector2 getPoint() {
@@ -28,6 +34,14 @@ public class Road {
 
 	public float getHeight() {
 		return height;
+	}
+
+	public int getMaximumCarsNumber() {
+		return maximumCarsNumber;
+	}
+	
+	public ArrayList<RoadFaixa> getRoadFaixaList() {
+		return roadFaixaList;
 	}
 
 	@Override

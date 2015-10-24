@@ -3,6 +3,12 @@ package br.com.chickenroad.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.chickenroad.screens.util.Constantes;
+import br.com.chickenroad.screens.util.MyProperties;
+import br.com.chickenroad.screens.util.Util;
+
+import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer;
 import com.badlogic.gdx.maps.tiled.TiledMapTileLayer.Cell;
@@ -11,9 +17,6 @@ import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-
-import br.com.chickenroad.screens.util.Constantes;
-import br.com.chickenroad.screens.util.MyProperties;
 
 /**
  * Guardar informaÃ§Ãµes relativas ao mapa
@@ -30,27 +33,31 @@ public class MyMap {
 	private List<Rectangle> tiles;
 
 	private Vector2 playerOrigin;
-	
+
 	private List<Road> roadList;
-	
+
 	private MyProperties myProperties;
+
+	private ArrayList<Vehicle> vehicleList;
+
 
 	public MyMap(String aUrlMap) {
 
-		tiledMap = new TmxMapLoader().load(aUrlMap + ".tmx");
-		orthogonalTiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
-		widthTiledMap = tiledMap.getProperties().get("width", Integer.class)*tiledMap.getProperties().get("tilewidth", Integer.class);
-		heightTiledMap = tiledMap.getProperties().get("height", Integer.class)*tiledMap.getProperties().get("tileheight", Integer.class);
-		
-		playerOrigin = new Vector2(0,0);
+		this.tiledMap = new TmxMapLoader().load(aUrlMap + ".tmx");
+		this.orthogonalTiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
+		this.widthTiledMap = tiledMap.getProperties().get("width", Integer.class)*tiledMap.getProperties().get("tilewidth", Integer.class);
+		this.heightTiledMap = tiledMap.getProperties().get("height", Integer.class)*tiledMap.getProperties().get("tileheight", Integer.class);
 
-		myProperties = new MyProperties();
+		this.playerOrigin = new Vector2(0,0);
 
-		myProperties.loadProperties(aUrlMap + ".properties");
-		
+		this.myProperties = new MyProperties();
+
+		this.myProperties.loadProperties(aUrlMap + ".properties");
+
 		calcPlayerOrigin();
 		saveColisionTiles();
 		saveRoads();
+		createVehicles();
 	}
 
 	public int getWidthTiledMap() {
@@ -73,6 +80,7 @@ public class MyMap {
 
 		orthogonalTiledMapRenderer.dispose();
 		tiledMap.dispose();
+		vehicleList = null;
 	}
 
 
@@ -82,7 +90,7 @@ public class MyMap {
 
 	private void saveColisionTiles() {
 
-		//ultima camada será a que contém os objetos que colidem
+		//ultima camada serï¿½ a que contï¿½m os objetos que colidem
 		int ultimaCamada = tiledMap.getLayers().getCount() - 1;
 
 		TiledMapTileLayer tiledMapTileLayer = (TiledMapTileLayer)tiledMap.getLayers().get(ultimaCamada);
@@ -104,10 +112,10 @@ public class MyMap {
 		float width, height;
 		boolean pontoInvalido;
 
-		//processamento de interseção na horizontal
+		//processamento de interseï¿½ï¿½o na horizontal
 		for(int p1=0;p1<tilesPre.size();p1++){
 
-			//verificar se o ponto a ser analisado não foi colocado dentro de outro ponto
+			//verificar se o ponto a ser analisado nï¿½o foi colocado dentro de outro ponto
 
 			pontoInvalido = false;
 			//para cada ponto do plano
@@ -124,10 +132,10 @@ public class MyMap {
 			height=Constantes.HEIGHT_TILE;
 
 
-			//verificar interseção com todos os outros pontos do plano
+			//verificar interseï¿½ï¿½o com todos os outros pontos do plano
 			for(int p2=0;p2<tilesPre.size();p2++){
 
-				//não pode verificar com ele mesmo
+				//nï¿½o pode verificar com ele mesmo
 				if(p2 == p1) continue;
 
 				if((tilesPre.get(p1).getX() + width  == tilesPre.get(p2).getX()) &&  (tilesPre.get(p1).getY() == tilesPre.get(p2).getY())  ){
@@ -148,15 +156,10 @@ public class MyMap {
 
 			tiles.add(new Rectangle(tilesPre.get(p1).getX(), tilesPre.get(p1).getY(), width, height));
 		}
-
-		System.out.println("Origem do player: x-> "+playerOrigin.x+", y-> "+playerOrigin.y);
-		System.out.println("Número de tiles para colisão ANTES do processamento: "+tilesPre.size());
-		System.out.println("Número de tiles para colisão APÓS o processamento: "+ tiles.size());
-
 	}
-	
+
 	/**
-	 * Capturar a posição inicial do player.
+	 * Capturar a posiï¿½ï¿½o inicial do player.
 	 */
 	private void calcPlayerOrigin() {
 		String[] points = myProperties.getOriginPlayer().split(",");
@@ -164,28 +167,91 @@ public class MyMap {
 	}
 
 	/**
-	 * Capturar e salvar todas as estradas do mapa
+	 * Capturar e salvar todas as estradas do mapa. Somente estradas HORIZONTAIS!!!
 	 */
 	private void saveRoads() {
-		
+
 		ArrayList<String> stringList = myProperties.getRoads();
 		roadList = new ArrayList<Road>();
-		
+
 		float x, y, width, height;
+		int maximumCarsNumber;
 		String[] values = new String[2];
-		
+		ArrayList<RoadFaixa> roadFaixaList;
+
 		for (int i = 0; i < stringList.size(); i++) {
-			
+
 			values = stringList.get(i).split(",");
+			//ponto x da estrada
 			x = Float.parseFloat(values[0])*Constantes.WIDTH_TILE;
+			//ponto y da estrada
 			y = Float.parseFloat(values[1])*Constantes.HEIGHT_TILE;
+			//comprimento da estrada
 			width = Float.parseFloat(values[2])*Constantes.WIDTH_TILE;
+			//largura da estrada
 			height = (Float.parseFloat(values[3]))*Constantes.HEIGHT_TILE;
-			roadList.add(new Road(x, y, width, height));
+			//nÃºmero de faixas para os carros
+			int numeroFaixas = (int)Math.floor(height/Constantes.HEIGHT_TILE);
+			roadFaixaList = new ArrayList<RoadFaixa>();
+			for(int j=0;j<numeroFaixas;j++){
+				float speed = Util.getRandomPosition(0.5f, numeroFaixas);
+				roadFaixaList.add(new RoadFaixa(speed, new Vector2( x , y + Constantes.HEIGHT_TILE*j)));
+			}
+
+			//numero de carros gerados para a estrada
+			maximumCarsNumber = (Integer.parseInt(values[4]));
+
+			//estrada no jogo
+			roadList.add(new Road(x, y, width, height, maximumCarsNumber, roadFaixaList));
 		}
 	}
 
 	public List<Road> getRoadList() {
 		return roadList;
 	}
+
+	/**
+	 * Criar os veï¿½culos.
+	 */
+	private void createVehicles() {
+
+		String[] pictures = {"tractor.png"};
+
+		//lista de veiculos da fase
+		vehicleList = new ArrayList<Vehicle>();
+
+		Vehicle vehicle;
+		float faixa;
+		//quantidade de estradas
+		for(int i=0;i<roadList.size();i++){
+
+			Road road = roadList.get(i);
+			for(int j=0;j<road.getMaximumCarsNumber();j++){
+
+				int positionX = Util.getRandomPosition(road.getPoint().x, (road.getPoint().x+ road.getWidth()));
+				faixa = road.getRoadFaixaList().get(j%road.getRoadFaixaList().size()).getInitialPoint().y;
+				vehicle = new Vehicle(pictures[0], road.getRoadFaixaList().get(j%road.getRoadFaixaList().size()), road);
+				vehicle.init(positionX, faixa);
+				vehicleList.add(vehicle);
+			}
+		}
+	}
+
+	public void drawVehicles(SpriteBatch spriteBatch) {	
+		for(int i=0;i<vehicleList.size();i++){
+			vehicleList.get(i).walkX();
+			vehicleList.get(i).draw(spriteBatch);
+		}
+	}
+
+	public ArrayList<Vehicle> getVehicleList() {
+		return vehicleList;
+	}
+
+	public void draw(OrthographicCamera orthographicCamera) {
+
+		getOrthogonalTiledMapRenderer().setView(orthographicCamera);
+		getOrthogonalTiledMapRenderer().render();		
+	}
+
 }

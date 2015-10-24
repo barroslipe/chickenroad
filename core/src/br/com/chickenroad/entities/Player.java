@@ -1,16 +1,17 @@
 package br.com.chickenroad.entities;
 
+import java.util.ArrayList;
 import java.util.List;
 
+import br.com.chickenroad.screens.util.Constantes;
+
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-
-import br.com.chickenroad.screens.Play;
-import br.com.chickenroad.screens.util.Constantes;
 
 public class Player extends Sprite{
 
@@ -33,7 +34,7 @@ public class Player extends Sprite{
 		
 	}
 
-	public void update(float delta, List<Rectangle> tiles) {
+	public void update(float delta, List<Rectangle> tiles, ArrayList<Vehicle> vehiclesList) {
 
 		if(velocity.x > speed)
 			velocity.x = speed;
@@ -55,9 +56,12 @@ public class Player extends Sprite{
 			newPositionY = heightTileMap-20;
 		if(newPositionY <0)
 			newPositionY = 0;
-
-
-		if(!checkColision(newPositionX, newPositionY, tiles)){
+		
+		if(checkVehiclesColision(newPositionX, newPositionY, vehiclesList)){
+			System.err.println("Colisão com o carro");
+		}
+		
+		if(!checkTilesColision(newPositionX, newPositionY, tiles)){
 			this.setX(newPositionX);
 			this.setY(newPositionY);
 		}
@@ -85,7 +89,7 @@ public class Player extends Sprite{
 		}
 	}
 
-	private boolean checkColision(float newPositionX, float newPositionY, List<Rectangle> tiles) {
+	private boolean checkTilesColision(float newPositionX, float newPositionY, List<Rectangle> tiles) {
 		
 		Rectangle playerPosition = new Rectangle(newPositionX, newPositionY, Constantes.WIDTH_PLAYER, Constantes.HEIGHT_PLAYER);
 		
@@ -98,9 +102,22 @@ public class Player extends Sprite{
 		return false;
 	}
 
-	public void movimentar(int screenX, int screenY) {
+	private boolean checkVehiclesColision(float newPositionX, float newPositionY, ArrayList<Vehicle> vehiclesList){
+		
+		Rectangle playerPosition = new Rectangle(newPositionX, newPositionY, Constantes.WIDTH_PLAYER, Constantes.HEIGHT_PLAYER);
+		
+		for(int i=0;i<vehiclesList.size();i++){
+			if(Intersector.overlaps(vehiclesList.get(i).getBoundingRectangle(), playerPosition)){
+				return true;
+			}
+		}
+		
+		return false;
+	}
+	
+	public void movimentar(int screenX, int screenY, OrthographicCamera orthographicCamera) {
 
-		Vector3 ponto = Play.orthographicCamera.unproject(new Vector3(screenX, screenY, 0));
+		Vector3 ponto = orthographicCamera.unproject(new Vector3(screenX, screenY, 0));
 		pontoX = (int)ponto.x;
 		pontoY = (int)ponto.y;
 

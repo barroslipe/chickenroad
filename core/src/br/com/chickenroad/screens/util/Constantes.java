@@ -23,11 +23,9 @@ public class Constantes {
 	public static final String URL_EXIT_BUTTON = "exitButton.png";
 	public static final String URL_SOUND_ON_BUTTON = "soundOnButton.jpg";
 	public static final String URL_SOUND_OFF_BUTTON = "soundOffButton.jpg";
-	public static final String URL_YES_EXIT_BUTTON = "yesExit.jpg";
-	public static final String URL_NO_EXIT_BUTTON = "noExit.jpg";
 	public static final String URL_SOUND_MENU_BACKGROUND = "sounds/soundMenuBackground.mp3";
 	public static final String URL_SOUND_CLICK = "sounds/soundClick.mp3";
-	public static final String URL_POPUP_EXIT_BUTTON = "popupExitButton.png";
+	public static final String URL_POPUP_NO_BUTTON = "popupNoButton.png";
 	public static final String URL_POPUP_YES_BUTTON = "popupYesButton.png";
 	public static final String URL_POPUP_EXIT_BACKGROUND = "popupExitBackground.png";
 
@@ -42,4 +40,5 @@ public class Constantes {
 	public static final int HEIGHT_TILE = 32;
 	public static final float WIDTH_PLAYER = 20;
 	public static final float HEIGHT_PLAYER = 30;
+
 }

@@ -5,50 +5,48 @@ import br.com.chickenroad.screens.util.ResourceManager;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
+/**
+ * 
+ * Classe principal que inicia a lógica do jogo
+ *
+ */
 public class ChickenRoadGame extends Game {
-	
+
 	private SpriteBatch spriteBatch;
-	private BitmapFont bitmapFont;	
 	private ResourceManager resourceManager;
-		
-	public ResourceManager getResourceManager() {
-		return resourceManager;
-	}
 
 	@Override
 	public void create () {
-		spriteBatch = new SpriteBatch();
-		bitmapFont = new BitmapFont();
-		resourceManager = new ResourceManager();
-		
-        Gdx.input.setCatchBackKey(true);
 
-		//carregar os arquivos
-		resourceManager.load();
-		
+		this.spriteBatch = new SpriteBatch();
+		this.resourceManager = new ResourceManager();
+
+		Gdx.input.setCatchBackKey(true);
+
+		this.resourceManager.load();
+
 		setScreen(new SplashScreen(this));
-		
+
 	}
 
 	@Override
 	public void render () {
 		super.render();
 	}
-	
-	public void dispose(){
-		spriteBatch.dispose();
-		resourceManager.dispose();
-	}
-	
+
 	public SpriteBatch getSpriteBatch() {
 		return spriteBatch;
 	}
 
-	public BitmapFont getBitmapFont() {
-		return bitmapFont;
+	public ResourceManager getResourceManager() {
+		return resourceManager;
 	}
 
+	public void dispose(){
+		this.spriteBatch.dispose();
+		this.spriteBatch = null;
+		this.resourceManager.dispose();
+	}
 }
