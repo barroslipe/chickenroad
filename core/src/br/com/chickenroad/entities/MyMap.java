@@ -172,37 +172,50 @@ public class MyMap {
 	private void saveRoads() {
 
 		ArrayList<String> stringList = myProperties.getRoads();
+
 		roadList = new ArrayList<Road>();
 
-		float x, y, width, height;
-		int maximumCarsNumber;
+		float initialPointX, initialPointY, width, height;
+		int carsDistance;
+
+		//largura dos carros - padrão sendo a largura do tile  
+		int vehicleHeight = Constantes.HEIGHT_TILE;
+
 		String[] values = new String[2];
 		ArrayList<RoadFaixa> roadFaixaList;
-
 		for (int i = 0; i < stringList.size(); i++) {
 
 			values = stringList.get(i).split(",");
-			//ponto x da estrada
-			x = Float.parseFloat(values[0])*Constantes.WIDTH_TILE;
-			//ponto y da estrada
-			y = Float.parseFloat(values[1])*Constantes.HEIGHT_TILE;
+
+			//ponto inicial X da estrada
+			initialPointX = Float.parseFloat(values[0])*Constantes.WIDTH_TILE;
+			//ponto inicial Y da estrada
+			initialPointY = Float.parseFloat(values[1])*Constantes.HEIGHT_TILE;
 			//comprimento da estrada
 			width = Float.parseFloat(values[2])*Constantes.WIDTH_TILE;
 			//largura da estrada
 			height = (Float.parseFloat(values[3]))*Constantes.HEIGHT_TILE;
-			//número de faixas para os carros
-			int numeroFaixas = (int)Math.floor(height/Constantes.HEIGHT_TILE);
+
+			//a lista de faixas de cada estrada
 			roadFaixaList = new ArrayList<RoadFaixa>();
+
+			//calcular o número de faixas para os carros
+			int numeroFaixas = (int)Math.floor(height/vehicleHeight);
+
 			for(int j=0;j<numeroFaixas;j++){
-				float speed = Util.getRandomPosition(0.5f, numeroFaixas);
-				roadFaixaList.add(new RoadFaixa(speed, new Vector2( x , y + Constantes.HEIGHT_TILE*j)));
+
+				//calcular a velocidade de cada faixa
+				float speed = Util.getRandomPosition(5, 30)/10;
+
+				//calcular distancia entre os carros
+				carsDistance = (int)Util.getRandomPosition(width/20, width/14);
+				System.err.println(" "+ width/20 + " "+width/14 + " " + carsDistance);
+				//cadastrar dados de cada faixa
+				roadFaixaList.add(new RoadFaixa(speed, new Vector2( initialPointX , initialPointY + Constantes.HEIGHT_TILE*j), width ,carsDistance));
 			}
 
-			//numero de carros gerados para a estrada
-			maximumCarsNumber = (Integer.parseInt(values[4]));
-
 			//estrada no jogo
-			roadList.add(new Road(x, y, width, height, maximumCarsNumber, roadFaixaList));
+			roadList.add(new Road(initialPointX, initialPointY, width, height, roadFaixaList));
 		}
 	}
 
@@ -215,31 +228,43 @@ public class MyMap {
 	 */
 	private void createVehicles() {
 
-		String[] pictures = {"tractor.png"};
+		//TODO verificar os objetos que estarão nas estradas
+		String[] pictures = {"tractor.png", "truck.png", "tractor.png", "truck.png", "tractor.png"};
 
-		//lista de veiculos da fase
 		vehicleList = new ArrayList<Vehicle>();
 
 		Vehicle vehicle;
-		float faixa;
+		float positionY;
+
 		//quantidade de estradas
 		for(int i=0;i<roadList.size();i++){
 
 			Road road = roadList.get(i);
-			for(int j=0;j<road.getMaximumCarsNumber();j++){
 
-				int positionX = Util.getRandomPosition(road.getPoint().x, (road.getPoint().x+ road.getWidth()));
-				faixa = road.getRoadFaixaList().get(j%road.getRoadFaixaList().size()).getInitialPoint().y;
-				vehicle = new Vehicle(pictures[0], road.getRoadFaixaList().get(j%road.getRoadFaixaList().size()), road);
-				vehicle.init(positionX, faixa);
+			int j=0;
+			boolean a = true;
+			while(a){
+				RoadFaixa faixa = road.getRoadFaixaList().get(j%road.getRoadFaixaList().size());
+
+				positionY = faixa.getInitialPoint().y;
+
+				float positionX = faixa.getInitialPoint().x + faixa.getCarsDistance()*j;
+
+				vehicle = new Vehicle(pictures[j%5], faixa);
+				vehicle.init(positionX, positionY);
 				vehicleList.add(vehicle);
+				j++;
+
+				if(positionX >faixa.getInitialPoint().x+road.getWidth()) a=false;
 			}
 		}
 	}
 
-	public void drawVehicles(SpriteBatch spriteBatch) {	
+	public void drawVehicles(SpriteBatch spriteBatch, StateGame stateGame) {
+
 		for(int i=0;i<vehicleList.size();i++){
-			vehicleList.get(i).walkX();
+			if(stateGame == StateGame.PLAYING)
+				vehicleList.get(i).walkX();
 			vehicleList.get(i).draw(spriteBatch);
 		}
 	}
@@ -249,7 +274,6 @@ public class MyMap {
 	}
 
 	public void draw(OrthographicCamera orthographicCamera) {
-
 		getOrthogonalTiledMapRenderer().setView(orthographicCamera);
 		getOrthogonalTiledMapRenderer().render();		
 	}

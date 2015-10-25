@@ -103,7 +103,9 @@ public class Play extends ScreenAdapter {
 
 		switch (stateGame) {
 		case PLAYING:
-			player.update(Gdx.graphics.getDeltaTime(), myMap.getTiles(), myMap.getVehicleList());
+			player.updatePlayerPosition(Gdx.graphics.getDeltaTime(), myMap.getTiles(), myMap.getVehicleList());
+			if(player.checkVehiclesColision(myMap.getVehicleList()))
+				stateGame = StateGame.GAME_OVER;
 			break;
 
 		case RESTART:
@@ -111,12 +113,18 @@ public class Play extends ScreenAdapter {
 			break;
 
 		case GAME_OVER:
+			drawGameOver();
 			break;
 
 		default:
 			break;
 		}
 		draw();
+	}
+
+	private void drawGameOver() {
+
+		System.err.println("GAME OVER");
 	}
 
 	private void initFase() {
@@ -141,7 +149,7 @@ public class Play extends ScreenAdapter {
 
 		chickenRoadGame.getSpriteBatch().begin();
 		player.draw(chickenRoadGame.getSpriteBatch());
-		myMap.drawVehicles(chickenRoadGame.getSpriteBatch());		
+		myMap.drawVehicles(chickenRoadGame.getSpriteBatch(), stateGame);		
 		playMenuButtons.draw(chickenRoadGame.getSpriteBatch(), stateGame, deltaXPositionButtons, deltaYPositionButtons);
 		chickenRoadGame.getSpriteBatch().end();
 

@@ -25,16 +25,16 @@ public class Player extends Sprite{
 	private boolean movendoY2 = false;//y negativo
 
 	private int widthTiledMap, heightTileMap;
-	
+
 	public Player(String sprite, int aWidthTiledMap, int aHeightTiledMap) {
 		super(new Texture(sprite));
 
 		this.widthTiledMap = aWidthTiledMap;
 		this.heightTileMap = aHeightTiledMap;
-		
+
 	}
 
-	public void update(float delta, List<Rectangle> tiles, ArrayList<Vehicle> vehiclesList) {
+	public void updatePlayerPosition(float delta, List<Rectangle> tiles, ArrayList<Vehicle> vehiclesList) {
 
 		if(velocity.x > speed)
 			velocity.x = speed;
@@ -56,11 +56,7 @@ public class Player extends Sprite{
 			newPositionY = heightTileMap-20;
 		if(newPositionY <0)
 			newPositionY = 0;
-		
-		if(checkVehiclesColision(newPositionX, newPositionY, vehiclesList)){
-			System.err.println("Colisão com o carro");
-		}
-		
+
 		if(!checkTilesColision(newPositionX, newPositionY, tiles)){
 			this.setX(newPositionX);
 			this.setY(newPositionY);
@@ -90,9 +86,9 @@ public class Player extends Sprite{
 	}
 
 	private boolean checkTilesColision(float newPositionX, float newPositionY, List<Rectangle> tiles) {
-		
+
 		Rectangle playerPosition = new Rectangle(newPositionX, newPositionY, Constantes.WIDTH_PLAYER, Constantes.HEIGHT_PLAYER);
-		
+
 		for(Rectangle object : tiles){
 			if(Intersector.overlaps(object, playerPosition)){
 				return true;
@@ -102,19 +98,19 @@ public class Player extends Sprite{
 		return false;
 	}
 
-	private boolean checkVehiclesColision(float newPositionX, float newPositionY, ArrayList<Vehicle> vehiclesList){
-		
-		Rectangle playerPosition = new Rectangle(newPositionX, newPositionY, Constantes.WIDTH_PLAYER, Constantes.HEIGHT_PLAYER);
-		
+	public boolean checkVehiclesColision(ArrayList<Vehicle> vehiclesList){
+
+		Rectangle playerPosition = new Rectangle(pontoX, pontoY, Constantes.WIDTH_PLAYER, Constantes.HEIGHT_PLAYER);
+
 		for(int i=0;i<vehiclesList.size();i++){
 			if(Intersector.overlaps(vehiclesList.get(i).getBoundingRectangle(), playerPosition)){
 				return true;
 			}
 		}
-		
+
 		return false;
 	}
-	
+
 	public void movimentar(int screenX, int screenY, OrthographicCamera orthographicCamera) {
 
 		Vector3 ponto = orthographicCamera.unproject(new Vector3(screenX, screenY, 0));
@@ -137,7 +133,7 @@ public class Player extends Sprite{
 			velocity.y = -speed;
 			movendoY2 = true;
 		}
-		
+
 	}
 
 	public void inicializar(Vector2 vector2) {

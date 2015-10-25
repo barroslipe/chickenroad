@@ -13,14 +13,12 @@ public class Road {
 
 	private Vector2 point;
 	private float width, height;
-	private int maximumCarsNumber;
 	private ArrayList<RoadFaixa> roadFaixaList;
 	
-	public Road(float pointX, float pointY, float width, float height, int aMaximumCarsNumber, ArrayList<RoadFaixa> aRoadFaixaList){
+	public Road(float pointX, float pointY, float width, float height, ArrayList<RoadFaixa> aRoadFaixaList){
 		point = new Vector2(pointX, pointY);
 		this.width = width;
 		this.height = height;
-		this.maximumCarsNumber = aMaximumCarsNumber;
 		this.roadFaixaList = aRoadFaixaList;
 	}
 
@@ -36,10 +34,6 @@ public class Road {
 		return height;
 	}
 
-	public int getMaximumCarsNumber() {
-		return maximumCarsNumber;
-	}
-	
 	public ArrayList<RoadFaixa> getRoadFaixaList() {
 		return roadFaixaList;
 	}
