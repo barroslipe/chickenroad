@@ -179,7 +179,7 @@ public class MyMap {
 		int carsDistance;
 
 		//largura dos carros - padrão sendo a largura do tile  
-		int vehicleHeight = Constantes.HEIGHT_TILE;
+		int vehicleHeight = 64;
 
 		String[] values = new String[2];
 		ArrayList<RoadFaixa> roadFaixaList;
@@ -208,10 +208,10 @@ public class MyMap {
 				float speed = Util.getRandomPosition(5, 30)/10;
 
 				//calcular distancia entre os carros
-				carsDistance = (int)Util.getRandomPosition(width/20, width/14);
-				System.err.println(" "+ width/20 + " "+width/14 + " " + carsDistance);
+				//carsDistance = (int)Util.getRandomPosition(width/16, width/14);
+				carsDistance = 140;
 				//cadastrar dados de cada faixa
-				roadFaixaList.add(new RoadFaixa(speed, new Vector2( initialPointX , initialPointY + Constantes.HEIGHT_TILE*j), width ,carsDistance));
+				roadFaixaList.add(new RoadFaixa(speed, new Vector2( initialPointX , initialPointY + vehicleHeight*j), width ,carsDistance, (j%2 == 0 ? Direction.RIGHT : Direction.LEFT)));
 			}
 
 			//estrada no jogo
@@ -229,7 +229,7 @@ public class MyMap {
 	private void createVehicles() {
 
 		//TODO verificar os objetos que estarão nas estradas
-		String[] pictures = {"tractor.png", "truck.png", "tractor.png", "truck.png", "tractor.png"};
+		String[] pictures = {"veicules/veiculo1D.png", "veicules/veiculo1E.png", "veicules/veiculo2D.png", "veicules/veiculo2E.png"};
 
 		vehicleList = new ArrayList<Vehicle>();
 
@@ -250,8 +250,9 @@ public class MyMap {
 
 				float positionX = faixa.getInitialPoint().x + faixa.getCarsDistance()*j;
 
-				vehicle = new Vehicle(pictures[j%5], faixa);
+				vehicle = new Vehicle(pictures[(j%road.getRoadFaixaList().size())%4], faixa);
 				vehicle.init(positionX, positionY);
+				
 				vehicleList.add(vehicle);
 				j++;
 

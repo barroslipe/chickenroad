@@ -5,6 +5,7 @@ import br.com.chickenroad.entities.MyMap;
 import br.com.chickenroad.entities.Player;
 import br.com.chickenroad.entities.StateGame;
 import br.com.chickenroad.screens.screenparts.PlayMenuButtons;
+import br.com.chickenroad.screens.screenparts.PopupFinish;
 import br.com.chickenroad.screens.util.Constantes;
 
 import com.badlogic.gdx.Gdx;
@@ -27,7 +28,9 @@ public class Play extends ScreenAdapter {
 
 	private Player player;
 	private MyMap myMap;
+	private PortalTeste portalTeste;
 	private StateGame stateGame;
+	private PopupFinish popupFinish;
 
 	private OrthographicCamera orthographicCamera;
 
@@ -43,6 +46,8 @@ public class Play extends ScreenAdapter {
 
 		//TODO parametrizar para iniciar com outro personagem
 		this.player = new Player(Constantes.URL_PLAYER_AVATAR, myMap.getWidthTiledMap(), myMap.getHeightTiledMap());
+		this.portalTeste = new PortalTeste("portal.png");
+		this.popupFinish = new PopupFinish();
 	}
 
 	@Override
@@ -87,6 +92,10 @@ public class Play extends ScreenAdapter {
 				}
 				if(playMenuButtons.checkClickFaseListButton(touchPoint.x, touchPoint.y)){
 					chickenRoadGame.setScreen(new SeasonScreen(chickenRoadGame));
+					return true;
+				}
+				if(popupFinish.checkClickNextButton(touchPoint.x, touchPoint.y)){
+					nextFase();
 					return true;
 				}
 
@@ -149,10 +158,26 @@ public class Play extends ScreenAdapter {
 
 		chickenRoadGame.getSpriteBatch().begin();
 		player.draw(chickenRoadGame.getSpriteBatch());
+		portalTeste.draw(chickenRoadGame.getSpriteBatch());
 		myMap.drawVehicles(chickenRoadGame.getSpriteBatch(), stateGame);		
 		playMenuButtons.draw(chickenRoadGame.getSpriteBatch(), stateGame, deltaXPositionButtons, deltaYPositionButtons);
-		chickenRoadGame.getSpriteBatch().end();
 
+		if(portalTeste.checkColision(player)){
+			showPopupFinish();
+		}
+		chickenRoadGame.getSpriteBatch().end();
+		
+		
+
+	}
+
+	private void showPopupFinish() {
+		popupFinish.draw(chickenRoadGame.getSpriteBatch());
+		
+	}
+
+	private void nextFase() {
+		
 	}
 
 	private void positionCamera() {
