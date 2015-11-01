@@ -229,7 +229,7 @@ public class MyMap {
 	private void createVehicles() {
 
 		//TODO verificar os objetos que estarão nas estradas
-		String[] pictures = {"veicules/veiculo1D.png", "veicules/veiculo1E.png", "veicules/veiculo2D.png", "veicules/veiculo2E.png"};
+		String[] pictures = {"veicules/veiculo1D_carroca.png", "veicules/veiculo1E.png"};
 
 		vehicleList = new ArrayList<Vehicle>();
 
@@ -250,7 +250,7 @@ public class MyMap {
 
 				float positionX = faixa.getInitialPoint().x + faixa.getCarsDistance()*j;
 
-				vehicle = new Vehicle(pictures[(j%road.getRoadFaixaList().size())%4], faixa);
+				vehicle = new Vehicle(pictures[(j%road.getRoadFaixaList().size())%2], faixa);
 				vehicle.init(positionX, positionY);
 				
 				vehicleList.add(vehicle);

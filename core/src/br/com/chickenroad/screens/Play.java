@@ -34,7 +34,7 @@ public class Play extends ScreenAdapter {
 
 	private OrthographicCamera orthographicCamera;
 
-	private int deltaXPositionButtons=0, deltaYPositionButtons=0;
+	public static int deltaXPositionButtons=0, deltaYPositionButtons=0;
 
 	public Play(String urlMap, ChickenRoadGame aChickenRoadGame) {
 		this.myMap = new MyMap(urlMap);
@@ -45,7 +45,7 @@ public class Play extends ScreenAdapter {
 		this.orthographicCamera.setToOrtho(false, 640,480);
 
 		//TODO parametrizar para iniciar com outro personagem
-		this.player = new Player(Constantes.URL_PLAYER_AVATAR, myMap.getWidthTiledMap(), myMap.getHeightTiledMap());
+		this.player = new Player(Constantes.URL_PLAYER_AVATAR, myMap.getWidthTiledMap(), myMap.getHeightTiledMap(), chickenRoadGame.getResourceManager());
 		this.portalTeste = new PortalTeste("portal.png");
 		this.popupFinish = new PopupFinish();
 	}
@@ -113,14 +113,6 @@ public class Play extends ScreenAdapter {
 		switch (stateGame) {
 		case PLAYING:
 			player.updatePlayerPosition(Gdx.graphics.getDeltaTime(), myMap.getTiles(), myMap.getVehicleList());
-			if(player.checkVehiclesColision(myMap.getVehicleList())==0)
-				playMenuButtons.setPlayerLifeLevel(0);
-			if(player.checkVehiclesColision(myMap.getVehicleList())==1)
-				playMenuButtons.setPlayerLifeLevel(1);
-			if(player.checkVehiclesColision(myMap.getVehicleList())==2) {
-				playMenuButtons.setPlayerLifeLevel(2);
-				stateGame = StateGame.GAME_OVER;
-			}
 			break;
 
 		case RESTART:
@@ -165,25 +157,26 @@ public class Play extends ScreenAdapter {
 		chickenRoadGame.getSpriteBatch().begin();
 		player.draw(chickenRoadGame.getSpriteBatch());
 		portalTeste.draw(chickenRoadGame.getSpriteBatch());
-		myMap.drawVehicles(chickenRoadGame.getSpriteBatch(), stateGame);		
+		myMap.drawVehicles(chickenRoadGame.getSpriteBatch(), stateGame);
+
+
 		playMenuButtons.draw(chickenRoadGame.getSpriteBatch(), stateGame, deltaXPositionButtons, deltaYPositionButtons);
 
 		if(portalTeste.checkColision(player)){
 			showPopupFinish();
 		}
 		chickenRoadGame.getSpriteBatch().end();
-		
-		
+		if(player.getPlayerLife().getLife() <= 0) stateGame = StateGame.GAME_OVER;
 
 	}
 
 	private void showPopupFinish() {
 		popupFinish.draw(chickenRoadGame.getSpriteBatch());
-		
+
 	}
 
 	private void nextFase() {
-		
+
 	}
 
 	private void positionCamera() {

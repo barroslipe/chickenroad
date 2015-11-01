@@ -1,13 +1,12 @@
 package br.com.chickenroad.screens.screenparts;
 
+import br.com.chickenroad.entities.StateGame;
+
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-
-import br.com.chickenroad.entities.StateGame;
-import br.com.chickenroad.screens.util.Constantes;
 
 public class PlayMenuButtons{
 
@@ -15,16 +14,7 @@ public class PlayMenuButtons{
 	private Sprite spriteRestart;
 	private Sprite spritePlay;
 	private Sprite spriteFaseList;
-	private Sprite spriteJoystickRight;
-	private Sprite spriteJoystickLeft;
-	private Sprite spriteJoystickUp;
-	private Sprite spriteJoystickDown;
-	private Sprite spriteLifeLevelFull;
-	private Sprite spriteLifeLevelHalf;
-	private Sprite spriteLifeLevelEmpty;
 	public int playerLifeLevel;
-	
-
 
 	/**
 	 * @return the playerLifeLevel
@@ -55,16 +45,8 @@ public class PlayMenuButtons{
 
 		Texture listFase = assetManager.get("listFaseButton.png");
 		this.spriteFaseList = new Sprite(new TextureRegion(listFase));	
-		
-		//sprite life do player
-		Texture lifeLevelFull = assetManager.get(Constantes.URL_PLAYER_LIFE_LEVEL_FULL);
-		this.spriteLifeLevelFull = new Sprite(new TextureRegion(lifeLevelFull));	
-		
-		Texture lifeLevelHalf = assetManager.get(Constantes.URL_PLAYER_LIFE_LEVEL_HALF);
-		this.spriteLifeLevelHalf = new Sprite(new TextureRegion(lifeLevelHalf));	
-			
-		Texture lifeLevelEmpty = assetManager.get(Constantes.URL_PLAYER_LIFE_LEVEL_EMPTY);
-		this.spriteLifeLevelEmpty = new Sprite(new TextureRegion(lifeLevelEmpty));		
+
+
 	}
 
 
@@ -109,20 +91,6 @@ public class PlayMenuButtons{
 			spritePlay.setPosition(10+deltaXPositionButtons,  440+deltaYPositionButtons);
 			spritePlay.draw(spriteBatch);
 		}
-		
-
-		if(playerLifeLevel == 0){
-			 spriteLifeLevelFull.setPosition(10+deltaXPositionButtons,  10+deltaYPositionButtons);
-			 spriteLifeLevelFull.draw(spriteBatch);
-		}else if(playerLifeLevel == 1) {
-			 spriteLifeLevelHalf.setPosition(10+deltaXPositionButtons,  10+deltaYPositionButtons);
-			 spriteLifeLevelHalf.draw(spriteBatch);
-		}else{
-			 spriteLifeLevelEmpty.setPosition(10+deltaXPositionButtons,  10+deltaYPositionButtons);
-			 spriteLifeLevelEmpty.draw(spriteBatch);
-		}
-
-
 
 		spriteRestart.setPosition(50+deltaXPositionButtons,  440+deltaYPositionButtons);
 		spriteFaseList.setPosition(90+deltaXPositionButtons,  440+deltaYPositionButtons);
@@ -138,9 +106,6 @@ public class PlayMenuButtons{
 		this.spritePause = null;
 		this.spritePlay = null;
 		this.spriteRestart = null;
-		this.spriteLifeLevelFull = null;
-		this.spriteLifeLevelHalf= null;
-		this.spriteLifeLevelEmpty = null;
 	}
 
 }

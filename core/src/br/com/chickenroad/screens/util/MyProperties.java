@@ -12,7 +12,7 @@ import com.badlogic.gdx.files.FileHandle;
 
 /**
  * 
- * Guarda as informações da fase como origem do jogador e as estradas.
+ * Guarda as informaï¿½ï¿½es da fase como origem do jogador e as estradas.
  *
  */
 
@@ -22,6 +22,9 @@ public class MyProperties {
 	private InputStream inputStream;
 	private ArrayList<String> roads;
 	private String originPlayer;
+	private String egg;
+	
+	private String cesto;
 
 	public MyProperties(){
 		properties = new Properties();
@@ -58,6 +61,10 @@ public class MyProperties {
 			
 			if(param.equals("originPlayer"))
 				originPlayer = properties.getProperty(param);
+			else if(param.equals("ovo"))
+				egg = properties.getProperty(param);
+			else if(param.equals("cesto"))
+				cesto = properties.getProperty(param);
 			else
 				roads.add(properties.getProperty((String)k));
 		}
@@ -70,4 +77,12 @@ public class MyProperties {
 	public ArrayList<String> getRoads(){
 		return roads;
 	}
+	public String getEgg() {
+		return egg;
+	}
+
+	public String getCesto() {
+		return cesto;
+	}
+
 }
