@@ -40,6 +40,11 @@ public class ResourceManager {
 		assetManager.load("playFaseButton.png", Texture.class);
 		assetManager.load("restartFaseButton.png", Texture.class);
 		assetManager.load("listFaseButton.png", Texture.class);
+		
+		//life level player
+		assetManager.load(Constantes.URL_PLAYER_LIFE_LEVEL_FULL, Texture.class);
+		assetManager.load(Constantes.URL_PLAYER_LIFE_LEVEL_HALF, Texture.class);
+		assetManager.load(Constantes.URL_PLAYER_LIFE_LEVEL_EMPTY, Texture.class);
 
 	}
 

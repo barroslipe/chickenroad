@@ -113,8 +113,14 @@ public class Play extends ScreenAdapter {
 		switch (stateGame) {
 		case PLAYING:
 			player.updatePlayerPosition(Gdx.graphics.getDeltaTime(), myMap.getTiles(), myMap.getVehicleList());
-			if(player.checkVehiclesColision(myMap.getVehicleList()))
+			if(player.checkVehiclesColision(myMap.getVehicleList())==0)
+				playMenuButtons.setPlayerLifeLevel(0);
+			if(player.checkVehiclesColision(myMap.getVehicleList())==1)
+				playMenuButtons.setPlayerLifeLevel(1);
+			if(player.checkVehiclesColision(myMap.getVehicleList())==2) {
+				playMenuButtons.setPlayerLifeLevel(2);
 				stateGame = StateGame.GAME_OVER;
+			}
 			break;
 
 		case RESTART:

@@ -14,7 +14,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 public class Player extends Sprite{
-
+	public int contCollision=0;
 	private Vector2 velocity = new Vector2();
 	float speed = 60*2;
 	private int pontoX = 0; //ponto de click/toque na tela
@@ -62,7 +62,6 @@ public class Player extends Sprite{
 			this.setY(newPositionY);
 		}
 
-
 		//regras de parada de movimento
 		if(movendoX1 && getX()+this.getWidth()/2 >= pontoX) {
 			movendoX1 = false;
@@ -98,17 +97,24 @@ public class Player extends Sprite{
 		return false;
 	}
 
-	public boolean checkVehiclesColision(ArrayList<Vehicle> vehiclesList){
+	public int checkVehiclesColision(ArrayList<Vehicle> vehiclesList){
 
 		Rectangle playerPosition = new Rectangle(pontoX, pontoY, Constantes.WIDTH_PLAYER, Constantes.HEIGHT_PLAYER);
 
 		for(int i=0;i<vehiclesList.size();i++){
 			if(Intersector.overlaps(vehiclesList.get(i).getBoundingRectangle(), playerPosition)){
-				return true;
+				
+				// o player pode colidir apenas uma vez. Na segunda ele morre
+				if(contCollision > 1)
+					contCollision = 0;
+				else 
+					contCollision++;
+				
+				return contCollision;
 			}
 		}
 
-		return false;
+		return contCollision;
 	}
 
 	public void movimentar(int screenX, int screenY, OrthographicCamera orthographicCamera) {
