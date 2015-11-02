@@ -17,8 +17,7 @@ public class SeasonMenu {
 	private String faseList[] = {"fase1.png", "faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png",
 			"faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png",
 			"faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png",
-			"faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png",
-			"faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png"};
+			"faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png"};
 
 	private ArrayList<Texture> textureFaseList;
 	private ArrayList<TextureRegion> textureRegionFaseList;
@@ -56,14 +55,14 @@ public class SeasonMenu {
 			textureRegionFaseList.add(textureRegion);
 			spriteFaseList.add(sprite);
 
-			if((i+1)%7 == 0) {
+			if((i+1)%6 == 0) {
 				cont = 0;
 				spriteFaseListHeight -= 110; 
-				spriteFaseList.get(i).setPosition(Constantes.WIDTH_BACKGROUND/2-320+110*cont, 
+				spriteFaseList.get(i).setPosition(Constantes.WIDTH_BACKGROUND/2-340+1350*cont, 
 						spriteFaseListHeight);
 			}
 			else {
-				spriteFaseList.get(i).setPosition(Constantes.WIDTH_BACKGROUND/2-320+110*cont, 
+				spriteFaseList.get(i).setPosition(Constantes.WIDTH_BACKGROUND/2-340+150*cont, 
 						spriteFaseListHeight);
 				cont+=1;
 			}

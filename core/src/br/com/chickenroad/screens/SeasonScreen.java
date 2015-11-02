@@ -55,7 +55,7 @@ public class SeasonScreen extends ScreenAdapter {
 		textureRegionBACK = new TextureRegion(textureBACK,0,0,Constantes.WIDTH_BACK_BUTTON,Constantes.HEIGHT_BACK_BUTTON);
 		spriteArrowBACK = new Sprite(textureRegionBACK);
 
-		textureBackground = assetManager.get(Constantes.URL_BACKGROUND);
+		textureBackground = assetManager.get(Constantes.URL_BACKGROUND_SEASON);
 		textureRegionBackground = new TextureRegion(textureBackground, 0,0,Constantes.WIDTH_BACKGROUND,Constantes.HEIGHT_BACKGROUND);
 		spriteBackground = new Sprite(textureRegionBackground);
 

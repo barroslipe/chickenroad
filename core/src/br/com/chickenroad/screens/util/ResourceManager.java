@@ -21,6 +21,8 @@ public class ResourceManager {
 		//texturas
 		assetManager.load(Constantes.URL_BACK_BUTTON, Texture.class);
 		assetManager.load(Constantes.URL_BACKGROUND, Texture.class);
+		assetManager.load(Constantes.URL_BACKGROUND_SEASON, Texture.class);
+
 		assetManager.load(Constantes.URL_EXIT_BUTTON, Texture.class);
 		assetManager.load("fase1.png", Texture.class);
 		assetManager.load("faseBloqueada.png", Texture.class);
