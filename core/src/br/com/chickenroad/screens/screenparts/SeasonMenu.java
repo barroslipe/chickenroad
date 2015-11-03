@@ -2,13 +2,12 @@ package br.com.chickenroad.screens.screenparts;
 
 import java.util.ArrayList;
 
-import br.com.chickenroad.screens.util.Constantes;
-import br.com.chickenroad.screens.util.PreferencesUser;
-
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
+import br.com.chickenroad.screens.util.Constantes;
+import br.com.chickenroad.screens.util.PreferencesUser;
 
 
 public class SeasonMenu {
@@ -17,10 +16,8 @@ public class SeasonMenu {
 	private String faseList[] = {"fase1.png", "faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png",
 			"faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png",
 			"faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png",
-			"faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png"};
+			"faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png"};
 
-	private ArrayList<Texture> textureFaseList;
-	private ArrayList<TextureRegion> textureRegionFaseList;
 	private ArrayList<Sprite> spriteFaseList;
 
 	private int fase_atual = 0;
@@ -33,12 +30,10 @@ public class SeasonMenu {
 		fase_atual = PreferencesUser.getFase();
 
 		//TODO trocar figura e string
-		textureFaseList = new ArrayList<Texture>();
-		textureRegionFaseList = new ArrayList<TextureRegion>();
 		spriteFaseList = new ArrayList<Sprite>();
 
 		int cont = 0;
-		int spriteFaseListHeight = Constantes.HEIGHT_BACKGROUND/2+50;
+		int spriteFaseListHeight = Constantes.WORLD_HEIGHT/2+90;
 
 		String picture;
 		for(int i=0;i<faseList.length;i++){
@@ -47,24 +42,18 @@ public class SeasonMenu {
 			else
 				picture = "faseBloqueada.png";
 
-			Texture texture = new Texture(picture);
-			TextureRegion textureRegion = new TextureRegion(texture, 0,0,96,94);
-			Sprite sprite = new Sprite(textureRegion);
-
-			textureFaseList.add(texture);
-			textureRegionFaseList.add(textureRegion);
+			Sprite sprite = new Sprite(new Texture(picture));
 			spriteFaseList.add(sprite);
 
-			if((i+1)%6 == 0) {
+			if(i%5 == 0) {
+				
+				if(cont != 0) spriteFaseListHeight -= 110;
+				
 				cont = 0;
-				spriteFaseListHeight -= 110; 
-				spriteFaseList.get(i).setPosition(Constantes.WIDTH_BACKGROUND/2-340+1350*cont, 
-						spriteFaseListHeight);
-			}
-			else {
-				spriteFaseList.get(i).setPosition(Constantes.WIDTH_BACKGROUND/2-340+150*cont, 
-						spriteFaseListHeight);
-				cont+=1;
+				spriteFaseList.get(i).setPosition(Constantes.WORLD_WIDTH/2 - 240, spriteFaseListHeight);
+			}else {
+				++cont;
+				spriteFaseList.get(i).setPosition(Constantes.WORLD_WIDTH/2- 240 +105*cont, spriteFaseListHeight);
 			}
 		}
 	}

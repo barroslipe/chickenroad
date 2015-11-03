@@ -4,8 +4,6 @@ public class Constantes {
 
 	public static boolean SOUND_ON_FLAG = true;
 
-	public static final int WIDTH_BACKGROUND = 893;
-	public static final int HEIGHT_BACKGROUND = 540;
 	public static final int HEIGHT_SOUNDOFF_BUTTON = 78;
 	public static final int WIDTH_SOUNDOFF_BUTTON = 78;
 	public static final int HEIGHT_SOUNDON_BUTTON = 78;

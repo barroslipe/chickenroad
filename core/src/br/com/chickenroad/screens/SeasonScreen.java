@@ -33,7 +33,6 @@ public class SeasonScreen extends ScreenAdapter {
 
 	//background
 	private Texture textureBackground;
-	private TextureRegion textureRegionBackground;
 	private Sprite spriteBackground;
 
 	private OrthographicCamera orthographicCamera;
@@ -49,15 +48,14 @@ public class SeasonScreen extends ScreenAdapter {
 		this.faseMenu = new SeasonMenu();
 
 		orthographicCamera = new OrthographicCamera();
-		orthographicCamera.setToOrtho(false, Constantes.WIDTH_BACKGROUND,Constantes.HEIGHT_BACKGROUND);
+		orthographicCamera.setToOrtho(false, Constantes.WORLD_WIDTH,Constantes.WORLD_HEIGHT);
 
 		textureBACK = assetManager.get(Constantes.URL_BACK_BUTTON);
 		textureRegionBACK = new TextureRegion(textureBACK,0,0,Constantes.WIDTH_BACK_BUTTON,Constantes.HEIGHT_BACK_BUTTON);
 		spriteArrowBACK = new Sprite(textureRegionBACK);
 
 		textureBackground = assetManager.get(Constantes.URL_BACKGROUND_SEASON);
-		textureRegionBackground = new TextureRegion(textureBackground, 0,0,Constantes.WIDTH_BACKGROUND,Constantes.HEIGHT_BACKGROUND);
-		spriteBackground = new Sprite(textureRegionBackground);
+		spriteBackground = new Sprite(textureBackground);
 
 		soundMenuBackground = assetManager.get(Constantes.URL_SOUND_MENU_BACKGROUND);
 		soundClick = assetManager.get(Constantes.URL_SOUND_CLICK);
