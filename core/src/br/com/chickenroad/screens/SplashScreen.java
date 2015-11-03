@@ -1,14 +1,14 @@
 package br.com.chickenroad.screens;
 
-import br.com.chickenroad.ChickenRoadGame;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
+import br.com.chickenroad.ChickenRoadGame;
+import br.com.chickenroad.screens.util.Constantes;
 
 /**
  * A tela servirá para carregar os dados que a aplicação necessita. 
@@ -21,7 +21,6 @@ public class SplashScreen extends ScreenAdapter {
 	private ChickenRoadGame chickenRoadGame;
 
 	private Texture textureBackground;
-	private TextureRegion textureRegionBackground;
 	private Sprite spriteBackground;
 
 	private OrthographicCamera orthographicCamera;
@@ -34,11 +33,10 @@ public class SplashScreen extends ScreenAdapter {
 		this.chickenRoadGame = chickenRoadGame;
 
 		this.orthographicCamera = new OrthographicCamera();
-		this.orthographicCamera.setToOrtho(false, 640, 480);
+		this.orthographicCamera.setToOrtho(false, Constantes.WORLD_WIDTH, Constantes.WORLD_HEIGHT);
 
 		this.textureBackground = new Texture("splashScreenBackground.jpg");
-		this.textureRegionBackground = new TextureRegion(textureBackground, 0, 0, 640, 480);
-		this.spriteBackground = new Sprite(textureRegionBackground);
+		this.spriteBackground = new Sprite(textureBackground);
 
 	}
 
@@ -72,7 +70,6 @@ public class SplashScreen extends ScreenAdapter {
 	public void dispose() {
 		this.textureBackground.dispose();
 		this.textureBackground = null;
-		this.textureRegionBackground = null;
 		this.spriteBackground = null;
 		this.orthographicCamera = null;
 		this.chickenRoadGame = null;

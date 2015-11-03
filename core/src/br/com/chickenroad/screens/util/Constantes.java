@@ -44,4 +44,8 @@ public class Constantes {
 	public static final float WIDTH_PLAYER = 20;
 	public static final float HEIGHT_PLAYER = 30;
 
+	public static final int WORLD_WIDTH = 640;
+
+	public static final int WORLD_HEIGHT = 480;
+
 }

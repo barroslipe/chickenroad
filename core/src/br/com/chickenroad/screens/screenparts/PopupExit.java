@@ -46,9 +46,9 @@ public class PopupExit {
 
 	public void draw(SpriteBatch spriteBatch){
 
-		spritePopupNo.setPosition(Constantes.WIDTH_BACKGROUND/2 - 200, Constantes.HEIGHT_BACKGROUND/2 - 50);
-		spritePopupYes.setPosition(Constantes.WIDTH_BACKGROUND/2 + 200, Constantes.HEIGHT_BACKGROUND/2 - 50);
-		spritePopupBackground.setPosition(Constantes.WIDTH_BACKGROUND/2- 225, Constantes.HEIGHT_BACKGROUND/2 - 80);
+		spritePopupNo.setPosition(Constantes.WORLD_WIDTH/2 - 200, Constantes.WORLD_HEIGHT/2 - 50);
+		spritePopupYes.setPosition(Constantes.WORLD_WIDTH/2 + 200, Constantes.WORLD_HEIGHT/2 - 50);
+		spritePopupBackground.setPosition(Constantes.WORLD_WIDTH/2- 225, Constantes.WORLD_HEIGHT/2 - 80);
 
 		spritePopupBackground.draw(spriteBatch);
 		spritePopupNo.draw(spriteBatch);

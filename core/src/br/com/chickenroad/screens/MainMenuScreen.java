@@ -1,10 +1,5 @@
 package br.com.chickenroad.screens;
 
-import br.com.chickenroad.ChickenRoadGame;
-import br.com.chickenroad.screens.screenparts.MainMenuButtons;
-import br.com.chickenroad.screens.screenparts.PopupExit;
-import br.com.chickenroad.screens.util.Constantes;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
@@ -13,8 +8,12 @@ import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
+
+import br.com.chickenroad.ChickenRoadGame;
+import br.com.chickenroad.screens.screenparts.MainMenuButtons;
+import br.com.chickenroad.screens.screenparts.PopupExit;
+import br.com.chickenroad.screens.util.Constantes;
 
 public class MainMenuScreen extends ScreenAdapter {
 
@@ -23,7 +22,6 @@ public class MainMenuScreen extends ScreenAdapter {
 
 	//background
 	private Texture textureBackground;
-	private TextureRegion textureRegionBackground;
 	private Sprite spriteBackground;
 
 	private PopupExit popupExit;
@@ -45,11 +43,10 @@ public class MainMenuScreen extends ScreenAdapter {
 		this.menuButtons = new MainMenuButtons(assetManager);
 
 		this.orthographicCamera = new OrthographicCamera();
-		this.orthographicCamera.setToOrtho(false, Constantes.WIDTH_BACKGROUND,Constantes.HEIGHT_BACKGROUND);
+		this.orthographicCamera.setToOrtho(false, Constantes.WORLD_WIDTH,Constantes.WORLD_HEIGHT);
 
 		this.textureBackground = assetManager.get(Constantes.URL_BACKGROUND);
-		this.textureRegionBackground = new TextureRegion(textureBackground, 0,0,Constantes.WIDTH_BACKGROUND,Constantes.HEIGHT_BACKGROUND);
-		this.spriteBackground = new Sprite(textureRegionBackground);
+		this.spriteBackground = new Sprite(textureBackground);
 
 		this.soundMenuBackground = assetManager.get(Constantes.URL_SOUND_MENU_BACKGROUND);
 		this.soundClick = assetManager.get(Constantes.URL_SOUND_CLICK);
