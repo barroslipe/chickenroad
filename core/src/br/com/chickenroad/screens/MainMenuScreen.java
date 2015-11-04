@@ -1,19 +1,18 @@
 package br.com.chickenroad.screens;
 
+import br.com.chickenroad.ChickenRoadGame;
+import br.com.chickenroad.screens.screenparts.MainMenuButtons;
+import br.com.chickenroad.screens.screenparts.PopupExit;
+import br.com.chickenroad.screens.util.Constantes;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
-
-import br.com.chickenroad.ChickenRoadGame;
-import br.com.chickenroad.screens.screenparts.MainMenuButtons;
-import br.com.chickenroad.screens.screenparts.PopupExit;
-import br.com.chickenroad.screens.util.Constantes;
 
 public class MainMenuScreen extends ScreenAdapter {
 
@@ -26,9 +25,7 @@ public class MainMenuScreen extends ScreenAdapter {
 
 	private PopupExit popupExit;
 	private MainMenuButtons menuButtons;
-
-	private OrthographicCamera orthographicCamera;
-
+	
 	private Music soundMenuBackground, soundClick;
 
 	private boolean showPopupExitFlag;
@@ -41,9 +38,6 @@ public class MainMenuScreen extends ScreenAdapter {
 
 		this.popupExit = new PopupExit(assetManager);
 		this.menuButtons = new MainMenuButtons(assetManager);
-
-		this.orthographicCamera = new OrthographicCamera();
-		this.orthographicCamera.setToOrtho(false, Constantes.WORLD_WIDTH,Constantes.WORLD_HEIGHT);
 
 		this.textureBackground = assetManager.get(Constantes.URL_BACKGROUND);
 		this.spriteBackground = new Sprite(textureBackground);
@@ -62,9 +56,9 @@ public class MainMenuScreen extends ScreenAdapter {
 		Gdx.gl.glClearColor(0,0,0,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		orthographicCamera.update();
+		chickenRoadGame.getOrthographicCamera().update();
 
-		chickenRoadGame.getSpriteBatch().setProjectionMatrix(orthographicCamera.combined);
+		chickenRoadGame.getSpriteBatch().setProjectionMatrix(chickenRoadGame.getOrthographicCamera().combined);
 
 		chickenRoadGame.getSpriteBatch().begin();
 		drawBackground();
@@ -83,7 +77,7 @@ public class MainMenuScreen extends ScreenAdapter {
 		if(Gdx.input.justTouched()){
 
 			touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-			orthographicCamera.unproject(touchPoint);
+			chickenRoadGame.getOrthographicCamera().unproject(touchPoint);
 
 			if(showPopupExitFlag){
 

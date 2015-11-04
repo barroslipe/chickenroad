@@ -9,10 +9,8 @@ import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector3;
 
 /**
@@ -28,14 +26,11 @@ public class SeasonScreen extends ScreenAdapter {
 	private SeasonMenu faseMenu;
 
 	private Texture textureBACK;
-	private TextureRegion textureRegionBACK;
 	private Sprite spriteArrowBACK;
 
 	//background
 	private Texture textureBackground;
 	private Sprite spriteBackground;
-
-	private OrthographicCamera orthographicCamera;
 
 	private Music soundMenuBackground, soundClick;
 
@@ -47,12 +42,8 @@ public class SeasonScreen extends ScreenAdapter {
 
 		this.faseMenu = new SeasonMenu();
 
-		orthographicCamera = new OrthographicCamera();
-		orthographicCamera.setToOrtho(false, Constantes.WORLD_WIDTH,Constantes.WORLD_HEIGHT);
-
 		textureBACK = assetManager.get(Constantes.URL_BACK_BUTTON);
-		textureRegionBACK = new TextureRegion(textureBACK,0,0,Constantes.WIDTH_BACK_BUTTON,Constantes.HEIGHT_BACK_BUTTON);
-		spriteArrowBACK = new Sprite(textureRegionBACK);
+		spriteArrowBACK = new Sprite(textureBACK);
 
 		textureBackground = assetManager.get(Constantes.URL_BACKGROUND_SEASON);
 		spriteBackground = new Sprite(textureBackground);
@@ -67,8 +58,8 @@ public class SeasonScreen extends ScreenAdapter {
 		Gdx.gl.glClearColor(0,0,0,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
-		orthographicCamera.update();
-		chickenRoadGame.getSpriteBatch().setProjectionMatrix(orthographicCamera.combined);
+		chickenRoadGame.getOrthographicCamera().update();
+		chickenRoadGame.getSpriteBatch().setProjectionMatrix(chickenRoadGame.getOrthographicCamera().combined);
 
 		chickenRoadGame.getSpriteBatch().begin();
 		spriteBackground.draw(chickenRoadGame.getSpriteBatch());
@@ -89,7 +80,7 @@ public class SeasonScreen extends ScreenAdapter {
 			soundClick.play();
 
 			Vector3 touchPoint = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-			orthographicCamera.unproject(touchPoint);
+			chickenRoadGame.getOrthographicCamera().unproject(touchPoint);
 
 			if(spriteArrowBACK.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
 				//TODO liberar tudo

@@ -13,7 +13,6 @@ import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.math.Vector3;
 
 /**
@@ -32,17 +31,12 @@ public class Play extends ScreenAdapter {
 	private StateGame stateGame;
 	private PopupFinish popupFinish;
 
-	private OrthographicCamera orthographicCamera;
-
 	public static int deltaXPositionButtons=0, deltaYPositionButtons=0;
 
 	public Play(String urlMap, ChickenRoadGame aChickenRoadGame) {
 		this.myMap = new MyMap(urlMap);
 		this.chickenRoadGame = aChickenRoadGame;
 		this.playMenuButtons = new PlayMenuButtons(chickenRoadGame.getResourceManager().getAssetManager());
-
-		this.orthographicCamera = new OrthographicCamera();
-		this.orthographicCamera.setToOrtho(false, 640,480);
 
 		//TODO parametrizar para iniciar com outro personagem
 		this.player = new Player(Constantes.URL_PLAYER_AVATAR, myMap.getWidthTiledMap(), myMap.getHeightTiledMap(), chickenRoadGame.getResourceManager());
@@ -75,7 +69,7 @@ public class Play extends ScreenAdapter {
 			public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
 				Vector3 touchPoint = new Vector3(screenX, screenY, 0);
-				orthographicCamera.unproject(touchPoint);
+				chickenRoadGame.getOrthographicCamera().unproject(touchPoint);
 
 				if((stateGame != StateGame.PAUSE) && playMenuButtons.checkClickPauseButton(touchPoint.x, touchPoint.y)){
 					stateGame = StateGame.PAUSE;
@@ -91,6 +85,7 @@ public class Play extends ScreenAdapter {
 					return true;
 				}
 				if(playMenuButtons.checkClickFaseListButton(touchPoint.x, touchPoint.y)){
+					chickenRoadGame.resetCameraPosition();
 					chickenRoadGame.setScreen(new SeasonScreen(chickenRoadGame));
 					return true;
 				}
@@ -99,7 +94,7 @@ public class Play extends ScreenAdapter {
 					return true;
 				}
 
-				player.movimentar(screenX, screenY, orthographicCamera);
+				player.movimentar(screenX, screenY, chickenRoadGame.getOrthographicCamera());
 
 				return false;
 			}
@@ -145,14 +140,14 @@ public class Play extends ScreenAdapter {
 		Gdx.gl.glClearColor(0, 0, 0, 1); //cor preta
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);		
 
-		myMap.draw(orthographicCamera);
+		myMap.draw(chickenRoadGame.getOrthographicCamera());
 
 		//faz a camera seguir o player
-		orthographicCamera.position.set(player.getX(), player.getY(), 0);
+		chickenRoadGame.getOrthographicCamera().position.set(player.getX(), player.getY(), 0);
 
 		positionCamera();
-		orthographicCamera.update();
-		chickenRoadGame.getSpriteBatch().setProjectionMatrix(orthographicCamera.combined);		
+		chickenRoadGame.getOrthographicCamera().update();
+		chickenRoadGame.getSpriteBatch().setProjectionMatrix(chickenRoadGame.getOrthographicCamera().combined);		
 
 		chickenRoadGame.getSpriteBatch().begin();
 		player.draw(chickenRoadGame.getSpriteBatch());
@@ -182,25 +177,25 @@ public class Play extends ScreenAdapter {
 	private void positionCamera() {
 
 		// camera .viewportWidth = tamanho da camera
-		if(orthographicCamera.position.x < 320) {
-			orthographicCamera.position.x = 320;
+		if(chickenRoadGame.getOrthographicCamera().position.x < 320) {
+			chickenRoadGame.getOrthographicCamera().position.x = 320;
 		}
 
-		if(orthographicCamera.position.y < 240) {
-			orthographicCamera.position.y = 240;
+		if(chickenRoadGame.getOrthographicCamera().position.y < 240) {
+			chickenRoadGame.getOrthographicCamera().position.y = 240;
 		}
 
-		if(orthographicCamera.position.x > myMap.getWidthTiledMap()-320) {
-			orthographicCamera.position.x = myMap.getWidthTiledMap()-320;
+		if(chickenRoadGame.getOrthographicCamera().position.x > myMap.getWidthTiledMap()-320) {
+			chickenRoadGame.getOrthographicCamera().position.x = myMap.getWidthTiledMap()-320;
 
 		}
 
-		if(orthographicCamera.position.y > myMap.getHeightTiledMap()-240) {
-			orthographicCamera.position.y = myMap.getHeightTiledMap()-240;
+		if(chickenRoadGame.getOrthographicCamera().position.y > myMap.getHeightTiledMap()-240) {
+			chickenRoadGame.getOrthographicCamera().position.y = myMap.getHeightTiledMap()-240;
 		}
 
-		deltaYPositionButtons = (int)(orthographicCamera.position.y - 240 > 0 ? orthographicCamera.position.y - 240 : 0);
-		deltaXPositionButtons = (int)(orthographicCamera.position.x - 320 > 0 ? orthographicCamera.position.x - 320 : 0);
+		deltaYPositionButtons = (int)(chickenRoadGame.getOrthographicCamera().position.y - 240 > 0 ? chickenRoadGame.getOrthographicCamera().position.y - 240 : 0);
+		deltaXPositionButtons = (int)(chickenRoadGame.getOrthographicCamera().position.x - 320 > 0 ? chickenRoadGame.getOrthographicCamera().position.x - 320 : 0);
 
 	}
 

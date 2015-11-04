@@ -1,14 +1,12 @@
 package br.com.chickenroad.screens;
 
+import br.com.chickenroad.ChickenRoadGame;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-
-import br.com.chickenroad.ChickenRoadGame;
-import br.com.chickenroad.screens.util.Constantes;
 
 /**
  * A tela servirá para carregar os dados que a aplicação necessita. 
@@ -23,17 +21,12 @@ public class SplashScreen extends ScreenAdapter {
 	private Texture textureBackground;
 	private Sprite spriteBackground;
 
-	private OrthographicCamera orthographicCamera;
-
 	private final long start = System.currentTimeMillis();
 	private long now;
 
 	public SplashScreen(ChickenRoadGame chickenRoadGame) {
 
 		this.chickenRoadGame = chickenRoadGame;
-
-		this.orthographicCamera = new OrthographicCamera();
-		this.orthographicCamera.setToOrtho(false, Constantes.WORLD_WIDTH, Constantes.WORLD_HEIGHT);
 
 		this.textureBackground = new Texture("splashScreenBackground.jpg");
 		this.spriteBackground = new Sprite(textureBackground);
@@ -49,9 +42,9 @@ public class SplashScreen extends ScreenAdapter {
 		//capturar o progresso do carregamento
 		chickenRoadGame.getResourceManager().getAssetManager().update();
 
-		orthographicCamera.update();
+		chickenRoadGame.getOrthographicCamera().update();
 
-		chickenRoadGame.getSpriteBatch().setProjectionMatrix(orthographicCamera.combined);
+		chickenRoadGame.getSpriteBatch().setProjectionMatrix(chickenRoadGame.getOrthographicCamera().combined);
 
 		chickenRoadGame.getSpriteBatch().begin();
 		spriteBackground.draw(chickenRoadGame.getSpriteBatch());
@@ -71,7 +64,6 @@ public class SplashScreen extends ScreenAdapter {
 		this.textureBackground.dispose();
 		this.textureBackground = null;
 		this.spriteBackground = null;
-		this.orthographicCamera = null;
 		this.chickenRoadGame = null;
 	}
 }
