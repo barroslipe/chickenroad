@@ -3,7 +3,6 @@ package br.com.chickenroad.screens;
 import br.com.chickenroad.ChickenRoadGame;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -14,9 +13,7 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
  * além de algo relacionado ao jogo como apresentação.
  *
  */
-public class SplashScreen extends ScreenAdapter {
-
-	private ChickenRoadGame chickenRoadGame;
+public class SplashScreen extends ScreenBase {
 
 	private Texture textureBackground;
 	private Sprite spriteBackground;
@@ -24,9 +21,8 @@ public class SplashScreen extends ScreenAdapter {
 	private final long start = System.currentTimeMillis();
 	private long now;
 
-	public SplashScreen(ChickenRoadGame chickenRoadGame) {
-
-		this.chickenRoadGame = chickenRoadGame;
+	public SplashScreen(ChickenRoadGame aChickenRoadGame) {
+		super(aChickenRoadGame);
 
 		this.textureBackground = new Texture("splashScreenBackground.jpg");
 		this.spriteBackground = new Sprite(textureBackground);

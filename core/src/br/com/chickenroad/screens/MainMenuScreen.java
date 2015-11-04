@@ -6,18 +6,13 @@ import br.com.chickenroad.screens.screenparts.PopupExit;
 import br.com.chickenroad.screens.util.Constantes;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
 
-public class MainMenuScreen extends ScreenAdapter {
-
-	private ChickenRoadGame chickenRoadGame;
-	private AssetManager assetManager;
+public class MainMenuScreen extends ScreenBase {
 
 	//background
 	private Texture textureBackground;
@@ -32,18 +27,16 @@ public class MainMenuScreen extends ScreenAdapter {
 	private Vector3 touchPoint;
 
 	public MainMenuScreen(ChickenRoadGame aChickenRoadGame) {
+		super(aChickenRoadGame);
+		
+		this.popupExit = new PopupExit(getAssetManager());
+		this.menuButtons = new MainMenuButtons(getAssetManager());
 
-		this.chickenRoadGame = aChickenRoadGame;
-		this.assetManager = chickenRoadGame.getResourceManager().getAssetManager();
-
-		this.popupExit = new PopupExit(assetManager);
-		this.menuButtons = new MainMenuButtons(assetManager);
-
-		this.textureBackground = assetManager.get(Constantes.URL_BACKGROUND);
+		this.textureBackground = getAssetManager().get(Constantes.URL_BACKGROUND);
 		this.spriteBackground = new Sprite(textureBackground);
 
-		this.soundMenuBackground = assetManager.get(Constantes.URL_SOUND_MENU_BACKGROUND);
-		this.soundClick = assetManager.get(Constantes.URL_SOUND_CLICK);
+		this.soundMenuBackground = getAssetManager().get(Constantes.URL_SOUND_MENU_BACKGROUND);
+		this.soundClick = getAssetManager().get(Constantes.URL_SOUND_CLICK);
 
 		this.showPopupExitFlag = false;
 		this.touchPoint = new Vector3();

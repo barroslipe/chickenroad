@@ -11,7 +11,6 @@ import br.com.chickenroad.screens.util.Constantes;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.InputAdapter;
-import com.badlogic.gdx.ScreenAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector3;
 
@@ -20,9 +19,8 @@ import com.badlogic.gdx.math.Vector3;
  * 
  *
  */
-public class Play extends ScreenAdapter {
+public class Play extends ScreenBase {
 
-	private ChickenRoadGame chickenRoadGame;
 	private PlayMenuButtons playMenuButtons;
 
 	private Player player;
@@ -34,12 +32,13 @@ public class Play extends ScreenAdapter {
 	public static int deltaXPositionButtons=0, deltaYPositionButtons=0;
 
 	public Play(String urlMap, ChickenRoadGame aChickenRoadGame) {
+		super(aChickenRoadGame);
+		
 		this.myMap = new MyMap(urlMap);
-		this.chickenRoadGame = aChickenRoadGame;
-		this.playMenuButtons = new PlayMenuButtons(chickenRoadGame.getResourceManager().getAssetManager());
+		this.playMenuButtons = new PlayMenuButtons(getAssetManager());
 
 		//TODO parametrizar para iniciar com outro personagem
-		this.player = new Player(Constantes.URL_PLAYER_AVATAR, myMap.getWidthTiledMap(), myMap.getHeightTiledMap(), chickenRoadGame.getResourceManager());
+		this.player = new Player(Constantes.URL_PLAYER_AVATAR, myMap.getWidthTiledMap(), myMap.getHeightTiledMap(), getAssetManager());
 		this.portalTeste = new PortalTeste("portal.png");
 		this.popupFinish = new PopupFinish();
 	}

@@ -6,47 +6,38 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public class MainMenuButtons {
 
 	//play button
 	private Texture texturePlay;
-	private TextureRegion textureRegionPlay;
 	private Sprite spritePlay;
 
 	//quit button
 	private Texture textureExit;
-	private TextureRegion textureRegionExit;
 	private Sprite spriteExit;
 
 	//sound on button
 	private Texture textureSoundOn;
-	private TextureRegion textureRegionSoundOn;
 	private Sprite spriteSoundOn;
 
 	//sound off button
 	private Texture textureSoundOff;
-	private TextureRegion textureRegionSoundOff;
 	private Sprite spriteSoundOff;
 
 	public MainMenuButtons(AssetManager assetManager) {
 
 		this.texturePlay = assetManager.get(Constantes.URL_PLAY_BUTTON);
-		this.textureRegionPlay = new TextureRegion(texturePlay,0,0,Constantes.WIDTH_PLAY_BUTTON,Constantes.HEIGHT_PLAY_BUTTON);
-		this.spritePlay = new Sprite(textureRegionPlay);
+		this.spritePlay = new Sprite(texturePlay);
 
 		this.textureExit = assetManager.get(Constantes.URL_EXIT_BUTTON);
-		this.textureRegionExit = new TextureRegion(textureExit,0,0,Constantes.WIDTH_EXIT_BUTTON,Constantes.HEIGHT_EXIT_BUTTON);
-		this.spriteExit = new Sprite(textureRegionExit);
+		this.spriteExit = new Sprite(textureExit);
 
 		this.textureSoundOn = assetManager.get(Constantes.URL_SOUND_ON_BUTTON);
-		this.textureRegionSoundOn = new TextureRegion(textureSoundOn,0,0,Constantes.WIDTH_SOUNDON_BUTTON,Constantes.HEIGHT_SOUNDON_BUTTON);
-		this.spriteSoundOn = new Sprite(textureRegionSoundOn);
+		this.spriteSoundOn = new Sprite(textureSoundOn);
 
 		this.textureSoundOff = assetManager.get(Constantes.URL_SOUND_OFF_BUTTON);
-		this.textureRegionSoundOff = new TextureRegion(textureSoundOff,0,0,Constantes.WIDTH_SOUNDOFF_BUTTON,Constantes.HEIGHT_SOUNDOFF_BUTTON);
-		this.spriteSoundOff = new Sprite(textureRegionSoundOff);
+		this.spriteSoundOff = new Sprite(textureSoundOff);
 	}
 
 	public void draw(SpriteBatch spriteBatch){

@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.chickenroad.screens.util.Constantes;
-import br.com.chickenroad.screens.util.ResourceManager;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -30,13 +30,13 @@ public class Player extends Sprite{
 
 	private PlayerLife playerLife;
 
-	public Player(String sprite, int aWidthTiledMap, int aHeightTiledMap, ResourceManager resourceManager) {
+	public Player(String sprite, int aWidthTiledMap, int aHeightTiledMap, AssetManager assetManager) {
 		super(new Texture(sprite));
 
 		this.widthTiledMap = aWidthTiledMap;
 		this.heightTileMap = aHeightTiledMap;
 
-		playerLife = new PlayerLife(resourceManager);
+		playerLife = new PlayerLife(assetManager);
 	}
 
 	public void updatePlayerPosition(float delta, List<Rectangle> tiles, ArrayList<Vehicle> vehiclesList) {
@@ -114,23 +114,10 @@ public class Player extends Sprite{
 
 		for(int i=0;i<vehiclesList.size();i++){
 			if(Intersector.overlaps(vehiclesList.get(i).getBoundingRectangle(), playerPosition)){
-
-
-				System.out.println("player: "+playerPosition.toString());
-				//System.out.println("carro: "+vehiclesList.get(i).x+ " "+ vehiclesList.);
-
 				return true;
-				//				// o player pode colidir apenas uma vez. Na segunda ele morre
-				//				if(contCollision > 1)
-				//					contCollision = 0;
-				//				else 
-				//					contCollision++;
-				//				
-				//				return contCollision;
 			}
 		}
 		return false;
-		//		return contCollision;
 	}
 
 	public void movimentar(int screenX, int screenY, OrthographicCamera orthographicCamera) {

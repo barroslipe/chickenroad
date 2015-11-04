@@ -5,8 +5,6 @@ import br.com.chickenroad.screens.screenparts.SeasonMenu;
 import br.com.chickenroad.screens.util.Constantes;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.ScreenAdapter;
-import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -18,10 +16,7 @@ import com.badlogic.gdx.math.Vector3;
  * 
  *
  */
-public class SeasonScreen extends ScreenAdapter {
-
-	private ChickenRoadGame chickenRoadGame;
-	private AssetManager assetManager;
+public class SeasonScreen extends ScreenBase {
 
 	private SeasonMenu faseMenu;
 
@@ -35,21 +30,19 @@ public class SeasonScreen extends ScreenAdapter {
 	private Music soundMenuBackground, soundClick;
 
 
-	public SeasonScreen(ChickenRoadGame chickenRoadGame) {
-
-		this.chickenRoadGame = chickenRoadGame;
-		this.assetManager = chickenRoadGame.getResourceManager().getAssetManager();
-
+	public SeasonScreen(ChickenRoadGame aChickenRoadGame) {
+		super(aChickenRoadGame);
+		
 		this.faseMenu = new SeasonMenu();
 
-		textureBACK = assetManager.get(Constantes.URL_BACK_BUTTON);
+		textureBACK = getAssetManager().get(Constantes.URL_BACK_BUTTON);
 		spriteArrowBACK = new Sprite(textureBACK);
 
-		textureBackground = assetManager.get(Constantes.URL_BACKGROUND_SEASON);
+		textureBackground = getAssetManager().get(Constantes.URL_BACKGROUND_SEASON);
 		spriteBackground = new Sprite(textureBackground);
 
-		soundMenuBackground = assetManager.get(Constantes.URL_SOUND_MENU_BACKGROUND);
-		soundClick = assetManager.get(Constantes.URL_SOUND_CLICK);
+		soundMenuBackground = getAssetManager().get(Constantes.URL_SOUND_MENU_BACKGROUND);
+		soundClick = getAssetManager().get(Constantes.URL_SOUND_CLICK);
 
 	}
 
