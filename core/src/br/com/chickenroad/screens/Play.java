@@ -7,6 +7,7 @@ import br.com.chickenroad.entities.StateGame;
 import br.com.chickenroad.screens.screenparts.PlayMenuButtons;
 import br.com.chickenroad.screens.screenparts.PopupFinish;
 import br.com.chickenroad.screens.util.Constantes;
+import br.com.chickenroad.screens.util.PlayCamera;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -28,14 +29,16 @@ public class Play extends ScreenBase {
 	private PortalTeste portalTeste;
 	private StateGame stateGame;
 	private PopupFinish popupFinish;
+	private PlayCamera playCamera;
 
 	public static int deltaXPositionButtons=0, deltaYPositionButtons=0;
 
 	public Play(String urlMap, ChickenRoadGame aChickenRoadGame) {
 		super(aChickenRoadGame);
-		
+
 		this.myMap = new MyMap(urlMap);
 		this.playMenuButtons = new PlayMenuButtons(getAssetManager());
+		this.playCamera = new PlayCamera();
 
 		//TODO parametrizar para iniciar com outro personagem
 		this.player = new Player(Constantes.URL_PLAYER_AVATAR, myMap.getWidthTiledMap(), myMap.getHeightTiledMap(), getAssetManager());
@@ -68,7 +71,7 @@ public class Play extends ScreenBase {
 			public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
 				Vector3 touchPoint = new Vector3(screenX, screenY, 0);
-				chickenRoadGame.getOrthographicCamera().unproject(touchPoint);
+				playCamera.getOrthographicCamera().unproject(touchPoint);
 
 				if((stateGame != StateGame.PAUSE) && playMenuButtons.checkClickPauseButton(touchPoint.x, touchPoint.y)){
 					stateGame = StateGame.PAUSE;
@@ -84,7 +87,6 @@ public class Play extends ScreenBase {
 					return true;
 				}
 				if(playMenuButtons.checkClickFaseListButton(touchPoint.x, touchPoint.y)){
-					chickenRoadGame.resetCameraPosition();
 					chickenRoadGame.setScreen(new SeasonScreen(chickenRoadGame));
 					return true;
 				}
@@ -93,7 +95,7 @@ public class Play extends ScreenBase {
 					return true;
 				}
 
-				player.movimentar(screenX, screenY, chickenRoadGame.getOrthographicCamera());
+				player.movimentar(screenX, screenY, playCamera.getOrthographicCamera());
 
 				return false;
 			}
@@ -139,14 +141,13 @@ public class Play extends ScreenBase {
 		Gdx.gl.glClearColor(0, 0, 0, 1); //cor preta
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);		
 
-		myMap.draw(chickenRoadGame.getOrthographicCamera());
+		myMap.draw(playCamera.getOrthographicCamera());
 
 		//faz a camera seguir o player
-		chickenRoadGame.getOrthographicCamera().position.set(player.getX(), player.getY(), 0);
 
-		positionCamera();
-		chickenRoadGame.getOrthographicCamera().update();
-		chickenRoadGame.getSpriteBatch().setProjectionMatrix(chickenRoadGame.getOrthographicCamera().combined);		
+		playCamera.setPosition(player.getX(), player.getY(), myMap.getWidthTiledMap(), myMap.getHeightTiledMap());
+
+		chickenRoadGame.getSpriteBatch().setProjectionMatrix(playCamera.getOrthographicCamera().combined);		
 
 		chickenRoadGame.getSpriteBatch().begin();
 		player.draw(chickenRoadGame.getSpriteBatch());
@@ -170,31 +171,6 @@ public class Play extends ScreenBase {
 	}
 
 	private void nextFase() {
-
-	}
-
-	private void positionCamera() {
-
-		// camera .viewportWidth = tamanho da camera
-		if(chickenRoadGame.getOrthographicCamera().position.x < 320) {
-			chickenRoadGame.getOrthographicCamera().position.x = 320;
-		}
-
-		if(chickenRoadGame.getOrthographicCamera().position.y < 240) {
-			chickenRoadGame.getOrthographicCamera().position.y = 240;
-		}
-
-		if(chickenRoadGame.getOrthographicCamera().position.x > myMap.getWidthTiledMap()-320) {
-			chickenRoadGame.getOrthographicCamera().position.x = myMap.getWidthTiledMap()-320;
-
-		}
-
-		if(chickenRoadGame.getOrthographicCamera().position.y > myMap.getHeightTiledMap()-240) {
-			chickenRoadGame.getOrthographicCamera().position.y = myMap.getHeightTiledMap()-240;
-		}
-
-		deltaYPositionButtons = (int)(chickenRoadGame.getOrthographicCamera().position.y - 240 > 0 ? chickenRoadGame.getOrthographicCamera().position.y - 240 : 0);
-		deltaXPositionButtons = (int)(chickenRoadGame.getOrthographicCamera().position.x - 320 > 0 ? chickenRoadGame.getOrthographicCamera().position.x - 320 : 0);
 
 	}
 

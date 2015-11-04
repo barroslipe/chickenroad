@@ -40,11 +40,7 @@ public class ChickenRoadGame extends Game {
 	public void render () {
 		super.render();
 	}
-	
-	public void resetCameraPosition(){
-		this.orthographicCamera.setToOrtho(false, Constantes.WORLD_WIDTH, Constantes.WORLD_HEIGHT);
-	}
-	
+
 	public OrthographicCamera getOrthographicCamera() {
 		return orthographicCamera;
 	}
