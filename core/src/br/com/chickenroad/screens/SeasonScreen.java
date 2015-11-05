@@ -32,7 +32,7 @@ public class SeasonScreen extends ScreenBase {
 
 	public SeasonScreen(ChickenRoadGame aChickenRoadGame) {
 		super(aChickenRoadGame);
-		
+
 		this.faseMenu = new SeasonMenu();
 
 		textureBACK = getAssetManager().get(Constantes.URL_BACK_BUTTON);
@@ -62,35 +62,35 @@ public class SeasonScreen extends ScreenBase {
 
 		if(!soundMenuBackground.isPlaying() && Constantes.SOUND_ON_FLAG) soundMenuBackground.play(); 
 
-		input();
-
 	}
 
-	private void input(){
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
-		if(Gdx.input.justTouched()){
 
+		Vector3 touchPoint = new Vector3(screenX, screenY, 0);
+		chickenRoadGame.getOrthographicCamera().unproject(touchPoint);
+
+		if(spriteArrowBACK.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
+			//TODO liberar tudo
 			soundClick.play();
-
-			Vector3 touchPoint = new Vector3(Gdx.input.getX(), Gdx.input.getY(), 0);
-			chickenRoadGame.getOrthographicCamera().unproject(touchPoint);
-
-			if(spriteArrowBACK.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
-				//TODO liberar tudo
-				soundMenuBackground.stop();
-				chickenRoadGame.setScreen(new MainMenuScreen(chickenRoadGame));
-			}else{
-				openFase(faseMenu.getClickedFase(touchPoint.x, touchPoint.y));
-			}
-		}
+			soundMenuBackground.stop();
+			chickenRoadGame.setScreenWithTransitionFade(new MainMenuScreen(chickenRoadGame));
+		}else{
+			openFase(faseMenu.getClickedFase(touchPoint.x, touchPoint.y));
+		}		
+		return false;
 	}
 
 	private void openFase(int i) {
-
 		//fase 1
 		if(i==0){
+			soundClick.play();
+
 			chickenRoadGame.setScreen(new Play(Constantes.URL_MAP_FASE_1_0_1, chickenRoadGame));
 		}else if(i==1){
+			soundClick.play();
+
 			chickenRoadGame.setScreen(new Play(Constantes.URL_MAP_FASE_1_0_2, chickenRoadGame));
 		}
 	}

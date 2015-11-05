@@ -20,12 +20,17 @@ public class SplashScreen extends ScreenBase {
 
 	private final long start = System.currentTimeMillis();
 	private long now;
+	
+	private boolean nextScreen;
+	
 
 	public SplashScreen(ChickenRoadGame aChickenRoadGame) {
 		super(aChickenRoadGame);
 
 		this.textureBackground = new Texture("splashScreenBackground.jpg");
 		this.spriteBackground = new Sprite(textureBackground);
+		
+		this.nextScreen = true;
 
 	}
 
@@ -48,18 +53,10 @@ public class SplashScreen extends ScreenBase {
 
 		if(chickenRoadGame.getResourceManager().getAssetManager().getProgress() == 1){
 			now = System.currentTimeMillis() - start;
-			if(now > 2000){
-				chickenRoadGame.setScreen(new MainMenuScreen(chickenRoadGame));
-				dispose();
+			if(now > 2000 && nextScreen){
+				nextScreen = false;
+				chickenRoadGame.setScreenWithTransitionFade(new MainMenuScreen(chickenRoadGame));
 			}
 		}
-	}
-
-	@Override
-	public void dispose() {
-		this.textureBackground.dispose();
-		this.textureBackground = null;
-		this.spriteBackground = null;
-		this.chickenRoadGame = null;
 	}
 }

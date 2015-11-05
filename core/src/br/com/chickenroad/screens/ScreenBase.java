@@ -2,10 +2,12 @@ package br.com.chickenroad.screens;
 
 import br.com.chickenroad.ChickenRoadGame;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 
-public abstract class ScreenBase implements Screen{
+public abstract class ScreenBase implements Screen, InputProcessor{
 
 	protected ChickenRoadGame chickenRoadGame;
 	
@@ -21,7 +23,7 @@ public abstract class ScreenBase implements Screen{
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 	@Override
 	public abstract void render(float delta);
 
@@ -53,6 +55,55 @@ public abstract class ScreenBase implements Screen{
 	public void dispose() {
 		// TODO Auto-generated method stub
 		
+	}
+	
+	public void enableInputProcessor(){
+		Gdx.input.setInputProcessor(this);
+	}
+	
+	public void disableInputProcessor(){
+		Gdx.input.setInputProcessor(null);		
+	}
+	
+	@Override
+	public boolean keyDown(int keycode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean keyUp(int keycode) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean keyTyped(char character) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean touchDragged(int screenX, int screenY, int pointer) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean mouseMoved(int screenX, int screenY) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+	@Override
+	public boolean scrolled(int amount) {
+		// TODO Auto-generated method stub
+		return false;
 	}
 
 }

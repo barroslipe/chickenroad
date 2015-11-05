@@ -20,7 +20,7 @@ public class MainMenuScreen extends ScreenBase {
 
 	private PopupExit popupExit;
 	private MainMenuButtons menuButtons;
-	
+
 	private Music soundMenuBackground, soundClick;
 
 	private boolean showPopupExitFlag;
@@ -28,10 +28,10 @@ public class MainMenuScreen extends ScreenBase {
 
 	public MainMenuScreen(ChickenRoadGame aChickenRoadGame) {
 		super(aChickenRoadGame);
-		
+
 		this.popupExit = new PopupExit(getAssetManager());
 		this.menuButtons = new MainMenuButtons(getAssetManager());
-
+		
 		this.textureBackground = getAssetManager().get(Constantes.URL_BACKGROUND);
 		this.spriteBackground = new Sprite(textureBackground);
 
@@ -50,7 +50,6 @@ public class MainMenuScreen extends ScreenBase {
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
 		chickenRoadGame.getOrthographicCamera().update();
-
 		chickenRoadGame.getSpriteBatch().setProjectionMatrix(chickenRoadGame.getOrthographicCamera().combined);
 
 		chickenRoadGame.getSpriteBatch().begin();
@@ -61,49 +60,45 @@ public class MainMenuScreen extends ScreenBase {
 
 		if(!soundMenuBackground.isPlaying() && Constantes.SOUND_ON_FLAG) soundMenuBackground.play(); 
 
-		input();
-
 	}
 
-	private void input() {
+	@Override
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
-		if(Gdx.input.justTouched()){
+		touchPoint.set(screenX, screenY, 0);
+		chickenRoadGame.getOrthographicCamera().unproject(touchPoint);
 
-			touchPoint.set(Gdx.input.getX(), Gdx.input.getY(), 0);
-			chickenRoadGame.getOrthographicCamera().unproject(touchPoint);
+		if(showPopupExitFlag){
 
-			if(showPopupExitFlag){
-
-				if(popupExit.checkClickYesButton(touchPoint.x, touchPoint.y)){
-					soundClick.play();
-					dispose();
-					Gdx.app.exit();
-				}else if(popupExit.checkClickNoButton(touchPoint.x, touchPoint.y)){
-					soundClick.play();
-					showPopupExitFlag=false;
-				}
-
-			}else{
-
-				if(menuButtons.checkClickExitButton(touchPoint.x, touchPoint.y)){
-					soundClick.play();
-					showPopupExitFlag = true;
-
-				}else if(menuButtons.checkClickPlayButton(touchPoint.x, touchPoint.y)){
-					//se pressionar PLAY
-					soundClick.play();
-					soundMenuBackground.stop();
-					chickenRoadGame.setScreen(new SeasonScreen(chickenRoadGame));
-				}else if(menuButtons.checkClickSoundOnButton(touchPoint.x, touchPoint.y)){
-					//TODO tocar o som
-					soundClick.play();
-					Constantes.SOUND_ON_FLAG = !Constantes.SOUND_ON_FLAG;
-					if(!Constantes.SOUND_ON_FLAG) soundMenuBackground.stop();
-				}
-
+			if(popupExit.checkClickYesButton(touchPoint.x, touchPoint.y)){
+				soundClick.play();
+				dispose();
+				Gdx.app.exit();
+			}else if(popupExit.checkClickNoButton(touchPoint.x, touchPoint.y)){
+				soundClick.play();
+				showPopupExitFlag=false;
 			}
-		}
 
+		}else{
+
+			if(menuButtons.checkClickExitButton(touchPoint.x, touchPoint.y)){
+				soundClick.play();
+				showPopupExitFlag = true;
+
+			}else if(menuButtons.checkClickPlayButton(touchPoint.x, touchPoint.y)){
+				//se pressionar PLAY
+				soundClick.play();
+				soundMenuBackground.stop();
+				chickenRoadGame.setScreenWithTransitionFade(new SeasonScreen(chickenRoadGame));
+			}else if(menuButtons.checkClickSoundOnButton(touchPoint.x, touchPoint.y)){
+				//TODO tocar o som
+				soundClick.play();
+				Constantes.SOUND_ON_FLAG = !Constantes.SOUND_ON_FLAG;
+				if(!Constantes.SOUND_ON_FLAG) soundMenuBackground.stop();
+			}
+
+		}
+		return true;
 	}
 
 	private void drawPopupExit(){
@@ -123,7 +118,6 @@ public class MainMenuScreen extends ScreenBase {
 
 	@Override
 	public void dispose() {
-		
-	}
 
+	}
 }

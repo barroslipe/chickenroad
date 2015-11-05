@@ -11,7 +11,6 @@ import br.com.chickenroad.screens.util.PlayCamera;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.InputAdapter;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector3;
 
@@ -44,65 +43,56 @@ public class Play extends ScreenBase {
 		this.player = new Player(Constantes.URL_PLAYER_AVATAR, myMap.getWidthTiledMap(), myMap.getHeightTiledMap(), getAssetManager());
 		this.portalTeste = new PortalTeste("portal.png");
 		this.popupFinish = new PopupFinish();
+
+		initFase();
+	}
+	@Override
+	public boolean keyDown(int keycode) {
+
+		if((keycode == Keys.BACK)|| (keycode == Keys.ESCAPE)){
+			if(stateGame == StateGame.PLAYING)
+				stateGame = StateGame.PAUSE;
+			else
+				stateGame = StateGame.PLAYING;
+
+			return true;
+		}
+		return false;
 	}
 
 	@Override
-	public void show() {
+	//evento para liberação de toque na tela - quando solta a tela
+	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
-		initFase();
+		Vector3 touchPoint = new Vector3(screenX, screenY, 0);
+		playCamera.getOrthographicCamera().unproject(touchPoint);
 
-		Gdx.input.setInputProcessor(new InputAdapter(){
-			@Override
-			public boolean keyDown(int keycode) {
+		if((stateGame != StateGame.PAUSE) && playMenuButtons.checkClickPauseButton(touchPoint.x, touchPoint.y)){
+			stateGame = StateGame.PAUSE;
+			return true;
+		}
 
-				if((keycode == Keys.BACK)|| (keycode == Keys.ESCAPE)){
-					if(stateGame == StateGame.PLAYING)
-						stateGame = StateGame.PAUSE;
-					else
-						stateGame = StateGame.PLAYING;
+		if(playMenuButtons.checkClickPlayButton(touchPoint.x, touchPoint.y)){
+			stateGame = StateGame.PLAYING;
+			return true;
+		}
+		if(playMenuButtons.checkClickRestartButton(touchPoint.x, touchPoint.y)){
+			stateGame = StateGame.RESTART;
+			return true;
+		}
+		if(playMenuButtons.checkClickFaseListButton(touchPoint.x, touchPoint.y)){
+			chickenRoadGame.setScreenWithTransitionFade(new SeasonScreen(chickenRoadGame));
+			return true;
+		}
+		if(popupFinish.checkClickNextButton(touchPoint.x, touchPoint.y)){
+			nextFase();
+			return true;
+		}
 
-					return true;
-				}
-				return false;
-			}
+		player.movimentar(screenX, screenY, playCamera.getOrthographicCamera());
 
-			@Override
-			//evento para liberação de toque na tela - quando solta a tela
-			public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-
-				Vector3 touchPoint = new Vector3(screenX, screenY, 0);
-				playCamera.getOrthographicCamera().unproject(touchPoint);
-
-				if((stateGame != StateGame.PAUSE) && playMenuButtons.checkClickPauseButton(touchPoint.x, touchPoint.y)){
-					stateGame = StateGame.PAUSE;
-					return true;
-				}
-
-				if(playMenuButtons.checkClickPlayButton(touchPoint.x, touchPoint.y)){
-					stateGame = StateGame.PLAYING;
-					return true;
-				}
-				if(playMenuButtons.checkClickRestartButton(touchPoint.x, touchPoint.y)){
-					stateGame = StateGame.RESTART;
-					return true;
-				}
-				if(playMenuButtons.checkClickFaseListButton(touchPoint.x, touchPoint.y)){
-					chickenRoadGame.setScreen(new SeasonScreen(chickenRoadGame));
-					return true;
-				}
-				if(popupFinish.checkClickNextButton(touchPoint.x, touchPoint.y)){
-					nextFase();
-					return true;
-				}
-
-				player.movimentar(screenX, screenY, playCamera.getOrthographicCamera());
-
-				return false;
-			}
-		});
-
+		return false;
 	}
-
 	@Override
 	public void render(float delta) {
 
@@ -141,13 +131,12 @@ public class Play extends ScreenBase {
 		Gdx.gl.glClearColor(0, 0, 0, 1); //cor preta
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);		
 
-		myMap.draw(playCamera.getOrthographicCamera());
-
-		//faz a camera seguir o player
 
 		playCamera.setPosition(player.getX(), player.getY(), myMap.getWidthTiledMap(), myMap.getHeightTiledMap());
 
 		chickenRoadGame.getSpriteBatch().setProjectionMatrix(playCamera.getOrthographicCamera().combined);		
+		myMap.draw(playCamera.getOrthographicCamera());
+
 
 		chickenRoadGame.getSpriteBatch().begin();
 		player.draw(chickenRoadGame.getSpriteBatch());
