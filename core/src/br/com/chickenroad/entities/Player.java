@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.chickenroad.screens.util.Constantes;
+import br.com.chickenroad.screens.util.Util;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -16,7 +17,7 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 public class Player extends Sprite{
-	public int contCollision=0;
+	
 	private Vector2 velocity = new Vector2();
 	float speed = 60*2;
 	private int pontoX = 0; //ponto de click/toque na tela
@@ -25,6 +26,9 @@ public class Player extends Sprite{
 	private boolean movendoX2 = false;//x negativo 
 	private boolean movendoY1 = false;//y positivo 
 	private boolean movendoY2 = false;//y negativo
+	
+	private float demageTimerPerSecond, t;
+	private boolean demage;
 
 	private int widthTiledMap, heightTileMap;
 
@@ -36,6 +40,10 @@ public class Player extends Sprite{
 		this.widthTiledMap = aWidthTiledMap;
 		this.heightTileMap = aHeightTiledMap;
 
+		this.demageTimerPerSecond = 3;
+		this.t=0;
+		this.demage = false;
+		
 		playerLife = new PlayerLife(assetManager);
 	}
 
@@ -64,7 +72,7 @@ public class Player extends Sprite{
 
 
 		if(checkVehiclesColision(vehiclesList)){
-			playerLife.demageVehicle();
+			demage(1);
 		}
 		
 		if(!checkTilesColision(newPositionX, newPositionY, tiles)){
@@ -93,6 +101,17 @@ public class Player extends Sprite{
 			movendoY2 = false;
 			velocity.y = 0;
 		}
+	}
+
+	private void demage(int i) {
+		
+		if(demage) return;
+		
+		if(i == 1)
+			playerLife.demageVehicle();
+		
+		demage = true;
+		
 	}
 
 	private boolean checkTilesColision(float newPositionX, float newPositionY, List<Rectangle> tiles) {
@@ -168,8 +187,18 @@ public class Player extends Sprite{
 	}
 	
 	@Override
-	public void draw(Batch batch){
+	public void draw(Batch batch, float delta){
 		super.draw(batch);
+				
+		if(demage){
+			t += delta;
+			setAlpha(Util.getRandomPosition(3, 8)/10);
+			if(t > demageTimerPerSecond){
+				t=0;
+				demage = false;
+				setAlpha(1);
+			}
+		}
 		
 		playerLife.draw(batch);
 		

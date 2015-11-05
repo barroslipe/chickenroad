@@ -112,7 +112,7 @@ public class Play extends ScreenBase {
 		default:
 			break;
 		}
-		draw();
+		draw(delta);
 	}
 
 	private void drawGameOver() {
@@ -126,7 +126,7 @@ public class Play extends ScreenBase {
 		player.inicializar(this.myMap.getPlayerOrigin());
 	}
 
-	private void draw() {
+	private void draw(float delta) {
 
 		Gdx.gl.glClearColor(0, 0, 0, 1); //cor preta
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);		
@@ -139,7 +139,7 @@ public class Play extends ScreenBase {
 
 
 		chickenRoadGame.getSpriteBatch().begin();
-		player.draw(chickenRoadGame.getSpriteBatch());
+		player.draw(chickenRoadGame.getSpriteBatch(), delta);
 		portalTeste.draw(chickenRoadGame.getSpriteBatch());
 		myMap.drawVehicles(chickenRoadGame.getSpriteBatch(), stateGame);
 
