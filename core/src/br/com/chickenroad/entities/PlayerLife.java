@@ -23,7 +23,7 @@ public class PlayerLife{
 	private float life;
 	private ProgressBar lifeProgressBar;
 
-	private Sprite spriteLifeLevelFull, spriteLifeLevelHalf, spriteLifeLevelEmpty;
+	private Sprite spriteNormalLife, spriteDeadLife;
 
 	public PlayerLife(AssetManager assetManager){
 
@@ -32,13 +32,11 @@ public class PlayerLife{
 		this.lifeProgressBar.setWidth(80);
 		this.lifeProgressBar.setValue(life);
 
-		Texture lifeLevelFull = assetManager.get(Constantes.URL_PLAYER_LIFE_LEVEL_FULL);
-		Texture lifeLevelHalf = assetManager.get(Constantes.URL_PLAYER_LIFE_LEVEL_HALF);
-		Texture lifeLevelEmpty = assetManager.get(Constantes.URL_PLAYER_LIFE_LEVEL_EMPTY);
+		Texture normalLife = assetManager.get(Constantes.URL_PLAYER_NORMAL_LIFE);
+		Texture deadLife = assetManager.get(Constantes.URL_PLAYER_DEAD_LIFE);
 
-		this.spriteLifeLevelFull = new Sprite(lifeLevelFull);	
-		this.spriteLifeLevelHalf = new Sprite(lifeLevelHalf);
-		this.spriteLifeLevelEmpty = new Sprite(lifeLevelEmpty);	
+		this.spriteNormalLife = new Sprite(normalLife);	
+		this.spriteDeadLife = new Sprite(deadLife);
 
 	}
 
@@ -64,7 +62,6 @@ public class PlayerLife{
 		ProgressBarStyle barStyle = new ProgressBarStyle(skin.newDrawable("white", Color.DARK_GRAY), textureBar);
 		barStyle.knobBefore = barStyle.knob;
 		barStyle.knob=null;
-//		barStyle.knobAfter=null;
 
 		return barStyle;
 	}
@@ -86,21 +83,20 @@ public class PlayerLife{
 
 		if(life <= 100 && life >= 75){
 			lifeProgressBar.setStyle(getProgresBarStyle(1));
-			spriteLifeLevelFull.setPosition(10+Play.deltaXPositionButtons,  10+Play.deltaYPositionButtons);
-			spriteLifeLevelFull.draw(batch);
+			spriteNormalLife.setPosition(10+Play.deltaXPositionButtons,  10+Play.deltaYPositionButtons);
+			spriteNormalLife.draw(batch);
 		}else if(life <  75 && life > 35) {
 			lifeProgressBar.setStyle(getProgresBarStyle(2));
-			spriteLifeLevelHalf.setPosition(10+Play.deltaXPositionButtons,  10+Play.deltaYPositionButtons);
-			spriteLifeLevelHalf.draw(batch);
+			spriteNormalLife.setPosition(10+Play.deltaXPositionButtons,  10+Play.deltaYPositionButtons);
+			spriteNormalLife.draw(batch);
 		}else{
 			lifeProgressBar.setStyle(getProgresBarStyle(3));
-			spriteLifeLevelEmpty.setPosition(10+Play.deltaXPositionButtons,  10+Play.deltaYPositionButtons);
-			spriteLifeLevelEmpty.draw(batch);
+			spriteDeadLife.setPosition(10+Play.deltaXPositionButtons,  10+Play.deltaYPositionButtons);
+			spriteDeadLife.draw(batch);
 		}
 
 		this.lifeProgressBar.setPosition(46+Play.deltaXPositionButtons,  15+Play.deltaYPositionButtons);
 		this.lifeProgressBar.draw(batch, 50);
-
 
 	}
 

@@ -44,10 +44,8 @@ public class ResourceManager {
 		assetManager.load("listFaseButton.png", Texture.class);
 		
 		//life level player
-		assetManager.load(Constantes.URL_PLAYER_LIFE_LEVEL_FULL, Texture.class);
-		assetManager.load(Constantes.URL_PLAYER_LIFE_LEVEL_HALF, Texture.class);
-		assetManager.load(Constantes.URL_PLAYER_LIFE_LEVEL_EMPTY, Texture.class);
-
+		assetManager.load(Constantes.URL_PLAYER_NORMAL_LIFE, Texture.class);
+		assetManager.load(Constantes.URL_PLAYER_DEAD_LIFE, Texture.class);
 	}
 
 	public void dispose(){

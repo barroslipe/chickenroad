@@ -33,9 +33,6 @@ public class Constantes {
 	public static final String URL_MAP_FASE_1_0_2 = "maps/map_102/map_102";
 
 	public static final String URL_PLAYER_AVATAR = "player/player.png";
-	public static final String URL_PLAYER_LIFE_LEVEL_FULL = "player/lifeFull.png";
-	public static final String URL_PLAYER_LIFE_LEVEL_HALF = "player/lifeHalf.png";
-	public static final String URL_PLAYER_LIFE_LEVEL_EMPTY = "player/lifeEmpty.png";
 	
 	public static final int WIDTH_TILE = 32;
 	public static final int HEIGHT_TILE = 32;
@@ -45,5 +42,8 @@ public class Constantes {
 	public static final int WORLD_WIDTH = 640;
 
 	public static final int WORLD_HEIGHT = 480;
+
+	public static final String URL_PLAYER_NORMAL_LIFE = "player/normalLife.png";
+	public static final String URL_PLAYER_DEAD_LIFE = "player/deadLife.png";
 
 }
