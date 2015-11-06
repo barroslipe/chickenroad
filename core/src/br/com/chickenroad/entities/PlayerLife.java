@@ -105,7 +105,7 @@ public class PlayerLife{
 	}
 
 
-	public void init() {
+	public void inicializar() {
 		life = 100;
 		lifeProgressBar.setValue(life);
 	}

@@ -32,15 +32,22 @@ public class Constantes {
 	public static final String URL_MAP_FASE_1_0_1 = "maps/map_101/map_101";
 	public static final String URL_MAP_FASE_1_0_2 = "maps/map_102/map_102";
 
-	public static final String URL_PLAYER_AVATAR = "player/player.png";
+	//player
+	public static final String URL_PLAYER_AVATAR_RIGHT ="player/playerD_caminhando.png"; 
+	public static final String URL_PLAYER_AVATAR_LEFT = "player/playerE_caminhando.png";
+	public static final String URL_PLAYER_AVATAR_JUMP_RIGHT = "player/playerD_pulando.png";
+	public static final String URL_PLAYER_AVATAR_JUMP_LEFT = "player/playerE_pulando.png";
+	public static final String URL_PLAYER_AVATAR_STOP_RIGHT = "player/playerD_parado.png";
+	public static final String URL_PLAYER_AVATAR_STOP_LEFT = "player/playerE_parado.png";
+	
 	public static final String URL_PLAYER_LIFE_LEVEL_FULL = "player/lifeFull.png";
 	public static final String URL_PLAYER_LIFE_LEVEL_HALF = "player/lifeHalf.png";
 	public static final String URL_PLAYER_LIFE_LEVEL_EMPTY = "player/lifeEmpty.png";
 	
 	public static final int WIDTH_TILE = 32;
 	public static final int HEIGHT_TILE = 32;
-	public static final float WIDTH_PLAYER = 20;
-	public static final float HEIGHT_PLAYER = 30;
+	public static final float WIDTH_PLAYER = 64;
+	public static final float HEIGHT_PLAYER = 73;
 
 	public static final int WORLD_WIDTH = 640;
 
