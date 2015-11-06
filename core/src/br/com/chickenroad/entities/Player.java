@@ -127,15 +127,19 @@ public class Player extends Sprite{
 		return false;
 	}
 
+	
 	private boolean checkVehiclesColision(ArrayList<Vehicle> vehiclesList){
 
-		Rectangle playerPosition = new Rectangle(pontoX, pontoY, Constantes.WIDTH_PLAYER, Constantes.HEIGHT_PLAYER);
-
+		//recebe a posição atual do player
+		Rectangle playerPosition = new Rectangle(getX(), getY(), Constantes.WIDTH_PLAYER, Constantes.HEIGHT_PLAYER);
+		
+		//checa colisão com veculo com cada posição atual do player
 		for(int i=0;i<vehiclesList.size();i++){
 			if(Intersector.overlaps(vehiclesList.get(i).getBoundingRectangle(), playerPosition)){
 				return true;
 			}
 		}
+
 		return false;
 	}
 
