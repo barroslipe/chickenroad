@@ -46,6 +46,9 @@ public class ResourceManager {
 		//life level player
 		assetManager.load(Constantes.URL_PLAYER_NORMAL_LIFE, Texture.class);
 		assetManager.load(Constantes.URL_PLAYER_DEAD_LIFE, Texture.class);
+		
+		assetManager.load("congratulation.png", Texture.class);
+
 	}
 
 	public void dispose(){

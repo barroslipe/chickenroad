@@ -4,8 +4,8 @@ import br.com.chickenroad.ChickenRoadGame;
 import br.com.chickenroad.entities.MyMap;
 import br.com.chickenroad.entities.Player;
 import br.com.chickenroad.entities.StateGame;
+import br.com.chickenroad.screens.screenparts.FinishPopup;
 import br.com.chickenroad.screens.screenparts.PlayMenuButtons;
-import br.com.chickenroad.screens.screenparts.PopupFinish;
 import br.com.chickenroad.screens.util.Constantes;
 import br.com.chickenroad.screens.util.PlayCamera;
 
@@ -27,7 +27,7 @@ public class Play extends ScreenBase {
 	private MyMap myMap;
 	private PortalTeste portalTeste;
 	private StateGame stateGame;
-	private PopupFinish popupFinish;
+	private FinishPopup popupFinish;
 	private PlayCamera playCamera;
 
 	public static int deltaXPositionButtons=0, deltaYPositionButtons=0;
@@ -42,7 +42,7 @@ public class Play extends ScreenBase {
 		//TODO parametrizar para iniciar com outro personagem
 		this.player = new Player(Constantes.URL_PLAYER_AVATAR, myMap.getWidthTiledMap(), myMap.getHeightTiledMap(), getAssetManager());
 		this.portalTeste = new PortalTeste("portal.png");
-		this.popupFinish = new PopupFinish();
+		
 
 		initFase();
 	}
@@ -84,10 +84,20 @@ public class Play extends ScreenBase {
 			chickenRoadGame.setScreenWithTransitionFade(new SeasonScreen(chickenRoadGame));
 			return true;
 		}
-		if(popupFinish.checkClickNextButton(touchPoint.x, touchPoint.y)){
-			nextFase();
+		
+		if(popupFinish != null && popupFinish.checkClickBackMenuButton(touchPoint.x, touchPoint.y)){
+			chickenRoadGame.setScreenWithTransitionFade(new SeasonScreen(chickenRoadGame));
 			return true;
 		}
+		if(popupFinish != null && popupFinish.checkClickRestartButton(touchPoint.x, touchPoint.y)){
+			stateGame = StateGame.RESTART;
+			return true;
+		}
+		if(popupFinish != null && popupFinish.checkClicNextButton(touchPoint.x, touchPoint.y)){
+			System.err.println("proxima fase");
+			return true;
+		}
+		
 
 		player.movimentar(screenX, screenY, playCamera.getOrthographicCamera());
 
@@ -106,19 +116,13 @@ public class Play extends ScreenBase {
 			break;
 
 		case GAME_OVER:
-			drawGameOver();
 			break;
-
 		default:
 			break;
 		}
 		draw(delta);
 	}
 
-	private void drawGameOver() {
-
-		System.err.println("GAME OVER");
-	}
 
 	private void initFase() {
 
@@ -142,24 +146,17 @@ public class Play extends ScreenBase {
 		player.draw(chickenRoadGame.getSpriteBatch(), delta);
 		portalTeste.draw(chickenRoadGame.getSpriteBatch());
 		myMap.drawVehicles(chickenRoadGame.getSpriteBatch(), stateGame);
-
-
 		playMenuButtons.draw(chickenRoadGame.getSpriteBatch(), stateGame, deltaXPositionButtons, deltaYPositionButtons);
-
-		if(portalTeste.checkColision(player)){
-			showPopupFinish();
-		}
+		
 		chickenRoadGame.getSpriteBatch().end();
+		
 		if(player.getPlayerLife().getLife() <= 0) stateGame = StateGame.GAME_OVER;
-
-	}
-
-	private void showPopupFinish() {
-		popupFinish.draw(chickenRoadGame.getSpriteBatch());
-
-	}
-
-	private void nextFase() {
+		
+		if(portalTeste.checkColision(player)){
+			stateGame = StateGame.PAUSE;
+			popupFinish = new FinishPopup(chickenRoadGame.getResourceManager());
+			popupFinish.draw(chickenRoadGame.getSpriteBatch());
+		}
 
 	}
 

@@ -9,5 +9,7 @@ public enum StateGame {
 		PAUSE,
 		PLAYING,
 		RESTART,
-		GAME_OVER;
+		GAME_OVER,
+		FINISH;
+		
 }
