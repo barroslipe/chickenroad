@@ -39,7 +39,7 @@ public class Player extends Sprite{
 	public Player(String sprite, int aWidthTiledMap, int aHeightTiledMap, AssetManager assetManager) {
 		super(new Texture(sprite));
 
-		playerAnimation = new PlayerAnimation(assetManager);
+		this.playerAnimation = new PlayerAnimation(assetManager);
 		
 		this.widthTiledMap = aWidthTiledMap;
 		this.heightTileMap = aHeightTiledMap;
@@ -202,15 +202,18 @@ public class Player extends Sprite{
 	
 	@Override
 	public void draw(Batch batch, float delta){
+		
+		this.setRegion(playerAnimation.getCurrentFrame());
+		
 		super.draw(batch);
 				
 		if(demage){
-			//geralmente o delta é 0.2, ou 0.3 ou 0.4
+			//geralmente o delta ï¿½ 0.2, ou 0.3 ou 0.4
 			t += delta;
 			//seta um alfa de 0.3 e 0.8
 			setAlpha(Util.getRandomPosition(3, 8)/10);
 			
-			// incrementa 'delta' até que chegue a aprox. 3 segundos ("demageTimerPerSecond")
+			// incrementa 'delta' atï¿½ que chegue a aprox. 3 segundos ("demageTimerPerSecond")
 			if(t > demageTimerPerSecond){
 				t=0;
 				demage = false;
@@ -218,8 +221,8 @@ public class Player extends Sprite{
 			}
 		}
 		
-		playerAnimation.getCurrentFrame();
 		playerLife.draw(batch);
+		
 		
 		
 	}
