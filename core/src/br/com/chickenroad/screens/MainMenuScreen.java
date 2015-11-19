@@ -12,6 +12,8 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
 
+
+//possui apenas a referencia de MenuScreen.java ChickenRoadGame.java
 public class MainMenuScreen extends ScreenBase {
 
 	//background

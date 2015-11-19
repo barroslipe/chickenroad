@@ -98,11 +98,12 @@ public class Play extends ScreenBase {
 			return true;
 		}
 		
-
+		//se nao for clicando em nada acima, devo me movimentar
 		player.movimentar(screenX, screenY, playCamera.getOrthographicCamera());
 
 		return false;
 	}
+	
 	@Override
 	public void render(float delta) {
 
@@ -126,6 +127,7 @@ public class Play extends ScreenBase {
 
 	private void initFase() {
 
+		//muda o estado do jogo para 'PLAYING'
 		stateGame = StateGame.PLAYING;
 		player.inicializar(this.myMap.getPlayerOrigin());
 	}
@@ -138,10 +140,9 @@ public class Play extends ScreenBase {
 
 		playCamera.setPosition(player.getX(), player.getY(), myMap.getWidthTiledMap(), myMap.getHeightTiledMap());
 
+		//PROJETA NA MATRIX DO SPRITEBATCH DO MAPA
 		chickenRoadGame.getSpriteBatch().setProjectionMatrix(playCamera.getOrthographicCamera().combined);		
 		myMap.draw(playCamera.getOrthographicCamera());
-
-
 		chickenRoadGame.getSpriteBatch().begin();
 		player.draw(chickenRoadGame.getSpriteBatch(), delta);
 		portalTeste.draw(chickenRoadGame.getSpriteBatch());
@@ -150,14 +151,15 @@ public class Play extends ScreenBase {
 		
 		chickenRoadGame.getSpriteBatch().end();
 		
-		if(player.getPlayerLife().getLife() <= 0) stateGame = StateGame.GAME_OVER;
+		//SE O LIFE FOR MENOR QUE ZERO - gameover
+		if(player.getPlayerLife().getLife() <= 0) 
+			stateGame = StateGame.GAME_OVER;
 		
 		if(portalTeste.checkColision(player)){
 			stateGame = StateGame.PAUSE;
 			popupFinish = new FinishPopup(chickenRoadGame.getResourceManager());
 			popupFinish.draw(chickenRoadGame.getSpriteBatch());
 		}
-
 	}
 
 	@Override

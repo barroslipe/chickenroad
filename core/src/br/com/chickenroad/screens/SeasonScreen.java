@@ -71,6 +71,7 @@ public class SeasonScreen extends ScreenBase {
 		Vector3 touchPoint = new Vector3(screenX, screenY, 0);
 		chickenRoadGame.getOrthographicCamera().unproject(touchPoint);
 
+		//se tocar na seta de volta, transita para menu screen
 		if(spriteArrowBACK.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
 			//TODO liberar tudo
 			soundClick.play();

@@ -149,6 +149,7 @@ public class Player extends Sprite{
 		pontoX = (int)ponto.x;
 		pontoY = (int)ponto.y;
 
+		//pontoX,Y = ponto que o jogador clicou
 		if(pontoX > getX()){
 			velocity.x = speed;
 			movendoX1 = true;
@@ -181,9 +182,7 @@ public class Player extends Sprite{
 		demage=false;
 	}
 
-
 	public void dispose() {
-
 		getTexture().dispose();
 	}
 
@@ -197,8 +196,12 @@ public class Player extends Sprite{
 		super.draw(batch);
 				
 		if(demage){
+			//geralmente o delta é 0.2, ou 0.3 ou 0.4
 			t += delta;
+			//seta um alfa de 0.3 e 0.8
 			setAlpha(Util.getRandomPosition(3, 8)/10);
+			
+			// incrementa 'delta' até que chegue a aprox. 3 segundos ("demageTimerPerSecond")
 			if(t > demageTimerPerSecond){
 				t=0;
 				demage = false;

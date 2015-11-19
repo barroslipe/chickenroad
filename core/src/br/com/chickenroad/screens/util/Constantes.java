@@ -45,5 +45,20 @@ public class Constantes {
 
 	public static final String URL_PLAYER_NORMAL_LIFE = "player/normalLife.png";
 	public static final String URL_PLAYER_DEAD_LIFE = "player/deadLife.png";
+	
+	//player
+	public static final String URL_PLAYER_AVATAR_RIGHT ="player/playerD_caminhando.png"; 
+	public static final String URL_PLAYER_AVATAR_LEFT = "player/playerE_caminhando.png";
+	public static final String URL_PLAYER_AVATAR_JUMP_RIGHT = "player/playerD_pulando.png";
+	public static final String URL_PLAYER_AVATAR_JUMP_LEFT = "player/playerE_pulando.png";
+	public static final String URL_PLAYER_AVATAR_STOP_RIGHT = "player/playerD_parado.png";
+	public static final String URL_PLAYER_AVATAR_STOP_LEFT = "player/playerE_parado.png";
+	public static final String URL_PLAYER_AVATAR_UP = "player/playerU_caminhando.png";
+
+	//sprites secundarios
+	public static final String URL_EGGS = "maps/map_101/ovo.png";
+	public static final String URL_PIG_STOP_RIGHT = "maps/map_101/porcoD_parado.png";
+	public static final String URL_PIG_STOP_LEFT = "maps/map_101/porcoE_parado.png";
+	public static final String URL_PIG_SLEEPING_RIGHT = "maps/map_101/porcoD_durmindo.png";
 
 }

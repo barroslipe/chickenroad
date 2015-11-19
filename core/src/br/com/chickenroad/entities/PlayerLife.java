@@ -71,7 +71,7 @@ public class PlayerLife{
 		return life;
 	}
 
-	public void demageVehicle(){
+	public void demageVehicle() {
 		life -= 20;
 		
 		if(life < 0 ) life = 0; 

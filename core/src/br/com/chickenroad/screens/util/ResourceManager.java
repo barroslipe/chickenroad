@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 
 public class ResourceManager {
 
+	
 	private AssetManager assetManager;
 
 	public AssetManager getAssetManager() {
@@ -49,6 +50,22 @@ public class ResourceManager {
 		
 		assetManager.load("congratulation.png", Texture.class);
 
+		
+		//player
+		assetManager.load(Constantes.URL_PLAYER_AVATAR_RIGHT, Texture.class);
+		assetManager.load(Constantes.URL_PLAYER_AVATAR_LEFT, Texture.class);
+		assetManager.load(Constantes.URL_PLAYER_AVATAR_JUMP_RIGHT, Texture.class);
+		assetManager.load(Constantes.URL_PLAYER_AVATAR_JUMP_LEFT, Texture.class);
+		assetManager.load(Constantes.URL_PLAYER_AVATAR_STOP_RIGHT, Texture.class);
+		assetManager.load(Constantes.URL_PLAYER_AVATAR_STOP_LEFT, Texture.class);
+		assetManager.load(Constantes.URL_PLAYER_AVATAR_UP, Texture.class);
+
+		//sprites secundarios do cenario
+		assetManager.load(Constantes.URL_EGGS, Texture.class);
+		assetManager.load(Constantes.URL_PIG_STOP_RIGHT, Texture.class);
+		assetManager.load(Constantes.URL_PIG_STOP_LEFT, Texture.class);
+		assetManager.load(Constantes.URL_PIG_SLEEPING_RIGHT, Texture.class);
+		
 	}
 
 	public void dispose(){

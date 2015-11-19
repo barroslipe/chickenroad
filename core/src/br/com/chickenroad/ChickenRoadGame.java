@@ -30,20 +30,23 @@ public class ChickenRoadGame extends Game {
 	private ScreenBase nextScreen;
 	private FrameBuffer currentFrameBuffer;
 	private FrameBuffer nextFrameBuffer;
-	private float t;
-	private ScreenTransition screenTransition;
+	private float t; //tempo
+	private ScreenTransition screenTransition; //interface criada para fazer transição
 
 	@Override
 	public void create () {
 
 		this.resourceManager = new ResourceManager();
 		this.orthographicCamera = new OrthographicCamera();
+		//cria o "mundo"
 		this.orthographicCamera.setToOrtho(false, Constantes.WORLD_WIDTH, Constantes.WORLD_HEIGHT);
 
 		Gdx.input.setCatchBackKey(true);
 
+		//carrega todos os arquivos
 		this.resourceManager.load();
 
+		//direciona para o Splash Screen e leva referencia da chickenroadgame.java
 		setScreenWithTransitionFade(new SplashScreen(this));
 
 	}
