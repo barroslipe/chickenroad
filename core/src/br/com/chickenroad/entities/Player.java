@@ -33,10 +33,14 @@ public class Player extends Sprite{
 	private int widthTiledMap, heightTileMap;
 
 	private PlayerLife playerLife;
+	
+	private PlayerAnimation playerAnimation;
 
 	public Player(String sprite, int aWidthTiledMap, int aHeightTiledMap, AssetManager assetManager) {
 		super(new Texture(sprite));
 
+		playerAnimation = new PlayerAnimation(assetManager);
+		
 		this.widthTiledMap = aWidthTiledMap;
 		this.heightTileMap = aHeightTiledMap;
 
@@ -153,10 +157,14 @@ public class Player extends Sprite{
 		if(pontoX > getX()){
 			velocity.x = speed;
 			movendoX1 = true;
+			playerAnimation.changeSpriteSheet(1);
+
 		}
 		if(pontoX < getX()){
 			velocity.x = -speed;
 			movendoX2 = true;
+			playerAnimation.changeSpriteSheet(2);
+
 		}
 		if(pontoY > getY()){
 			velocity.y = speed;
@@ -178,6 +186,7 @@ public class Player extends Sprite{
 		movendoY1 = false;
 		movendoY2 = false;
 		playerLife.init();
+		playerAnimation.inicializar(vector2);
 		t=0;
 		demage=false;
 	}
@@ -209,6 +218,7 @@ public class Player extends Sprite{
 			}
 		}
 		
+		playerAnimation.getCurrentFrame();
 		playerLife.draw(batch);
 		
 		

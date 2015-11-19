@@ -40,7 +40,9 @@ public class Play extends ScreenBase {
 		this.playCamera = new PlayCamera();
 
 		//TODO parametrizar para iniciar com outro personagem
-		this.player = new Player(Constantes.URL_PLAYER_AVATAR, myMap.getWidthTiledMap(), myMap.getHeightTiledMap(), getAssetManager());
+		//this.player = new Player(Constantes.URL_PLAYER_AVATAR, myMap.getWidthTiledMap(), myMap.getHeightTiledMap(), getAssetManager());
+		this.player = new Player(Constantes.URL_PLAYER_AVATAR_RIGHT, myMap.getWidthTiledMap(), myMap.getHeightTiledMap(), getAssetManager());
+
 		this.portalTeste = new PortalTeste("portal.png");
 		
 
