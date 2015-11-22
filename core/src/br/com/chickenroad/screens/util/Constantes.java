@@ -61,4 +61,6 @@ public class Constantes {
 	public static final String URL_PIG_STOP_LEFT = "maps/map_101/porcoE_parado.png";
 	public static final String URL_PIG_SLEEPING_RIGHT = "maps/map_101/porcoD_durmindo.png";
 
+	public static final String URL_BACKGROUND_SPLASHSCREEN = "splashScreenBackground.jpg";
+
 }

@@ -12,13 +12,13 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
 
 /**
- * Apresentar as fases da aplicação
+ * Tela que apresenta as fases da aplicação
  * 
  *
  */
 public class SeasonScreen extends ScreenBase {
 
-	private SeasonMenu faseMenu;
+	private SeasonMenu seasonMenu;
 
 	private Texture textureBACK;
 	private Sprite spriteArrowBACK;
@@ -33,7 +33,7 @@ public class SeasonScreen extends ScreenBase {
 	public SeasonScreen(ChickenRoadGame aChickenRoadGame) {
 		super(aChickenRoadGame);
 
-		this.faseMenu = new SeasonMenu();
+		this.seasonMenu = new SeasonMenu();
 
 		textureBACK = getAssetManager().get(Constantes.URL_BACK_BUTTON);
 		spriteArrowBACK = new Sprite(textureBACK);
@@ -48,6 +48,7 @@ public class SeasonScreen extends ScreenBase {
 
 	@Override
 	public void render(float delta) {
+
 		Gdx.gl.glClearColor(0,0,0,1);
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
 
@@ -56,7 +57,7 @@ public class SeasonScreen extends ScreenBase {
 
 		chickenRoadGame.getSpriteBatch().begin();
 		spriteBackground.draw(chickenRoadGame.getSpriteBatch());
-		faseMenu.draw(chickenRoadGame.getSpriteBatch());		
+		seasonMenu.draw(chickenRoadGame.getSpriteBatch());		
 		spriteArrowBACK.draw(chickenRoadGame.getSpriteBatch());
 		chickenRoadGame.getSpriteBatch().end();
 
@@ -78,26 +79,27 @@ public class SeasonScreen extends ScreenBase {
 			soundMenuBackground.stop();
 			chickenRoadGame.setScreenWithTransitionFade(new MainMenuScreen(chickenRoadGame));
 		}else{
-			openFase(faseMenu.getClickedFase(touchPoint.x, touchPoint.y));
+			openFase(seasonMenu.getClickedFase(touchPoint.x, touchPoint.y));
 		}		
 		return false;
 	}
 
 	private void openFase(int i) {
-		//fase 1
-		if(i==0){
+
+		if(i==-1) return;
+		else{
 			soundClick.play();
 
-			chickenRoadGame.setScreen(new Play(Constantes.URL_MAP_FASE_1_0_1, chickenRoadGame));
-		}else if(i==1){
-			soundClick.play();
-
-			chickenRoadGame.setScreen(new Play(Constantes.URL_MAP_FASE_1_0_2, chickenRoadGame));
+			if(i==0){
+				chickenRoadGame.setScreen(new Play(Constantes.URL_MAP_FASE_1_0_1, chickenRoadGame));
+			}else if(i==1){
+				chickenRoadGame.setScreen(new Play(Constantes.URL_MAP_FASE_1_0_2, chickenRoadGame));
+			}
 		}
 	}
 
 	@Override
 	public void dispose() {
-
+		
 	}
 }

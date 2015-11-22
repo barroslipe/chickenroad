@@ -39,12 +39,10 @@ public class Play extends ScreenBase {
 		this.playMenuButtons = new PlayMenuButtons(getAssetManager());
 		this.playCamera = new PlayCamera();
 
-		//TODO parametrizar para iniciar com outro personagem
-		//this.player = new Player(Constantes.URL_PLAYER_AVATAR, myMap.getWidthTiledMap(), myMap.getHeightTiledMap(), getAssetManager());
 		this.player = new Player(Constantes.URL_PLAYER_AVATAR, myMap.getWidthTiledMap(), myMap.getHeightTiledMap(), getAssetManager());
 
+		//futuramente não vai existir
 		this.portalTeste = new PortalTeste("portal.png");
-		
 
 		initFase();
 	}
@@ -86,7 +84,7 @@ public class Play extends ScreenBase {
 			chickenRoadGame.setScreenWithTransitionFade(new SeasonScreen(chickenRoadGame));
 			return true;
 		}
-		
+
 		if(popupFinish != null && popupFinish.checkClickBackMenuButton(touchPoint.x, touchPoint.y)){
 			chickenRoadGame.setScreenWithTransitionFade(new SeasonScreen(chickenRoadGame));
 			return true;
@@ -99,13 +97,13 @@ public class Play extends ScreenBase {
 			System.err.println("proxima fase");
 			return true;
 		}
-		
+
 		//se nao for clicando em nada acima, devo me movimentar
-		player.movimentar(screenX, screenY, playCamera.getOrthographicCamera());
+		if(stateGame == StateGame.PLAYING) player.movimentar(touchPoint);
 
 		return false;
 	}
-	
+
 	@Override
 	public void render(float delta) {
 
@@ -125,7 +123,6 @@ public class Play extends ScreenBase {
 		}
 		draw(delta);
 	}
-
 
 	private void initFase() {
 
@@ -150,13 +147,13 @@ public class Play extends ScreenBase {
 		portalTeste.draw(chickenRoadGame.getSpriteBatch());
 		myMap.drawVehicles(chickenRoadGame.getSpriteBatch(), stateGame);
 		playMenuButtons.draw(chickenRoadGame.getSpriteBatch(), stateGame, deltaXPositionButtons, deltaYPositionButtons);
-		
+
 		chickenRoadGame.getSpriteBatch().end();
-		
+
 		//SE O LIFE FOR MENOR QUE ZERO - gameover
 		if(player.getPlayerLife().getLife() <= 0) 
 			stateGame = StateGame.GAME_OVER;
-		
+
 		if(portalTeste.checkColision(player)){
 			stateGame = StateGame.PAUSE;
 			popupFinish = new FinishPopup(chickenRoadGame.getResourceManager());

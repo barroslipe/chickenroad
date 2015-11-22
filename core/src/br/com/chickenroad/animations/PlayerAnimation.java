@@ -1,4 +1,4 @@
-package br.com.chickenroad.entities;
+package br.com.chickenroad.animations;
 
 import br.com.chickenroad.screens.util.Constantes;
 
@@ -9,6 +9,11 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Vector2;
 
+/**
+ * 
+ * Animação do player
+ *
+ */
 public class PlayerAnimation {
 
 	private Animation walkAnimation;         
@@ -24,18 +29,17 @@ public class PlayerAnimation {
 	private TextureRegion currentFrame;                                                
 	private TextureRegion[][] tmp;
 
-
 	private TextureRegion[][] spriteSheetTmp1;
 	private TextureRegion[][] spriteSheetTmp2;
 	private TextureRegion[][] spriteSheetTmp3;
 	private TextureRegion[][] spriteSheetTmp4;
 	private TextureRegion[][] spriteSheetTmp5;
 	private TextureRegion[][] spriteSheetTmp6;
+
 	private float stateTime;  
 	private int index;
 
 	public PlayerAnimation(AssetManager assetManager) {
-		super();
 
 		//spritesheet animation
 		walkDirSheet = assetManager.get(Constantes.URL_PLAYER_AVATAR_RIGHT);
@@ -56,7 +60,7 @@ public class PlayerAnimation {
 		walkFrames = new TextureRegion[5]; 
 	}
 
-	
+
 	public void inicializar (Vector2 vector2) {
 
 		index = 0;

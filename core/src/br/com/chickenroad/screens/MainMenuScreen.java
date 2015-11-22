@@ -13,7 +13,10 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
 
 
-//possui apenas a referencia de MenuScreen.java ChickenRoadGame.java
+/**
+ * Tela que implementa o menu da aplicação
+ *
+ */
 public class MainMenuScreen extends ScreenBase {
 
 	//background
@@ -33,7 +36,7 @@ public class MainMenuScreen extends ScreenBase {
 
 		this.popupExit = new PopupExit(getAssetManager());
 		this.menuButtons = new MainMenuButtons(getAssetManager());
-		
+
 		this.textureBackground = getAssetManager().get(Constantes.URL_BACKGROUND);
 		this.spriteBackground = new Sprite(textureBackground);
 
@@ -120,6 +123,8 @@ public class MainMenuScreen extends ScreenBase {
 
 	@Override
 	public void dispose() {
-
+		this.touchPoint = null;
+		this.popupExit.dispose();
+		this.menuButtons.dispose();	
 	}
 }

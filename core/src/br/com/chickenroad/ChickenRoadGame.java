@@ -24,34 +24,36 @@ public class ChickenRoadGame extends Game {
 	private SpriteBatch spriteBatch;
 	private ResourceManager resourceManager;
 	private OrthographicCamera orthographicCamera;
-	
-	private boolean init;
+
 	private ScreenBase currentScreen;
 	private ScreenBase nextScreen;
 	private FrameBuffer currentFrameBuffer;
 	private FrameBuffer nextFrameBuffer;
-	private float t; //tempo
-	private ScreenTransition screenTransition; //interface criada para fazer transi��o
+	private float timer;
+	private ScreenTransition screenTransition; //interface criada para fazer transição
 
 	@Override
 	public void create () {
 
-		this.resourceManager = new ResourceManager();
+		this.spriteBatch = new SpriteBatch();
+
+		//cria a câmera do "mundo"
 		this.orthographicCamera = new OrthographicCamera();
-		//cria o "mundo"
 		this.orthographicCamera.setToOrtho(false, Constantes.WORLD_WIDTH, Constantes.WORLD_HEIGHT);
 
+		this.currentFrameBuffer = new FrameBuffer(Format.RGB888, Constantes.WORLD_WIDTH, Constantes.WORLD_HEIGHT, false);
+		this.nextFrameBuffer = new FrameBuffer(Format.RGB888,  Constantes.WORLD_WIDTH, Constantes.WORLD_HEIGHT, false);
+
+		//inabilitar botão de voltar do android
 		Gdx.input.setCatchBackKey(true);
 
-		//carrega todos os arquivos
+		//carregar todos os arquivos
+		this.resourceManager = new ResourceManager();
 		this.resourceManager.load();
 
-		//direciona para o Splash Screen e leva referencia da chickenroadgame.java
+		//direcionar para o Splash Screen e leva referencia da chickenroadgame.java
 		setScreenWithTransitionFade(new SplashScreen(this));
 
-	}
-	public OrthographicCamera getOrthographicCamera() {
-		return orthographicCamera;
 	}
 	/**
 	 * Tempo da transição default de 0.5 ms
@@ -69,19 +71,9 @@ public class ChickenRoadGame extends Game {
 		setScreenWithTransition(screen, null);
 	}
 
-	public void setScreenWithTransition (ScreenBase screen, ScreenTransition screenTransition) {
+	public void setScreenWithTransition (ScreenBase screenBase, ScreenTransition aScreenTransition) {
 
-		int w = Constantes.WORLD_WIDTH;
-		int h = Constantes.WORLD_HEIGHT;
-
-		if (!init) {
-			currentFrameBuffer = new FrameBuffer(Format.RGB888, w, h, false);
-			nextFrameBuffer = new FrameBuffer(Format.RGB888, w, h, false);
-			spriteBatch = new SpriteBatch();
-			init = true;
-		}
-
-		nextScreen = screen;
+		nextScreen = screenBase;
 		nextScreen.show();
 
 		if (currentScreen != null)
@@ -89,16 +81,15 @@ public class ChickenRoadGame extends Game {
 
 		nextScreen.disableInputProcessor();
 
-		this.screenTransition = screenTransition;
+		this.screenTransition = aScreenTransition;
 
-		t = 0;
+		this.timer = 0;
 	}
 
 
 	@Override
 	public void render () {
 
-		// get delta time and ensure an upper limit of one 60th second
 		float deltaTime = Math.min(Gdx.graphics.getDeltaTime(), 1.0f / 60.0f);
 
 		if (nextScreen == null) {
@@ -113,19 +104,17 @@ public class ChickenRoadGame extends Game {
 			if (screenTransition != null)
 				duration = screenTransition.getDuration();
 
-			t = Math.min(t + deltaTime, duration);
+			timer = Math.min(timer + deltaTime, duration);
 
 
-			if (screenTransition == null || t >= duration) {
+			if (screenTransition == null || timer >= duration) {
 
 				if (currentScreen != null)
-					currentScreen.hide();
+					currentScreen.dispose();
 
 				nextScreen.resume();
 
-				// enable input for next screen
 				nextScreen.enableInputProcessor();
-				// switch screens
 
 				currentScreen = nextScreen;
 				nextScreen = null;
@@ -146,10 +135,15 @@ public class ChickenRoadGame extends Game {
 
 				nextFrameBuffer.end();
 
-				float alpha = t/duration;
+				float alpha = timer/duration;
+
 				screenTransition.render(spriteBatch, currentFrameBuffer.getColorBufferTexture(), nextFrameBuffer.getColorBufferTexture(), alpha);
 			}
 		}
+	}
+
+	public OrthographicCamera getOrthographicCamera() {
+		return orthographicCamera;
 	}
 
 	public SpriteBatch getSpriteBatch() {
@@ -158,12 +152,6 @@ public class ChickenRoadGame extends Game {
 
 	public ResourceManager getResourceManager() {
 		return resourceManager;
-	}
-
-	@Override
-	public void resize (int width, int height) {
-		if (currentScreen != null) currentScreen.resize(width, height);
-		if (nextScreen != null) nextScreen.resize(width, height);
 	}
 
 	@Override
@@ -180,20 +168,17 @@ public class ChickenRoadGame extends Game {
 	@Override
 	public void dispose () {
 		if (currentScreen != null)
-			currentScreen.hide();
-		
+			currentScreen.dispose();
+
 		if (nextScreen != null)
-			nextScreen.hide();
-		
-		if (init) {
-			resourceManager.dispose();
-			resourceManager = null;
-			currentFrameBuffer.dispose();
-			currentScreen = null;
-			nextFrameBuffer.dispose();
-			nextScreen = null;
-			spriteBatch.dispose();
-			init = false;
-		}
+			nextScreen.dispose();
+
+		resourceManager.dispose();
+		resourceManager = null;
+		currentFrameBuffer.dispose();
+		currentScreen = null;
+		nextFrameBuffer.dispose();
+		nextScreen = null;
+		spriteBatch.dispose();
 	}
 }

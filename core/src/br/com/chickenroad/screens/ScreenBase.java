@@ -7,8 +7,17 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 
+/**
+ * Componente base de tela que implementa uma screen(encapsula componentes de tela)
+ *  e inputProcessor(captura dados do mouse e teclado) 
+ * 
+ */
+
 public abstract class ScreenBase implements Screen, InputProcessor{
 
+	/*
+	 * Referência à tela principal 
+	 */
 	protected ChickenRoadGame chickenRoadGame;
 	
 	public ScreenBase(ChickenRoadGame chickenRoadGame) {
@@ -51,16 +60,22 @@ public abstract class ScreenBase implements Screen, InputProcessor{
 		
 	}
 
-	@Override
-	public void dispose() {
-		// TODO Auto-generated method stub
-		
-	}
+	/*
+	 * liberar recursos
+	 * @see com.badlogic.gdx.Screen#dispose()
+	 */
+	public abstract void dispose();
 	
+	/**
+	 * Habilita mouse e teclado
+	 */
 	public void enableInputProcessor(){
 		Gdx.input.setInputProcessor(this);
 	}
 	
+	/**
+	 * Desabilita mouse e teclado
+	 */
 	public void disableInputProcessor(){
 		Gdx.input.setInputProcessor(null);		
 	}
