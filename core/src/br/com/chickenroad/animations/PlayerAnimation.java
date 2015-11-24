@@ -1,13 +1,12 @@
 package br.com.chickenroad.animations;
 
-import br.com.chickenroad.screens.util.Constantes;
-
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Vector2;
+
+import br.com.chickenroad.screens.util.Constantes;
 
 /**
  * 
@@ -61,7 +60,7 @@ public class PlayerAnimation {
 	}
 
 
-	public void inicializar (Vector2 vector2) {
+	public void inicializar () {
 
 		index = 0;
 
@@ -71,7 +70,7 @@ public class PlayerAnimation {
 				index++;
 			}
 		}
-		walkAnimation = new Animation(1f/7f, walkFrames);  
+		walkAnimation = new Animation(1f/6f, walkFrames);  
 		stateTime = 0f;   
 	}
 
@@ -84,7 +83,7 @@ public class PlayerAnimation {
 				index++;
 			}
 		}
-		walkAnimation = new Animation(1f/7f, walkFrames);  
+		walkAnimation = new Animation(1f/6f, walkFrames);  
 		stateTime = 0f;   
 
 	}

@@ -3,10 +3,6 @@ package br.com.chickenroad.entities;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.chickenroad.animations.PlayerAnimation;
-import br.com.chickenroad.screens.util.Constantes;
-import br.com.chickenroad.screens.util.Util;
-
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -15,6 +11,10 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
+
+import br.com.chickenroad.animations.PlayerAnimation;
+import br.com.chickenroad.screens.util.Constantes;
+import br.com.chickenroad.screens.util.Util;
 
 public class Player extends Sprite{
 
@@ -30,15 +30,13 @@ public class Player extends Sprite{
 
 	private PlayerLife playerLife;
 	private PlayerAnimation playerAnimation;
-
+	
 	public Player(String sprite, int aWidthTiledMap, int aHeightTiledMap, AssetManager assetManager) {
 		super(new Texture(sprite));
 
 		this.playerAnimation = new PlayerAnimation(assetManager);
-
 		this.widthTiledMap = aWidthTiledMap;
 		this.heightTileMap = aHeightTiledMap;
-
 		this.demageTimerPerSecond = 3;
 		this.timer=0;
 		this.demage = false;
@@ -90,6 +88,9 @@ public class Player extends Sprite{
 			playerDirectionY = Direction.NONE;
 			velocity.y = 0;
 		}
+		
+		if(velocity.x == 0 && velocity.y == 0)
+			playerAnimation.changeSpriteSheet(5);
 	}
 
 	private void demage(int i) {
@@ -148,17 +149,16 @@ public class Player extends Sprite{
 			velocity.x = -speed;
 			playerDirectionX = Direction.LEFT;
 			playerAnimation.changeSpriteSheet(2);
-
 		}
 		if(pontoY > getY()){
 			velocity.y = speed;
 			playerDirectionY = Direction.UP;
+			playerAnimation.changeSpriteSheet(6);
 		}
 		if(pontoY < getY()){
 			velocity.y = -speed;
 			playerDirectionY = Direction.DOWN;
-		}
-
+		}		
 	}
 
 	public void inicializar(Vector2 vector2) {
@@ -168,7 +168,7 @@ public class Player extends Sprite{
 		playerDirectionX = Direction.NONE;
 		playerDirectionY = Direction.NONE;
 		playerLife.init();
-		playerAnimation.inicializar(vector2);
+		playerAnimation.inicializar();
 		timer=0;
 		demage=false;
 		setAlpha(1);

@@ -1,5 +1,10 @@
 package br.com.chickenroad.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.math.Vector3;
+
 import br.com.chickenroad.ChickenRoadGame;
 import br.com.chickenroad.entities.MyMap;
 import br.com.chickenroad.entities.Player;
@@ -9,11 +14,6 @@ import br.com.chickenroad.screens.screenparts.PlayMenuButtons;
 import br.com.chickenroad.screens.util.Constantes;
 import br.com.chickenroad.screens.util.PlayCamera;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.math.Vector3;
-
 /**
  * Responsável pelo controle da fase. Gerencia os componetes de mapa e player para renderizar a fase.
  * 
@@ -22,7 +22,8 @@ import com.badlogic.gdx.math.Vector3;
 public class Play extends ScreenBase {
 
 	private PlayMenuButtons playMenuButtons;
-
+	
+	//private TargetPlayer targetPlayer;
 	private Player player;
 	private MyMap myMap;
 	private PortalTeste portalTeste;
@@ -44,6 +45,7 @@ public class Play extends ScreenBase {
 		//futuramente não vai existir
 		this.portalTeste = new PortalTeste("portal.png");
 
+	//	this.targetPlayer = new TargetPlayer(Constantes.URL_EGGS, getAssetManager());
 		initFase();
 	}
 	@Override
@@ -129,6 +131,7 @@ public class Play extends ScreenBase {
 		//muda o estado do jogo para 'PLAYING'
 		stateGame = StateGame.PLAYING;
 		player.inicializar(this.myMap.getPlayerOrigin());
+	//	targetPlayer.inicializar();
 	}
 
 	private void draw(float delta) {
@@ -136,18 +139,17 @@ public class Play extends ScreenBase {
 		Gdx.gl.glClearColor(0, 0, 0, 1); //cor preta
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);		
 
-
 		playCamera.setPosition(player.getX(), player.getY(), myMap.getWidthTiledMap(), myMap.getHeightTiledMap());
 
 		//PROJETA NA MATRIX DO SPRITEBATCH DO MAPA
 		chickenRoadGame.getSpriteBatch().setProjectionMatrix(playCamera.getOrthographicCamera().combined);		
 		myMap.draw(playCamera.getOrthographicCamera());
 		chickenRoadGame.getSpriteBatch().begin();
+    //   targetPlayer.draw(chickenRoadGame.getSpriteBatch(), delta);		
 		player.draw(chickenRoadGame.getSpriteBatch(), delta);
 		portalTeste.draw(chickenRoadGame.getSpriteBatch());
 		myMap.drawVehicles(chickenRoadGame.getSpriteBatch(), stateGame);
 		playMenuButtons.draw(chickenRoadGame.getSpriteBatch(), stateGame, deltaXPositionButtons, deltaYPositionButtons);
-
 		chickenRoadGame.getSpriteBatch().end();
 
 		//SE O LIFE FOR MENOR QUE ZERO - gameover
@@ -173,6 +175,7 @@ public class Play extends ScreenBase {
 		this.playMenuButtons.dispose();
 		this.stateGame = null;
 		this.myMap.dispose();
+	//	this.targetPlayer.dispose();
 	}
 
 }
