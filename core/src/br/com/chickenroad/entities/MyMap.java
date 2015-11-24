@@ -40,7 +40,10 @@ public class MyMap {
 
 	private ArrayList<Vehicle> vehicleList;
 
-
+	//Deslocando a origem da pista para esquerda, essa variavel vai 
+	//evitar que os veículos vindos da esquerda para direita, surjam "do nada" na tela
+	private int DESLOC_INIT_X_ROAD = 200; 
+	
 	public MyMap(String aUrlMap) {
 
 		this.tiledMap = new TmxMapLoader().load(aUrlMap + ".tmx");
@@ -188,11 +191,11 @@ public class MyMap {
 			values = stringList.get(i).split(",");
 
 			//ponto inicial X da estrada
-			initialPointX = Float.parseFloat(values[0])*Constantes.WIDTH_TILE;
+			initialPointX = Float.parseFloat(values[0])*Constantes.WIDTH_TILE - DESLOC_INIT_X_ROAD;
 			//ponto inicial Y da estrada
 			initialPointY = Float.parseFloat(values[1])*Constantes.HEIGHT_TILE;
-			//comprimento da estrada
-			width = Float.parseFloat(values[2])*Constantes.WIDTH_TILE;
+			//comprimento da estrada - compensada com DESLOC_INIT_X_ROAD, devido a origem em X ser deslocada
+			width = Float.parseFloat(values[2])*Constantes.WIDTH_TILE + DESLOC_INIT_X_ROAD;
 			//largura da estrada
 			height = (Float.parseFloat(values[3]))*Constantes.HEIGHT_TILE;
 
