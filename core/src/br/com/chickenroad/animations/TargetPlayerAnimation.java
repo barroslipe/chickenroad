@@ -13,11 +13,13 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import br.com.chickenroad.entities.TargetPlayerTypes;
 import br.com.chickenroad.screens.util.Constantes;
 
-public class TargetPlayerAnimation {
+public class TargetPlayerAnimation{
 
 	private Animation walkAnimation;         
 
@@ -30,33 +32,40 @@ public class TargetPlayerAnimation {
 	private TextureRegion[][] spriteSheetTmp1;
 	private float stateTime;  
 	private int index;
+	private float posX, posY;
 
-	public TargetPlayerAnimation(AssetManager assetManager) {
+	public TargetPlayerAnimation(String sprite, AssetManager assetManager, TargetPlayerTypes eggs) {
 		super();
 
-		//player spritesheet animation
-		eggsSheet = assetManager.get(Constantes.URL_EGGS);
+		switch(eggs){
+		case EGGS: //animação de ovos
+			//player spritesheet animation
+			eggsSheet = assetManager.get(sprite);
+			
+			tmp = TextureRegion.split(eggsSheet, Constantes.WIDTH_EGGS, Constantes.HEIGHT_EGGS);   
+			spriteSheetTmp1 = TextureRegion.split(eggsSheet, Constantes.WIDTH_EGGS, Constantes.HEIGHT_EGGS);   
+			
+			eggsFrames = new TextureRegion[5]; 
+		break;
+		case COINS: //animação de moedas
 		
-		tmp = TextureRegion.split(eggsSheet,  38, 51);   
-		spriteSheetTmp1 = TextureRegion.split(eggsSheet, 38, 51);   
-		
-		eggsFrames = new TextureRegion[5]; 
-	
-		//secundaries spritesheet animation
-		
-	
+		break;
+		}
 	}
 	
-	public void inicializar () {
+	public void inicializar (float x, float y) {
+		this.posX = x;
+		this.posY = y;
+		
 		index = 0;
-
+		
 		for (int i = 0; i < 1; i++){
 			for (int j = 0; j < tmp[0].length; j++){
 				eggsFrames[index] = tmp[i][j];
 				index++;
 			}
 		}
-		walkAnimation = new Animation(1f/7f, eggsFrames);  
+		walkAnimation = new Animation(1f/4f, eggsFrames);  
 		stateTime = 0f;   
 	}
 
@@ -69,7 +78,7 @@ public class TargetPlayerAnimation {
 				index++;
 			}
 		}
-		walkAnimation = new Animation(1f/7f, eggsFrames);  
+		walkAnimation = new Animation(1f/4f, eggsFrames);  
 		stateTime = 0f;   
 	}
 
@@ -86,7 +95,6 @@ public class TargetPlayerAnimation {
 			break;
 		 * */
 			
-		
 		default:
 			break;
 		}
@@ -98,9 +106,13 @@ public class TargetPlayerAnimation {
 	 * @return the currentFrame
 	 */
 	public TextureRegion getCurrentFrame() {
-		stateTime += Gdx.graphics.getDeltaTime();          
-		currentFrame = walkAnimation.getKeyFrame(stateTime, true);
 		return currentFrame;
 	}
-
+	
+	public void draw(Batch batch, float delta){
+		stateTime += Gdx.graphics.getDeltaTime();          
+		currentFrame = walkAnimation.getKeyFrame(stateTime, true);
+		
+		batch.draw(currentFrame, posX, posY);
+	}
 }

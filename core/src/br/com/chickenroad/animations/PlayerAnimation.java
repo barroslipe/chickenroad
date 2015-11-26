@@ -70,7 +70,7 @@ public class PlayerAnimation {
 				index++;
 			}
 		}
-		walkAnimation = new Animation(1f/6f, walkFrames);  
+		walkAnimation = new Animation(1f/20f, walkFrames);  
 		stateTime = 0f;   
 	}
 
@@ -83,7 +83,7 @@ public class PlayerAnimation {
 				index++;
 			}
 		}
-		walkAnimation = new Animation(1f/6f, walkFrames);  
+		walkAnimation = new Animation(1f/20f, walkFrames);  
 		stateTime = 0f;   
 
 	}
