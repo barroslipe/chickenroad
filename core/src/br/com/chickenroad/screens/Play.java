@@ -30,7 +30,6 @@ public class Play extends ScreenBase {
 	private TargetPlayer targetPlayer[];
 	private Player player;
 	private MyMap myMap;
-	private PortalTeste portalTeste;
 	private StateGame stateGame;
 	private FinishPopup popupFinish;
 	private PlayCamera playCamera; 
@@ -39,12 +38,14 @@ public class Play extends ScreenBase {
 	private PlayerScore playerScore;
 	private int score;
 	private int numCatched;
+	private PortalTeste portalTeste;
 
 	public static int deltaXPositionButtons=0, deltaYPositionButtons=0;
 
 	public Play(String urlMap, ChickenRoadGame aChickenRoadGame) {
 		super(aChickenRoadGame);
 
+		this.portalTeste = new PortalTeste("portal.png");
 		this.myMap = new MyMap(urlMap);
 		this.playMenuButtons = new PlayMenuButtons(getAssetManager());
 		this.playCamera = new PlayCamera();
@@ -52,8 +53,6 @@ public class Play extends ScreenBase {
 		this.player = new Player(Constantes.URL_PLAYER_AVATAR, myMap.getWidthTiledMap(),
 					myMap.getHeightTiledMap(), getAssetManager());
 
-		//futuramente n√£o vai existir
-		this.portalTeste = new PortalTeste("portal.png");
 		this.playerScore = new PlayerScore();
 		this.score = 0;
 		this.numCatched = 0;
@@ -62,7 +61,6 @@ public class Play extends ScreenBase {
 		
 		for(int i=0;i<NumEggs;i++)
 		   this.targetPlayer[i] = new TargetPlayer(Constantes.URL_EGGS, getAssetManager());
-		
 		
 		initFase();
 	}
@@ -110,9 +108,6 @@ public class Play extends ScreenBase {
 			return true;
 		}
 		if(popupFinish != null && popupFinish.checkClickRestartButton(touchPoint.x, touchPoint.y)){
-			this.score = 0;
-			PlayerScore.setScore(0);
-			this.numCatched = 0;
 			stateGame = StateGame.RESTART;
 			return true;
 		}
@@ -155,11 +150,12 @@ public class Play extends ScreenBase {
 		playerScore.inicializar();
 		score = 0;
 		numCatched = 0;
+		popupFinish = null;
 		playerScore.setScore(0);
 		//gera ovos em posiÁıes aleatorios
 		Random gerador = new Random();
 		for(int i=0;i<NumEggs;i++){
-		   targetPlayer[i].inicializar(gerador.nextInt(400), gerador.nextInt(600));
+		   targetPlayer[i].inicializar(gerador.nextInt(600), gerador.nextInt(400));
 		   catchedEggs[i] = false;
 		}
 	}
@@ -176,11 +172,14 @@ public class Play extends ScreenBase {
 		myMap.draw(playCamera.getOrthographicCamera());
 		chickenRoadGame.getSpriteBatch().begin();
 		//se pegou todos os ovos, exibe portal de fase
-		
+
 		if(numCatched == NumEggs) {
-			portalTeste.setPosition(350, 150);
+			portalTeste.setPosition(450, 100);
 			portalTeste.draw(chickenRoadGame.getSpriteBatch());
 		}
+		else
+			portalTeste.setPosition(-10, -10);
+			
 		for(int i=0;i<NumEggs;i++) {
 			if(!catchedEggs[i])
 			  targetPlayer[i].draw(chickenRoadGame.getSpriteBatch(), delta);		
@@ -192,6 +191,8 @@ public class Play extends ScreenBase {
 		myMap.drawVehicles(chickenRoadGame.getSpriteBatch(), stateGame);
 		playMenuButtons.draw(chickenRoadGame.getSpriteBatch(), stateGame, deltaXPositionButtons, deltaYPositionButtons);
 		playerScore.draw(chickenRoadGame.getSpriteBatch(), deltaXPositionButtons, deltaYPositionButtons);
+		
+		
 		chickenRoadGame.getSpriteBatch().end();
 
 		//SE O LIFE FOR MENOR QUE ZERO - gameover
@@ -202,7 +203,7 @@ public class Play extends ScreenBase {
 			stateGame = StateGame.PAUSE;
 			popupFinish = new FinishPopup(chickenRoadGame.getResourceManager());
 			popupFinish.draw(chickenRoadGame.getSpriteBatch());
-		}
+		}	
 		
 		//testa colis„o do alvo 
 		for(int i=0;i<NumEggs;i++){

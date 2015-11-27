@@ -10,11 +10,7 @@ public class PortalTeste extends Sprite{
 
 	public PortalTeste(String url) {
 		super(new Texture(url));
-		setPosition(300, 100);
-
 	}
-
-	
 	
 	public boolean checkColision(Player player){
 		if(Intersector.overlaps(getBoundingRectangle(), player.getBoundingRectangle()))
