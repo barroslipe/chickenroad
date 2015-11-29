@@ -65,7 +65,10 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_PIG_STOP_RIGHT, Texture.class);
 		assetManager.load(Constantes.URL_PIG_STOP_LEFT, Texture.class);
 		assetManager.load(Constantes.URL_PIG_SLEEPING_RIGHT, Texture.class);
-		
+
+		assetManager.load(Constantes.URL_CHICKENNEST, Texture.class);
+		assetManager.load(Constantes.URL_PORTAL, Texture.class);
+
 	}
 
 	public void dispose(){

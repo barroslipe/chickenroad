@@ -5,10 +5,12 @@ import java.util.Random;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import br.com.chickenroad.ChickenRoadGame;
 import br.com.chickenroad.animations.PlayerScore;
+import br.com.chickenroad.entities.ChickenNest;
 import br.com.chickenroad.entities.MyMap;
 import br.com.chickenroad.entities.Player;
 import br.com.chickenroad.entities.StateGame;
@@ -33,19 +35,21 @@ public class Play extends ScreenBase {
 	private StateGame stateGame;
 	private FinishPopup popupFinish;
 	private PlayCamera playCamera; 
-	private int NumEggs = 1;
+	private int NumEggs = 4;
 	private boolean catchedEggs[];
 	private PlayerScore playerScore;
 	private int score;
 	private int numCatched;
 	private PortalTeste portalTeste;
-
+	private ChickenNest chickenNest;
+	
 	public static int deltaXPositionButtons=0, deltaYPositionButtons=0;
 
 	public Play(String urlMap, ChickenRoadGame aChickenRoadGame) {
 		super(aChickenRoadGame);
 
-		this.portalTeste = new PortalTeste("portal.png");
+		this.chickenNest = new ChickenNest(Constantes.URL_CHICKENNEST);
+		this.portalTeste = new PortalTeste(Constantes.URL_PORTAL);
 		this.myMap = new MyMap(urlMap);
 		this.playMenuButtons = new PlayMenuButtons(getAssetManager());
 		this.playCamera = new PlayCamera();
@@ -143,15 +147,14 @@ public class Play extends ScreenBase {
 	}
 
 	private void initFase() {
-
 		//muda o estado do jogo para 'PLAYING'
 		stateGame = StateGame.PLAYING;
 		player.inicializar(this.myMap.getPlayerOrigin());
 		playerScore.inicializar();
+		chickenNest.setPosition(590, 50);
 		score = 0;
 		numCatched = 0;
 		popupFinish = null;
-		playerScore.setScore(0);
 		//gera ovos em posições aleatorios
 		Random gerador = new Random();
 		for(int i=0;i<NumEggs;i++){
@@ -170,44 +173,63 @@ public class Play extends ScreenBase {
 		//PROJETA NA MATRIX DO SPRITEBATCH DO MAPA
 		chickenRoadGame.getSpriteBatch().setProjectionMatrix(playCamera.getOrthographicCamera().combined);		
 		myMap.draw(playCamera.getOrthographicCamera());
+		
 		chickenRoadGame.getSpriteBatch().begin();
 		//se pegou todos os ovos, exibe portal de fase
 
+		chickenNest.draw(chickenRoadGame.getSpriteBatch());	
+/*
 		if(numCatched == NumEggs) {
-			portalTeste.setPosition(450, 100);
+			portalTeste.setPosition(615, 80);
 			portalTeste.draw(chickenRoadGame.getSpriteBatch());
 		}
-		else
+		else //else GAMBIARRA TEMPORÁRIA - :(
 			portalTeste.setPosition(-10, -10);
-			
+		
+	*/	
 		for(int i=0;i<NumEggs;i++) {
 			if(!catchedEggs[i])
 			  targetPlayer[i].draw(chickenRoadGame.getSpriteBatch(), delta);		
 		}
-		
-		player.draw(chickenRoadGame.getSpriteBatch(), delta);
 
-		
+			
+		player.draw(chickenRoadGame.getSpriteBatch(), delta);
 		myMap.drawVehicles(chickenRoadGame.getSpriteBatch(), stateGame);
 		playMenuButtons.draw(chickenRoadGame.getSpriteBatch(), stateGame, deltaXPositionButtons, deltaYPositionButtons);
 		playerScore.draw(chickenRoadGame.getSpriteBatch(), deltaXPositionButtons, deltaYPositionButtons);
 		
-		
+
 		chickenRoadGame.getSpriteBatch().end();
 
 		//SE O LIFE FOR MENOR QUE ZERO - gameover
 		if(player.getPlayerLife().getLife() <= 0) 
 			stateGame = StateGame.GAME_OVER;
 
-		if(portalTeste.checkColision(player)){
-			stateGame = StateGame.PAUSE;
-			popupFinish = new FinishPopup(chickenRoadGame.getResourceManager());
-			popupFinish.draw(chickenRoadGame.getSpriteBatch());
-		}	
+		//if(portalTeste.checkColision(player)){
+			//stateGame = StateGame.PAUSE;
+			//popupFinish = new FinishPopup(chickenRoadGame.getResourceManager());
+			//popupFinish.draw(chickenRoadGame.getSpriteBatch());
+		//}	
+
+
+		//se aproximar do ninho, deixa um ovo
+		if(chickenNest.checkColision(player)) {
+			Random gerador = new Random();
+			for(int i=0;i<NumEggs;i++){
+				if(catchedEggs[i]){
+				targetPlayer[i].inicializar(615+gerador.nextInt(30), 75+gerador.nextInt(10));
+				catchedEggs[i] = false;//sinaliza como ovo liberado
+					if(numCatched == NumEggs)
+						stateGame = StateGame.PAUSE;
+				}
+			}
+			
+		}
 		
 		//testa colisão do alvo 
 		for(int i=0;i<NumEggs;i++){
-			if(!catchedEggs[i] && targetPlayer[i].checkColision(player)) {
+			//so pode pegar ovos se ele nao tiver sido pego antes
+			if(!catchedEggs[i] && targetPlayer[i].checkColision(player) && (numCatched < NumEggs)) {
 				catchedEggs[i] = true;//marcou como ovo pego
 				score+=15;
 				numCatched++;
@@ -233,5 +255,4 @@ public class Play extends ScreenBase {
 		for(int i=0;i<NumEggs;i++)
 		this.targetPlayer[i].dispose();
 	}
-
 }

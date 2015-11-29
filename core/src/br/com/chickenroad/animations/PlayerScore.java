@@ -23,6 +23,7 @@ public class PlayerScore {
 	}
 	
 	public void inicializar(){
+		score = 0;
 		defaultFont.setColor(1.0f, 1.0f, 1.0f, 1.0f);	
 	}
 	/**
