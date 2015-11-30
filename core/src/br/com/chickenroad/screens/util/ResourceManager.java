@@ -68,7 +68,9 @@ public class ResourceManager {
 
 		assetManager.load(Constantes.URL_CHICKENNEST, Texture.class);
 		assetManager.load(Constantes.URL_PORTAL, Texture.class);
-
+		
+		//textos
+		assetManager.load(Constantes.URL_TEXT_AMAZING, Texture.class);	
 	}
 
 	public void dispose(){

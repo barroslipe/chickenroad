@@ -4,5 +4,5 @@ package br.com.chickenroad.entities;
  * */
 public enum TargetPlayerTypes {
 	EGGS, //ovos 
-	COINS; // moedas
+	COINS;// moedas
 }

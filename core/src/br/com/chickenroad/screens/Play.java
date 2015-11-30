@@ -35,19 +35,24 @@ public class Play extends ScreenBase {
 	private StateGame stateGame;
 	private FinishPopup popupFinish;
 	private PlayCamera playCamera; 
-	private int NumEggs = 4;
+	private int NumEggs = 2;
 	private boolean catchedEggs[];
 	private PlayerScore playerScore;
 	private int score;
 	private int numCatched;
+	private int numLeft;
+	private int cont;
+	
 	private PortalTeste portalTeste;
 	private ChickenNest chickenNest;
+	private TextGame textGame; 
 	
 	public static int deltaXPositionButtons=0, deltaYPositionButtons=0;
 
 	public Play(String urlMap, ChickenRoadGame aChickenRoadGame) {
 		super(aChickenRoadGame);
 
+		this.textGame = new TextGame(Constantes.URL_TEXT_AMAZING, getAssetManager());
 		this.chickenNest = new ChickenNest(Constantes.URL_CHICKENNEST);
 		this.portalTeste = new PortalTeste(Constantes.URL_PORTAL);
 		this.myMap = new MyMap(urlMap);
@@ -60,6 +65,8 @@ public class Play extends ScreenBase {
 		this.playerScore = new PlayerScore();
 		this.score = 0;
 		this.numCatched = 0;
+		this.numLeft = 0;//numeros deixados
+		this.cont = 0;
 		this.catchedEggs = new boolean[NumEggs];
 		this.targetPlayer = new TargetPlayer[NumEggs];
 		
@@ -155,6 +162,7 @@ public class Play extends ScreenBase {
 		score = 0;
 		numCatched = 0;
 		popupFinish = null;
+		textGame.inicializar(); //exibe texto na posição do player
 		//gera ovos em posições aleatorios
 		Random gerador = new Random();
 		for(int i=0;i<NumEggs;i++){
@@ -164,7 +172,6 @@ public class Play extends ScreenBase {
 	}
 
 	private void draw(float delta) {
-
 		Gdx.gl.glClearColor(0, 0, 0, 1); //cor preta
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);		
 
@@ -175,10 +182,11 @@ public class Play extends ScreenBase {
 		myMap.draw(playCamera.getOrthographicCamera());
 		
 		chickenRoadGame.getSpriteBatch().begin();
-		//se pegou todos os ovos, exibe portal de fase
 
 		chickenNest.draw(chickenRoadGame.getSpriteBatch());	
-/*
+	
+		/*
+		//se pegou todos os ovos, exibe portal de fase
 		if(numCatched == NumEggs) {
 			portalTeste.setPosition(615, 80);
 			portalTeste.draw(chickenRoadGame.getSpriteBatch());
@@ -186,19 +194,29 @@ public class Play extends ScreenBase {
 		else //else GAMBIARRA TEMPORÁRIA - :(
 			portalTeste.setPosition(-10, -10);
 		
-	*/	
+		 */	
 		for(int i=0;i<NumEggs;i++) {
-			if(!catchedEggs[i])
+			if(!catchedEggs[i])//exibe apenas os não pegos
 			  targetPlayer[i].draw(chickenRoadGame.getSpriteBatch(), delta);		
 		}
-
 			
 		player.draw(chickenRoadGame.getSpriteBatch(), delta);
+		
+		
+		
 		myMap.drawVehicles(chickenRoadGame.getSpriteBatch(), stateGame);
 		playMenuButtons.draw(chickenRoadGame.getSpriteBatch(), stateGame, deltaXPositionButtons, deltaYPositionButtons);
 		playerScore.draw(chickenRoadGame.getSpriteBatch(), deltaXPositionButtons, deltaYPositionButtons);
-		
 
+		//se pegou todos os ovos, exibe texto animado
+		if(numCatched == NumEggs) {
+			if(cont++ < 55) {
+				textGame.setPosition(player.getX()-60, player.getY()+30); //exibe texto na posição do playe
+				textGame.draw(chickenRoadGame.getSpriteBatch(), delta);
+			}
+		}
+		else //else GAMBIARRA TEMPORÁRIA - :(
+			textGame.setPosition(-100, -200);
 		chickenRoadGame.getSpriteBatch().end();
 
 		//SE O LIFE FOR MENOR QUE ZERO - gameover
@@ -209,21 +227,25 @@ public class Play extends ScreenBase {
 			//stateGame = StateGame.PAUSE;
 			//popupFinish = new FinishPopup(chickenRoadGame.getResourceManager());
 			//popupFinish.draw(chickenRoadGame.getSpriteBatch());
-		//}	
-
+		//}
 
 		//se aproximar do ninho, deixa um ovo
 		if(chickenNest.checkColision(player)) {
 			Random gerador = new Random();
 			for(int i=0;i<NumEggs;i++){
 				if(catchedEggs[i]){
-				targetPlayer[i].inicializar(615+gerador.nextInt(30), 75+gerador.nextInt(10));
-				catchedEggs[i] = false;//sinaliza como ovo liberado
-					if(numCatched == NumEggs)
-						stateGame = StateGame.PAUSE;
+					targetPlayer[i].inicializar(615+gerador.nextInt(30), 75+gerador.nextInt(10));
+					catchedEggs[i] = false;//sinaliza como ovo liberado
+					numLeft++;
+				}
+				
+				if(numLeft == NumEggs) {
+					cont = 0;
+					numCatched=0;
+					numLeft = 0;
+					stateGame = StateGame.PAUSE;
 				}
 			}
-			
 		}
 		
 		//testa colisão do alvo 
@@ -251,8 +273,9 @@ public class Play extends ScreenBase {
 		this.stateGame = null;
 		this.myMap.dispose();
 		this.playerScore = null;
+		this.textGame.dispose();
 		
 		for(int i=0;i<NumEggs;i++)
-		this.targetPlayer[i].dispose();
+			this.targetPlayer[i].dispose();
 	}
 }

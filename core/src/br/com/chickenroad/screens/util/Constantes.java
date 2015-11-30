@@ -66,4 +66,7 @@ public class Constantes {
 	public static final String URL_PORTAL = "portal.png";
 	public static final String URL_BACKGROUND_SPLASHSCREEN = "splashScreenBackground.jpg";
 
+	//textos
+	public static final String URL_TEXT_AMAZING = "amazing.png";
+	
 }
