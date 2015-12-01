@@ -5,15 +5,16 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 
+import br.com.chickenroad.animations.TargetPlayerAnimation;
 import br.com.chickenroad.animations.TextGameAnimation;
 
 public class TextGame extends Sprite{
 	private TextGameAnimation textAnimation;
 
-	public TextGame(String sprite, AssetManager assetManager) {
+	public TextGame(String sprite, AssetManager assetManager, TextGameTypes text) {
 		super(new Texture(sprite));
 
-		this.textAnimation = new TextGameAnimation(sprite, assetManager, TextGameTypes.AMAZING);
+		this.textAnimation = new TextGameAnimation(sprite, assetManager, text);
 	}
 
 

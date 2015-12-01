@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
@@ -22,6 +23,13 @@ public class FinishPopup{
 	private Texture popupTexture;
 	private TextureRegion popupTextureRegion;
 	
+	public void setPopupInitPositionX(int popupInitPositionX) {
+		this.popupInitPositionX = popupInitPositionX;
+	}
+
+	public void setPopupInitPositionY(int popupInitPositionY) {
+		this.popupInitPositionY = popupInitPositionY;
+	}
 	private int popupInitPositionX, popupInitPositionY, popupWidthSize, popupHeightSize;
 
 
@@ -67,19 +75,19 @@ public class FinishPopup{
 
 	}
 
-	public void draw(SpriteBatch spriteBatch) {
+	public void draw(Batch batch, float delta) {
 
-		spriteBatch.begin();
+		//spriteBatch.begin();
 
-		spriteBatch.draw(backgroundTextureRegion, 0, 0);
-		spriteBatch.draw(popupTextureRegion, popupInitPositionX, popupInitPositionY);
+		batch.draw(backgroundTextureRegion, popupInitPositionX, popupInitPositionY);
+		batch.draw(popupTextureRegion, popupInitPositionX, popupInitPositionY);
 
-		congratulationSprite.draw(spriteBatch);
-		backToMenu.draw(spriteBatch);
-		restart.draw(spriteBatch);
-		next.draw(spriteBatch);
+		congratulationSprite.draw(batch);
+		backToMenu.draw(batch);
+		restart.draw(batch);
+		next.draw(batch);
 
-		spriteBatch.end();
+		//batch.end();
 
 	}
 	

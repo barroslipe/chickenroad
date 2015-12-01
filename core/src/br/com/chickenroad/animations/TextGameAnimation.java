@@ -31,20 +31,48 @@ public class TextGameAnimation{
 	private TextureRegion[][] spriteSheetTmp1;
 	private float stateTime;  
 	private int index;
-	private float posX, posY;
+	private float posX=0, posY=0;
+	private float velAnimation=0;
 
 	
 
 	public TextGameAnimation(String sprite, AssetManager assetManager, TextGameTypes text) {
 		super();
 
-			//player spritesheet animation
-			textSheet = assetManager.get(sprite);
+		switch (text) {
+			case AMAZING:
+				//player spritesheet animation
+				textSheet = assetManager.get(sprite);
+				
+				tmp = TextureRegion.split(textSheet, textSheet.getWidth()/4, textSheet.getHeight());   
+				spriteSheetTmp1 = TextureRegion.split(textSheet, textSheet.getWidth()/4, textSheet.getHeight());   
+				
+				textFrames = new TextureRegion[4]; 
+				velAnimation = 1f/4f;
+			break;
 			
-			tmp = TextureRegion.split(textSheet, 179, 44);   
-			spriteSheetTmp1 = TextureRegion.split(textSheet, 179, 44);   
+			case POW:
+				//player spritesheet animation
+				textSheet = assetManager.get(sprite);
+				
+				tmp = TextureRegion.split(textSheet, textSheet.getWidth()/5, textSheet.getHeight());   
+				spriteSheetTmp1 = TextureRegion.split(textSheet, textSheet.getWidth()/5, textSheet.getHeight());   
+				
+				textFrames = new TextureRegion[5]; 
+				velAnimation = 1f/5f;
+			break;
 			
-			textFrames = new TextureRegion[4]; 
+			case PLUS15:
+				//player spritesheet animation
+				textSheet = assetManager.get(sprite);
+				
+				tmp = TextureRegion.split(textSheet, textSheet.getWidth()/5, textSheet.getHeight());   
+				spriteSheetTmp1 = TextureRegion.split(textSheet, textSheet.getWidth()/5, textSheet.getHeight());   
+				
+				textFrames = new TextureRegion[5]; 
+				velAnimation = 1f/6f;
+			break;
+		}
 	}
 	
 	public void inicializar () {
@@ -57,7 +85,7 @@ public class TextGameAnimation{
 				index++;
 			}
 		}
-		walkAnimation = new Animation(1f/4f, textFrames);  
+		walkAnimation = new Animation(velAnimation, textFrames);  
 		stateTime = 0f;   
 	}
 
@@ -70,7 +98,7 @@ public class TextGameAnimation{
 				index++;
 			}
 		}
-		walkAnimation = new Animation(1f/4f, textFrames);  
+		walkAnimation = new Animation(velAnimation, textFrames);  
 		stateTime = 0f;   
 	}
 

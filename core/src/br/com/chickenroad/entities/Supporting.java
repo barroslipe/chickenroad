@@ -6,16 +6,19 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Intersector;
 
-import br.com.chickenroad.animations.TargetPlayerAnimation;
+import br.com.chickenroad.animations.SupportingAnimation;
 import br.com.chickenroad.screens.util.Constantes;
 
-public class TargetPlayer extends Sprite{
-	private TargetPlayerAnimation targetPlayerAnimation;
+/*Refere-se aos personagens de segundo plano do cenario do game.
+ *  Pessoas, animais, etc..
+ * */
+public class Supporting extends Sprite{
+	private SupportingAnimation supportingAnimation;
 
-	public TargetPlayer(String sprite, AssetManager assetManager, TargetPlayerTypes targ) {
+	public Supporting(String sprite, AssetManager assetManager, SupportingTypes supp) {
 		super(new Texture(sprite));
 
-		this.targetPlayerAnimation = new TargetPlayerAnimation(sprite, assetManager, targ);
+		this.supportingAnimation = new SupportingAnimation(sprite, assetManager, supp);
 	}
 
 	public boolean checkColision(Player player){
@@ -29,7 +32,7 @@ public class TargetPlayer extends Sprite{
 
 	public void inicializar(float x, float y) {
 		setPosition(x, y);
-		targetPlayerAnimation.inicializar(x, y);
+		supportingAnimation.inicializar(x, y);
 	}
 
 	public void dispose() {
@@ -39,7 +42,7 @@ public class TargetPlayer extends Sprite{
 	@Override
 	public void draw(Batch batch, float delta){
 		super.draw(batch, delta);
-		this.targetPlayerAnimation.draw(batch, delta);	
+		this.supportingAnimation.draw(batch, delta);	
 	}
 	
 }

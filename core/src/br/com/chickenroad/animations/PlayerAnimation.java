@@ -4,6 +4,7 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import br.com.chickenroad.screens.util.Constantes;
@@ -37,9 +38,11 @@ public class PlayerAnimation {
 
 	private float stateTime;  
 	private int index;
+	private float velAnimation=0;
+	private float posX=0, posY=0;
 
-	public PlayerAnimation(AssetManager assetManager) {
-
+	public PlayerAnimation(String sprite, AssetManager assetManager) {
+		super();
 		//spritesheet animation
 		walkDirSheet = assetManager.get(Constantes.URL_PLAYER_AVATAR_RIGHT);
 		walkEsqSheet = assetManager.get(Constantes.URL_PLAYER_AVATAR_LEFT);
@@ -48,20 +51,23 @@ public class PlayerAnimation {
 		stopDirSheet = assetManager.get(Constantes.URL_PLAYER_AVATAR_STOP_RIGHT);
 		walkCimSheet = assetManager.get(Constantes.URL_PLAYER_AVATAR_UP);
 
-		tmp = TextureRegion.split(stopDirSheet,  96, 112);   
-		spriteSheetTmp1 = TextureRegion.split(walkDirSheet, 96, 113);   
-		spriteSheetTmp2 = TextureRegion.split(walkEsqSheet,  96, 113);   
-		spriteSheetTmp3 = TextureRegion.split(jumpDirSheet, 96, 181);   
-		spriteSheetTmp4 = TextureRegion.split(jumpEsqSheet, 96, 181);   
-		spriteSheetTmp5 = TextureRegion.split(stopDirSheet,  96, 112);
-		spriteSheetTmp6 = TextureRegion.split(walkCimSheet,  84, 132);   
+		tmp = TextureRegion.split(stopDirSheet,  stopDirSheet.getWidth()/5, stopDirSheet.getHeight());   
+		spriteSheetTmp1 = TextureRegion.split(walkDirSheet, walkDirSheet.getWidth()/5, walkDirSheet.getHeight());   
+		spriteSheetTmp2 = TextureRegion.split(walkEsqSheet,  walkEsqSheet.getWidth()/5, walkEsqSheet.getHeight());   
+		spriteSheetTmp3 = TextureRegion.split(jumpDirSheet, jumpDirSheet.getWidth()/5, jumpDirSheet.getHeight());   
+		spriteSheetTmp4 = TextureRegion.split(jumpEsqSheet, jumpEsqSheet.getWidth()/5, jumpEsqSheet.getHeight());   
+		spriteSheetTmp5 = TextureRegion.split(stopDirSheet, stopDirSheet.getWidth()/5, stopDirSheet.getHeight());
+		spriteSheetTmp6 = TextureRegion.split(walkCimSheet,  walkCimSheet.getWidth()/5, walkCimSheet.getHeight());   
 
 		walkFrames = new TextureRegion[5]; 
+		
+		this.velAnimation = 1f/20f;
 	}
 
 
-	public void inicializar () {
-
+	public void inicializar (float x, float y) {
+		this.posX = x;
+		this.posY = y;
 		index = 0;
 
 		for (int i = 0; i < 1; i++){
@@ -70,7 +76,7 @@ public class PlayerAnimation {
 				index++;
 			}
 		}
-		walkAnimation = new Animation(1f/20f, walkFrames);  
+		walkAnimation = new Animation(velAnimation, walkFrames);  
 		stateTime = 0f;   
 	}
 
@@ -83,7 +89,7 @@ public class PlayerAnimation {
 				index++;
 			}
 		}
-		walkAnimation = new Animation(1f/20f, walkFrames);  
+		walkAnimation = new Animation(velAnimation, walkFrames);  
 		stateTime = 0f;   
 
 	}
@@ -124,6 +130,30 @@ public class PlayerAnimation {
 		stateTime += Gdx.graphics.getDeltaTime();          
 		currentFrame = walkAnimation.getKeyFrame(stateTime, true);
 		return currentFrame;
+	}
+	
+	public float getPosX() {
+		return posX;
+	
+	}
+
+	public void setPosX(float posX) {
+		this.posX = posX;
+	}
+
+	public float getPosY() {
+		return posY;
+	}
+
+	public void setPosY(float posY) {
+		this.posY = posY;
+	}
+	
+	public void draw(Batch batch, float delta){
+		stateTime += Gdx.graphics.getDeltaTime();          
+		currentFrame = walkAnimation.getKeyFrame(stateTime, true);
+		
+		batch.draw(currentFrame, posX, posY);
 	}
 
 }

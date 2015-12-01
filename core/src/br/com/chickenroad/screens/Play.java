@@ -5,7 +5,6 @@ import java.util.Random;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import br.com.chickenroad.ChickenRoadGame;
@@ -14,7 +13,10 @@ import br.com.chickenroad.entities.ChickenNest;
 import br.com.chickenroad.entities.MyMap;
 import br.com.chickenroad.entities.Player;
 import br.com.chickenroad.entities.StateGame;
+import br.com.chickenroad.entities.Supporting;
+import br.com.chickenroad.entities.SupportingTypes;
 import br.com.chickenroad.entities.TargetPlayer;
+import br.com.chickenroad.entities.TargetPlayerTypes;
 import br.com.chickenroad.screens.screenparts.FinishPopup;
 import br.com.chickenroad.screens.screenparts.PlayMenuButtons;
 import br.com.chickenroad.screens.util.Constantes;
@@ -30,49 +32,73 @@ public class Play extends ScreenBase {
 	private PlayMenuButtons playMenuButtons;
 	
 	private TargetPlayer targetPlayer[];
+	private Supporting supporting[];
 	private Player player;
 	private MyMap myMap;
 	private StateGame stateGame;
 	private FinishPopup popupFinish;
 	private PlayCamera playCamera; 
-	private int NumEggs = 2;
+	private int numEggs = 2;
+	private int numSupporting = 3;
+	private int numTexts = 3;
 	private boolean catchedEggs[];
 	private PlayerScore playerScore;
 	private int score;
 	private int numCatched;
 	private int numLeft;
-	private int cont;
+	private int contAmazing, contPow, contPlus15;
+	private int pigPosX, pigPosY;
+	private boolean flagPlus15 = false;
 	
 	private PortalTeste portalTeste;
 	private ChickenNest chickenNest;
-	private TextGame textGame; 
+	private TextGame textGame[]; 
 	
 	public static int deltaXPositionButtons=0, deltaYPositionButtons=0;
 
 	public Play(String urlMap, ChickenRoadGame aChickenRoadGame) {
 		super(aChickenRoadGame);
 
-		this.textGame = new TextGame(Constantes.URL_TEXT_AMAZING, getAssetManager());
 		this.chickenNest = new ChickenNest(Constantes.URL_CHICKENNEST);
 		this.portalTeste = new PortalTeste(Constantes.URL_PORTAL);
 		this.myMap = new MyMap(urlMap);
 		this.playMenuButtons = new PlayMenuButtons(getAssetManager());
 		this.playCamera = new PlayCamera();
 
-		this.player = new Player(Constantes.URL_PLAYER_AVATAR, myMap.getWidthTiledMap(),
-					myMap.getHeightTiledMap(), getAssetManager());
+		this.player = new Player(Constantes.URL_PLAYER_AVATAR, getAssetManager(),  myMap.getWidthTiledMap(),
+					myMap.getHeightTiledMap());
 
 		this.playerScore = new PlayerScore();
 		this.score = 0;
-		this.numCatched = 0;
-		this.numLeft = 0;//numeros deixados
-		this.cont = 0;
-		this.catchedEggs = new boolean[NumEggs];
-		this.targetPlayer = new TargetPlayer[NumEggs];
+		this.numCatched = 0;//numero de ovos pegos no cenario
+		this.numLeft = 0;//numeros de ovos deixados no ninho
+		this.contAmazing = 0;
+		this.contPow = 0;
+		this.contPlus15 = 0;
+		this.catchedEggs = new boolean[numEggs];
+		this.targetPlayer = new TargetPlayer[numEggs];
+		this.supporting = new Supporting[numSupporting];
+		this.textGame = new TextGame[numTexts];	
 		
-		for(int i=0;i<NumEggs;i++)
-		   this.targetPlayer[i] = new TargetPlayer(Constantes.URL_EGGS, getAssetManager());
+		this. textGame[0] = new TextGame(Constantes.URL_TEXT_AMAZING, getAssetManager(), TextGameTypes.AMAZING);
+		this. textGame[1] = new TextGame(Constantes.URL_TEXT_POW, getAssetManager(), TextGameTypes.POW);
+		this. textGame[2] = new TextGame(Constantes.URL_TEXT_PLUS15, getAssetManager(), TextGameTypes.PLUS15);
 		
+		
+		//inicializa vetor de coadjuvantes - personagens secundarios
+		this.supporting[0] = new Supporting(Constantes.URL_PIG_STOP_RIGHT, 
+				    getAssetManager(), SupportingTypes.PIG_AWAKE_RIGHT);
+		this.supporting[1] = new Supporting(Constantes.URL_PIG_SLEEPING_RIGHT, 
+					getAssetManager(), SupportingTypes.PIG_SLEEPING_RIGHT);
+		
+		this.supporting[2] = new Supporting(Constantes.URL_PIG_SLEEPING_LEFT, 
+				getAssetManager(), SupportingTypes.PIG_SLEEPING_LEFT);
+		
+		//inicializa vetor de ovos
+		for(int i=0;i<numEggs;i++)
+		   this.targetPlayer[i] = new TargetPlayer(Constantes.URL_EGGS, getAssetManager(),TargetPlayerTypes.EGGS);
+		
+		//inicia fase
 		initFase();
 	}
 	@Override
@@ -156,22 +182,45 @@ public class Play extends ScreenBase {
 	private void initFase() {
 		//muda o estado do jogo para 'PLAYING'
 		stateGame = StateGame.PLAYING;
-		player.inicializar(this.myMap.getPlayerOrigin());
+		
+		float x = this.myMap.getPlayerOrigin().x;
+		float y = this.myMap.getPlayerOrigin().y;
+		
+		player.inicializar(x, y);
 		playerScore.inicializar();
 		chickenNest.setPosition(590, 50);
+		contAmazing = 0;
+		contPow = 0;
+		contPlus15 = 0;
+		numLeft = 0;
 		score = 0;
+		flagPlus15 = false;
 		numCatched = 0;
 		popupFinish = null;
-		textGame.inicializar(); //exibe texto na posição do player
+		
+		//inicializa todos os textos
+		for(int i=0;i<numTexts;i++)
+			textGame[i].inicializar(); //exibe texto na posição do player
+		
+		//inicia vetor de coadjuvantes
+		
+		for(int i=0;i<numSupporting;i++){
+			Random gerador = new Random();
+			int pigPosX=gerador.nextInt(130)+10;
+			int pigPosY = gerador.nextInt(150)+170;
+			supporting[i].inicializar(pigPosX, pigPosY);
+		}
 		//gera ovos em posições aleatorios
-		Random gerador = new Random();
-		for(int i=0;i<NumEggs;i++){
+		for(int i=0;i<numEggs;i++){
+		   Random gerador = new Random();
 		   targetPlayer[i].inicializar(gerador.nextInt(600), gerador.nextInt(400));
 		   catchedEggs[i] = false;
 		}
 	}
 
 	private void draw(float delta) {
+		Random gerador = new Random();
+
 		Gdx.gl.glClearColor(0, 0, 0, 1); //cor preta
 		Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);		
 
@@ -185,38 +234,88 @@ public class Play extends ScreenBase {
 
 		chickenNest.draw(chickenRoadGame.getSpriteBatch());	
 	
-		/*
+		
 		//se pegou todos os ovos, exibe portal de fase
-		if(numCatched == NumEggs) {
-			portalTeste.setPosition(615, 80);
+		/*if(numLeft == NumEggs) {
+			portalTeste.setPosition(player.getX(), player.getY());
 			portalTeste.draw(chickenRoadGame.getSpriteBatch());
 		}
 		else //else GAMBIARRA TEMPORÁRIA - :(
 			portalTeste.setPosition(-10, -10);
+		*/	
 		
-		 */	
-		for(int i=0;i<NumEggs;i++) {
+		for(int i=0;i<numEggs;i++) {
 			if(!catchedEggs[i])//exibe apenas os não pegos
 			  targetPlayer[i].draw(chickenRoadGame.getSpriteBatch(), delta);		
 		}
-			
+		
 		player.draw(chickenRoadGame.getSpriteBatch(), delta);
 		
-		
+		//desenha os personagens coadjuvantes
+		for(int i=0;i<numSupporting;i++) {
+			supporting[i].setPosition(pigPosX, pigPosY);
+			supporting[i].draw(chickenRoadGame.getSpriteBatch(), delta);
+		}
 		
 		myMap.drawVehicles(chickenRoadGame.getSpriteBatch(), stateGame);
 		playMenuButtons.draw(chickenRoadGame.getSpriteBatch(), stateGame, deltaXPositionButtons, deltaYPositionButtons);
 		playerScore.draw(chickenRoadGame.getSpriteBatch(), deltaXPositionButtons, deltaYPositionButtons);
 
-		//se pegou todos os ovos, exibe texto animado
-		if(numCatched == NumEggs) {
-			if(cont++ < 55) {
-				textGame.setPosition(player.getX()-60, player.getY()+30); //exibe texto na posição do playe
-				textGame.draw(chickenRoadGame.getSpriteBatch(), delta);
+		//se pegou todos os ovos, exibe texto animado de fim de fase
+		if(numLeft == numEggs) {
+			if(contAmazing++ < 60) {
+				//mostra no meio da tela aproximadamente
+				textGame[0].setPosition(player.getX()-60, playCamera.getOrthographicCamera().viewportHeight/2 ); //exibe texto na posição do playe
+				textGame[0].draw(chickenRoadGame.getSpriteBatch(), delta);
+			}
+			stateGame = StateGame.PAUSE;
+			
+			//popupFinish = new FinishPopup(chickenRoadGame.getResourceManager());
+		   // popupFinish.setPopupInitPositionX((int) (player.getX()-160));
+			//popupFinish.setPopupInitPositionY((int) (playCamera.getOrthographicCamera().viewportHeight/2));
+			//popupFinish.draw(chickenRoadGame.getSpriteBatch(), delta);
+
+		}
+		else { //else GAMBIARRA TEMPORÁRIA - :(
+			textGame[0].setPosition(-100, -200);
+			contAmazing = 0;
+		}
+		
+		
+		//exibe animação de colisão se houve colisão
+		if(player.isColisionVehiclesStatus()) {
+			if(contPow++ < 55) {
+				textGame[1].setPosition(player.getX()-30, player.getY()-30); //exibe texto na posição do playe
+				textGame[1].draw(chickenRoadGame.getSpriteBatch(), delta);
+			}
+		} else {//else GAMBIARRA TEMPORÁRIA - :(
+			textGame[1].setPosition(-100, -200);
+			contPow = 0;
+		}
+		
+
+		//testa colisão do alvo 
+		for(int i=0;i<numEggs;i++){
+			//so pode pegar ovos se ele nao tiver sido pego antes
+			if(!catchedEggs[i] && targetPlayer[i].checkColision(player) && (numCatched < numEggs)) {
+				catchedEggs[i] = true;//marcou como ovo pego
+				score+=15;
+				numCatched++;
+				PlayerScore.setScore(score);
+				flagPlus15 = true;
+			}			
+		}
+		
+		if(flagPlus15) {
+			if(contPlus15++ < 45) {
+				textGame[2].setPosition(player.getX()-20, player.getY()+30);
+				textGame[2].draw(chickenRoadGame.getSpriteBatch(), delta);
+			}else{
+				textGame[2].setPosition(-100, -200);
+				contPlus15 = 0;
+				flagPlus15 = false;
 			}
 		}
-		else //else GAMBIARRA TEMPORÁRIA - :(
-			textGame.setPosition(-100, -200);
 		chickenRoadGame.getSpriteBatch().end();
 
 		//SE O LIFE FOR MENOR QUE ZERO - gameover
@@ -231,33 +330,24 @@ public class Play extends ScreenBase {
 
 		//se aproximar do ninho, deixa um ovo
 		if(chickenNest.checkColision(player)) {
-			Random gerador = new Random();
-			for(int i=0;i<NumEggs;i++){
+			for(int i=0;i<numEggs;i++){
 				if(catchedEggs[i]){
 					targetPlayer[i].inicializar(615+gerador.nextInt(30), 75+gerador.nextInt(10));
 					catchedEggs[i] = false;//sinaliza como ovo liberado
 					numLeft++;
 				}
 				
-				if(numLeft == NumEggs) {
-					cont = 0;
-					numCatched=0;
-					numLeft = 0;
-					stateGame = StateGame.PAUSE;
+				if(numLeft == numEggs) {
+					//contAmazing = 0;
+					//contPow = 0;
+					//contPlus15 = 0;
+					//numCatched=0;
+					//numLeft = 0;
+					//stateGame = StateGame.PAUSE;
 				}
 			}
 		}
 		
-		//testa colisão do alvo 
-		for(int i=0;i<NumEggs;i++){
-			//so pode pegar ovos se ele nao tiver sido pego antes
-			if(!catchedEggs[i] && targetPlayer[i].checkColision(player) && (numCatched < NumEggs)) {
-				catchedEggs[i] = true;//marcou como ovo pego
-				score+=15;
-				numCatched++;
-				PlayerScore.setScore(score);
-			}
-		}
 	}
 
 	@Override
@@ -273,9 +363,14 @@ public class Play extends ScreenBase {
 		this.stateGame = null;
 		this.myMap.dispose();
 		this.playerScore = null;
-		this.textGame.dispose();
 		
-		for(int i=0;i<NumEggs;i++)
+		for(int i=0;i<numTexts;i++)
+			this.textGame[i].dispose();
+	
+		for(int i=0;i<numSupporting;i++)
+			this.supporting[i].dispose();
+		
+		for(int i=0;i<numEggs;i++)
 			this.targetPlayer[i].dispose();
 	}
 }

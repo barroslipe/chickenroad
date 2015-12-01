@@ -65,12 +65,17 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_PIG_STOP_RIGHT, Texture.class);
 		assetManager.load(Constantes.URL_PIG_STOP_LEFT, Texture.class);
 		assetManager.load(Constantes.URL_PIG_SLEEPING_RIGHT, Texture.class);
+		assetManager.load(Constantes.URL_PIG_SLEEPING_LEFT, Texture.class);
 
 		assetManager.load(Constantes.URL_CHICKENNEST, Texture.class);
 		assetManager.load(Constantes.URL_PORTAL, Texture.class);
-		
+
 		//textos
 		assetManager.load(Constantes.URL_TEXT_AMAZING, Texture.class);	
+		assetManager.load(Constantes.URL_TEXT_POW, Texture.class);
+		assetManager.load(Constantes.URL_TEXT_PLUS15, Texture.class);
+	//	assetManager.load(Constantes.URL_TEXT_PLUS100, Texture.class);
+
 	}
 
 	public void dispose(){

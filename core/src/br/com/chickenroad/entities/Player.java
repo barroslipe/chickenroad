@@ -25,16 +25,20 @@ public class Player extends Sprite{
 	private Direction playerDirectionX, playerDirectionY;
 	private float demageTimerPerSecond, timer;
 	private boolean demage;
+	private boolean colisionVehiclesStatus; // retorna o estado atual da colisão com veiculos
+	public boolean isColisionVehiclesStatus() {
+		return colisionVehiclesStatus;
+	}
 
 	private int widthTiledMap, heightTileMap;
 
 	private PlayerLife playerLife;
 	private PlayerAnimation playerAnimation;
 	
-	public Player(String sprite, int aWidthTiledMap, int aHeightTiledMap, AssetManager assetManager) {
+	public Player(String sprite, AssetManager assetManager, int aWidthTiledMap, int aHeightTiledMap) {
 		super(new Texture(sprite));
 
-		this.playerAnimation = new PlayerAnimation(assetManager);
+		this.playerAnimation = new PlayerAnimation(sprite, assetManager);
 		this.widthTiledMap = aWidthTiledMap;
 		this.heightTileMap = aHeightTiledMap;
 		this.demageTimerPerSecond = 3;
@@ -64,7 +68,7 @@ public class Player extends Sprite{
 
 		if(!checkTilesColision(newPositionX, newPositionY, tiles)){
 			this.setX(newPositionX);
-			this.setY(newPositionY);
+			this.setY(newPositionY);	
 		}
 
 
@@ -118,7 +122,7 @@ public class Player extends Sprite{
 	}
 
 
-	private boolean checkVehiclesColision(ArrayList<Vehicle> vehiclesList){
+	public boolean checkVehiclesColision(ArrayList<Vehicle> vehiclesList){
 
 		//recebe a posiï¿½ï¿½o atual do player
 		Rectangle playerPosition = new Rectangle(getX(), getY(), Constantes.WIDTH_PLAYER, Constantes.HEIGHT_PLAYER);
@@ -126,10 +130,12 @@ public class Player extends Sprite{
 		//checa colisï¿½o com veculo com cada posiï¿½ï¿½o atual do player
 		for(int i=0;i<vehiclesList.size();i++){
 			if(Intersector.overlaps(vehiclesList.get(i).getBoundingRectangle(), playerPosition)){
+				colisionVehiclesStatus = true;//colidiu
 				return true;
 			}
 		}
 
+		colisionVehiclesStatus = false;//nao colidiu
 		return false;
 	}
 
@@ -138,6 +144,8 @@ public class Player extends Sprite{
 		pontoX = (int)touchPoint.x;
 		pontoY = (int)touchPoint.y;
 
+		
+		
 		//pontoX,Y = ponto que o jogador clicou
 		if(pontoX > getX()){
 			velocity.x = speed;
@@ -161,14 +169,15 @@ public class Player extends Sprite{
 		}		
 	}
 
-	public void inicializar(Vector2 vector2) {
-		setPosition(vector2.x, vector2.y);
+	public void inicializar(float x, float y) {
+		setPosition(x, y);
+		playerAnimation.inicializar(x, y);
+		
 		velocity.x = 0;
 		velocity.y = 0;
 		playerDirectionX = Direction.NONE;
 		playerDirectionY = Direction.NONE;
 		playerLife.init();
-		playerAnimation.inicializar();
 		timer=0;
 		demage=false;
 		setAlpha(1);
@@ -184,11 +193,12 @@ public class Player extends Sprite{
 
 	@Override
 	public void draw(Batch batch, float delta){
-
+		
 		this.setRegion(playerAnimation.getCurrentFrame());
 
 		super.draw(batch);
 
+		
 		if(demage){
 			//geralmente o delta ï¿½ 0.2, ou 0.3 ou 0.4
 			timer += delta;
@@ -202,7 +212,7 @@ public class Player extends Sprite{
 				setAlpha(1);
 			}
 		}
-
+		
 		playerLife.draw(batch);
 	}
 
