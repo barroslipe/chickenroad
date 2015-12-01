@@ -265,7 +265,7 @@ public class Play extends ScreenBase {
 		if(numLeft == numEggs) {
 			if(contAmazing++ < 60) {
 				//mostra no meio da tela aproximadamente
-				textGame[0].setPosition(player.getX()-60, playCamera.getOrthographicCamera().viewportHeight/2 ); //exibe texto na posição do playe
+				textGame[0].setPosition(player.getX()-140, playCamera.getOrthographicCamera().viewportHeight/2 -30); //exibe texto na posição do playe
 				textGame[0].draw(chickenRoadGame.getSpriteBatch(), delta);
 			}
 			stateGame = StateGame.PAUSE;
