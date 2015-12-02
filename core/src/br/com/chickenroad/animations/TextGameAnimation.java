@@ -72,6 +72,17 @@ public class TextGameAnimation{
 				textFrames = new TextureRegion[5]; 
 				velAnimation = 1f/6f;
 			break;
+			
+			case PLUS100:
+				//player spritesheet animation
+				textSheet = assetManager.get(sprite);
+				
+				tmp = TextureRegion.split(textSheet, textSheet.getWidth()/5, textSheet.getHeight());   
+				spriteSheetTmp1 = TextureRegion.split(textSheet, textSheet.getWidth()/5, textSheet.getHeight());   
+				
+				textFrames = new TextureRegion[5]; 
+				velAnimation = 1f/6f;
+			break;
 		}
 	}
 	

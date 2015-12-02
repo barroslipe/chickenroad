@@ -37,7 +37,7 @@ public class Constantes {
 	public static final int WIDTH_TILE = 32;
 	public static final int HEIGHT_TILE = 32;
 	public static final float WIDTH_PLAYER = 10; //dimensao de colisão
-	public static final float HEIGHT_PLAYER = 10;
+	public static final float HEIGHT_PLAYER = 30;
 	public static final int WIDTH_EGGS = 18;
 	public static final int HEIGHT_EGGS = 26;
 	
@@ -66,13 +66,14 @@ public class Constantes {
 	public static final String URL_CHICKENNEST = "ninho.png";
 	public static final String URL_PORTAL = "portal.png";
 	public static final String URL_BACKGROUND_SPLASHSCREEN = "splashScreenBackground.jpg";
+	public static final String URL_YELLOW_CORN = "milhoAmarelo.png";
 
 	
 	//textos
 	public static final String URL_TEXT_AMAZING = "amazing.png";
 	public static final String URL_TEXT_POW = "pow.png";
 	public static final String URL_TEXT_PLUS15 = "plus15.png";
-//	public static final String URL_TEXT_PLUS100 = "plus100.png";
+	public static final String URL_TEXT_PLUS100 = "plus100.png";
 	
 
 }

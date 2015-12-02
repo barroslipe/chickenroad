@@ -31,7 +31,9 @@ public class Play extends ScreenBase {
 
 	private PlayMenuButtons playMenuButtons;
 	
-	private TargetPlayer targetPlayer[];
+	private TargetPlayer targetPlayerEggs[];
+	private TargetPlayer targetPlayerCorns[];
+	private TextGame textGame[]; 
 	private Supporting supporting[];
 	private Player player;
 	private MyMap myMap;
@@ -39,20 +41,25 @@ public class Play extends ScreenBase {
 	private FinishPopup popupFinish;
 	private PlayCamera playCamera; 
 	private int numEggs = 2;
+	private int numCorns = 10;
 	private int numSupporting = 3;
-	private int numTexts = 3;
+	private int numTexts = 4;
 	private boolean catchedEggs[];
+	private boolean catchedCorns[];
 	private PlayerScore playerScore;
 	private int score;
-	private int numCatched;
+	private int numEggsCatched;
+	private int numCornCatched;
 	private int numLeft;
-	private int contAmazing, contPow, contPlus15;
+	private int contAmazing, contPow, contPlus15, contPlus100;
 	private int pigPosX, pigPosY;
+	private int numCornCatchedIndex = 0; //recebe o valor da posição do vetor de milhos encontrados
 	private boolean flagPlus15 = false;
+	private boolean flagPlus100 = false;
 	
 	private PortalTeste portalTeste;
 	private ChickenNest chickenNest;
-	private TextGame textGame[]; 
+	
 	
 	public static int deltaXPositionButtons=0, deltaYPositionButtons=0;
 
@@ -70,34 +77,42 @@ public class Play extends ScreenBase {
 
 		this.playerScore = new PlayerScore();
 		this.score = 0;
-		this.numCatched = 0;//numero de ovos pegos no cenario
+		this.numEggsCatched = 0;//numero de ovos pegos no cenario
+		this.numCornCatched = 0;//numero de ovos pegos no cenario
+		this.numCornCatchedIndex=0;
 		this.numLeft = 0;//numeros de ovos deixados no ninho
 		this.contAmazing = 0;
 		this.contPow = 0;
 		this.contPlus15 = 0;
+		this.contPlus100 = 0;
 		this.catchedEggs = new boolean[numEggs];
-		this.targetPlayer = new TargetPlayer[numEggs];
+		this.catchedCorns = new boolean[numCorns];
+		this.targetPlayerEggs = new TargetPlayer[numEggs];
+		this.targetPlayerCorns = new TargetPlayer[numCorns];
 		this.supporting = new Supporting[numSupporting];
 		this.textGame = new TextGame[numTexts];	
 		
 		this. textGame[0] = new TextGame(Constantes.URL_TEXT_AMAZING, getAssetManager(), TextGameTypes.AMAZING);
 		this. textGame[1] = new TextGame(Constantes.URL_TEXT_POW, getAssetManager(), TextGameTypes.POW);
 		this. textGame[2] = new TextGame(Constantes.URL_TEXT_PLUS15, getAssetManager(), TextGameTypes.PLUS15);
-		
+		this. textGame[3] = new TextGame(Constantes.URL_TEXT_PLUS100, getAssetManager(), TextGameTypes.PLUS100);
 		
 		//inicializa vetor de coadjuvantes - personagens secundarios
 		this.supporting[0] = new Supporting(Constantes.URL_PIG_STOP_RIGHT, 
 				    getAssetManager(), SupportingTypes.PIG_AWAKE_RIGHT);
 		this.supporting[1] = new Supporting(Constantes.URL_PIG_SLEEPING_RIGHT, 
 					getAssetManager(), SupportingTypes.PIG_SLEEPING_RIGHT);
-		
 		this.supporting[2] = new Supporting(Constantes.URL_PIG_SLEEPING_LEFT, 
 				getAssetManager(), SupportingTypes.PIG_SLEEPING_LEFT);
 		
 		//inicializa vetor de ovos
 		for(int i=0;i<numEggs;i++)
-		   this.targetPlayer[i] = new TargetPlayer(Constantes.URL_EGGS, getAssetManager(),TargetPlayerTypes.EGGS);
+		   this.targetPlayerEggs[i] = new TargetPlayer(Constantes.URL_EGGS, getAssetManager(),TargetPlayerTypes.EGGS);
 		
+		//inicializa vetor de milhos
+		for(int i=0;i<numCorns;i++)
+		   this.targetPlayerCorns[i] = new TargetPlayer(Constantes.URL_YELLOW_CORN, getAssetManager(),TargetPlayerTypes.YELLOW_CORN);
+			
 		//inicia fase
 		initFase();
 	}
@@ -192,29 +207,38 @@ public class Play extends ScreenBase {
 		contAmazing = 0;
 		contPow = 0;
 		contPlus15 = 0;
+		contPlus100 = 0;
 		numLeft = 0;
 		score = 0;
 		flagPlus15 = false;
-		numCatched = 0;
+		numEggsCatched = 0;
+		numCornCatched = 0;
+		numCornCatchedIndex = 0;
 		popupFinish = null;
+		
+		Random gerador = new Random();
 		
 		//inicializa todos os textos
 		for(int i=0;i<numTexts;i++)
 			textGame[i].inicializar(); //exibe texto na posição do player
 		
 		//inicia vetor de coadjuvantes
-		
 		for(int i=0;i<numSupporting;i++){
-			Random gerador = new Random();
 			int pigPosX=gerador.nextInt(130)+10;
 			int pigPosY = gerador.nextInt(150)+170;
 			supporting[i].inicializar(pigPosX, pigPosY);
 		}
+
 		//gera ovos em posições aleatorios
 		for(int i=0;i<numEggs;i++){
-		   Random gerador = new Random();
-		   targetPlayer[i].inicializar(gerador.nextInt(600), gerador.nextInt(400));
+		   targetPlayerEggs[i].inicializar(gerador.nextInt(600), gerador.nextInt(400));
 		   catchedEggs[i] = false;
+		}
+
+		//gera milhos em posições aleatorios
+		for(int i=0;i<numCorns;i++){
+		   targetPlayerCorns[i].inicializar(gerador.nextInt(600), gerador.nextInt(400));
+		   catchedCorns[i] = false;
 		}
 	}
 
@@ -246,8 +270,10 @@ public class Play extends ScreenBase {
 		
 		for(int i=0;i<numEggs;i++) {
 			if(!catchedEggs[i])//exibe apenas os não pegos
-			  targetPlayer[i].draw(chickenRoadGame.getSpriteBatch(), delta);		
+			  targetPlayerEggs[i].draw(chickenRoadGame.getSpriteBatch(), delta);		
 		}
+		
+	
 		
 		player.draw(chickenRoadGame.getSpriteBatch(), delta);
 		
@@ -281,7 +307,6 @@ public class Play extends ScreenBase {
 			contAmazing = 0;
 		}
 		
-		
 		//exibe animação de colisão se houve colisão
 		if(player.isColisionVehiclesStatus()) {
 			if(contPow++ < 55) {
@@ -292,23 +317,37 @@ public class Play extends ScreenBase {
 			textGame[1].setPosition(-100, -200);
 			contPow = 0;
 		}
-		
 
 		//testa colisão do alvo 
 		for(int i=0;i<numEggs;i++){
 			//so pode pegar ovos se ele nao tiver sido pego antes
-			if(!catchedEggs[i] && targetPlayer[i].checkColision(player) && (numCatched < numEggs)) {
+			if(!catchedEggs[i] && targetPlayerEggs[i].checkColision(player) && (numEggsCatched < numEggs)) {
 				catchedEggs[i] = true;//marcou como ovo pego
 				score+=15;
-				numCatched++;
+				numEggsCatched++;
 				PlayerScore.setScore(score);
 				flagPlus15 = true;
 			}			
 		}
 		
+		//testa colisão do alvo - MILHOS ESCONDIDOS
+		for(int i=0;i<numCorns;i++){
+			//so pode pegar ovos se ele nao tiver sido pego antes
+			if(!catchedCorns[i] && targetPlayerCorns[i].checkColision(player) && (numCornCatched < numCorns)) {
+				catchedCorns[i] = true;//marcou como ovo pego
+				score+=100;
+				numCornCatched++;
+				PlayerScore.setScore(score);
+				flagPlus100 = true;
+				numCornCatchedIndex = i;//recebe a posição do milho pego
+			}			
+		}
+
+		
 		if(flagPlus15) {
 			if(contPlus15++ < 45) {
 				textGame[2].setPosition(player.getX()-20, player.getY()+30);
+				
 				textGame[2].draw(chickenRoadGame.getSpriteBatch(), delta);
 			}else{
 				textGame[2].setPosition(-100, -200);
@@ -316,6 +355,21 @@ public class Play extends ScreenBase {
 				flagPlus15 = false;
 			}
 		}
+		
+		if(flagPlus100) {
+			if(contPlus100++ < 47) {
+				//exibe apenas o milho encontrado
+				targetPlayerCorns[numCornCatchedIndex].draw(chickenRoadGame.getSpriteBatch(), delta);		
+			
+				textGame[3].setPosition(player.getX()-20, player.getY()+30);
+				textGame[3].draw(chickenRoadGame.getSpriteBatch(), delta);
+			}else{
+				textGame[3].setPosition(-100, -200);
+				contPlus100 = 0;
+				flagPlus100 = false;
+			}
+		}
+		
 		chickenRoadGame.getSpriteBatch().end();
 
 		//SE O LIFE FOR MENOR QUE ZERO - gameover
@@ -332,22 +386,12 @@ public class Play extends ScreenBase {
 		if(chickenNest.checkColision(player)) {
 			for(int i=0;i<numEggs;i++){
 				if(catchedEggs[i]){
-					targetPlayer[i].inicializar(615+gerador.nextInt(30), 75+gerador.nextInt(10));
+					targetPlayerEggs[i].inicializar(615+gerador.nextInt(30), 75+gerador.nextInt(10));
 					catchedEggs[i] = false;//sinaliza como ovo liberado
 					numLeft++;
 				}
-				
-				if(numLeft == numEggs) {
-					//contAmazing = 0;
-					//contPow = 0;
-					//contPlus15 = 0;
-					//numCatched=0;
-					//numLeft = 0;
-					//stateGame = StateGame.PAUSE;
-				}
 			}
-		}
-		
+		}		
 	}
 
 	@Override
@@ -371,6 +415,10 @@ public class Play extends ScreenBase {
 			this.supporting[i].dispose();
 		
 		for(int i=0;i<numEggs;i++)
-			this.targetPlayer[i].dispose();
+			this.targetPlayerEggs[i].dispose();
+
+		for(int i=0;i<numCorns;i++)
+			this.targetPlayerCorns[i].dispose();
+
 	}
 }

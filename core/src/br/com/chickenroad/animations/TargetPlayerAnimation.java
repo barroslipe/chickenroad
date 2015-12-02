@@ -17,7 +17,6 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 import br.com.chickenroad.entities.TargetPlayerTypes;
-import br.com.chickenroad.screens.util.Constantes;
 
 public class TargetPlayerAnimation{
 
@@ -33,6 +32,7 @@ public class TargetPlayerAnimation{
 	private float stateTime;  
 	private int index;
 	private float posX, posY;
+	private float velAnimation = 0;
 
 	public TargetPlayerAnimation(String sprite, AssetManager assetManager, TargetPlayerTypes eggs) {
 		super();
@@ -42,14 +42,29 @@ public class TargetPlayerAnimation{
 			//player spritesheet animation
 			eggsSheet = assetManager.get(sprite);
 			
-			tmp = TextureRegion.split(eggsSheet, Constantes.WIDTH_EGGS, Constantes.HEIGHT_EGGS);   
-			spriteSheetTmp1 = TextureRegion.split(eggsSheet, Constantes.WIDTH_EGGS, Constantes.HEIGHT_EGGS);   
+			tmp = TextureRegion.split(eggsSheet, eggsSheet.getWidth()/5, eggsSheet.getHeight());   
+			spriteSheetTmp1 = TextureRegion.split(eggsSheet, eggsSheet.getWidth()/5, eggsSheet.getHeight());   
 			
 			eggsFrames = new TextureRegion[5]; 
-		break;
-		case COINS: //animação de moedas
 		
+		velAnimation  = 1f/4f;
+			break;
+		case COINS: //animação de moedas
+			velAnimation  = 1f/4f;
 		break;
+
+		case YELLOW_CORN: //animação de nilhos
+			//player spritesheet animation
+			eggsSheet = assetManager.get(sprite);
+			
+			tmp = TextureRegion.split(eggsSheet, eggsSheet.getWidth()/6, eggsSheet.getHeight());   
+			spriteSheetTmp1 = TextureRegion.split(eggsSheet, eggsSheet.getWidth()/5, eggsSheet.getHeight());   
+			
+			eggsFrames = new TextureRegion[6]; 
+			velAnimation  = 1f/4f;
+		break;
+
+		
 		}
 	}
 	
@@ -65,7 +80,7 @@ public class TargetPlayerAnimation{
 				index++;
 			}
 		}
-		walkAnimation = new Animation(1f/4f, eggsFrames);  
+		walkAnimation = new Animation(velAnimation, eggsFrames);  
 		stateTime = 0f;   
 	}
 
@@ -78,7 +93,7 @@ public class TargetPlayerAnimation{
 				index++;
 			}
 		}
-		walkAnimation = new Animation(1f/4f, eggsFrames);  
+		walkAnimation = new Animation(velAnimation, eggsFrames);  
 		stateTime = 0f;   
 	}
 

@@ -198,7 +198,6 @@ public class Player extends Sprite{
 
 		super.draw(batch);
 
-		
 		if(demage){
 			//geralmente o delta � 0.2, ou 0.3 ou 0.4
 			timer += delta;
