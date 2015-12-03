@@ -15,6 +15,7 @@ public class ChickenNest extends Sprite{
 	}
 	
 	public boolean checkColision(Player player){
+				
 		if(Intersector.overlaps(getBoundingRectangle(), player.getBoundingRectangle()))
 			return true;
 		

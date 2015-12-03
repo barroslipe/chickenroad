@@ -203,7 +203,7 @@ public class Play extends ScreenBase {
 		
 		player.inicializar(x, y);
 		playerScore.inicializar();
-		chickenNest.setPosition(590, 50);
+		chickenNest.setPosition(820, 30);
 		contAmazing = 0;
 		contPow = 0;
 		contPlus15 = 0;
@@ -225,7 +225,7 @@ public class Play extends ScreenBase {
 		//inicia vetor de coadjuvantes
 		for(int i=0;i<numSupporting;i++){
 			int pigPosX=gerador.nextInt(130)+10;
-			int pigPosY = gerador.nextInt(150)+170;
+			int pigPosY = gerador.nextInt(150)+160;
 			supporting[i].inicializar(pigPosX, pigPosY);
 		}
 
@@ -291,7 +291,7 @@ public class Play extends ScreenBase {
 		if(numLeft == numEggs) {
 			if(contAmazing++ < 60) {
 				//mostra no meio da tela aproximadamente
-				textGame[0].setPosition(player.getX()-140, playCamera.getOrthographicCamera().viewportHeight/2 -30); //exibe texto na posição do playe
+				textGame[0].setPosition(player.getX()-250, playCamera.getOrthographicCamera().viewportHeight/2 -40); //exibe texto na posição do playe
 				textGame[0].draw(chickenRoadGame.getSpriteBatch(), delta);
 			}
 			stateGame = StateGame.PAUSE;
@@ -357,7 +357,7 @@ public class Play extends ScreenBase {
 		}
 		
 		if(flagPlus100) {
-			if(contPlus100++ < 47) {
+			if(contPlus100++ < 48) {
 				//exibe apenas o milho encontrado
 				targetPlayerCorns[numCornCatchedIndex].draw(chickenRoadGame.getSpriteBatch(), delta);		
 			
@@ -386,7 +386,7 @@ public class Play extends ScreenBase {
 		if(chickenNest.checkColision(player)) {
 			for(int i=0;i<numEggs;i++){
 				if(catchedEggs[i]){
-					targetPlayerEggs[i].inicializar(615+gerador.nextInt(30), 75+gerador.nextInt(10));
+					targetPlayerEggs[i].inicializar(840+gerador.nextInt(30), 60+gerador.nextInt(10));
 					catchedEggs[i] = false;//sinaliza como ovo liberado
 					numLeft++;
 				}
