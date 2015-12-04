@@ -71,11 +71,11 @@ public class PlayerScore {
 		defaultFont.draw(batch, Integer.toString(score), 310+deltaXPositionButtons, 455+deltaYPositionButtons);
 		
 		if(scoreCorns<10){
-			defaultFont.draw(batch, Integer.toString(scoreEggs), 568+deltaXPositionButtons, 443+deltaYPositionButtons);
-		    defaultFont.draw(batch, Integer.toString(scoreCorns), 611+deltaXPositionButtons, 443+deltaYPositionButtons);
+			defaultFont.draw(batch, Integer.toString(scoreEggs), 567+deltaXPositionButtons, 440+deltaYPositionButtons);
+		    defaultFont.draw(batch, Integer.toString(scoreCorns), 613+deltaXPositionButtons, 441+deltaYPositionButtons);
 		} else {
-			defaultFont.draw(batch, Integer.toString(scoreEggs), 563+deltaXPositionButtons, 443+deltaYPositionButtons);
-			defaultFont.draw(batch, Integer.toString(scoreCorns), 608+deltaXPositionButtons, 443+deltaYPositionButtons);
+			defaultFont.draw(batch, Integer.toString(scoreEggs), 562+deltaXPositionButtons, 440+deltaYPositionButtons);
+			defaultFont.draw(batch, Integer.toString(scoreCorns), 610+deltaXPositionButtons, 441+deltaYPositionButtons);
 		}
 }
 }

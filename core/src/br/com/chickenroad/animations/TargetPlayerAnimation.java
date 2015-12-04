@@ -57,10 +57,10 @@ public class TargetPlayerAnimation{
 			//player spritesheet animation
 			eggsSheet = assetManager.get(sprite);
 			
-			tmp = TextureRegion.split(eggsSheet, eggsSheet.getWidth()/6, eggsSheet.getHeight());   
-			spriteSheetTmp1 = TextureRegion.split(eggsSheet, eggsSheet.getWidth()/5, eggsSheet.getHeight());   
+			tmp = TextureRegion.split(eggsSheet, eggsSheet.getWidth()/9, eggsSheet.getHeight());   
+			spriteSheetTmp1 = TextureRegion.split(eggsSheet, eggsSheet.getWidth()/9, eggsSheet.getHeight());   
 			
-			eggsFrames = new TextureRegion[6]; 
+			eggsFrames = new TextureRegion[9]; 
 			velAnimation  = velAnim;
 		break;
 

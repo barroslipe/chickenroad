@@ -32,7 +32,8 @@ public class Play extends ScreenBase {
 
 	
 	private PlayMenuButtons playMenuButtons;
-	private Music soundEggs, soundCorns, soundChickenDemage, soundBackgroundFase1, soundCoinEndFase, soundEndFase;
+	private Music soundEggs, soundCorns, soundChickenDemage, soundBackgroundFase1,
+			soundCoinEndFase, soundEndFase, soundBackgroundChicken;
 	private TargetPlayer targetPlayerEggs[], targetPlayerCorns[];
 	private TextGame textGame[]; 
 	private Supporting supporting[];
@@ -43,7 +44,7 @@ public class Play extends ScreenBase {
 	private PlayCamera playCamera; 
 	private PlayerScore playerScore;
 	private int numEggs = 10;
-	private int numCorns = 10;
+	private int numCorns = 30;
 	private int numSupporting = 3;
 	private int numTexts = 4;
 	private boolean catchedEggs[];
@@ -68,6 +69,7 @@ public class Play extends ScreenBase {
 		super(aChickenRoadGame);
 
 		//sons	
+		this.soundBackgroundChicken = getAssetManager().get(Constantes.URL_SOUND_BACKGROUND_CHICKEN);
 		this.soundEndFase =  getAssetManager().get(Constantes.URL_SOUND_END_FASE);
 		this.soundCoinEndFase =  getAssetManager().get(Constantes. URL_SOUND_END_FASE_COIN);
 		this.soundBackgroundFase1 = getAssetManager().get(Constantes.URL_SOUND_BACKGROUND_FASE1);
@@ -119,7 +121,7 @@ public class Play extends ScreenBase {
 		
 		//inicializa vetor de milhos com velocidades iguais
 		for(int i=0;i<numCorns;i++)
-		   this.targetPlayerCorns[i] = new TargetPlayer(Constantes.URL_YELLOW_CORN, getAssetManager(),TargetPlayerTypes.YELLOW_CORN,1f/4f );
+		   this.targetPlayerCorns[i] = new TargetPlayer(Constantes.URL_YELLOW_CORN, getAssetManager(),TargetPlayerTypes.YELLOW_CORN,1f/7f );
 			
 		//inicia fase
 		initFase();
@@ -149,7 +151,6 @@ public class Play extends ScreenBase {
 			stateGame = StateGame.PAUSE;
 			return true;
 		}
-
 		if(playMenuButtons.checkClickPlayButton(touchPoint.x, touchPoint.y)){
 			stateGame = StateGame.PLAYING;
 			return true;
@@ -295,27 +296,31 @@ public class Play extends ScreenBase {
 
 		//se pegou todos os ovos, exibe texto animado de fim de fase
 		if(numLeft == numEggs) {
-			if(contAmazing++ < 130) {
+			if(contAmazing++ < 130) {//este if evitar que a animação fique infinita
 					soundCoinEndFase.play();
 				    soundEndFase.play();
-				
 				
 				//mostra no meio da tela aproximadamente
 				textGame[0].setPosition(player.getX()-280, playCamera.getOrthographicCamera().viewportHeight/2 -40); //exibe texto na posição do playe
 				textGame[0].draw(chickenRoadGame.getSpriteBatch(), delta);
 			}
 			soundBackgroundFase1.pause();
+			soundBackgroundChicken.pause();
+			
 			stateGame = StateGame.PAUSE;
 			
 			/*popupFinish = new FinishPopup(chickenRoadGame.getResourceManager());
 		    popupFinish.setPopupInitPositionX((int) (player.getX()-160));
 			popupFinish.setPopupInitPositionY((int) (playCamera.getOrthographicCamera().viewportHeight/2));
 			popupFinish.draw(chickenRoadGame.getSpriteBatch(), delta);
-*/
+			 */
 		// numLeft = 0;
 		}
 		else { //else GAMBIARRA TEMPORÁRIA - :(
+			soundBackgroundFase1.setVolume(0.2f);
+			soundBackgroundChicken.setVolume(0.5f);
 			soundBackgroundFase1.play();
+			soundBackgroundChicken.play();
 			textGame[0].setPosition(-100, -200);
 			contAmazing = 0;
 		}
@@ -337,7 +342,6 @@ public class Play extends ScreenBase {
 		for(int i=0;i<numEggs;i++){
 			//so pode pegar ovos se ele nao tiver sido pego antes
 			if(!catchedEggs[i] && targetPlayerEggs[i].checkColision(player) && (numEggsCatched < numEggs)) {
-				
 				catchedEggs[i] = true;//marcou como ovo pego
 				soundEggs.play();
 				score+=15;
@@ -362,12 +366,10 @@ public class Play extends ScreenBase {
 				numCornCatchedIndex = i;//recebe a posição do milho pego
 			}			
 		}
-
 		
 		if(flagPlus15) {
 			if(contPlus15++ < 45) {
 				textGame[2].setPosition(player.getX()-20, player.getY()+30);
-				
 				textGame[2].draw(chickenRoadGame.getSpriteBatch(), delta);
 			}else{
 				textGame[2].setPosition(-100, -200);
@@ -380,9 +382,9 @@ public class Play extends ScreenBase {
 			if(contPlus100++ < 48) {
 				//exibe apenas o milho encontrado
 				targetPlayerCorns[numCornCatchedIndex].draw(chickenRoadGame.getSpriteBatch(), delta);		
-			
 				textGame[3].setPosition(player.getX()-20, player.getY()+30);
 				textGame[3].draw(chickenRoadGame.getSpriteBatch(), delta);
+
 			}else{
 				textGame[3].setPosition(-100, -200);
 				contPlus100 = 0;
@@ -433,6 +435,7 @@ public class Play extends ScreenBase {
 		this.soundBackgroundFase1.dispose();
 		this.soundCoinEndFase.dispose();
 		this.soundEndFase.dispose();
+		this.soundBackgroundChicken.dispose();
 		
 		for(int i=0;i<numTexts;i++)
 			this.textGame[i].dispose();

@@ -33,7 +33,7 @@ public class Constantes {
 	public static final String URL_SOUND_BACKGROUND_FASE1 = "sounds/soundBackgroundFase1.mp3";
 	public static final String URL_SOUND_END_FASE = "sounds/soundEndFase.wav";
 	public static final String URL_SOUND_END_FASE_COIN = "sounds/soundCoinEndFase.mp3";
-	
+	public static final String URL_SOUND_BACKGROUND_CHICKEN = "sounds/soundChickenBackground.mp3";
 
 	
 	public static final String URL_POPUP_NO_BUTTON = "popupNoButton.png";

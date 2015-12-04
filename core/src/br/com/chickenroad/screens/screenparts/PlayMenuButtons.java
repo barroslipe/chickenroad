@@ -124,8 +124,8 @@ public class PlayMenuButtons{
 
 		spriteRestart.setPosition(60+deltaXPositionButtons,  430+deltaYPositionButtons);
 		spriteFaseList.setPosition(110+deltaXPositionButtons,  430+deltaYPositionButtons);
-		spriteEggsQtd.setPosition(530+deltaXPositionButtons,  425+deltaYPositionButtons);
-		spriteCornQtd.setPosition(580+deltaXPositionButtons,  430+deltaYPositionButtons);
+		spriteEggsQtd.setPosition(525+deltaXPositionButtons,  420+deltaYPositionButtons);
+		spriteCornQtd.setPosition(575+deltaXPositionButtons,  420+deltaYPositionButtons);
 
 		
 		spriteRestart.draw(spriteBatch);
