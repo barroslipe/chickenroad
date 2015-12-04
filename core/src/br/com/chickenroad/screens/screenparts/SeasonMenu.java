@@ -2,6 +2,9 @@ package br.com.chickenroad.screens.screenparts;
 
 import java.util.ArrayList;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.audio.Sound;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -11,7 +14,8 @@ import br.com.chickenroad.screens.util.PreferencesUser;
 
 
 public class SeasonMenu {
-
+	private AssetManager assetManager;
+	private Sound soundRooster;
 	//com varias fases, trocar figuras
 	private String faseList[] = {"fase1.png", "faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png",
 			"faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png",
@@ -22,11 +26,11 @@ public class SeasonMenu {
 
 	private int fase_atual = 0;
 
+	//construtor
 	public SeasonMenu(){
+		soundRooster = Gdx.audio.newSound(Gdx.files.internal(Constantes.URL_SOUND_ROOSTER));
 
-		//testando
-		PreferencesUser.setFase(1);
-
+				//testando
 		fase_atual = PreferencesUser.getFase();
 
 		//TODO trocar figura e string
@@ -69,6 +73,7 @@ public class SeasonMenu {
 
 		for(int i=0;i<faseList.length;i++){
 			if(spriteFaseList.get(i).getBoundingRectangle().contains(x, y)){
+				soundRooster.play();
 				if(i<=fase_atual)
 					return i;
 			}

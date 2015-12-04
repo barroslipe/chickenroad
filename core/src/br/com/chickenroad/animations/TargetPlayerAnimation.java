@@ -34,7 +34,7 @@ public class TargetPlayerAnimation{
 	private float posX, posY;
 	private float velAnimation = 0;
 
-	public TargetPlayerAnimation(String sprite, AssetManager assetManager, TargetPlayerTypes eggs) {
+	public TargetPlayerAnimation(String sprite, AssetManager assetManager, TargetPlayerTypes eggs, float velAnim) {
 		super();
 
 		switch(eggs){
@@ -47,10 +47,10 @@ public class TargetPlayerAnimation{
 			
 			eggsFrames = new TextureRegion[5]; 
 		
-		velAnimation  = 1f/4f;
+		velAnimation  = velAnim;
 			break;
 		case COINS: //animação de moedas
-			velAnimation  = 1f/4f;
+			velAnimation  = velAnim;
 		break;
 
 		case YELLOW_CORN: //animação de nilhos
@@ -61,7 +61,7 @@ public class TargetPlayerAnimation{
 			spriteSheetTmp1 = TextureRegion.split(eggsSheet, eggsSheet.getWidth()/5, eggsSheet.getHeight());   
 			
 			eggsFrames = new TextureRegion[6]; 
-			velAnimation  = 1f/4f;
+			velAnimation  = velAnim;
 		break;
 
 		

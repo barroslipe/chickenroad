@@ -147,25 +147,25 @@ public class Player extends Sprite{
 		
 		
 		//pontoX,Y = ponto que o jogador clicou
-		if(pontoX > getX()){
+		if(pontoX > getX()) {
 			velocity.x = speed;
 			playerDirectionX = Direction.RIGHT;
 			playerAnimation.changeSpriteSheet(1);
-
 		}
-		if(pontoX < getX()){
+		if(pontoX < getX()) {
 			velocity.x = -speed;
 			playerDirectionX = Direction.LEFT;
 			playerAnimation.changeSpriteSheet(2);
 		}
-		if(pontoY > getY()){
+		if(pontoY > getY()) {
 			velocity.y = speed;
 			playerDirectionY = Direction.UP;
 			playerAnimation.changeSpriteSheet(6);
 		}
-		if(pontoY < getY()){
+		if(pontoY < getY()) {
 			velocity.y = -speed;
 			playerDirectionY = Direction.DOWN;
+			playerAnimation.changeSpriteSheet(7);
 		}		
 	}
 

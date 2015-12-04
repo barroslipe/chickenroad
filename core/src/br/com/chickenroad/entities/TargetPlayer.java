@@ -12,10 +12,10 @@ import br.com.chickenroad.screens.util.Constantes;
 public class TargetPlayer extends Sprite{
 	private TargetPlayerAnimation targetPlayerAnimation;
 
-	public TargetPlayer(String sprite, AssetManager assetManager, TargetPlayerTypes targ) {
+	public TargetPlayer(String sprite, AssetManager assetManager, TargetPlayerTypes targ, float velAnim) {
 		super(new Texture(sprite));
 
-		this.targetPlayerAnimation = new TargetPlayerAnimation(sprite, assetManager, targ);
+		this.targetPlayerAnimation = new TargetPlayerAnimation(sprite, assetManager, targ, velAnim);
 	}
 
 	public boolean checkColision(Player player){

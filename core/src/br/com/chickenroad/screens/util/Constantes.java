@@ -20,10 +20,22 @@ public class Constantes {
 	public static final String URL_BACKGROUND_SEASON = "backgroundSeason.png";
 	public static final String URL_PLAY_BUTTON = "playButton.png";
 	public static final String URL_EXIT_BUTTON = "exitButton.png";
+	
+	//sons
 	public static final String URL_SOUND_ON_BUTTON = "soundOnButton.jpg";
 	public static final String URL_SOUND_OFF_BUTTON = "soundOffButton.jpg";
 	public static final String URL_SOUND_MENU_BACKGROUND = "sounds/soundMenuBackground.mp3";
 	public static final String URL_SOUND_CLICK = "sounds/soundClick.mp3";
+	public static final String URL_SOUND_EGGS = "sounds/soundEggs.mp3";
+	public static final String URL_SOUND_CHICKEN_DEMAGE = "sounds/soundChickenDemage.mp3";
+	public static final String URL_SOUND_CORNS = "sounds/soundCorns.mp3";
+	public static final String URL_SOUND_ROOSTER = "sounds/soundRooster.mp3";
+	public static final String URL_SOUND_BACKGROUND_FASE1 = "sounds/soundBackgroundFase1.mp3";
+	public static final String URL_SOUND_END_FASE = "sounds/soundEndFase.wav";
+	public static final String URL_SOUND_END_FASE_COIN = "sounds/soundCoinEndFase.mp3";
+	
+
+	
 	public static final String URL_POPUP_NO_BUTTON = "popupNoButton.png";
 	public static final String URL_POPUP_YES_BUTTON = "popupYesButton.png";
 	public static final String URL_POPUP_EXIT_BACKGROUND = "popupExitBackground.png";
@@ -56,9 +68,11 @@ public class Constantes {
 	public static final String URL_PLAYER_AVATAR_STOP_RIGHT = "player/playerD_parado.png";
 	public static final String URL_PLAYER_AVATAR_STOP_LEFT = "player/playerE_parado.png";
 	public static final String URL_PLAYER_AVATAR_UP = "player/playerU_caminhando.png";
+	public static final String URL_PLAYER_AVATAR_DOWN = "player/playerB_caminhando.png";
 
+	
 	//sprites secundarios
-	public static final String URL_EGGS = "maps/map_101/ovo.png";
+	public static final String URL_EGGS = "ovo.png";
 	public static final String URL_PIG_STOP_RIGHT = "maps/map_101/porcoD_parado.png";
 	public static final String URL_PIG_STOP_LEFT = "maps/map_101/porcoE_parado.png";
 	public static final String URL_PIG_SLEEPING_RIGHT = "maps/map_101/porcoD_durmindo.png";
@@ -67,9 +81,11 @@ public class Constantes {
 	public static final String URL_PORTAL = "portal.png";
 	public static final String URL_BACKGROUND_SPLASHSCREEN = "splashScreenBackground.jpg";
 	public static final String URL_YELLOW_CORN = "milhoAmarelo.png";
-
+	public static final String URL_YELLOW_CORN_SCORE = "milhoAmareloScore.png";
+	public static final String URL_EGGS_SCORE = "ovoScore.png";
 	
 	//textos
+	public static final String URL_TEXT_FONT_KRAASH1 = "fonts/Kraash.ttf";
 	public static final String URL_TEXT_AMAZING = "amazing.png";
 	public static final String URL_TEXT_POW = "pow.png";
 	public static final String URL_TEXT_PLUS15 = "plus15.png";

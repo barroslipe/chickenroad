@@ -1,6 +1,7 @@
 package br.com.chickenroad.screens.screenparts;
 
 import br.com.chickenroad.entities.StateGame;
+import br.com.chickenroad.screens.util.Constantes;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
@@ -14,6 +15,9 @@ public class PlayMenuButtons{
 	private Sprite spriteRestart;
 	private Sprite spritePlay;
 	private Sprite spriteFaseList;
+	private Sprite spriteEggsQtd;
+	private Sprite spriteCornQtd;
+	
 	public int playerLifeLevel;
 
 	/**
@@ -46,6 +50,13 @@ public class PlayMenuButtons{
 		Texture listFase = assetManager.get("listFaseButton.png");
 		this.spriteFaseList = new Sprite(new TextureRegion(listFase));	
 
+		Texture EggsQtd = assetManager.get(Constantes.URL_EGGS_SCORE);
+		this.spriteEggsQtd = new Sprite(new TextureRegion(EggsQtd));	
+
+		Texture CornQtd = assetManager.get(Constantes.URL_YELLOW_CORN_SCORE);
+		this.spriteCornQtd = new Sprite(new TextureRegion(CornQtd));	
+
+				
 
 	}
 
@@ -78,6 +89,22 @@ public class PlayMenuButtons{
 
 		return false;
 	}
+	
+	public boolean checkClickEggsQtdButton(float x, float y) {
+
+		if(spriteEggsQtd.getBoundingRectangle().contains(x, y))
+			return true;
+
+		return false;
+	}
+	public boolean checkClickCornQtdButton(float x, float y) {
+
+		if(spriteCornQtd.getBoundingRectangle().contains(x, y))
+			return true;
+
+		return false;
+	}
+	
 
 	/**
 	 * TODO rever as variaveis de entrada.
@@ -85,18 +112,26 @@ public class PlayMenuButtons{
 	public void draw(SpriteBatch spriteBatch, StateGame stateGame, int deltaXPositionButtons, int deltaYPositionButtons){
 
 		if(stateGame == StateGame.PLAYING){
-			spritePause.setPosition(10+deltaXPositionButtons,  440+deltaYPositionButtons);
+			spritePause.setPosition(10+deltaXPositionButtons,  430+deltaYPositionButtons);
 			spritePause.draw(spriteBatch);
+			
+			
+			
 		}else{
-			spritePlay.setPosition(10+deltaXPositionButtons,  440+deltaYPositionButtons);
+			spritePlay.setPosition(10+deltaXPositionButtons,  430+deltaYPositionButtons);
 			spritePlay.draw(spriteBatch);
 		}
 
-		spriteRestart.setPosition(50+deltaXPositionButtons,  440+deltaYPositionButtons);
-		spriteFaseList.setPosition(90+deltaXPositionButtons,  440+deltaYPositionButtons);
+		spriteRestart.setPosition(60+deltaXPositionButtons,  430+deltaYPositionButtons);
+		spriteFaseList.setPosition(110+deltaXPositionButtons,  430+deltaYPositionButtons);
+		spriteEggsQtd.setPosition(530+deltaXPositionButtons,  425+deltaYPositionButtons);
+		spriteCornQtd.setPosition(580+deltaXPositionButtons,  430+deltaYPositionButtons);
 
+		
 		spriteRestart.draw(spriteBatch);
 		spriteFaseList.draw(spriteBatch);
+		spriteEggsQtd.draw(spriteBatch);
+		spriteCornQtd.draw(spriteBatch);
 
 	}
 
@@ -106,6 +141,8 @@ public class PlayMenuButtons{
 		this.spritePause = null;
 		this.spritePlay = null;
 		this.spriteRestart = null;
+		this.spriteEggsQtd = null;
+		this.spriteCornQtd = null;
 	}
 
 }

@@ -35,10 +35,19 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_POPUP_NO_BUTTON, Texture.class);
 		assetManager.load(Constantes.URL_POPUP_EXIT_BACKGROUND, Texture.class);
 
+		
 		//sons
 		assetManager.load(Constantes.URL_SOUND_CLICK, Music.class);
 		assetManager.load(Constantes.URL_SOUND_MENU_BACKGROUND, Music.class);
+		assetManager.load(Constantes.URL_SOUND_EGGS, Music.class);
+		assetManager.load(Constantes.URL_SOUND_CORNS, Music.class);
+		assetManager.load(Constantes.URL_SOUND_CHICKEN_DEMAGE, Music.class);
+		assetManager.load(Constantes.URL_SOUND_ROOSTER, Music.class);
+		assetManager.load(Constantes.URL_SOUND_BACKGROUND_FASE1, Music.class);
+		assetManager.load(Constantes.URL_SOUND_END_FASE, Music.class);
+		assetManager.load(Constantes.URL_SOUND_END_FASE_COIN, Music.class);
 
+		
 		assetManager.load("pauseFaseButton.png", Texture.class);
 		assetManager.load("playFaseButton.png", Texture.class);
 		assetManager.load("restartFaseButton.png", Texture.class);
@@ -59,7 +68,9 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_PLAYER_AVATAR_STOP_RIGHT, Texture.class);
 		assetManager.load(Constantes.URL_PLAYER_AVATAR_STOP_LEFT, Texture.class);
 		assetManager.load(Constantes.URL_PLAYER_AVATAR_UP, Texture.class);
+		assetManager.load(Constantes.URL_PLAYER_AVATAR_DOWN, Texture.class);
 
+		
 		//sprites secundarios do cenario
 		assetManager.load(Constantes.URL_EGGS, Texture.class);
 		assetManager.load(Constantes.URL_PIG_STOP_RIGHT, Texture.class);
@@ -70,6 +81,9 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_CHICKENNEST, Texture.class);
 		assetManager.load(Constantes.URL_PORTAL, Texture.class);
 		assetManager.load(Constantes.URL_YELLOW_CORN, Texture.class);
+		assetManager.load(Constantes.URL_YELLOW_CORN_SCORE, Texture.class);
+		assetManager.load(Constantes.URL_EGGS_SCORE, Texture.class);
+		
 		
 		
 		//textos

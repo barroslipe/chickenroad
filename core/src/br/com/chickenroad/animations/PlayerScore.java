@@ -4,12 +4,18 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 public class PlayerScore {
-	private static int score;
+	private int score;
+	private int scoreEggs;
+	private int scoreCorns;
+	
 	public BitmapFont defaultFont;
 
 	
 	public PlayerScore() {
 		this.score = 0;
+		this.scoreEggs = 0;
+		this.scoreCorns = 0;
+
 		this.defaultFont = new BitmapFont();
 	/*	Usando FreeTypeFont
 	 * FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal("fonts/Kraash Black.ttf"));
@@ -24,6 +30,9 @@ public class PlayerScore {
 	
 	public void inicializar(){
 		score = 0;
+		scoreEggs = 0;
+		scoreCorns = 0;
+		
 		defaultFont.setColor(1.0f, 1.0f, 1.0f, 1.0f);	
 	}
 	/**
@@ -38,11 +47,35 @@ public class PlayerScore {
 	/**
 	 * @param score the score to set
 	 */
-	public static void setScore(int score) {
-		PlayerScore.score = score;
+	public void setScore(int score) {
+		this.score = score;
 	}
 	
+	public int getScoreEggs() {
+		return scoreEggs;
+	}
+
+	public void setScoreEggs(int scoreEggs) {
+		this.scoreEggs = scoreEggs;
+	}
+
+	public int getScoreCorns() {
+		return scoreCorns;
+	}
+
+	public void setScoreCorns(int scoreCorns) {
+		this.scoreCorns = scoreCorns;
+	}
+
 	public void draw(Batch batch, int deltaXPositionButtons, int deltaYPositionButtons){
 		defaultFont.draw(batch, Integer.toString(score), 310+deltaXPositionButtons, 455+deltaYPositionButtons);
-	}
+		
+		if(scoreCorns<10){
+			defaultFont.draw(batch, Integer.toString(scoreEggs), 568+deltaXPositionButtons, 443+deltaYPositionButtons);
+		    defaultFont.draw(batch, Integer.toString(scoreCorns), 611+deltaXPositionButtons, 443+deltaYPositionButtons);
+		} else {
+			defaultFont.draw(batch, Integer.toString(scoreEggs), 563+deltaXPositionButtons, 443+deltaYPositionButtons);
+			defaultFont.draw(batch, Integer.toString(scoreCorns), 608+deltaXPositionButtons, 443+deltaYPositionButtons);
+		}
+}
 }

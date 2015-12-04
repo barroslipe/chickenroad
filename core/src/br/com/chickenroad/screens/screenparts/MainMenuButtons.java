@@ -1,11 +1,11 @@
 package br.com.chickenroad.screens.screenparts;
 
-import br.com.chickenroad.screens.util.Constantes;
-
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+
+import br.com.chickenroad.screens.util.Constantes;
 
 public class MainMenuButtons {
 

@@ -24,6 +24,8 @@ public class PlayerAnimation {
 	private Texture jumpEsqSheet;
 	private Texture stopDirSheet;
 	private Texture walkCimSheet;
+	private Texture walkBaiSheet;
+	
 
 	private TextureRegion[] walkFrames;            
 	private TextureRegion currentFrame;                                                
@@ -35,6 +37,7 @@ public class PlayerAnimation {
 	private TextureRegion[][] spriteSheetTmp4;
 	private TextureRegion[][] spriteSheetTmp5;
 	private TextureRegion[][] spriteSheetTmp6;
+	private TextureRegion[][] spriteSheetTmp7;
 
 	private float stateTime;  
 	private int index;
@@ -50,6 +53,7 @@ public class PlayerAnimation {
 		jumpEsqSheet = assetManager.get(Constantes.URL_PLAYER_AVATAR_JUMP_LEFT);
 		stopDirSheet = assetManager.get(Constantes.URL_PLAYER_AVATAR_STOP_RIGHT);
 		walkCimSheet = assetManager.get(Constantes.URL_PLAYER_AVATAR_UP);
+		walkBaiSheet = assetManager.get(Constantes.URL_PLAYER_AVATAR_DOWN);
 
 		tmp = TextureRegion.split(stopDirSheet,  stopDirSheet.getWidth()/5, stopDirSheet.getHeight());   
 		spriteSheetTmp1 = TextureRegion.split(walkDirSheet, walkDirSheet.getWidth()/5, walkDirSheet.getHeight());   
@@ -58,6 +62,7 @@ public class PlayerAnimation {
 		spriteSheetTmp4 = TextureRegion.split(jumpEsqSheet, jumpEsqSheet.getWidth()/5, jumpEsqSheet.getHeight());   
 		spriteSheetTmp5 = TextureRegion.split(stopDirSheet, stopDirSheet.getWidth()/5, stopDirSheet.getHeight());
 		spriteSheetTmp6 = TextureRegion.split(walkCimSheet,  walkCimSheet.getWidth()/5, walkCimSheet.getHeight());   
+		spriteSheetTmp7 = TextureRegion.split(walkBaiSheet,  walkBaiSheet.getWidth()/5, walkBaiSheet.getHeight());   
 
 		walkFrames = new TextureRegion[5]; 
 		
@@ -116,6 +121,9 @@ public class PlayerAnimation {
 		case 6:
 			tmp = spriteSheetTmp6;
 			break;
+		case 7:
+			tmp = spriteSheetTmp7;
+			break;
 		default:
 			break;
 		}
@@ -155,5 +163,4 @@ public class PlayerAnimation {
 		
 		batch.draw(currentFrame, posX, posY);
 	}
-
 }
