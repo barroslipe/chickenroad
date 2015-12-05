@@ -4,6 +4,10 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
 public class PlayerScore {
+	
+	
+	public static final int CORN_SCORE = 100;
+	public static int EGGS_SCORE = 15;
 	private int score;
 	private int scoreEggs;
 	private int scoreCorns;
@@ -78,4 +82,19 @@ public class PlayerScore {
 			defaultFont.draw(batch, Integer.toString(scoreCorns), 610+deltaXPositionButtons, 441+deltaYPositionButtons);
 		}
 }
+
+	public void addScore(int value) {
+		this.score += value;
+		
+	}
+
+	public void minusScoreEggs() {
+		this.scoreEggs -=1;
+		
+	}
+
+	public void minusScoreCorn() {
+		this.scoreCorns -= 1;
+		
+	}
 }

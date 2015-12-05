@@ -47,9 +47,7 @@ public class Play extends ScreenBase {
 	private int numTexts = 4;
 	private boolean catchedEggs[];
 	private boolean catchedCorns[];
-	private int score;
-	private int numEggsCatched;
-	private int numCornCatched;
+	
 	private int numLeft;
 	private int contAmazing, contPow, contPlus15, contPlus100;
 	private int pigPosX, pigPosY;
@@ -58,7 +56,6 @@ public class Play extends ScreenBase {
 	private boolean flagPlus100 = false;
 
 	private ChickenNest chickenNest;
-
 
 	public static int deltaXPositionButtons=0, deltaYPositionButtons=0;
 
@@ -74,9 +71,7 @@ public class Play extends ScreenBase {
 		this.player = new Player(Constantes.URL_PLAYER_AVATAR, getAssetManager(),  myMap.getWidthTiledMap(),
 				myMap.getHeightTiledMap());
 		this.playerScore = new PlayerScore();
-		this.score = 0;
-		this.numEggsCatched = 0;//numero de ovos pegos no cenario
-		this.numCornCatched = 0;//numero de ovos pegos no cenario
+		
 		this.numCornCatchedIndex=0;
 		this.numLeft = 0;//numeros de ovos deixados no ninho
 		this.contAmazing = 0;
@@ -210,10 +205,8 @@ public class Play extends ScreenBase {
 		contPlus15 = 0;
 		contPlus100 = 0;
 		numLeft = 0;
-		score = 0;
 		flagPlus15 = false;
-		numEggsCatched = 0;
-		numCornCatched = 0;
+		
 		numCornCatchedIndex = 0;
 		popupFinish = null;
 
@@ -333,14 +326,12 @@ public class Play extends ScreenBase {
 		//testa colis�o do alvo 
 		for(int i=0;i<PlayConfig.numEggs;i++){
 			//so pode pegar ovos se ele nao tiver sido pego antes
-			if(!catchedEggs[i] && targetPlayerEggs[i].checkColision(player) && (numEggsCatched < PlayConfig.numEggs)) {
+			if(!catchedEggs[i] && targetPlayerEggs[i].checkColision(player) && (playerScore.getScoreEggs() >0)){ 
 				catchedEggs[i] = true;//marcou como ovo pego
 
 				myMusic.getSoundEggs().play();
-				score+=15;
-				numEggsCatched++;
-				playerScore.setScore(score);
-				playerScore.setScoreEggs(PlayConfig.numEggs-numEggsCatched);
+				playerScore.addScore(PlayerScore.EGGS_SCORE);
+				playerScore.minusScoreEggs();
 				flagPlus15 = true;
 			}			
 		}
@@ -348,14 +339,12 @@ public class Play extends ScreenBase {
 		//testa colis�o do alvo - MILHOS ESCONDIDOS
 		for(int i=0;i<PlayConfig.numCorns;i++){
 			//so pode pegar ovos se ele nao tiver sido pego antes
-			if(!catchedCorns[i] && targetPlayerCorns[i].checkColision(player) && (numCornCatched < PlayConfig.numCorns)) {
+			if(!catchedCorns[i] && targetPlayerCorns[i].checkColision(player) && (playerScore.getScoreEggs() >0)){
 				catchedCorns[i] = true;//marcou como ovo pego
 
 				myMusic.getSoundCorns().play();
-				score+=100;
-				numCornCatched++;
-				playerScore.setScore(score);
-				playerScore.setScoreCorns(PlayConfig.numCorns-numCornCatched);
+				playerScore.addScore(PlayerScore.CORN_SCORE);
+				playerScore.minusScoreCorn();
 				flagPlus100 = true;
 				numCornCatchedIndex = i;//recebe a posi��o do milho pego
 			}			
