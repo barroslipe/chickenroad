@@ -2,7 +2,7 @@
 /*
  * TargetPlayerAnimation.java
  * 
- * Um target é qualquer sprite que pode ser interessante para o player juntar pontos ou concluir tarefas: 
+ * Um target ï¿½ qualquer sprite que pode ser interessante para o player juntar pontos ou concluir tarefas: 
  * Ex. Ovos, moedas, alimento, ..etc
  * 
  * Natal, 23/11/2015
@@ -38,7 +38,7 @@ public class TargetPlayerAnimation{
 		super();
 
 		switch(eggs){
-		case EGGS: //animação de ovos
+		case EGGS: //animaï¿½ï¿½o de ovos
 			//player spritesheet animation
 			eggsSheet = assetManager.get(sprite);
 			
@@ -49,11 +49,11 @@ public class TargetPlayerAnimation{
 		
 		velAnimation  = velAnim;
 			break;
-		case COINS: //animação de moedas
+		case COINS: //animaï¿½ï¿½o de moedas
 			velAnimation  = velAnim;
 		break;
 
-		case YELLOW_CORN: //animação de nilhos
+		case YELLOW_CORN: //animaï¿½ï¿½o de nilhos
 			//player spritesheet animation
 			eggsSheet = assetManager.get(sprite);
 			
@@ -105,7 +105,7 @@ public class TargetPlayerAnimation{
 			tmp = spriteSheetTmp1;
 			break;
 		/*
-		 * case 2: // para a animação de pegar o objeto
+		 * case 2: // para a animaï¿½ï¿½o de pegar o objeto
 			tmp = spriteSheetTmp1;
 			break;
 		 * */

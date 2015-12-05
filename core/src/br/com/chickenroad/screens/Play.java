@@ -1,5 +1,6 @@
 package br.com.chickenroad.screens;
 
+import java.util.ArrayList;
 import java.util.Random;
 
 import br.com.chickenroad.ChickenRoadGame;
@@ -33,7 +34,7 @@ public class Play extends ScreenBase {
 	private MyMusic myMusic;
 
 	private PlayMenuButtons playMenuButtons;
-	private TargetPlayer targetPlayerEggs[], targetPlayerCorns[];
+	private ArrayList<TargetPlayer> targetPlayerEggsList, targetPlayerCornsList;
 	private TextGame textGame[]; 
 	private Supporting supporting[];
 	private Player player;
@@ -45,10 +46,8 @@ public class Play extends ScreenBase {
 
 	private int numSupporting = 3;
 	private int numTexts = 4;
-	private boolean catchedEggs[];
-	private boolean catchedCorns[];
 	
-	private int numLeft;
+	
 	private int contAmazing, contPow, contPlus15, contPlus100;
 	private int pigPosX, pigPosY;
 	private int numCornCatchedIndex = 0; //recebe o valor da posi��o do vetor de milhos encontrados
@@ -73,15 +72,12 @@ public class Play extends ScreenBase {
 		this.playerScore = new PlayerScore();
 		
 		this.numCornCatchedIndex=0;
-		this.numLeft = 0;//numeros de ovos deixados no ninho
+		//this.numLeft = 0;//numeros de ovos deixados no ninho
 		this.contAmazing = 0;
 		this.contPow = 0;
 		this.contPlus15 = 0;
 		this.contPlus100 = 0;
-		this.catchedEggs = new boolean[PlayConfig.numEggs];
-		this.catchedCorns = new boolean[PlayConfig.numCorns];
-		this.targetPlayerEggs = new TargetPlayer[PlayConfig.numEggs];
-		this.targetPlayerCorns = new TargetPlayer[PlayConfig.numCorns];
+		
 		this.supporting = new Supporting[numSupporting];
 		this.textGame = new TextGame[numTexts];	
 
@@ -100,12 +96,15 @@ public class Play extends ScreenBase {
 
 		//inicializa vetor de ovos com velocidades aleatorias
 		Random generator = new Random();
+		
+		this.targetPlayerEggsList = new ArrayList<TargetPlayer>();
 		for(int i=0;i<PlayConfig.numEggs;i++)
-			this.targetPlayerEggs[i] = new TargetPlayer(Constantes.URL_EGGS, getAssetManager(),TargetPlayerTypes.EGGS, 1f/(float)generator.nextInt(5));
+			this.targetPlayerEggsList.add( new TargetPlayer(Constantes.URL_EGGS, getAssetManager(),TargetPlayerTypes.EGGS, 1f/(float)generator.nextInt(5)));
 
 		//inicializa vetor de milhos com velocidades iguais
+		this.targetPlayerCornsList = new ArrayList<TargetPlayer>();
 		for(int i=0;i<PlayConfig.numCorns;i++)
-			this.targetPlayerCorns[i] = new TargetPlayer(Constantes.URL_YELLOW_CORN, getAssetManager(),TargetPlayerTypes.YELLOW_CORN,1f/7f );
+			this.targetPlayerCornsList.add(new TargetPlayer(Constantes.URL_YELLOW_CORN, getAssetManager(),TargetPlayerTypes.YELLOW_CORN,1f/7f ));
 
 		//inicia fase
 		initFase();
@@ -204,7 +203,7 @@ public class Play extends ScreenBase {
 		contPow = 0;
 		contPlus15 = 0;
 		contPlus100 = 0;
-		numLeft = 0;
+	
 		flagPlus15 = false;
 		
 		numCornCatchedIndex = 0;
@@ -225,14 +224,16 @@ public class Play extends ScreenBase {
 
 		//gera ovos em posi��es aleatorios
 		for(int i=0;i<PlayConfig.numEggs;i++){
-			targetPlayerEggs[i].inicializar(gerador.nextInt(600), gerador.nextInt(400));
-			catchedEggs[i] = false;
+			targetPlayerEggsList.get(i).inicializar(gerador.nextInt(600), gerador.nextInt(400));
+			targetPlayerEggsList.get(i).setVisible(true);
+			//catchedEggs[i] = false;
 		}
 
 		//gera milhos em posi��es aleatorios
 		for(int i=0;i<PlayConfig.numCorns;i++){
-			targetPlayerCorns[i].inicializar(gerador.nextInt(600), gerador.nextInt(400));
-			catchedCorns[i] = false;
+			targetPlayerCornsList.get(i).inicializar(gerador.nextInt(600), gerador.nextInt(400));
+			targetPlayerCornsList.get(i).setVisible(true);
+			//catchedCorns[i] = false;
 		}
 	}
 
@@ -260,8 +261,8 @@ public class Play extends ScreenBase {
 		 */	
 
 		for(int i=0;i<PlayConfig.numEggs;i++) {
-			if(!catchedEggs[i])//exibe apenas os n�o pegos
-				targetPlayerEggs[i].draw(chickenRoadGame.getSpriteBatch(), delta);		
+			//if(!catchedEggs[i])//exibe apenas os n�o pegos
+				targetPlayerEggsList.get(i).draw(chickenRoadGame.getSpriteBatch(), delta);		
 		}
 
 		player.draw(chickenRoadGame.getSpriteBatch(), delta);
@@ -277,7 +278,7 @@ public class Play extends ScreenBase {
 		playerScore.draw(chickenRoadGame.getSpriteBatch(), deltaXPositionButtons, deltaYPositionButtons);
 
 		//se pegou todos os ovos, exibe texto animado de fim de fase
-		if(numLeft == PlayConfig.numEggs) {
+		if(playerScore.getScoreEggs() == 0) {
 			if(contAmazing++ < 130) {//este if evitar que a anima��o fique infinita
 
 				myMusic.getSoundCoinEndFase().play();
@@ -326,9 +327,10 @@ public class Play extends ScreenBase {
 		//testa colis�o do alvo 
 		for(int i=0;i<PlayConfig.numEggs;i++){
 			//so pode pegar ovos se ele nao tiver sido pego antes
-			if(!catchedEggs[i] && targetPlayerEggs[i].checkColision(player) && (playerScore.getScoreEggs() >0)){ 
-				catchedEggs[i] = true;//marcou como ovo pego
-
+			if(targetPlayerEggsList.get(i).checkColision(player) && (playerScore.getScoreEggs() >0)){ 
+				//catchedEggs[i] = true;//marcou como ovo pego
+				targetPlayerEggsList.get(i).setVisible(false);
+				
 				myMusic.getSoundEggs().play();
 				playerScore.addScore(PlayerScore.EGGS_SCORE);
 				playerScore.minusScoreEggs();
@@ -339,8 +341,10 @@ public class Play extends ScreenBase {
 		//testa colis�o do alvo - MILHOS ESCONDIDOS
 		for(int i=0;i<PlayConfig.numCorns;i++){
 			//so pode pegar ovos se ele nao tiver sido pego antes
-			if(!catchedCorns[i] && targetPlayerCorns[i].checkColision(player) && (playerScore.getScoreEggs() >0)){
-				catchedCorns[i] = true;//marcou como ovo pego
+			if(targetPlayerCornsList.get(i).checkColision(player) && (playerScore.getScoreEggs() >0)){
+				//catchedCorns[i] = true;//marcou como ovo pego
+				targetPlayerCornsList.get(i).setVisible(false);
+
 
 				myMusic.getSoundCorns().play();
 				playerScore.addScore(PlayerScore.CORN_SCORE);
@@ -364,7 +368,7 @@ public class Play extends ScreenBase {
 		if(flagPlus100) {
 			if(contPlus100++ < 48) {
 				//exibe apenas o milho encontrado
-				targetPlayerCorns[numCornCatchedIndex].draw(chickenRoadGame.getSpriteBatch(), delta);		
+				targetPlayerCornsList.get(numCornCatchedIndex).draw(chickenRoadGame.getSpriteBatch(), delta);		
 				textGame[3].setPosition(player.getX()-20, player.getY()+30);
 				textGame[3].draw(chickenRoadGame.getSpriteBatch(), delta);
 
@@ -390,10 +394,12 @@ public class Play extends ScreenBase {
 		//se aproximar do ninho, deixa um ovo
 		if(chickenNest.checkColision(player)) {
 			for(int i=0;i<PlayConfig.numEggs;i++){
-				if(catchedEggs[i]){
-					targetPlayerEggs[i].inicializar(840+gerador.nextInt(30), 60+gerador.nextInt(10));
-					catchedEggs[i] = false;//sinaliza como ovo liberado
-					numLeft++;
+				if(!targetPlayerEggsList.get(i).getVisible()){
+					targetPlayerEggsList.get(i).inicializar(840+gerador.nextInt(30), 60+gerador.nextInt(10));
+					//catchedEggs[i] = false;//sinaliza como ovo liberado
+					targetPlayerEggsList.get(i).setVisible(true);
+					targetPlayerEggsList.get(i).setLocker(true);
+
 				}
 			}
 		}		
@@ -421,10 +427,10 @@ public class Play extends ScreenBase {
 			this.supporting[i].dispose();
 
 		for(int i=0;i<PlayConfig.numEggs;i++)
-			this.targetPlayerEggs[i].dispose();
+			this.targetPlayerEggsList.get(i).dispose();
 
 		for(int i=0;i<PlayConfig.numCorns;i++)
-			this.targetPlayerCorns[i].dispose();
+			this.targetPlayerCornsList.get(i).dispose();
 
 	}
 }

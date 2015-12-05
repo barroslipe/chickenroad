@@ -10,6 +10,10 @@ import br.com.chickenroad.animations.TargetPlayerAnimation;
 import br.com.chickenroad.screens.util.Constantes;
 
 public class TargetPlayer extends Sprite{
+
+
+	private boolean visible, locker;
+	
 	private TargetPlayerAnimation targetPlayerAnimation;
 
 	public TargetPlayer(String sprite, AssetManager assetManager, TargetPlayerTypes targ, float velAnim) {
@@ -19,6 +23,8 @@ public class TargetPlayer extends Sprite{
 	}
 
 	public boolean checkColision(Player player){
+		
+		if(locker || !visible) return false;
 
 		//fixa o tamanho do boundbox do ovo para ser referente a um ovo 
 		setBounds(getX(), getY(), Constantes.WIDTH_EGGS, Constantes.HEIGHT_EGGS);
@@ -30,6 +36,8 @@ public class TargetPlayer extends Sprite{
 	public void inicializar(float x, float y) {
 		setPosition(x, y);
 		targetPlayerAnimation.inicializar(x, y);
+		visible=true;
+		locker = false;
 	}
 
 	public void dispose() {
@@ -38,8 +46,26 @@ public class TargetPlayer extends Sprite{
 
 	@Override
 	public void draw(Batch batch, float delta){
-		super.draw(batch, delta);
-		this.targetPlayerAnimation.draw(batch, delta);	
+
+		if(visible){
+			super.draw(batch, delta);
+			this.targetPlayerAnimation.draw(batch, delta);	
+		}
 	}
-	
+
+	public void setVisible(boolean b) {
+		this.visible = b;
+
+	}
+
+	public boolean getVisible() {
+		// TODO Auto-generated method stub
+		return visible;
+	}
+
+	public void setLocker(boolean b) {
+
+		this.locker = b;
+	}
+
 }
