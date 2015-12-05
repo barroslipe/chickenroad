@@ -1,5 +1,7 @@
 package br.com.chickenroad.animations;
 
+import br.com.chickenroad.screens.PlayConfig;
+
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 
@@ -33,9 +35,11 @@ public class PlayerScore {
 	}
 	
 	public void inicializar(){
+		
 		score = 0;
-		scoreEggs = 0;
-		scoreCorns = 0;
+		
+		scoreEggs = PlayConfig.numEggs;
+		scoreCorns = PlayConfig.numCorns;
 		
 		defaultFont.setColor(1.0f, 1.0f, 1.0f, 1.0f);	
 	}

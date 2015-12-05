@@ -44,12 +44,7 @@ public class Play extends ScreenBase {
 	private PlayCamera playCamera; 
 	private PlayerScore playerScore;
 
-	private int numSupporting = 3;
-	private int numTexts = 4;
-	
-	
 	private int contAmazing, contPow, contPlus15, contPlus100;
-	private int pigPosX, pigPosY;
 	private int numCornCatchedIndex = 0; //recebe o valor da posi��o do vetor de milhos encontrados
 	private boolean flagPlus15 = false;
 	private boolean flagPlus100 = false;
@@ -72,14 +67,13 @@ public class Play extends ScreenBase {
 		this.playerScore = new PlayerScore();
 		
 		this.numCornCatchedIndex=0;
-		//this.numLeft = 0;//numeros de ovos deixados no ninho
 		this.contAmazing = 0;
 		this.contPow = 0;
 		this.contPlus15 = 0;
 		this.contPlus100 = 0;
 		
-		this.supporting = new Supporting[numSupporting];
-		this.textGame = new TextGame[numTexts];	
+		this.supporting = new Supporting[PlayConfig.numSupporting];
+		this.textGame = new TextGame[PlayConfig.numTexts];	
 
 		this. textGame[0] = new TextGame(Constantes.URL_TEXT_AMAZING, getAssetManager(), TextGameTypes.AMAZING);
 		this. textGame[1] = new TextGame(Constantes.URL_TEXT_POW, getAssetManager(), TextGameTypes.POW);
@@ -195,10 +189,8 @@ public class Play extends ScreenBase {
 
 		player.inicializar(x, y);
 		playerScore.inicializar();
-		playerScore.setScoreEggs(PlayConfig.numEggs);
-		playerScore.setScoreCorns(PlayConfig.numCorns);
-
-		chickenNest.setPosition(820, 30);
+		chickenNest.inicializar();
+		
 		contAmazing = 0;
 		contPow = 0;
 		contPlus15 = 0;
@@ -212,11 +204,11 @@ public class Play extends ScreenBase {
 		Random gerador = new Random();
 
 		//inicializa todos os textos
-		for(int i=0;i<numTexts;i++)
+		for(int i=0;i<PlayConfig.numTexts;i++)
 			textGame[i].inicializar(); //exibe texto na posi��o do player
 
 		//inicia vetor de coadjuvantes
-		for(int i=0;i<numSupporting;i++){
+		for(int i=0;i<PlayConfig.numSupporting;i++){
 			int pigPosX=gerador.nextInt(130)+10;
 			int pigPosY = gerador.nextInt(150)+160;
 			supporting[i].inicializar(pigPosX, pigPosY);
@@ -226,14 +218,12 @@ public class Play extends ScreenBase {
 		for(int i=0;i<PlayConfig.numEggs;i++){
 			targetPlayerEggsList.get(i).inicializar(gerador.nextInt(600), gerador.nextInt(400));
 			targetPlayerEggsList.get(i).setVisible(true);
-			//catchedEggs[i] = false;
 		}
 
 		//gera milhos em posi��es aleatorios
 		for(int i=0;i<PlayConfig.numCorns;i++){
 			targetPlayerCornsList.get(i).inicializar(gerador.nextInt(600), gerador.nextInt(400));
 			targetPlayerCornsList.get(i).setVisible(true);
-			//catchedCorns[i] = false;
 		}
 	}
 
@@ -251,25 +241,14 @@ public class Play extends ScreenBase {
 		chickenRoadGame.getSpriteBatch().begin();
 		chickenNest.draw(chickenRoadGame.getSpriteBatch());	
 
-		//se pegou todos os ovos, exibe portal de fase
-		/*if(numLeft == NumEggs) {
-			portalTeste.setPosition(player.getX(), player.getY());
-			portalTeste.draw(chickenRoadGame.getSpriteBatch());
-		}
-		else //else GAMBIARRA TEMPOR�RIA - :(
-			portalTeste.setPosition(-10, -10);
-		 */	
-
 		for(int i=0;i<PlayConfig.numEggs;i++) {
-			//if(!catchedEggs[i])//exibe apenas os n�o pegos
-				targetPlayerEggsList.get(i).draw(chickenRoadGame.getSpriteBatch(), delta);		
+			targetPlayerEggsList.get(i).draw(chickenRoadGame.getSpriteBatch(), delta);		
 		}
 
 		player.draw(chickenRoadGame.getSpriteBatch(), delta);
 
 		//desenha os personagens coadjuvantes
-		for(int i=0;i<numSupporting;i++) {
-			supporting[i].setPosition(pigPosX, pigPosY);
+		for(int i=0;i<PlayConfig.numSupporting;i++) {
 			supporting[i].draw(chickenRoadGame.getSpriteBatch(), delta);
 		}
 
@@ -293,14 +272,8 @@ public class Play extends ScreenBase {
 			myMusic.getSoundBackgroundFase1().pause();
 			myMusic.getSoundBackgroundChicken();
 
-			stateGame = StateGame.PAUSE;
+			stateGame = StateGame.FINISH;
 
-			/*popupFinish = new FinishPopup(chickenRoadGame.getResourceManager());
-		    popupFinish.setPopupInitPositionX((int) (player.getX()-160));
-			popupFinish.setPopupInitPositionY((int) (playCamera.getOrthographicCamera().viewportHeight/2));
-			popupFinish.draw(chickenRoadGame.getSpriteBatch(), delta);
-			 */
-			// numLeft = 0;
 		}
 		else { //else GAMBIARRA TEMPOR�RIA - :(
 
@@ -328,7 +301,6 @@ public class Play extends ScreenBase {
 		for(int i=0;i<PlayConfig.numEggs;i++){
 			//so pode pegar ovos se ele nao tiver sido pego antes
 			if(targetPlayerEggsList.get(i).checkColision(player) && (playerScore.getScoreEggs() >0)){ 
-				//catchedEggs[i] = true;//marcou como ovo pego
 				targetPlayerEggsList.get(i).setVisible(false);
 				
 				myMusic.getSoundEggs().play();
@@ -342,10 +314,7 @@ public class Play extends ScreenBase {
 		for(int i=0;i<PlayConfig.numCorns;i++){
 			//so pode pegar ovos se ele nao tiver sido pego antes
 			if(targetPlayerCornsList.get(i).checkColision(player) && (playerScore.getScoreEggs() >0)){
-				//catchedCorns[i] = true;//marcou como ovo pego
 				targetPlayerCornsList.get(i).setVisible(false);
-
-
 				myMusic.getSoundCorns().play();
 				playerScore.addScore(PlayerScore.CORN_SCORE);
 				playerScore.minusScoreCorn();
@@ -385,18 +354,12 @@ public class Play extends ScreenBase {
 		if(player.getPlayerLife().getLife() <= 0) 
 			stateGame = StateGame.GAME_OVER;
 
-		//if(portalTeste.checkColision(player)){
-		//stateGame = StateGame.PAUSE;
-		//popupFinish = new FinishPopup(chickenRoadGame.getResourceManager());
-		//popupFinish.draw(chickenRoadGame.getSpriteBatch());
-		//}
 
 		//se aproximar do ninho, deixa um ovo
 		if(chickenNest.checkColision(player)) {
 			for(int i=0;i<PlayConfig.numEggs;i++){
 				if(!targetPlayerEggsList.get(i).getVisible()){
 					targetPlayerEggsList.get(i).inicializar(840+gerador.nextInt(30), 60+gerador.nextInt(10));
-					//catchedEggs[i] = false;//sinaliza como ovo liberado
 					targetPlayerEggsList.get(i).setVisible(true);
 					targetPlayerEggsList.get(i).setLocker(true);
 
@@ -420,10 +383,10 @@ public class Play extends ScreenBase {
 		this.playerScore = null;
 		this.myMusic.dispose();
 
-		for(int i=0;i<numTexts;i++)
+		for(int i=0;i<PlayConfig.numTexts;i++)
 			this.textGame[i].dispose();
 
-		for(int i=0;i<numSupporting;i++)
+		for(int i=0;i<PlayConfig.numSupporting;i++)
 			this.supporting[i].dispose();
 
 		for(int i=0;i<PlayConfig.numEggs;i++)

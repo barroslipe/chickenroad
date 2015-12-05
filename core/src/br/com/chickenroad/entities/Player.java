@@ -25,7 +25,7 @@ public class Player extends Sprite{
 	private Direction playerDirectionX, playerDirectionY;
 	private float demageTimerPerSecond, timer;
 	private boolean demage;
-	private boolean colisionVehiclesStatus; // retorna o estado atual da colisão com veiculos
+	private boolean colisionVehiclesStatus; // retorna o estado atual da colisï¿½o com veiculos
 	public boolean isColisionVehiclesStatus() {
 		return colisionVehiclesStatus;
 	}
