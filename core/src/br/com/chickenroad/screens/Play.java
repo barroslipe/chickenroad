@@ -257,7 +257,7 @@ public class Play extends ScreenBase {
 		playerScore.draw(chickenRoadGame.getSpriteBatch(), deltaXPositionButtons, deltaYPositionButtons);
 
 		//se pegou todos os ovos, exibe texto animado de fim de fase
-		if(playerScore.getScoreEggs() == 0) {
+		if(playerScore.getScoreEggs() == 0 && chickenNest.checkColision(player)) {
 			if(contAmazing++ < 130) {//este if evitar que a anima��o fique infinita
 
 				myMusic.getSoundCoinEndFase().play();
@@ -315,6 +315,7 @@ public class Play extends ScreenBase {
 			//so pode pegar ovos se ele nao tiver sido pego antes
 			if(targetPlayerCornsList.get(i).checkColision(player) && (playerScore.getScoreEggs() >0)){
 				targetPlayerCornsList.get(i).setVisible(false);
+				targetPlayerCornsList.get(i).setLocker(true);
 				myMusic.getSoundCorns().play();
 				playerScore.addScore(PlayerScore.CORN_SCORE);
 				playerScore.minusScoreCorn();
@@ -337,6 +338,7 @@ public class Play extends ScreenBase {
 		if(flagPlus100) {
 			if(contPlus100++ < 48) {
 				//exibe apenas o milho encontrado
+				targetPlayerCornsList.get(numCornCatchedIndex).setVisible(true);
 				targetPlayerCornsList.get(numCornCatchedIndex).draw(chickenRoadGame.getSpriteBatch(), delta);		
 				textGame[3].setPosition(player.getX()-20, player.getY()+30);
 				textGame[3].draw(chickenRoadGame.getSpriteBatch(), delta);
@@ -345,6 +347,9 @@ public class Play extends ScreenBase {
 				textGame[3].setPosition(-100, -200);
 				contPlus100 = 0;
 				flagPlus100 = false;
+				targetPlayerCornsList.get(numCornCatchedIndex).setVisible(false);
+
+				
 			}
 		}
 
