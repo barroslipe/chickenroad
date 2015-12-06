@@ -148,7 +148,7 @@ public class Player extends Sprite{
 		float diffPontoX;
 		float diffPontoY;
 		final float noZero = 0.999999f; //usada para evitar ideterminação em 'diffPontoX' caso não haja variação em X
-		final float infinitezimal = 100000000f; //evita que der angulo 90 graus, pois não tem tangente para e ele
+		//final float infinitezimal = 100000000f; //evita que der angulo 90 graus, pois não tem tangente para e ele
 		
 		//calculos de declividade de reta
 		diffPontoX = (float)(pontoX - getX()*noZero);
@@ -165,7 +165,6 @@ public class Player extends Sprite{
 		 * */
 		
 		// [EM RELAÇÃO A POSIÇÃO ATUAL DO PLAYER]
-		
 		//pontoX,Y = ponto que o jogador clicou
 		if(pontoX > getX()) {
 			if(declividadeReta <= 0.5 && declividadeReta >= -0.5) {
@@ -184,7 +183,6 @@ public class Player extends Sprite{
 				playerAnimation.changeSpriteSheet(7);
 			}
 		}
-		
 		
 		if(pontoX < getX()) {
 			if(declividadeReta >= -0.5 && declividadeReta <=0.5) {

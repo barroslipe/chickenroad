@@ -6,7 +6,8 @@ import br.com.chickenroad.screens.util.Constantes;
 import com.badlogic.gdx.audio.Music;
 
 public class MyMusic {
-	private Music soundEggs, soundCorns, soundChickenDemage, soundBackgroundFase1, soundCoinEndFase, soundEndFase, soundBackgroundChicken;
+	private Music soundEggs, soundCorns, soundChickenDemage, soundBackgroundFase1, 
+		soundCoinEndFase, soundEndFase, soundBackgroundChicken, soundSheep, soundMenuBackground;
 
 	public MyMusic(ChickenRoadGame aChickenRoadGame){
 		//sons	
@@ -17,9 +18,12 @@ public class MyMusic {
 		this.soundEggs = aChickenRoadGame.getResourceManager().getAssetManager().get(Constantes.URL_SOUND_EGGS);
 		this.soundCorns = aChickenRoadGame.getResourceManager().getAssetManager().get(Constantes.URL_SOUND_CORNS);
 		this.soundChickenDemage = aChickenRoadGame.getResourceManager().getAssetManager().get(Constantes.URL_SOUND_CHICKEN_DEMAGE);
+		this.soundSheep = aChickenRoadGame.getResourceManager().getAssetManager().get(Constantes.URL_SOUND_SHEEP);
+		this.soundMenuBackground = aChickenRoadGame.getResourceManager().getAssetManager().get(Constantes.URL_SOUND_MENU_BACKGROUND);
 		
 		soundBackgroundFase1.setVolume(0.2f);
-		soundBackgroundChicken.setVolume(0.5f);
+		soundBackgroundChicken.setVolume(0.4f);
+		soundMenuBackground.setVolume(0.3f);
 	}
 
 	public Music getSoundEggs() {
@@ -50,6 +54,14 @@ public class MyMusic {
 		return soundBackgroundChicken;
 	}
 
+	public Music getSoundSheep() {
+		return soundSheep;
+	}
+	
+	public Music getSoundMenuBackground() {
+		return soundMenuBackground;
+	}
+	
 	public void dispose() {
 		this.soundEggs.dispose();
 		this.soundCorns.dispose();
@@ -58,6 +70,7 @@ public class MyMusic {
 		this.soundCoinEndFase.dispose();
 		this.soundEndFase.dispose();
 		this.soundBackgroundChicken.dispose();
-		
+		this.soundSheep.dispose();
+		this.soundMenuBackground.dispose();
 	}
 }

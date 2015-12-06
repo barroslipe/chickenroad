@@ -64,7 +64,17 @@ public class TargetPlayerAnimation{
 			velAnimation  = velAnim;
 		break;
 
-		
+		case SHEEP: //animação de nilhos
+			//player spritesheet animation
+			eggsSheet = assetManager.get(sprite);
+			
+			tmp = TextureRegion.split(eggsSheet, eggsSheet.getWidth()/5, eggsSheet.getHeight());   
+			spriteSheetTmp1 = TextureRegion.split(eggsSheet, eggsSheet.getWidth()/5, eggsSheet.getHeight());   
+			
+			eggsFrames = new TextureRegion[5]; 
+			velAnimation  = velAnim;
+		break;
+
 		}
 	}
 	
