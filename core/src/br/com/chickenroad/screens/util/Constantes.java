@@ -22,8 +22,8 @@ public class Constantes {
 	public static final String URL_EXIT_BUTTON = "exitButton.png";
 	
 	//sons
-	public static final String URL_SOUND_ON_BUTTON = "soundOnButton.jpg";
-	public static final String URL_SOUND_OFF_BUTTON = "soundOffButton.jpg";
+	public static final String URL_SOUND_ON_BUTTON = "soundOnButton.png";
+	public static final String URL_SOUND_OFF_BUTTON = "soundOffButton.png";
 	public static final String URL_SOUND_MENU_BACKGROUND = "sounds/soundMenuBackground.mp3";
 	public static final String URL_SOUND_CLICK = "sounds/soundClick.mp3";
 	public static final String URL_SOUND_EGGS = "sounds/soundEggs.mp3";
@@ -34,6 +34,7 @@ public class Constantes {
 	public static final String URL_SOUND_END_FASE = "sounds/soundEndFase.wav";
 	public static final String URL_SOUND_END_FASE_COIN = "sounds/soundCoinEndFase.mp3";
 	public static final String URL_SOUND_BACKGROUND_CHICKEN = "sounds/soundChickenBackground.mp3";
+	public static final String URL_SOUND_SHEEP = "sounds/soundSheep.mp3";
 
 	
 	public static final String URL_POPUP_NO_BUTTON = "popupNoButton.png";
@@ -83,6 +84,8 @@ public class Constantes {
 	public static final String URL_YELLOW_CORN = "milhoAmarelo.png";
 	public static final String URL_YELLOW_CORN_SCORE = "milhoAmareloScore.png";
 	public static final String URL_EGGS_SCORE = "ovoScore.png";
+	public static final String URL_GIFT_SHEEP = "maps/map_101/giftOvelha.png";
+	
 	
 	//textos
 	public static final String URL_TEXT_FONT_KRAASH1 = "fonts/Kraash.ttf";
@@ -90,6 +93,5 @@ public class Constantes {
 	public static final String URL_TEXT_POW = "pow.png";
 	public static final String URL_TEXT_PLUS15 = "plus15.png";
 	public static final String URL_TEXT_PLUS100 = "plus100.png";
-	
 
 }

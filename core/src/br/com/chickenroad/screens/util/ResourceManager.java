@@ -47,6 +47,7 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_SOUND_BACKGROUND_CHICKEN, Music.class);
 		assetManager.load(Constantes.URL_SOUND_END_FASE, Music.class);
 		assetManager.load(Constantes.URL_SOUND_END_FASE_COIN, Music.class);
+		assetManager.load(Constantes.URL_SOUND_SHEEP, Music.class);
 
 		
 		assetManager.load("pauseFaseButton.png", Texture.class);
@@ -78,7 +79,9 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_PIG_STOP_LEFT, Texture.class);
 		assetManager.load(Constantes.URL_PIG_SLEEPING_RIGHT, Texture.class);
 		assetManager.load(Constantes.URL_PIG_SLEEPING_LEFT, Texture.class);
+		assetManager.load(Constantes.URL_GIFT_SHEEP, Texture.class);
 
+		
 		assetManager.load(Constantes.URL_CHICKENNEST, Texture.class);
 		assetManager.load(Constantes.URL_PORTAL, Texture.class);
 		assetManager.load(Constantes.URL_YELLOW_CORN, Texture.class);

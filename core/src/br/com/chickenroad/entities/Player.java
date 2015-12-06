@@ -144,29 +144,91 @@ public class Player extends Sprite{
 		pontoX = (int)touchPoint.x;
 		pontoY = (int)touchPoint.y;
 
+		float declividadeReta; //relacionado ao angulo entre retas de toque na tela
+		float diffPontoX;
+		float diffPontoY;
+		final float noZero = 0.999999f; //usada para evitar ideterminação em 'diffPontoX' caso não haja variação em X
+		final float infinitezimal = 100000000f; //evita que der angulo 90 graus, pois não tem tangente para e ele
 		
+		//calculos de declividade de reta
+		diffPontoX = (float)(pontoX - getX()*noZero);
+		diffPontoY = (float)(pontoY - getY());
+		
+		declividadeReta = (diffPontoY)/(diffPontoX);
+		
+		/*
+		 * m = 0, angulo 0, retas paralelas no eixo X (toque paralelo)
+		 * m = 1,  angulo 45 graus
+		 * m = -1, angulo de -45 graus
+		 * m < 0, angulos maiores que 90 graus
+		 * m > 0, angulos menores que 90 graus
+		 * */
+		
+		// [EM RELAÇÃO A POSIÇÃO ATUAL DO PLAYER]
 		
 		//pontoX,Y = ponto que o jogador clicou
 		if(pontoX > getX()) {
+			if(declividadeReta <= 0.5 && declividadeReta >= -0.5) {
+				velocity.x = speed;
+				playerDirectionX = Direction.RIGHT;
+				playerAnimation.changeSpriteSheet(1);
+			}
+			if(declividadeReta > 0.5) {
+				velocity.y = speed;
+				playerDirectionY = Direction.UP;
+				playerAnimation.changeSpriteSheet(6);
+			}
+			if(declividadeReta < -0.5) {
+				velocity.y = -speed;
+				playerDirectionY = Direction.DOWN;
+				playerAnimation.changeSpriteSheet(7);
+			}
+		}
+		
+		
+		if(pontoX < getX()) {
+			if(declividadeReta >= -0.5 && declividadeReta <=0.5) {
+				velocity.x = -speed;
+				playerDirectionX = Direction.LEFT;
+				playerAnimation.changeSpriteSheet(2);
+			}
+			if(declividadeReta < -0.5) {
+				velocity.y = speed;
+				playerDirectionY = Direction.UP;
+				playerAnimation.changeSpriteSheet(6);
+			}
+			if(declividadeReta > 0.5) {
+				velocity.y = -speed;
+				playerDirectionY = Direction.DOWN;
+				playerAnimation.changeSpriteSheet(7);
+			}
+		}
+		
+		/*
+		if(pontoX > getX()){
 			velocity.x = speed;
 			playerDirectionX = Direction.RIGHT;
 			playerAnimation.changeSpriteSheet(1);
 		}
-		if(pontoX < getX()) {
+		
+		if(pontoX < getX()){
 			velocity.x = -speed;
 			playerDirectionX = Direction.LEFT;
 			playerAnimation.changeSpriteSheet(2);
 		}
-		if(pontoY > getY()) {
+
+		if(pontoY > getY()){
 			velocity.y = speed;
 			playerDirectionY = Direction.UP;
 			playerAnimation.changeSpriteSheet(6);
 		}
-		if(pontoY < getY()) {
+		
+		if(pontoY < getY()){
 			velocity.y = -speed;
 			playerDirectionY = Direction.DOWN;
 			playerAnimation.changeSpriteSheet(7);
-		}		
+		}*/
+	
 	}
 
 	public void inicializar(float x, float y) {
