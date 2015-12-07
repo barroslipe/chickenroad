@@ -17,7 +17,7 @@ public class Constantes {
 
 	public static final String URL_BACK_BUTTON = "backButton.png";	
 	public static final String URL_BACKGROUND = "backgroundMenu.png";
-	public static final String URL_BACKGROUND_SEASON = "backgroundSeason.png";
+	public static final String URL_BACKGROUND_SEASON = "backgroundSeasonRoosterSong.png";
 	public static final String URL_BACKGROUND_ALL_SEASONS = "backgroundAllSeasons.png";
 	public static final String URL_PLAY_BUTTON = "playButton.png";
 	public static final String URL_EXIT_BUTTON = "exitButton.png";
