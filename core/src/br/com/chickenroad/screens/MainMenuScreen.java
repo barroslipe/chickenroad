@@ -93,7 +93,7 @@ public class MainMenuScreen extends ScreenBase {
 			}else if(menuButtons.checkClickPlayButton(touchPoint.x, touchPoint.y)){
 				//se pressionar PLAY
 				soundClick.play();
-				soundMenuBackground.stop();
+				//soundMenuBackground.stop();
 				chickenRoadGame.setScreenWithTransitionFade(new SeasonScreen(chickenRoadGame));
 			}else if(menuButtons.checkClickSoundOnButton(touchPoint.x, touchPoint.y)){
 				//TODO tocar o som
@@ -101,7 +101,6 @@ public class MainMenuScreen extends ScreenBase {
 				Constantes.SOUND_ON_FLAG = !Constantes.SOUND_ON_FLAG;
 				if(!Constantes.SOUND_ON_FLAG) soundMenuBackground.stop();
 			}
-
 		}
 		return true;
 	}

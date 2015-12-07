@@ -23,6 +23,8 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_BACK_BUTTON, Texture.class);
 		assetManager.load(Constantes.URL_BACKGROUND, Texture.class);
 		assetManager.load(Constantes.URL_BACKGROUND_SEASON, Texture.class);
+		assetManager.load(Constantes.URL_BACKGROUND_ALL_SEASONS, Texture.class);
+		
 
 		assetManager.load(Constantes.URL_EXIT_BUTTON, Texture.class);
 		assetManager.load("fase1.png", Texture.class);

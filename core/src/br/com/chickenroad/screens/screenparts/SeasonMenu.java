@@ -17,12 +17,9 @@ public class SeasonMenu {
 	private AssetManager assetManager;
 	private Sound soundRooster;
 	//com varias fases, trocar figuras
-	private String faseList[] = {"fase1.png", "faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png",
-			"faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png",
-			"faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png",
-			"faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png"};
+	private String seasonList[] = {"seasons/seasonRoosterSong.png", "seasons/seasonDayByDay1.png"};
 
-	private ArrayList<Sprite> spriteFaseList;
+	private ArrayList<Sprite> spriteSeasonList;
 
 	private int fase_atual = 0;
 
@@ -30,49 +27,49 @@ public class SeasonMenu {
 	public SeasonMenu(){
 		soundRooster = Gdx.audio.newSound(Gdx.files.internal(Constantes.URL_SOUND_ROOSTER));
 
-				//testando
-		fase_atual = PreferencesUser.getFase();
+		//testando
+		fase_atual = 0;//PreferencesUser.getFase();
 
 		//TODO trocar figura e string
-		spriteFaseList = new ArrayList<Sprite>();
+		spriteSeasonList = new ArrayList<Sprite>();
 
 		int cont = 0;
-		int spriteFaseListHeight = Constantes.WORLD_HEIGHT/2+90;
+		int spriteFaseListHeight = 80;// Constantes.WORLD_HEIGHT/2+90;
 
 		String picture;
-		for(int i=0;i<faseList.length;i++){
+		for(int i=0;i<seasonList.length;i++){
 			if(i <= fase_atual)
-				picture = faseList[0];    //Aqui ser� apontada a fase correta. Por enquanto, ser� a figura de fase 1 para todas as fases ABERTAS.
+				picture = seasonList[0];    //Aqui ser� apontada a fase correta. Por enquanto, ser� a figura de fase 1 para todas as fases ABERTAS.
 			else
-				picture = "faseBloqueada.png";
+				picture = "seasons/seasonDayByDay1.png";
 
 			Sprite sprite = new Sprite(new Texture(picture));
-			spriteFaseList.add(sprite);
+			spriteSeasonList.add(sprite);
 
 			if(i%5 == 0) {
 				
 				if(cont != 0) spriteFaseListHeight -= 110;
 				
 				cont = 0;
-				spriteFaseList.get(i).setPosition(Constantes.WORLD_WIDTH/2 - 240, spriteFaseListHeight);
+				spriteSeasonList.get(i).setPosition(Constantes.WORLD_WIDTH/2 - 140, spriteFaseListHeight);
 			}else {
 				++cont;
-				spriteFaseList.get(i).setPosition(Constantes.WORLD_WIDTH/2- 240 +105*cont, spriteFaseListHeight);
+				spriteSeasonList.get(i).setPosition(Constantes.WORLD_WIDTH/2- 120 +155*cont, spriteFaseListHeight);
 			}
 		}
 	}
 
 	public void draw(SpriteBatch spriteBatch) {
 
-		for(int i=0;i<spriteFaseList.size();i++){
-			spriteFaseList.get(i).draw(spriteBatch);	
+		for(int i=0;i<spriteSeasonList.size();i++){
+			spriteSeasonList.get(i).draw(spriteBatch);	
 		}
 	}
 
 	public int getClickedFase(float x, float y) {
 
-		for(int i=0;i<faseList.length;i++){
-			if(spriteFaseList.get(i).getBoundingRectangle().contains(x, y)){
+		for(int i=0;i<seasonList.length;i++){
+			if(spriteSeasonList.get(i).getBoundingRectangle().contains(x, y)){
 				soundRooster.play();
 				if(i<=fase_atual)
 					return i;

@@ -1,5 +1,9 @@
 package br.com.chickenroad.screens;
 
+import br.com.chickenroad.ChickenRoadGame;
+import br.com.chickenroad.screens.screenparts.FasesMenu;
+import br.com.chickenroad.screens.util.Constantes;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
@@ -7,19 +11,14 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
 
-import br.com.chickenroad.ChickenRoadGame;
-import br.com.chickenroad.screens.screenparts.FasesMenu;
-import br.com.chickenroad.screens.screenparts.SeasonMenu;
-import br.com.chickenroad.screens.util.Constantes;
-
 /**
  * Tela que apresenta as fases da aplica√ß√£o
  * 
  *
  */
-public class SeasonScreen extends ScreenBase {
+public class FasesScreen extends ScreenBase {
 
-	private SeasonMenu seasonMenu;
+	private FasesMenu fasesMenu;
 
 	private Texture textureBACK;
 	private Sprite spriteArrowBACK;
@@ -31,15 +30,15 @@ public class SeasonScreen extends ScreenBase {
 	private Music soundMenuBackground, soundClick;
 
 
-	public SeasonScreen(ChickenRoadGame aChickenRoadGame) {
+	public FasesScreen(ChickenRoadGame aChickenRoadGame) {
 		super(aChickenRoadGame);
 
-		this.seasonMenu = new SeasonMenu();
+		this.fasesMenu = new FasesMenu();
 
 		textureBACK = getAssetManager().get(Constantes.URL_BACK_BUTTON);
 		spriteArrowBACK = new Sprite(textureBACK);
 
-		textureBackground = getAssetManager().get(Constantes.URL_BACKGROUND_ALL_SEASONS);
+		textureBackground = getAssetManager().get(Constantes.URL_BACKGROUND_SEASON);
 		spriteBackground = new Sprite(textureBackground);
 
 		soundMenuBackground = getAssetManager().get(Constantes.URL_SOUND_MENU_BACKGROUND);
@@ -58,7 +57,7 @@ public class SeasonScreen extends ScreenBase {
 
 		chickenRoadGame.getSpriteBatch().begin();
 		spriteBackground.draw(chickenRoadGame.getSpriteBatch());
-		seasonMenu.draw(chickenRoadGame.getSpriteBatch());		
+		fasesMenu.draw(chickenRoadGame.getSpriteBatch());		
 		spriteArrowBACK.draw(chickenRoadGame.getSpriteBatch());
 		chickenRoadGame.getSpriteBatch().end();
 
@@ -78,9 +77,9 @@ public class SeasonScreen extends ScreenBase {
 			//TODO liberar tudo
 			soundClick.play();
 			//soundMenuBackground.stop();
-			chickenRoadGame.setScreenWithTransitionFade(new MainMenuScreen(chickenRoadGame));
+			chickenRoadGame.setScreenWithTransitionFade(new SeasonScreen(chickenRoadGame));
 		}else{
-			openFase(seasonMenu.getClickedFase(touchPoint.x, touchPoint.y));
+			openFase(fasesMenu.getClickedFase(touchPoint.x, touchPoint.y));
 		}		
 		return false;
 	}
@@ -92,15 +91,10 @@ public class SeasonScreen extends ScreenBase {
 			soundClick.play();
 
 			if(i==0){
-			//	chickenRoadGame.setScreen(new Play(Constantes.URL_MAP_FASE_1_0_1, chickenRoadGame));
-				chickenRoadGame.setScreenWithTransitionFade(new FasesScreen(chickenRoadGame));
-
-			}/*// 2∫ TEMPORADA BLOQUEADA - SO MOSTRA A 1∫ TEMPORADA
-			else if(i==1){
-//				chickenRoadGame.setScreen(new Play(Constantes.URL_MAP_FASE_1_0_2, chickenRoadGame));
-				chickenRoadGame.setScreenWithTransitionFade(new FasesScreen(chickenRoadGame));
-
-			}*/
+				chickenRoadGame.setScreen(new Play(Constantes.URL_MAP_FASE_1_0_1, chickenRoadGame));
+			}else if(i==1){
+				chickenRoadGame.setScreen(new Play(Constantes.URL_MAP_FASE_1_0_2, chickenRoadGame));
+			}
 		}
 	}
 

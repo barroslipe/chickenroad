@@ -146,12 +146,12 @@ public class Play extends ScreenBase {
 			return true;
 		}
 		if(playMenuButtons.checkClickFaseListButton(touchPoint.x, touchPoint.y)){
-			chickenRoadGame.setScreenWithTransitionFade(new SeasonScreen(chickenRoadGame));
+			chickenRoadGame.setScreenWithTransitionFade(new FasesScreen(chickenRoadGame));
 			return true;
 		}
 
 		if(popupFinish != null && popupFinish.checkClickBackMenuButton(touchPoint.x, touchPoint.y)){
-			chickenRoadGame.setScreenWithTransitionFade(new SeasonScreen(chickenRoadGame));
+			chickenRoadGame.setScreenWithTransitionFade(new FasesScreen(chickenRoadGame));
 			return true;
 		}
 		if(popupFinish != null && popupFinish.checkClickRestartButton(touchPoint.x, touchPoint.y)){
