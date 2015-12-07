@@ -17,31 +17,32 @@ public class SeasonMenu {
 	private AssetManager assetManager;
 	private Sound soundRooster;
 	//com varias fases, trocar figuras
-	private String seasonList[] = {"seasons/seasonRoosterSong.png", "seasons/seasonDayByDay1.png"};
+	private String seasonList[] = {"seasons/seasonRoosterSong.png", "seasons/seasonFireInFarm.png",  
+					"seasons/seasonInvasion1.png", "seasons/seasonHorrorNight.png"};
 
 	private ArrayList<Sprite> spriteSeasonList;
 
-	private int fase_atual = 0;
+	private int sessaoAtual = 0;
 
 	//construtor
 	public SeasonMenu(){
 		soundRooster = Gdx.audio.newSound(Gdx.files.internal(Constantes.URL_SOUND_ROOSTER));
 
 		//testando
-		fase_atual = 0;//PreferencesUser.getFase();
+		sessaoAtual = 0;//PreferencesUser.getFase();
 
 		//TODO trocar figura e string
 		spriteSeasonList = new ArrayList<Sprite>();
 
 		int cont = 0;
-		int spriteFaseListHeight = 80;// Constantes.WORLD_HEIGHT/2+90;
+		int spriteFaseListHeight = 100;// Constantes.WORLD_HEIGHT/2+90;
 
 		String picture;
 		for(int i=0;i<seasonList.length;i++){
-			if(i <= fase_atual)
+			if(i <= sessaoAtual)
 				picture = seasonList[0];    //Aqui ser� apontada a fase correta. Por enquanto, ser� a figura de fase 1 para todas as fases ABERTAS.
 			else
-				picture = "seasons/seasonDayByDay1.png";
+				picture = seasonList[i];
 
 			Sprite sprite = new Sprite(new Texture(picture));
 			spriteSeasonList.add(sprite);
@@ -51,10 +52,10 @@ public class SeasonMenu {
 				if(cont != 0) spriteFaseListHeight -= 110;
 				
 				cont = 0;
-				spriteSeasonList.get(i).setPosition(Constantes.WORLD_WIDTH/2 - 140, spriteFaseListHeight);
+				spriteSeasonList.get(i).setPosition(Constantes.WORLD_WIDTH/2 - 236, spriteFaseListHeight);
 			}else {
 				++cont;
-				spriteSeasonList.get(i).setPosition(Constantes.WORLD_WIDTH/2- 120 +155*cont, spriteFaseListHeight);
+				spriteSeasonList.get(i).setPosition(Constantes.WORLD_WIDTH/2- 236 +125*cont, spriteFaseListHeight);
 			}
 		}
 	}
@@ -71,7 +72,7 @@ public class SeasonMenu {
 		for(int i=0;i<seasonList.length;i++){
 			if(spriteSeasonList.get(i).getBoundingRectangle().contains(x, y)){
 				soundRooster.play();
-				if(i<=fase_atual)
+				if(i<=sessaoAtual)
 					return i;
 			}
 		}
