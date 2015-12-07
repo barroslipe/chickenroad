@@ -70,6 +70,7 @@ public class Constantes {
 	public static final String URL_PLAYER_AVATAR_STOP_LEFT = "player/playerE_parado.png";
 	public static final String URL_PLAYER_AVATAR_UP = "player/playerU_caminhando.png";
 	public static final String URL_PLAYER_AVATAR_DOWN = "player/playerB_caminhando.png";
+	public static final String URL_PLAYER_AVATAR_DEAD = "player/player_morto.png";
 
 	
 	//sprites secundarios

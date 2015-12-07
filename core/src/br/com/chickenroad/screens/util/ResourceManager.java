@@ -49,7 +49,6 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_SOUND_END_FASE_COIN, Music.class);
 		assetManager.load(Constantes.URL_SOUND_SHEEP, Music.class);
 
-		
 		assetManager.load("pauseFaseButton.png", Texture.class);
 		assetManager.load("playFaseButton.png", Texture.class);
 		assetManager.load("restartFaseButton.png", Texture.class);
@@ -61,7 +60,6 @@ public class ResourceManager {
 		
 		assetManager.load("congratulation.png", Texture.class);
 
-		
 		//player
 		assetManager.load(Constantes.URL_PLAYER_AVATAR_RIGHT, Texture.class);
 		assetManager.load(Constantes.URL_PLAYER_AVATAR_LEFT, Texture.class);
@@ -71,6 +69,7 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_PLAYER_AVATAR_STOP_LEFT, Texture.class);
 		assetManager.load(Constantes.URL_PLAYER_AVATAR_UP, Texture.class);
 		assetManager.load(Constantes.URL_PLAYER_AVATAR_DOWN, Texture.class);
+		assetManager.load(Constantes.URL_PLAYER_AVATAR_DEAD, Texture.class);
 
 		
 		//sprites secundarios do cenario

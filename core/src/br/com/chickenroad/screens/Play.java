@@ -14,6 +14,7 @@ import br.com.chickenroad.entities.ChickenNest;
 import br.com.chickenroad.entities.MyMap;
 import br.com.chickenroad.entities.MyMusic;
 import br.com.chickenroad.entities.Player;
+import br.com.chickenroad.entities.PlayerTypes;
 import br.com.chickenroad.entities.StateGame;
 import br.com.chickenroad.entities.Supporting;
 import br.com.chickenroad.entities.SupportingTypes;
@@ -93,14 +94,14 @@ public class Play extends ScreenBase {
 				getAssetManager(), SupportingTypes.PIG_SLEEPING_RIGHT);
 		this.supporting[2] = new Supporting(Constantes.URL_PIG_SLEEPING_LEFT, 
 				getAssetManager(), SupportingTypes.PIG_SLEEPING_LEFT);
-
+		
 		//inicializa vetor de ovos com velocidades aleatorias
 		Random generator = new Random();
 		
 		this.targetPlayerEggsList = new ArrayList<TargetPlayer>();
 		for(int i=0;i<PlayConfig.numEggs;i++)
 			this.targetPlayerEggsList.add( new TargetPlayer(Constantes.URL_EGGS, getAssetManager(),TargetPlayerTypes.EGGS, 1f/(float)generator.nextInt(5)));
-
+		
 		//inicializa vetor de milhos com velocidades iguais
 		this.targetPlayerCornsList = new ArrayList<TargetPlayer>();
 		for(int i=0;i<PlayConfig.numCorns;i++)
@@ -240,7 +241,7 @@ public class Play extends ScreenBase {
 		}
 		
 		//inicializa presente
-		targetPlayerGiftSheep.inicializar(450,  80);
+		targetPlayerGiftSheep.inicializar(500,  120);
 	}
 
 	private void draw(float delta) {		
@@ -284,7 +285,6 @@ public class Play extends ScreenBase {
 		}
 		else
 			targetPlayerGiftSheep.setPosition(-100, -100);
-
 		
 		//se pegou todos os ovos, exibe texto animado de fim de fase
 		if(playerScore.getCurrentNoCatchedEggs() == 0 && chickenNest.checkColision(player)) {
@@ -381,12 +381,19 @@ public class Play extends ScreenBase {
 			}
 		}
 
+		//SE O LIFE FOR MENOR QUE ZERO - gameover
+		if(player.getPlayerLife().getLife() <= 0) {
+			player.getPlayerAnimation().setSpriteSheet(Constantes.URL_PLAYER_AVATAR_DEAD, PlayerTypes.AVATAR_DEAD); //muda para animação de avatar morto
+			player.draw(chickenRoadGame.getSpriteBatch(), delta);
+			stateGame = StateGame.GAME_OVER;
+			
+			myMusic.getSoundBackgroundChicken().pause();
+			myMusic.getSoundBackgroundFase1().pause();
+			
+		}
 		chickenRoadGame.getSpriteBatch().end();
 
-		//SE O LIFE FOR MENOR QUE ZERO - gameover
-		if(player.getPlayerLife().getLife() <= 0) 
-			stateGame = StateGame.GAME_OVER;
-
+		
 
 		//se aproximar do ninho, deixa um ovo
 		if(chickenNest.checkColision(player)) {

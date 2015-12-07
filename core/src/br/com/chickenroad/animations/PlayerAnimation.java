@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import br.com.chickenroad.screens.util.Constantes;
+import br.com.chickenroad.entities.PlayerTypes;
 
 /**
  * 
@@ -18,119 +18,178 @@ public class PlayerAnimation {
 
 	private Animation walkAnimation;         
 
-	private Texture walkDirSheet; 
-	private Texture walkEsqSheet;
+	private Texture spriteSheet; 
+	/*private Texture walkEsqSheet;
 	private Texture jumpDirSheet;
 	private Texture jumpEsqSheet;
 	private Texture stopDirSheet;
 	private Texture walkCimSheet;
 	private Texture walkBaiSheet;
-	
-
+	private Texture deadSheet;
+*/
 	private TextureRegion[] walkFrames;            
 	private TextureRegion currentFrame;                                                
-	private TextureRegion[][] tmp;
+	private TextureRegion[][] spriteSheetTmp;
 
-	private TextureRegion[][] spriteSheetTmp1;
-	private TextureRegion[][] spriteSheetTmp2;
+	private AssetManager assetManager;
+	/*private TextureRegion[][] spriteSheetTmp2;
 	private TextureRegion[][] spriteSheetTmp3;
 	private TextureRegion[][] spriteSheetTmp4;
 	private TextureRegion[][] spriteSheetTmp5;
 	private TextureRegion[][] spriteSheetTmp6;
 	private TextureRegion[][] spriteSheetTmp7;
-
+	private TextureRegion[][] spriteSheetTmp8;
+*/
 	private float stateTime;  
 	private int index;
 	private float velAnimation=0;
 	private float posX=0, posY=0;
 
-	public PlayerAnimation(String sprite, AssetManager assetManager) {
+
+	public PlayerAnimation(AssetManager assetManager) {
 		super();
+		
+		this.assetManager = assetManager;
+				
 		//spritesheet animation
-		walkDirSheet = assetManager.get(Constantes.URL_PLAYER_AVATAR_RIGHT);
-		walkEsqSheet = assetManager.get(Constantes.URL_PLAYER_AVATAR_LEFT);
+		/*walkEsqSheet = assetManager.get(Constantes.URL_PLAYER_AVATAR_LEFT);
 		jumpDirSheet = assetManager.get(Constantes.URL_PLAYER_AVATAR_JUMP_RIGHT);
 		jumpEsqSheet = assetManager.get(Constantes.URL_PLAYER_AVATAR_JUMP_LEFT);
 		stopDirSheet = assetManager.get(Constantes.URL_PLAYER_AVATAR_STOP_RIGHT);
 		walkCimSheet = assetManager.get(Constantes.URL_PLAYER_AVATAR_UP);
 		walkBaiSheet = assetManager.get(Constantes.URL_PLAYER_AVATAR_DOWN);
-
+		deadSheet = assetManager.get(Constantes.URL_PLAYER_AVATAR_DEAD);
+		
 		tmp = TextureRegion.split(stopDirSheet,  stopDirSheet.getWidth()/5, stopDirSheet.getHeight());   
-		spriteSheetTmp1 = TextureRegion.split(walkDirSheet, walkDirSheet.getWidth()/5, walkDirSheet.getHeight());   
 		spriteSheetTmp2 = TextureRegion.split(walkEsqSheet,  walkEsqSheet.getWidth()/5, walkEsqSheet.getHeight());   
 		spriteSheetTmp3 = TextureRegion.split(jumpDirSheet, jumpDirSheet.getWidth()/5, jumpDirSheet.getHeight());   
 		spriteSheetTmp4 = TextureRegion.split(jumpEsqSheet, jumpEsqSheet.getWidth()/5, jumpEsqSheet.getHeight());   
 		spriteSheetTmp5 = TextureRegion.split(stopDirSheet, stopDirSheet.getWidth()/5, stopDirSheet.getHeight());
 		spriteSheetTmp6 = TextureRegion.split(walkCimSheet,  walkCimSheet.getWidth()/5, walkCimSheet.getHeight());   
 		spriteSheetTmp7 = TextureRegion.split(walkBaiSheet,  walkBaiSheet.getWidth()/5, walkBaiSheet.getHeight());   
-
+		spriteSheetTmp8 = TextureRegion.split(deadSheet,  walkBaiSheet.getWidth()/3, walkBaiSheet.getHeight());   
+		
 		walkFrames = new TextureRegion[5]; 
 		
 		this.velAnimation = 1f/20f;
-	}
-
+	*/}
 
 	public void inicializar (float x, float y) {
 		this.posX = x;
 		this.posY = y;
-		index = 0;
-
-		for (int i = 0; i < 1; i++){
-			for (int j = 0; j < tmp[0].length; j++){
-				walkFrames[index] = tmp[i][j];
-				index++;
-			}
-		}
-		walkAnimation = new Animation(velAnimation, walkFrames);  
-		stateTime = 0f;   
 	}
+	
+	//muda o sprite sheet
+	public void setSpriteSheet(String sprite, PlayerTypes ptypes){
+		
+		switch(ptypes){
+			case  AVATAR_RIGHT:
+				spriteSheet = assetManager.get(sprite);
+				spriteSheetTmp = TextureRegion.split(spriteSheet, spriteSheet.getWidth()/5, spriteSheet.getHeight());   
+				
+				walkFrames = new TextureRegion[5]; 
 
-	private void initSpriteSheet() {
-		index = 0;
+				this.velAnimation = 1f/20f;
 
-		for (int i = 0; i < 1; i++){
-			for (int j = 0; j < tmp[0].length; j++){
-				walkFrames[index] = tmp[i][j];
-				index++;
-			}
-		}
-		walkAnimation = new Animation(velAnimation, walkFrames);  
-		stateTime = 0f;   
+			break;
+	
+			case AVATAR_LEFT:
+				spriteSheet = assetManager.get(sprite);
+				spriteSheetTmp = TextureRegion.split(spriteSheet, spriteSheet.getWidth()/5, spriteSheet.getHeight());   
+				
+				walkFrames = new TextureRegion[5]; 
 
-	}
+				this.velAnimation = 1f/20f;
 
-	//seleciona o avatar para cada acao do player
-	public void changeSpriteSheet(int ss) {
+			break;
 
-		switch(ss){
-		case 1:
-			tmp = spriteSheetTmp1;
+			case AVATAR_UP:
+				spriteSheet = assetManager.get(sprite);
+				spriteSheetTmp = TextureRegion.split(spriteSheet, spriteSheet.getWidth()/5, spriteSheet.getHeight());   
+				
+				walkFrames = new TextureRegion[5]; 
+
+				this.velAnimation = 1f/20f;
+
 			break;
-		case 2:
-			tmp = spriteSheetTmp2;
+
+			case AVATAR_DOWN:
+				spriteSheet = assetManager.get(sprite);
+				spriteSheetTmp = TextureRegion.split(spriteSheet, spriteSheet.getWidth()/5, spriteSheet.getHeight());   
+				
+				walkFrames = new TextureRegion[5]; 
+
+				this.velAnimation = 1f/20f;
+
 			break;
-		case 3:
-			tmp = spriteSheetTmp3;
+			
+			case AVATAR_JUMP_RIGHT:
+				spriteSheet = assetManager.get(sprite);
+				spriteSheetTmp = TextureRegion.split(spriteSheet, spriteSheet.getWidth()/5, spriteSheet.getHeight());   
+				
+				walkFrames = new TextureRegion[5]; 
+
+				this.velAnimation = 1f/20f;
+
 			break;
-		case 4:
-			tmp = spriteSheetTmp4;
+
+			case AVATAR_JUMP_LEFT:
+				spriteSheet = assetManager.get(sprite);
+				spriteSheetTmp = TextureRegion.split(spriteSheet, spriteSheet.getWidth()/5, spriteSheet.getHeight());   
+				
+				walkFrames = new TextureRegion[5]; 
+
+				this.velAnimation = 1f/20f;
+
 			break;
-		case 5:
-			tmp = spriteSheetTmp5;
+			
+			case AVATAR_STOP_RIGHT:
+				spriteSheet = assetManager.get(sprite);
+				spriteSheetTmp = TextureRegion.split(spriteSheet, spriteSheet.getWidth()/5, spriteSheet.getHeight());   
+				
+				walkFrames = new TextureRegion[5]; 
+
+				this.velAnimation = 1f/20f;
+
 			break;
-		case 6:
-			tmp = spriteSheetTmp6;
+			
+			case AVATAR_STOP_LEFT:
+				spriteSheet = assetManager.get(sprite);
+				spriteSheetTmp = TextureRegion.split(spriteSheet, spriteSheet.getWidth()/5, spriteSheet.getHeight());   
+				
+				walkFrames = new TextureRegion[5]; 
+
+				this.velAnimation = 1f/20f;
+
 			break;
-		case 7:
-			tmp = spriteSheetTmp7;
-			break;
-		default:
+			case AVATAR_DEAD:
+				spriteSheet = assetManager.get(sprite);
+				spriteSheetTmp = TextureRegion.split(spriteSheet, spriteSheet.getWidth()/1, spriteSheet.getHeight());   
+				
+				walkFrames = new TextureRegion[1]; 
+
+				this.velAnimation = 1f/18f;
+
 			break;
 		}
 
 		initSpriteSheet();
 	}
+	
+	private void initSpriteSheet() {
+		index = 0;
 
+		for (int i = 0; i < 1; i++){
+			for (int j = 0; j < spriteSheetTmp[0].length; j++){
+				walkFrames[index] = spriteSheetTmp[i][j];
+				index++;
+			}
+		}
+		
+		walkAnimation = new Animation(velAnimation, walkFrames);  
+		stateTime = 0f;   
+	}
+	
 	/**
 	 * @return the currentFrame
 	 */

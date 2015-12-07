@@ -26,10 +26,6 @@ public class Player extends Sprite{
 	private float demageTimerPerSecond, timer;
 	private boolean demage;
 	private boolean colisionVehiclesStatus; // retorna o estado atual da colis�o com veiculos
-	public boolean isColisionVehiclesStatus() {
-		return colisionVehiclesStatus;
-	}
-
 	private int widthTiledMap, heightTileMap;
 
 	private PlayerLife playerLife;
@@ -38,7 +34,7 @@ public class Player extends Sprite{
 	public Player(String sprite, AssetManager assetManager, int aWidthTiledMap, int aHeightTiledMap) {
 		super(new Texture(sprite));
 
-		this.playerAnimation = new PlayerAnimation(sprite, assetManager);
+		this.playerAnimation = new PlayerAnimation(assetManager);
 		this.widthTiledMap = aWidthTiledMap;
 		this.heightTileMap = aHeightTiledMap;
 		this.demageTimerPerSecond = 3;
@@ -48,6 +44,9 @@ public class Player extends Sprite{
 		playerLife = new PlayerLife(assetManager);
 	}
 
+	public boolean isColisionVehiclesStatus() {
+		return colisionVehiclesStatus;
+	}
 	public void updatePlayerPosition(float delta, List<Rectangle> tiles, ArrayList<Vehicle> vehiclesList) {
 
 		float newPositionX = this.getX()+velocity.x*delta;
@@ -94,7 +93,7 @@ public class Player extends Sprite{
 		}
 		
 		if(velocity.x == 0 && velocity.y == 0)
-			playerAnimation.changeSpriteSheet(5);
+			playerAnimation.setSpriteSheet(Constantes.URL_PLAYER_AVATAR_STOP_RIGHT, PlayerTypes.AVATAR_STOP_RIGHT);
 	}
 
 	private void demage(int i) {
@@ -170,17 +169,17 @@ public class Player extends Sprite{
 			if(declividadeReta <= 0.5 && declividadeReta >= -0.5) {
 				velocity.x = speed;
 				playerDirectionX = Direction.RIGHT;
-				playerAnimation.changeSpriteSheet(1);
+				playerAnimation.setSpriteSheet(Constantes.URL_PLAYER_AVATAR_RIGHT, PlayerTypes.AVATAR_RIGHT);
 			}
 			if(declividadeReta > 0.5) {
 				velocity.y = speed;
 				playerDirectionY = Direction.UP;
-				playerAnimation.changeSpriteSheet(6);
+				playerAnimation.setSpriteSheet(Constantes.URL_PLAYER_AVATAR_UP, PlayerTypes.AVATAR_UP);
 			}
 			if(declividadeReta < -0.5) {
 				velocity.y = -speed;
 				playerDirectionY = Direction.DOWN;
-				playerAnimation.changeSpriteSheet(7);
+				playerAnimation.setSpriteSheet(Constantes.URL_PLAYER_AVATAR_DOWN, PlayerTypes.AVATAR_DOWN);
 			}
 		}
 		
@@ -188,17 +187,18 @@ public class Player extends Sprite{
 			if(declividadeReta >= -0.5 && declividadeReta <=0.5) {
 				velocity.x = -speed;
 				playerDirectionX = Direction.LEFT;
-				playerAnimation.changeSpriteSheet(2);
+				playerAnimation.setSpriteSheet(Constantes.URL_PLAYER_AVATAR_LEFT, PlayerTypes.AVATAR_LEFT);
+
 			}
 			if(declividadeReta < -0.5) {
 				velocity.y = speed;
 				playerDirectionY = Direction.UP;
-				playerAnimation.changeSpriteSheet(6);
+				playerAnimation.setSpriteSheet(Constantes.URL_PLAYER_AVATAR_UP, PlayerTypes.AVATAR_UP);
 			}
 			if(declividadeReta > 0.5) {
 				velocity.y = -speed;
 				playerDirectionY = Direction.DOWN;
-				playerAnimation.changeSpriteSheet(7);
+				playerAnimation.setSpriteSheet(Constantes.URL_PLAYER_AVATAR_DOWN, PlayerTypes.AVATAR_DOWN);
 			}
 		}
 		
@@ -249,6 +249,10 @@ public class Player extends Sprite{
 
 	public PlayerLife getPlayerLife() {
 		return playerLife;
+	}
+	//
+	public PlayerAnimation getPlayerAnimation() {
+		return playerAnimation;
 	}
 
 	@Override
