@@ -5,7 +5,7 @@ public class Constantes {
 	public static final int WIDTH_TILE = 32;
 	public static final int HEIGHT_TILE = 32;
 	public static final float WIDTH_PLAYER = 10; //dimensao de colisão
-	public static final float HEIGHT_PLAYER = 30;
+	public static final float HEIGHT_PLAYER = 14;
 	public static final int WIDTH_EGGS = 18;
 	public static final int HEIGHT_EGGS = 26;
 	

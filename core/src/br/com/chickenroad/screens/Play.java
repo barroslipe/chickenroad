@@ -269,9 +269,6 @@ public class Play extends ScreenBase {
 			supporting[i].draw(chickenRoadGame.getSpriteBatch(), delta);
 		}
 
-		myMap.drawVehicles(chickenRoadGame.getSpriteBatch(), stateGame);
-		playMenuButtons.draw(chickenRoadGame.getSpriteBatch(), stateGame, deltaXPositionButtons, deltaYPositionButtons);
-		playerScore.draw(chickenRoadGame.getSpriteBatch(), deltaXPositionButtons, deltaYPositionButtons);
 
 		
 		//exibe presente - se pegar X milhos e Y ovos
@@ -393,6 +390,11 @@ public class Play extends ScreenBase {
 			myMusic.getSoundChickenDemage().stop();
 			
 		}
+		
+		myMap.drawVehicles(chickenRoadGame.getSpriteBatch(), stateGame);
+		playMenuButtons.draw(chickenRoadGame.getSpriteBatch(), stateGame, deltaXPositionButtons, deltaYPositionButtons);
+		playerScore.draw(chickenRoadGame.getSpriteBatch(), deltaXPositionButtons, deltaYPositionButtons);
+
 		chickenRoadGame.getSpriteBatch().end();
 
 		
