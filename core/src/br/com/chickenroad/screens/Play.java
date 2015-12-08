@@ -423,12 +423,12 @@ public class Play extends ScreenBase {
 	@Override
 	public void dispose() {
 		this.chickenRoadGame = null;
-		this.player.dispose();
+		//this.player.dispose();
 		this.playMenuButtons.dispose();
 		this.stateGame = null;
 		this.myMap.dispose();
 		this.playerScore = null;
-		this.myMusic.dispose();
+		//this.myMusic.dispose();
 
 		for(int i=0;i<PlayConfig.numTexts;i++)
 			this.textGame[i].dispose();
