@@ -4,7 +4,7 @@ public class Constantes {
 
 	public static final int WIDTH_TILE = 32;
 	public static final int HEIGHT_TILE = 32;
-	public static final float WIDTH_PLAYER = 10; //dimensao de colisão
+	public static final float WIDTH_PLAYER = 10; //dimensao de colisï¿½o
 	public static final float HEIGHT_PLAYER = 14;
 	public static final int WIDTH_EGGS = 18;
 	public static final int HEIGHT_EGGS = 26;
@@ -92,4 +92,5 @@ public class Constantes {
 	public static final String URL_TEXT_POW = "pow.png";
 	public static final String URL_TEXT_PLUS15 = "plus15.png";
 	public static final String URL_TEXT_PLUS100 = "plus100.png";
+	public static final String URL_FONT_KRAASH_BLACK = "fonts/Kraash Black.ttf";
 }
