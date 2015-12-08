@@ -17,10 +17,10 @@ public class FasesMenu {
 	private AssetManager assetManager;
 	private Sound soundRooster;
 	//com varias fases, trocar figuras
-	private String faseList[] = {"fase1.png", "faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png",
-			"faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png",
-			"faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png",
-			"faseBloqueada.png", "faseBloqueada.png", "faseBloqueada.png"};
+	private String faseList[] = {"fases/fase_101.png", "fases/fase_102.png", "fases/fase_103.png", "fases/fase_104.png",
+			"fases/fase_105.png", "fases/fase_106.png", "fases/fase_107.png", "fases/fase_108.png",
+			"fases/fase_109.png", "fases/fase_110.png", "fases/fase_111.png", "fases/fase_112.png",
+			"fases/fase_113.png", "fases/fase_114.png", "fases/fase_115.png"};
 
 	private ArrayList<Sprite> spriteFaseList;
 
@@ -31,20 +31,20 @@ public class FasesMenu {
 		soundRooster = Gdx.audio.newSound(Gdx.files.internal(Constantes.URL_SOUND_ROOSTER));
 
 				//testando
-		fase_atual = PreferencesUser.getFase();
+		fase_atual = 0;//PreferencesUser.getFase();
 
 		//TODO trocar figura e string
 		spriteFaseList = new ArrayList<Sprite>();
 
 		int cont = 0;
-		int spriteFaseListHeight = Constantes.WORLD_HEIGHT/2+90;
+		int spriteFaseListHeight = Constantes.WORLD_HEIGHT/2+110;
 
 		String picture;
 		for(int i=0;i<faseList.length;i++){
 			if(i <= fase_atual)
 				picture = faseList[0];    //Aqui ser� apontada a fase correta. Por enquanto, ser� a figura de fase 1 para todas as fases ABERTAS.
 			else
-				picture = "faseBloqueada.png";
+				picture = "fases/fase_bloqueada.png";
 
 			Sprite sprite = new Sprite(new Texture(picture));
 			spriteFaseList.add(sprite);
@@ -54,10 +54,10 @@ public class FasesMenu {
 				if(cont != 0) spriteFaseListHeight -= 110;
 				
 				cont = 0;
-				spriteFaseList.get(i).setPosition(Constantes.WORLD_WIDTH/2 - 240, spriteFaseListHeight);
+				spriteFaseList.get(i).setPosition(Constantes.WORLD_WIDTH/2 - 245, spriteFaseListHeight);
 			}else {
 				++cont;
-				spriteFaseList.get(i).setPosition(Constantes.WORLD_WIDTH/2- 240 +105*cont, spriteFaseListHeight);
+				spriteFaseList.get(i).setPosition(Constantes.WORLD_WIDTH/2- 245 +105*cont, spriteFaseListHeight);
 			}
 		}
 	}

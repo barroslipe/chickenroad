@@ -2,8 +2,17 @@ package br.com.chickenroad.screens.util;
 
 public class Constantes {
 
-	public static boolean SOUND_ON_FLAG = true;
+	public static final int WIDTH_TILE = 32;
+	public static final int HEIGHT_TILE = 32;
+	public static final float WIDTH_PLAYER = 10; //dimensao de colisão
+	public static final float HEIGHT_PLAYER = 30;
+	public static final int WIDTH_EGGS = 18;
+	public static final int HEIGHT_EGGS = 26;
+	
+	public static final int WORLD_WIDTH = 640;
+	public static final int WORLD_HEIGHT = 480;
 
+	public static boolean SOUND_ON_FLAG = true;
 	public static final int HEIGHT_SOUNDOFF_BUTTON = 78;
 	public static final int WIDTH_SOUNDOFF_BUTTON = 78;
 	public static final int HEIGHT_SOUNDON_BUTTON = 78;
@@ -36,7 +45,6 @@ public class Constantes {
 	public static final String URL_SOUND_END_FASE_COIN = "sounds/soundCoinEndFase.mp3";
 	public static final String URL_SOUND_BACKGROUND_CHICKEN = "sounds/soundChickenBackground.mp3";
 	public static final String URL_SOUND_SHEEP = "sounds/soundSheep.mp3";
-
 	
 	public static final String URL_POPUP_NO_BUTTON = "popupNoButton.png";
 	public static final String URL_POPUP_YES_BUTTON = "popupYesButton.png";
@@ -48,17 +56,6 @@ public class Constantes {
 
 	public static final String URL_PLAYER_AVATAR = "player/player.png";
 	
-	public static final int WIDTH_TILE = 32;
-	public static final int HEIGHT_TILE = 32;
-	public static final float WIDTH_PLAYER = 10; //dimensao de colisão
-	public static final float HEIGHT_PLAYER = 30;
-	public static final int WIDTH_EGGS = 18;
-	public static final int HEIGHT_EGGS = 26;
-	
-	public static final int WORLD_WIDTH = 640;
-
-	public static final int WORLD_HEIGHT = 480;
-
 	public static final String URL_PLAYER_NORMAL_LIFE = "player/normalLife.png";
 	public static final String URL_PLAYER_DEAD_LIFE = "player/deadLife.png";
 	
@@ -72,10 +69,9 @@ public class Constantes {
 	public static final String URL_PLAYER_AVATAR_UP = "player/playerU_caminhando.png";
 	public static final String URL_PLAYER_AVATAR_DOWN = "player/playerB_caminhando.png";
 	public static final String URL_PLAYER_AVATAR_DEAD = "player/player_morto.png";
-
+	
 	
 	//sprites secundarios
-	public static final String URL_EGGS = "ovo.png";
 	public static final String URL_PIG_STOP_RIGHT = "maps/map_101/porcoD_parado.png";
 	public static final String URL_PIG_STOP_LEFT = "maps/map_101/porcoE_parado.png";
 	public static final String URL_PIG_SLEEPING_RIGHT = "maps/map_101/porcoD_durmindo.png";
@@ -85,6 +81,7 @@ public class Constantes {
 	public static final String URL_BACKGROUND_SPLASHSCREEN = "splashScreenBackground.jpg";
 	public static final String URL_YELLOW_CORN = "milhoAmarelo.png";
 	public static final String URL_YELLOW_CORN_SCORE = "milhoAmareloScore.png";
+	public static final String URL_EGGS = "ovo.png";
 	public static final String URL_EGGS_SCORE = "ovoScore.png";
 	public static final String URL_GIFT_SHEEP = "maps/map_101/giftOvelha.png";
 	
@@ -95,5 +92,4 @@ public class Constantes {
 	public static final String URL_TEXT_POW = "pow.png";
 	public static final String URL_TEXT_PLUS15 = "plus15.png";
 	public static final String URL_TEXT_PLUS100 = "plus100.png";
-
 }
