@@ -385,10 +385,12 @@ public class Play extends ScreenBase {
 		if(player.getPlayerLife().getLife() <= 0) {
 			player.getPlayerAnimation().setSpriteSheet(Constantes.URL_PLAYER_AVATAR_DEAD, PlayerTypes.AVATAR_DEAD); //muda para animação de avatar morto
 			player.draw(chickenRoadGame.getSpriteBatch(), delta);
+			
 			stateGame = StateGame.GAME_OVER;
 			
-			myMusic.getSoundBackgroundChicken().pause();
-			myMusic.getSoundBackgroundFase1().pause();
+			myMusic.getSoundBackgroundChicken().stop();
+			myMusic.getSoundBackgroundFase1().stop();
+			myMusic.getSoundChickenDemage().stop();
 			
 		}
 		chickenRoadGame.getSpriteBatch().end();
