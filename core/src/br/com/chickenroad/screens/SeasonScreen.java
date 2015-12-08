@@ -1,16 +1,15 @@
 package br.com.chickenroad.screens;
 
+import br.com.chickenroad.ChickenRoadGame;
+import br.com.chickenroad.screens.screenparts.SeasonMenu;
+import br.com.chickenroad.screens.util.Constantes;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
-
-import br.com.chickenroad.ChickenRoadGame;
-import br.com.chickenroad.screens.screenparts.FasesMenu;
-import br.com.chickenroad.screens.screenparts.SeasonMenu;
-import br.com.chickenroad.screens.util.Constantes;
 
 /**
  * Tela que apresenta as fases da aplica√ß√£o
@@ -80,32 +79,24 @@ public class SeasonScreen extends ScreenBase {
 			//soundMenuBackground.stop();
 			chickenRoadGame.setScreenWithTransitionFade(new MainMenuScreen(chickenRoadGame));
 		}else{
-			openFase(seasonMenu.getClickedFase(touchPoint.x, touchPoint.y));
+			openSeason(seasonMenu.getClickedFase(touchPoint.x, touchPoint.y));
 		}		
 		return false;
 	}
 
-	private void openFase(int i) {
+	private void openSeason(int i) {
+
 
 		if(i==-1) return;
 		else{
 			soundClick.play();
-
-			if(i==0){
-			//	chickenRoadGame.setScreen(new Play(Constantes.URL_MAP_FASE_1_0_1, chickenRoadGame));
-				chickenRoadGame.setScreenWithTransitionFade(new FasesScreen(chickenRoadGame));
-
-			}/*// 2∫ TEMPORADA BLOQUEADA - SO MOSTRA A 1∫ TEMPORADA
-			else if(i==1){
-//				chickenRoadGame.setScreen(new Play(Constantes.URL_MAP_FASE_1_0_2, chickenRoadGame));
-				chickenRoadGame.setScreenWithTransitionFade(new FasesScreen(chickenRoadGame));
-
-			}*/
+			//passar a lista de fases da temporada clicada
+			chickenRoadGame.setScreenWithTransitionFade(new FasesScreen(chickenRoadGame, i));
 		}
 	}
 
 	@Override
 	public void dispose() {
-		
+
 	}
 }

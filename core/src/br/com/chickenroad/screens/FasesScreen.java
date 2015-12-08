@@ -28,12 +28,19 @@ public class FasesScreen extends ScreenBase {
 	private Sprite spriteBackground;
 
 	private Music soundMenuBackground, soundClick;
-
-
-	public FasesScreen(ChickenRoadGame aChickenRoadGame) {
+	
+	private int seasonId;
+	
+	/**
+	 * 
+	 * @param aChickenRoadGame
+	 * @param seasonId 
+	 */
+	public FasesScreen(ChickenRoadGame aChickenRoadGame, int seasonId) {
 		super(aChickenRoadGame);
 
-		this.fasesMenu = new FasesMenu();
+		this.seasonId = seasonId;
+		this.fasesMenu = new FasesMenu(seasonId);
 
 		textureBACK = getAssetManager().get(Constantes.URL_BACK_BUTTON);
 		spriteArrowBACK = new Sprite(textureBACK);
@@ -84,16 +91,16 @@ public class FasesScreen extends ScreenBase {
 		return false;
 	}
 
-	private void openFase(int i) {
+	private void openFase(int faseId) {
 
-		if(i==-1) return;
+		if(faseId==-1) return;
 		else{
 			soundClick.play();
 
-			if(i==0){
-				chickenRoadGame.setScreen(new Play(Constantes.URL_MAP_FASE_1_0_1, chickenRoadGame));
-			}else if(i==1){
-				chickenRoadGame.setScreen(new Play(Constantes.URL_MAP_FASE_1_0_2, chickenRoadGame));
+			if(faseId==0){
+				chickenRoadGame.setScreen(new Play(Constantes.URL_MAP_FASE_1_0_1, chickenRoadGame, seasonId, faseId));
+			}else if(faseId==1){
+				chickenRoadGame.setScreen(new Play(Constantes.URL_MAP_FASE_1_0_2, chickenRoadGame, seasonId, faseId));
 			}
 		}
 	}

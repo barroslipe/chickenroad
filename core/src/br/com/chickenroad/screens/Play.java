@@ -24,6 +24,7 @@ import br.com.chickenroad.screens.screenparts.FinishPopup;
 import br.com.chickenroad.screens.screenparts.PlayMenuButtons;
 import br.com.chickenroad.screens.util.Constantes;
 import br.com.chickenroad.screens.util.PlayCamera;
+import br.com.chickenroad.screens.util.PreferencesUser;
 
 /**
  * Responsável pelo controle da fase. Gerencia os componetes de mapa e player para renderizar a fase.
@@ -55,10 +56,15 @@ public class Play extends ScreenBase {
 	private ChickenNest chickenNest;
 
 	public static int deltaXPositionButtons=0, deltaYPositionButtons=0;
+	
+	private int seasonId, faseId;
 
-	public Play(String urlMap, ChickenRoadGame aChickenRoadGame) {
+	public Play(String urlMap, ChickenRoadGame aChickenRoadGame, int seasonId, int faseId) {
 		super(aChickenRoadGame);
 
+		this.seasonId = seasonId;
+		this.faseId = faseId;
+		
 		this.myMusic = new MyMusic(aChickenRoadGame);
 
 		this.chickenNest = new ChickenNest(Constantes.URL_CHICKENNEST);
@@ -146,12 +152,12 @@ public class Play extends ScreenBase {
 			return true;
 		}
 		if(playMenuButtons.checkClickFaseListButton(touchPoint.x, touchPoint.y)){
-			chickenRoadGame.setScreenWithTransitionFade(new FasesScreen(chickenRoadGame));
+			chickenRoadGame.setScreenWithTransitionFade(new FasesScreen(chickenRoadGame, seasonId));
 			return true;
 		}
 
 		if(popupFinish != null && popupFinish.checkClickBackMenuButton(touchPoint.x, touchPoint.y)){
-			chickenRoadGame.setScreenWithTransitionFade(new FasesScreen(chickenRoadGame));
+			chickenRoadGame.setScreenWithTransitionFade(new FasesScreen(chickenRoadGame, seasonId));
 			return true;
 		}
 		if(popupFinish != null && popupFinish.checkClickRestartButton(touchPoint.x, touchPoint.y)){
@@ -196,7 +202,7 @@ public class Play extends ScreenBase {
 		float x = this.myMap.getPlayerOrigin().x;
 		float y = this.myMap.getPlayerOrigin().y;
 
-		//se ainda estiver tocando, p�ra musica do munu inicial
+		//se ainda estiver tocando, p�ra musica do munu inicial
 		if (myMusic.getSoundMenuBackground().isPlaying()) {
 			myMusic.getSoundMenuBackground().stop();
 		}
@@ -285,6 +291,12 @@ public class Play extends ScreenBase {
 		
 		//se pegou todos os ovos, exibe texto animado de fim de fase
 		if(playerScore.getCurrentNoCatchedEggs() == 0 && chickenNest.checkColision(player)) {
+			
+			//TODO aqui será o sucesso da aplicação certo? então, aqui iremos persistir o score e o presente[não há variável do presente por enquanto]
+			if(stateGame != StateGame.FINISH)
+				PreferencesUser.setSucesso(seasonId, faseId, playerScore.getScoreGame());
+			
+			
 			if(contAmazing++ < 130) {//este if evitar que a anima��o fique infinita
 
 				myMusic.getSoundEndFase().play();
@@ -298,6 +310,7 @@ public class Play extends ScreenBase {
 			myMusic.getSoundBackgroundChicken().pause();
 
 			stateGame = StateGame.FINISH;
+			
 
 		}
 		else { //else GAMBIARRA TEMPOR�RIA - :(
@@ -307,6 +320,8 @@ public class Play extends ScreenBase {
 
 			textGame[0].setPosition(-100, -200);
 			contAmazing = 0;
+			
+			
 		}
 
 		//exibe anima��o de colis�o se houve colis�o
@@ -380,7 +395,7 @@ public class Play extends ScreenBase {
 
 		//SE O LIFE FOR MENOR QUE ZERO - gameover
 		if(player.getPlayerLife().getLife() <= 0) {
-			player.getPlayerAnimation().setSpriteSheet(Constantes.URL_PLAYER_AVATAR_DEAD, PlayerTypes.AVATAR_DEAD); //muda para anima��o de avatar morto
+			player.getPlayerAnimation().setSpriteSheet(Constantes.URL_PLAYER_AVATAR_DEAD, PlayerTypes.AVATAR_DEAD); //muda para anima��o de avatar morto
 			player.draw(chickenRoadGame.getSpriteBatch(), delta);
 			
 			stateGame = StateGame.GAME_OVER;
