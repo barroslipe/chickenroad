@@ -14,23 +14,26 @@ import com.badlogic.gdx.math.Vector3;
 
 
 /**
- * Tela que implementa o menu da aplicação
+ * Tela que implementa a tela principal da aplicação 
  *
  */
 public class MainMenuScreen extends ScreenBase {
 
-	//background
 	private Texture textureBackground;
 	private Sprite spriteBackground;
 
 	private PopupExit popupExit;
 	private MainMenuButtons menuButtons;
 
-	private Music soundMenuBackground, soundClick;
+	private Music soundPrincipal, soundClick;
 
 	private boolean showPopupExitFlag;
 	private Vector3 touchPoint;
 
+	/**
+	 * Inicialização dos atributos da classe
+	 * @param aChickenRoadGame referência a classe principal do jogo
+	 */
 	public MainMenuScreen(ChickenRoadGame aChickenRoadGame) {
 		super(aChickenRoadGame);
 
@@ -40,7 +43,7 @@ public class MainMenuScreen extends ScreenBase {
 		this.textureBackground = getAssetManager().get(Constantes.URL_BACKGROUND);
 		this.spriteBackground = new Sprite(textureBackground);
 
-		this.soundMenuBackground = getAssetManager().get(Constantes.URL_SOUND_MENU_BACKGROUND);
+		this.soundPrincipal = getAssetManager().get(Constantes.URL_SOUND_PRINCIPAL);
 		this.soundClick = getAssetManager().get(Constantes.URL_SOUND_CLICK);
 
 		this.showPopupExitFlag = false;
@@ -48,6 +51,9 @@ public class MainMenuScreen extends ScreenBase {
 
 	}
 
+	/**
+	 * Renderizador principal da classe
+	 */
 	@Override
 	public void render(float delta) {
 
@@ -63,21 +69,26 @@ public class MainMenuScreen extends ScreenBase {
 		drawPopupExit();
 		chickenRoadGame.getSpriteBatch().end();
 
-		if(!soundMenuBackground.isPlaying() && Constantes.SOUND_ON_FLAG) soundMenuBackground.play(); 
+		if(!soundPrincipal.isPlaying() && Constantes.SOUND_ON_FLAG) soundPrincipal.play(); 
 
 	}
-
+	/**
+	 * Tratar a entrada de dados do mouse ou touchScreen
+	 */
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
 
 		touchPoint.set(screenX, screenY, 0);
 		chickenRoadGame.getOrthographicCamera().unproject(touchPoint);
 
+		/**
+		 * Botões do menu de saída da aplicação
+		 */
 		if(showPopupExitFlag){
 
 			if(popupExit.checkClickYesButton(touchPoint.x, touchPoint.y)){
 				soundClick.play();
-				dispose();
+				//TODO verificar uma possibilidade mais elegante de encerrar uma aplicação
 				Gdx.app.exit();
 			}else if(popupExit.checkClickNoButton(touchPoint.x, touchPoint.y)){
 				soundClick.play();
@@ -86,44 +97,54 @@ public class MainMenuScreen extends ScreenBase {
 
 		}else{
 
+			/**
+			 * Botões da tela principal
+			 */
+
 			if(menuButtons.checkClickExitButton(touchPoint.x, touchPoint.y)){
 				soundClick.play();
 				showPopupExitFlag = true;
-
 			}else if(menuButtons.checkClickPlayButton(touchPoint.x, touchPoint.y)){
-				//se pressionar PLAY
 				soundClick.play();
-				//soundMenuBackground.stop();
 				chickenRoadGame.setScreenWithTransitionFade(new SeasonScreen(chickenRoadGame));
 			}else if(menuButtons.checkClickSoundOnButton(touchPoint.x, touchPoint.y)){
-				//TODO tocar o som
 				soundClick.play();
 				Constantes.SOUND_ON_FLAG = !Constantes.SOUND_ON_FLAG;
-				if(!Constantes.SOUND_ON_FLAG) soundMenuBackground.stop();
+				if(!Constantes.SOUND_ON_FLAG) soundPrincipal.stop();
 			}
 		}
 		return true;
 	}
 
+	/**
+	 * Desenhar o popup de saída
+	 */
 	private void drawPopupExit(){
 
 		if(showPopupExitFlag == true)
 			popupExit.draw(chickenRoadGame.getSpriteBatch());
 	}
 
+	/**
+	 * Desenhar os botões da tela inicial
+	 */
 	private void drawMenuButtons() {
 		menuButtons.draw(chickenRoadGame.getSpriteBatch());
 
 	}
 
+	/**
+	 * Desenhar a imagem de fundo da tela inicial
+	 */
 	private void drawBackground() {
 		spriteBackground.draw(chickenRoadGame.getSpriteBatch());
 	}
 
+	/**
+	 * Liberar recursos ao encerrar a aplicação
+	 */
 	@Override
 	public void dispose() {
 		this.touchPoint = null;
-		this.popupExit.dispose();
-		this.menuButtons.dispose();	
 	}
 }

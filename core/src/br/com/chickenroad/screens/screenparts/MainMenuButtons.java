@@ -1,11 +1,16 @@
 package br.com.chickenroad.screens.screenparts;
 
+import br.com.chickenroad.screens.util.Constantes;
+
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-import br.com.chickenroad.screens.util.Constantes;
+/**
+ * Botões da tela principal de menu da aplicação
+ *
+ */
 
 public class MainMenuButtons {
 
@@ -25,6 +30,11 @@ public class MainMenuButtons {
 	private Texture textureSoundOff;
 	private Sprite spriteSoundOff;
 
+	/**
+	 * Inicialização dos atributos da classe
+	 * @param assetManager referência a classe que possui os recursos alocados
+	 */
+
 	public MainMenuButtons(AssetManager assetManager) {
 
 		this.texturePlay = assetManager.get(Constantes.URL_PLAY_BUTTON);
@@ -39,7 +49,10 @@ public class MainMenuButtons {
 		this.textureSoundOff = assetManager.get(Constantes.URL_SOUND_OFF_BUTTON);
 		this.spriteSoundOff = new Sprite(textureSoundOff);
 	}
-
+	/**
+	 * Desenhar os botões do menu principal
+	 * @param spriteBatch área de desenho da aplicação
+	 */
 	public void draw(SpriteBatch spriteBatch){
 
 		final int positionXMenu = 68;
@@ -61,7 +74,13 @@ public class MainMenuButtons {
 			spriteSoundOff.draw(spriteBatch);
 		}
 	}
-
+	/**
+	 * Verificar se houve o clique no botão de EXIT
+	 * @param x posição x
+	 * @param y posição y
+	 * @return true quando houver clique no botão
+	 * 		   false quando não houver clique no botão
+	 */
 	public boolean checkClickExitButton(float x, float y) {
 
 		if(spriteExit.getBoundingRectangle().contains(x, y))
@@ -69,6 +88,13 @@ public class MainMenuButtons {
 
 		return false;
 	}
+	/**
+	 * Verificar se houve o clique no botão de PLAY
+	 * @param x posição x
+	 * @param y posição y
+	 * @return true quando houver clique no botão
+	 * 		   false quando não houver clique no botão
+	 */
 	public boolean checkClickPlayButton(float x, float y) {
 
 		if(spritePlay.getBoundingRectangle().contains(x, y))
@@ -76,6 +102,13 @@ public class MainMenuButtons {
 
 		return false;
 	}
+	/**
+	 * Verificar se houve o clique no botão de desabilitar som
+	 * @param x posição x
+	 * @param y posição y
+	 * @return true quando houver clique no botão
+	 * 		   false quando não houver clique no botão
+	 */
 	public boolean checkClickSoundOnButton(float x, float y) {
 
 		if(spriteSoundOn.getBoundingRectangle().contains(x, y))
@@ -83,6 +116,13 @@ public class MainMenuButtons {
 
 		return false;
 	}
+	/**
+	 * Verificar se houve o clique no botão de habilitar som
+	 * @param x posição x
+	 * @param y posição y
+	 * @return true quando houver clique no botão
+	 * 		   false quando não houver clique no botão
+	 */
 	public boolean checkClickSoundOffButton(float x, float y) {
 
 		if(spriteSoundOff.getBoundingRectangle().contains(x, y))
@@ -90,9 +130,4 @@ public class MainMenuButtons {
 
 		return false;
 	}
-
-	public void dispose(){
-		//TODO
-	}
-
 }

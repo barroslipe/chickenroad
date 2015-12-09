@@ -12,12 +12,12 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Vector3;
 
 /**
- * Tela que apresenta as fases da aplicação
+ * Implementa a tela de temporadas da aplicação 
  * 
- *
  */
 public class SeasonScreen extends ScreenBase {
 
+	//temporadas da aplicação
 	private SeasonMenu seasonMenu;
 
 	private Texture textureBACK;
@@ -27,13 +27,16 @@ public class SeasonScreen extends ScreenBase {
 	private Texture textureBackground;
 	private Sprite spriteBackground;
 
-	private Music soundMenuBackground, soundClick;
+	private Music soundPrincipal, soundClick;
 
-
+	/**
+	 * Inicialização dos atributos da classe
+	 * @param aChickenRoadGame referência a classe principal do jogo
+	 */
 	public SeasonScreen(ChickenRoadGame aChickenRoadGame) {
 		super(aChickenRoadGame);
 
-		this.seasonMenu = new SeasonMenu();
+		this.seasonMenu = new SeasonMenu(getAssetManager());
 
 		textureBACK = getAssetManager().get(Constantes.URL_BACK_BUTTON);
 		spriteArrowBACK = new Sprite(textureBACK);
@@ -41,11 +44,14 @@ public class SeasonScreen extends ScreenBase {
 		textureBackground = getAssetManager().get(Constantes.URL_BACKGROUND_ALL_SEASONS);
 		spriteBackground = new Sprite(textureBackground);
 
-		soundMenuBackground = getAssetManager().get(Constantes.URL_SOUND_MENU_BACKGROUND);
+		soundPrincipal = getAssetManager().get(Constantes.URL_SOUND_PRINCIPAL);
 		soundClick = getAssetManager().get(Constantes.URL_SOUND_CLICK);
 
 	}
 
+	/**
+	 * Renderizador principal da classe
+	 */
 	@Override
 	public void render(float delta) {
 
@@ -61,42 +67,46 @@ public class SeasonScreen extends ScreenBase {
 		spriteArrowBACK.draw(chickenRoadGame.getSpriteBatch());
 		chickenRoadGame.getSpriteBatch().end();
 
-		if(!soundMenuBackground.isPlaying() && Constantes.SOUND_ON_FLAG) soundMenuBackground.play(); 
+		if(!soundPrincipal.isPlaying() && Constantes.SOUND_ON_FLAG) soundPrincipal.play(); 
 
 	}
-
+	
+	/**
+	 * Tratar a entrada de dados do mouse ou touchScreen
+	 */
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-
 
 		Vector3 touchPoint = new Vector3(screenX, screenY, 0);
 		chickenRoadGame.getOrthographicCamera().unproject(touchPoint);
 
 		//se tocar na seta de volta, transita para menu screen
 		if(spriteArrowBACK.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
-			//TODO liberar tudo
 			soundClick.play();
-			//soundMenuBackground.stop();
 			chickenRoadGame.setScreenWithTransitionFade(new MainMenuScreen(chickenRoadGame));
 		}else{
-			openSeason(seasonMenu.getClickedFase(touchPoint.x, touchPoint.y));
+			openSeason(seasonMenu.getClickedSeason(touchPoint.x, touchPoint.y));
 		}		
 		return false;
 	}
 
-	private void openSeason(int i) {
+	/**
+	 * Abrir a tela de fases para a temporada escolhida
+	 * @param seasonId identificador da temporada
+	 */
+	private void openSeason(int seasonId) {
 
-
-		if(i==-1) return;
+		if(seasonId==-1) return;
 		else{
 			soundClick.play();
-			//passar a lista de fases da temporada clicada
-			chickenRoadGame.setScreenWithTransitionFade(new FasesScreen(chickenRoadGame, i));
+			chickenRoadGame.setScreenWithTransitionFade(new FasesScreen(chickenRoadGame, seasonId));
 		}
 	}
-
+	/**
+	 * Liberar recursos ao sair da tela
+	 */
 	@Override
 	public void dispose() {
-
+		this.seasonMenu = null;
 	}
 }

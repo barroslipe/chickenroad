@@ -1,5 +1,9 @@
 package br.com.chickenroad.screens.util;
 
+/**
+ * 
+ * Guardar todas as constantes da aplicação
+ */
 public class Constantes {
 
 	public static final int WIDTH_TILE = 32;
@@ -8,7 +12,7 @@ public class Constantes {
 	public static final float HEIGHT_PLAYER = 14;
 	public static final int WIDTH_EGGS = 18;
 	public static final int HEIGHT_EGGS = 26;
-	
+
 	public static final int WORLD_WIDTH = 640;
 	public static final int WORLD_HEIGHT = 480;
 
@@ -30,11 +34,11 @@ public class Constantes {
 	public static final String URL_BACKGROUND_ALL_SEASONS = "backgroundAllSeasons.png";
 	public static final String URL_PLAY_BUTTON = "playButton.png";
 	public static final String URL_EXIT_BUTTON = "exitButton.png";
-	
+
 	//sons
 	public static final String URL_SOUND_ON_BUTTON = "soundOnButton.png";
 	public static final String URL_SOUND_OFF_BUTTON = "soundOffButton.png";
-	public static final String URL_SOUND_MENU_BACKGROUND = "sounds/soundMenuBackground.mp3";
+	public static final String URL_SOUND_PRINCIPAL = "sounds/soundMenuBackground.mp3";
 	public static final String URL_SOUND_CLICK = "sounds/soundClick.mp3";
 	public static final String URL_SOUND_EGGS = "sounds/soundEggs.mp3";
 	public static final String URL_SOUND_CHICKEN_DEMAGE = "sounds/soundChickenDemage.mp3";
@@ -45,7 +49,7 @@ public class Constantes {
 	public static final String URL_SOUND_END_FASE_COIN = "sounds/soundCoinEndFase.mp3";
 	public static final String URL_SOUND_BACKGROUND_CHICKEN = "sounds/soundChickenBackground.mp3";
 	public static final String URL_SOUND_SHEEP = "sounds/soundSheep.mp3";
-	
+
 	public static final String URL_POPUP_NO_BUTTON = "popupNoButton.png";
 	public static final String URL_POPUP_YES_BUTTON = "popupYesButton.png";
 	public static final String URL_POPUP_EXIT_BACKGROUND = "popupExitBackground.png";
@@ -55,10 +59,10 @@ public class Constantes {
 	public static final String URL_MAP_FASE_1_0_2 = "maps/map_102/map_102";
 
 	public static final String URL_PLAYER_AVATAR = "player/player.png";
-	
+
 	public static final String URL_PLAYER_NORMAL_LIFE = "player/normalLife.png";
 	public static final String URL_PLAYER_DEAD_LIFE = "player/deadLife.png";
-	
+
 	//player
 	public static final String URL_PLAYER_AVATAR_RIGHT ="player/playerD_caminhando.png"; 
 	public static final String URL_PLAYER_AVATAR_LEFT = "player/playerE_caminhando.png";
@@ -69,8 +73,8 @@ public class Constantes {
 	public static final String URL_PLAYER_AVATAR_UP = "player/playerU_caminhando.png";
 	public static final String URL_PLAYER_AVATAR_DOWN = "player/playerB_caminhando.png";
 	public static final String URL_PLAYER_AVATAR_DEAD = "player/player_morto.png";
-	
-	
+
+
 	//sprites secundarios
 	public static final String URL_PIG_STOP_RIGHT = "maps/map_101/porcoD_parado.png";
 	public static final String URL_PIG_STOP_LEFT = "maps/map_101/porcoE_parado.png";
@@ -84,10 +88,10 @@ public class Constantes {
 	public static final String URL_EGGS = "ovo.png";
 	public static final String URL_EGGS_SCORE = "ovoScore.png";
 	public static final String URL_GIFT_SHEEP = "maps/map_101/giftOvelha.png";
-	
+
 	//veiculos
-		public static final String URL_YELLOW_CAR_RIGHT= "veicules/veiculo1D.png";
-		public static final String URL_YELLOW_CAR_LEFT= "veicules/veiculo1E.png";
+	public static final String URL_YELLOW_CAR_RIGHT= "veicules/veiculo1D.png";
+	public static final String URL_YELLOW_CAR_LEFT= "veicules/veiculo1E.png";
 	//textos
 	public static final String URL_TEXT_FONT_KRAASH1 = "fonts/Kraash.ttf";
 	public static final String URL_TEXT_AMAZING = "amazing.png";
@@ -95,4 +99,13 @@ public class Constantes {
 	public static final String URL_TEXT_PLUS15 = "plus15.png";
 	public static final String URL_TEXT_PLUS100 = "plus100.png";
 	public static final String URL_FONT_KRAASH_BLACK = "fonts/Kraash Black.ttf";
+
+
+	public static final String URL_SEASON_PICTURE_LIST[] = {"seasons/seasonRoosterSong.png", "seasons/seasonFireInFarm.png",  
+		"seasons/seasonInvasion1.png", "seasons/seasonHorrorNight.png"};
+	public static final String URL_FASE_PICTURE_LIST [] = {"fases/fase_101.png", "fases/fase_102.png", "fases/fase_103.png", "fases/fase_104.png",
+		"fases/fase_105.png", "fases/fase_106.png", "fases/fase_107.png", "fases/fase_108.png",
+		"fases/fase_109.png", "fases/fase_110.png", "fases/fase_111.png", "fases/fase_112.png",
+		"fases/fase_113.png", "fases/fase_114.png", "fases/fase_115.png"};
+
 }

@@ -40,7 +40,7 @@ public class ResourceManager {
 		
 		//sons
 		assetManager.load(Constantes.URL_SOUND_CLICK, Music.class);
-		assetManager.load(Constantes.URL_SOUND_MENU_BACKGROUND, Music.class);
+		assetManager.load(Constantes.URL_SOUND_PRINCIPAL, Music.class);
 		assetManager.load(Constantes.URL_SOUND_EGGS, Music.class);
 		assetManager.load(Constantes.URL_SOUND_CORNS, Music.class);
 		assetManager.load(Constantes.URL_SOUND_CHICKEN_DEMAGE, Music.class);

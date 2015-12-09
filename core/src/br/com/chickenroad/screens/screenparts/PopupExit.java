@@ -6,44 +6,46 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 /**
  * Tela do popup de saída da aplicação
- * 
  *
  */
 
 public class PopupExit {
 
+	//no button
 	private Texture texturePopupNo;
-	private TextureRegion textureRegionPopupNo;
 	private Sprite spritePopupNo;
 
+	//yes button
 	private Texture texturePopupYes;
-	private TextureRegion textureRegionPopupYes;
 	private Sprite spritePopupYes;
 
+	//popup background
 	private Texture texturePopupBackground;
-	private TextureRegion textureRegionPopupBackground;
 	private Sprite spritePopupBackground;
 
-
+	/**
+	 * Inicialização dos atributos da classe
+	 * @param assetManager referência a classe que possui os recursos alocados
+	 */
 	public PopupExit(AssetManager assetManager){
 
 		this.texturePopupYes = assetManager.get(Constantes.URL_POPUP_YES_BUTTON);
-		this.textureRegionPopupYes = new TextureRegion(texturePopupYes,0,0,56,55);
-		this.spritePopupYes = new Sprite(textureRegionPopupYes);
+		this.spritePopupYes = new Sprite(texturePopupYes);
 
 		this.texturePopupNo = assetManager.get(Constantes.URL_POPUP_NO_BUTTON);
-		this.textureRegionPopupNo = new TextureRegion(texturePopupNo,0,0,56,53);
-		this.spritePopupNo = new Sprite(textureRegionPopupNo);
+		this.spritePopupNo = new Sprite(texturePopupNo);
 
 		this.texturePopupBackground = assetManager.get(Constantes.URL_POPUP_EXIT_BACKGROUND);
-		this.textureRegionPopupBackground = new TextureRegion(texturePopupBackground,0,0,500,131);
-		this.spritePopupBackground = new Sprite(textureRegionPopupBackground);
+		this.spritePopupBackground = new Sprite(texturePopupBackground);
 	}
 
+	/**
+	 * Desenhar a tela de popup
+	 * @param spriteBatch área de desenho da aplicação
+	 */
 	public void draw(SpriteBatch spriteBatch){
 
 		spritePopupNo.setPosition(Constantes.WORLD_WIDTH/2 - 200, Constantes.WORLD_HEIGHT/2 - 50);
@@ -55,21 +57,29 @@ public class PopupExit {
 		spritePopupYes.draw(spriteBatch);	
 	}
 
+	/**
+	 * Verificar se houve o clique no botão Yes
+	 * @param x posição x
+	 * @param y posição y
+	 * @return true quando houver clique no botão
+	 * 		   false quando não houver clique no botão
+	 */
 	public boolean checkClickYesButton(float x, float y){
 		if(spritePopupYes.getBoundingRectangle().contains(x, y)){
-			dispose();
 			return true;
 		}
 		return false;
 	}
-
+	/**
+	 * Verificar se houve o clique no botão No
+	 * @param x posição x
+	 * @param y posição y
+	 * @return true quando houver clique no botão
+	 * 		   false quando não houver clique no botão
+	 */
 	public boolean checkClickNoButton(float x, float y){
 		if(spritePopupNo.getBoundingRectangle().contains(x, y))
 			return true;
 		return false;
-	}
-
-	public void dispose(){
-		
 	}
 }

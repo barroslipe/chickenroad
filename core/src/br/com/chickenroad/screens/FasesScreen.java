@@ -14,7 +14,6 @@ import com.badlogic.gdx.math.Vector3;
 /**
  * Tela que apresenta as fases da aplicação
  * 
- *
  */
 public class FasesScreen extends ScreenBase {
 
@@ -32,15 +31,15 @@ public class FasesScreen extends ScreenBase {
 	private int seasonId;
 	
 	/**
-	 * 
-	 * @param aChickenRoadGame
-	 * @param seasonId 
+	 * Inicialização dos atributos da classe
+	 * @param aChickenRoadGame referência a classe principal do jogo
+	 * @param seasonId identificador da temporada selecionada
 	 */
 	public FasesScreen(ChickenRoadGame aChickenRoadGame, int seasonId) {
 		super(aChickenRoadGame);
 
 		this.seasonId = seasonId;
-		this.fasesMenu = new FasesMenu(seasonId);
+		this.fasesMenu = new FasesMenu(getAssetManager(), seasonId);
 
 		textureBACK = getAssetManager().get(Constantes.URL_BACK_BUTTON);
 		spriteArrowBACK = new Sprite(textureBACK);
@@ -48,11 +47,14 @@ public class FasesScreen extends ScreenBase {
 		textureBackground = getAssetManager().get(Constantes.URL_BACKGROUND_SEASON);
 		spriteBackground = new Sprite(textureBackground);
 
-		soundMenuBackground = getAssetManager().get(Constantes.URL_SOUND_MENU_BACKGROUND);
+		soundMenuBackground = getAssetManager().get(Constantes.URL_SOUND_PRINCIPAL);
 		soundClick = getAssetManager().get(Constantes.URL_SOUND_CLICK);
 
 	}
-
+	
+	/**
+	 * Renderizador principal da classe
+	 */
 	@Override
 	public void render(float delta) {
 
@@ -71,19 +73,18 @@ public class FasesScreen extends ScreenBase {
 		if(!soundMenuBackground.isPlaying() && Constantes.SOUND_ON_FLAG) soundMenuBackground.play(); 
 
 	}
-
+	/**
+	 * Tratar a entrada de dados do mouse ou touchScreen
+	 */
 	@Override
 	public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-
 
 		Vector3 touchPoint = new Vector3(screenX, screenY, 0);
 		chickenRoadGame.getOrthographicCamera().unproject(touchPoint);
 
-		//se tocar na seta de volta, transita para menu screen
+		//se tocar na seta de volta, transita para season screen
 		if(spriteArrowBACK.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
-			//TODO liberar tudo
 			soundClick.play();
-			//soundMenuBackground.stop();
 			chickenRoadGame.setScreenWithTransitionFade(new SeasonScreen(chickenRoadGame));
 		}else{
 			openFase(fasesMenu.getClickedFase(touchPoint.x, touchPoint.y));
@@ -91,6 +92,10 @@ public class FasesScreen extends ScreenBase {
 		return false;
 	}
 
+	/**
+	 * Abrir a fase
+	 * @param faseId identificador da fase
+	 */
 	private void openFase(int faseId) {
 
 		if(faseId==-1) return;
@@ -107,6 +112,6 @@ public class FasesScreen extends ScreenBase {
 
 	@Override
 	public void dispose() {
-		
+		this.fasesMenu = null;
 	}
 }

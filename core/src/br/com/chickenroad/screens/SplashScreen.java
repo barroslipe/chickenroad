@@ -24,6 +24,10 @@ public class SplashScreen extends ScreenBase {
 	private boolean nextScreen;
 
 
+	/**
+	 * Inicialização dos atributos da classe
+	 * @param aChickenRoadGame referência a classe principal do jogo
+	 */
 	public SplashScreen(ChickenRoadGame aChickenRoadGame) {
 		super(aChickenRoadGame);
 
@@ -34,6 +38,10 @@ public class SplashScreen extends ScreenBase {
 
 	}
 
+	/**
+	 * Renderizador principal da classe
+	 * É executado no mínimo 2 segundos e pode se estender até o carregamento total dos arquivos que a aplicação necessita.
+	 */
 	@Override
 	public void render(float delta) {
 
@@ -60,6 +68,9 @@ public class SplashScreen extends ScreenBase {
 		}
 	}
 
+	/**
+	 * Liberar recursos ao sair da tela
+	 */
 	@Override
 	public void dispose(){
 		this.textureBackground.dispose();

@@ -19,7 +19,7 @@ public class MyMusic {
 		this.soundCorns = aChickenRoadGame.getResourceManager().getAssetManager().get(Constantes.URL_SOUND_CORNS);
 		this.soundChickenDemage = aChickenRoadGame.getResourceManager().getAssetManager().get(Constantes.URL_SOUND_CHICKEN_DEMAGE);
 		this.soundSheep = aChickenRoadGame.getResourceManager().getAssetManager().get(Constantes.URL_SOUND_SHEEP);
-		this.soundMenuBackground = aChickenRoadGame.getResourceManager().getAssetManager().get(Constantes.URL_SOUND_MENU_BACKGROUND);
+		this.soundMenuBackground = aChickenRoadGame.getResourceManager().getAssetManager().get(Constantes.URL_SOUND_PRINCIPAL);
 		
 		soundBackgroundFase1.setVolume(0.2f);
 		soundBackgroundChicken.setVolume(0.4f);
