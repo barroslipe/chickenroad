@@ -6,6 +6,7 @@ import java.util.Random;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
 import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 import br.com.chickenroad.ChickenRoadGame;
@@ -25,6 +26,7 @@ import br.com.chickenroad.screens.screenparts.PlayMenuButtons;
 import br.com.chickenroad.screens.util.Constantes;
 import br.com.chickenroad.screens.util.PlayCamera;
 import br.com.chickenroad.screens.util.PreferencesUser;
+import br.com.chickenroad.screens.util.Util;
 
 /**
  * Responsável pelo controle da fase. Gerencia os componetes de mapa e player para renderizar a fase.
@@ -234,15 +236,18 @@ public class Play extends ScreenBase {
 			supporting[i].inicializar(pigPosX, pigPosY);
 		}
 
+		Vector2 point;
 		//gera ovos em posi��es aleatorios
 		for(int i=0;i<PlayConfig.numEggs;i++){
-			targetPlayerEggsList.get(i).inicializar(gerador.nextInt(600), gerador.nextInt(400));
+			point = new Vector2(Util.getValidRandomPosition(myMap.getWidthTiledMap(), myMap.getHeightTiledMap(), myMap.getTiles()));
+			targetPlayerEggsList.get(i).inicializar(point.x, point.y);
 			targetPlayerEggsList.get(i).setVisible(true);
 		}
 
 		//gera milhos em posi��es aleatorios
 		for(int i=0;i<PlayConfig.numCorns;i++){
-			targetPlayerCornsList.get(i).inicializar(gerador.nextInt(600), gerador.nextInt(400));
+			point = new Vector2(Util.getValidRandomPosition(myMap.getWidthTiledMap(), myMap.getHeightTiledMap(), myMap.getTiles()));
+			targetPlayerCornsList.get(i).inicializar(point.x, point.y);
 			targetPlayerCornsList.get(i).setVisible(true);
 		}
 		

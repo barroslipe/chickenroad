@@ -1,13 +1,13 @@
 package br.com.chickenroad.entities;
 
+import br.com.chickenroad.animations.TargetPlayerAnimation;
+import br.com.chickenroad.screens.util.Constantes;
+
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Intersector;
-
-import br.com.chickenroad.animations.TargetPlayerAnimation;
-import br.com.chickenroad.screens.util.Constantes;
 
 public class TargetPlayer extends Sprite{
 
@@ -35,7 +35,7 @@ public class TargetPlayer extends Sprite{
 
 	public void inicializar(float x, float y) {
 		setPosition(x, y);
-		targetPlayerAnimation.inicializar(x, y);
+		targetPlayerAnimation.inicializar(x,y);
 		visible=true;
 		locker = false;
 	}
