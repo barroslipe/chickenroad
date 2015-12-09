@@ -1,13 +1,12 @@
 package br.com.chickenroad.animations;
 
+import br.com.chickenroad.entities.VehicleTypes;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-
-import br.com.chickenroad.entities.VehicleTypes;
 
 /**
  * 
@@ -19,7 +18,13 @@ public class VehicleAnimation {
 	private Animation walkAnimation;         
 
 	private Texture spriteSheet; 
+	
+
 	private TextureRegion[] walkFrames;            
+	public TextureRegion[] getWalkFrames() {
+		return walkFrames;
+	}
+
 	private TextureRegion currentFrame;                                                
 	private TextureRegion[][] spriteSheetTmp;
 
@@ -50,7 +55,7 @@ public class VehicleAnimation {
 				
 				walkFrames = new TextureRegion[4]; 
 
-				this.velAnimation = 1f/20f;
+				this.velAnimation = 1f/3f;
 
 			break;
 			case  YELLOW_CAR_LEFT:
@@ -59,7 +64,7 @@ public class VehicleAnimation {
 				
 				walkFrames = new TextureRegion[4]; 
 
-				this.velAnimation = 1f/20f;
+				this.velAnimation = 1f/5f;
 
 			break;
 		default:
@@ -70,6 +75,7 @@ public class VehicleAnimation {
 	}
 	
 	private void initSpriteSheet() {
+		System.err.println("iniciou spritesheet vehicle");
 		index = 0;
 
 		for (int i = 0; i < 1; i++){
@@ -87,7 +93,8 @@ public class VehicleAnimation {
 	 * @return the currentFrame
 	 */
 	public TextureRegion getCurrentFrame() {
-		stateTime += Gdx.graphics.getDeltaTime();          
+		stateTime += Gdx.graphics.getDeltaTime();
+		System.err.println(stateTime);
 		currentFrame = walkAnimation.getKeyFrame(stateTime, true);
 		return currentFrame;
 	}
@@ -107,12 +114,5 @@ public class VehicleAnimation {
 
 	public void setPosY(float posY) {
 		this.posY = posY;
-	}
-	
-	public void draw(Batch batch, float delta){
-		stateTime += Gdx.graphics.getDeltaTime();          
-		currentFrame = walkAnimation.getKeyFrame(stateTime, true);
-		
-		batch.draw(currentFrame, posX, posY);
 	}
 }

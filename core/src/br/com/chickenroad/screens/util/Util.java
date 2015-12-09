@@ -8,16 +8,16 @@ import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 
 public class Util {
-	
+
 	private static Random random = new Random();
-	
+
 	public static float getRandomPosition(float min, float max){
 		return random.nextInt((int)max - (int)min) + min;
 	}
 	public static float getRandomPosition(float min){
 		return random.nextFloat() + min;
 	}
-	public static Vector2 getValidRandomPosition(int width, int height, List<Rectangle> tiles) {
+	public static Vector2 getValidRandomPosition(int width, int height, List<Rectangle> tiles, Rectangle chickenNest) {
 		Vector2 point = new Vector2();
 
 		boolean flag=true;
@@ -28,16 +28,24 @@ public class Util {
 			int y = random.nextInt(height - 20);
 			point.x = x;
 			point.y = y;
+			
+			//TODO parametrizar tamanho do ovo e milho
 			Rectangle rect = new Rectangle(x, y, 20, 20);
-			for(int i=0;i<tiles.size();i++){
-				if(Intersector.overlaps(tiles.get(i), rect)){
-					flag = false;
+
+			//TODO parametrizar raio
+			Rectangle rect2 = new Rectangle(chickenNest.x, chickenNest.y, chickenNest.getWidth()+50, chickenNest.getHeight()+50);
+			if(Intersector.overlaps(rect2, rect)) flag= false;
+			else{
+				for(int i=0;i<tiles.size();i++){
+					if(Intersector.overlaps(tiles.get(i), rect)){
+						flag = false;
+					}
 				}
 			}
-			
+
 		}while(!flag);
-		
-		
+
+
 		return point;
 	}
 }

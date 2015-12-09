@@ -196,6 +196,8 @@ public class PlayerAnimation {
 	public TextureRegion getCurrentFrame() {
 		stateTime += Gdx.graphics.getDeltaTime();          
 		currentFrame = walkAnimation.getKeyFrame(stateTime, true);
+		System.err.println("player: "+stateTime);
+
 		return currentFrame;
 	}
 	
@@ -214,12 +216,5 @@ public class PlayerAnimation {
 
 	public void setPosY(float posY) {
 		this.posY = posY;
-	}
-	
-	public void draw(Batch batch, float delta){
-		stateTime += Gdx.graphics.getDeltaTime();          
-		currentFrame = walkAnimation.getKeyFrame(stateTime, true);
-		
-		batch.draw(currentFrame, posX, posY);
 	}
 }

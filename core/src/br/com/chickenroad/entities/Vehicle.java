@@ -20,22 +20,27 @@ public class Vehicle extends Sprite{
  	private RoadFaixa roadFaixa;
 
 	public Vehicle(String sprite, RoadFaixa aRoadFaixa, AssetManager assetManager){
-		super(new Texture(sprite));		
+		super(new Texture(sprite), new Texture(sprite).getWidth()/5, new Texture(sprite).getHeight());		
 		roadFaixa = aRoadFaixa;
 	
 		this.vehicleAnimation = new VehicleAnimation(assetManager);
+		
+		if(aRoadFaixa.getDirection() == Direction.RIGHT)
+			vehicleAnimation.setSpriteSheet(Constantes.URL_YELLOW_CAR_RIGHT, VehicleTypes.YELLOW_CAR_RIGHT);
+		else
+			vehicleAnimation.setSpriteSheet(Constantes.URL_YELLOW_CAR_LEFT, VehicleTypes.YELLOW_CAR_LEFT);
+
 	}
 		
 
 	public void dispose(){
-		getTexture().dispose();
+		//getTexture().dispose();
 	}
 
 	public void walkX(){
 
 		if(roadFaixa.getDirection() == Direction.RIGHT){
 			
-			vehicleAnimation.setSpriteSheet(Constantes.URL_YELLOW_CAR_LEFT, VehicleTypes.YELLOW_CAR_LEFT);
 			
 			if(getX() <= roadFaixa.getInitialPoint().x + roadFaixa.getWidth())
 				setX(getX() + roadFaixa.getSpeed());
@@ -43,7 +48,6 @@ public class Vehicle extends Sprite{
 				init(roadFaixa.getInitialPoint().x, getY());
 		}else if(roadFaixa.getDirection() == Direction.LEFT){
 			
-			vehicleAnimation.setSpriteSheet(Constantes.URL_YELLOW_CAR_RIGHT, VehicleTypes.YELLOW_CAR_RIGHT);
 			
 			if(getX() >= roadFaixa.getInitialPoint().x)
 				setX(getX() - roadFaixa.getSpeed());
@@ -55,11 +59,15 @@ public class Vehicle extends Sprite{
 
 	public void init(float x, float y) {
 		setPosition(x, y);
+		vehicleAnimation.inicializar(x, y);
 	}
 	
 	@Override
 	public void draw(Batch batch, float delta){
-		super.draw(batch, delta);
-		this.vehicleAnimation.draw(batch, delta);	
+		
+		this.setRegion(vehicleAnimation.getCurrentFrame());
+		
+		super.draw(batch);
+		//this.vehicleAnimation.draw(batch, delta);	
 	}
 }

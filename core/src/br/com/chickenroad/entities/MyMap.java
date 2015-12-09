@@ -7,6 +7,7 @@ import br.com.chickenroad.screens.util.Constantes;
 import br.com.chickenroad.screens.util.MyProperties;
 import br.com.chickenroad.screens.util.Util;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -44,7 +45,7 @@ public class MyMap {
 	private AssetManager assetManager;
 
 	//Deslocando a origem da pista para esquerda, essa variavel vai 
-	//evitar que os veículos vindos da esquerda para direita, surjam "do nada" na tela
+	//evitar que os veï¿½culos vindos da esquerda para direita, surjam "do nada" na tela
 	private int DESLOC_INIT_X_ROAD = 200; 
 	
 	public MyMap(String aUrlMap, AssetManager assetManager) {
@@ -274,7 +275,7 @@ public class MyMap {
 		for(int i=0;i<vehicleList.size();i++){
 			if(stateGame == StateGame.PLAYING)
 				vehicleList.get(i).walkX();
-			vehicleList.get(i).draw(spriteBatch);
+			vehicleList.get(i).draw(spriteBatch, Gdx.graphics.getDeltaTime());
 		}
 	}
 

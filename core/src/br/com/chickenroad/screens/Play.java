@@ -70,7 +70,7 @@ public class Play extends ScreenBase {
 		this.myMusic = new MyMusic(aChickenRoadGame);
 
 		this.chickenNest = new ChickenNest(Constantes.URL_CHICKENNEST);
-		this.myMap = new MyMap(urlMap);
+		this.myMap = new MyMap(urlMap, getAssetManager());
 		this.playMenuButtons = new PlayMenuButtons(getAssetManager());
 		this.playCamera = new PlayCamera();
 		this.player = new Player(Constantes.URL_PLAYER_AVATAR, getAssetManager(),  myMap.getWidthTiledMap(),
@@ -239,14 +239,14 @@ public class Play extends ScreenBase {
 		Vector2 point;
 		//gera ovos em posi��es aleatorios
 		for(int i=0;i<PlayConfig.numEggs;i++){
-			point = new Vector2(Util.getValidRandomPosition(myMap.getWidthTiledMap(), myMap.getHeightTiledMap(), myMap.getTiles()));
+			point = new Vector2(Util.getValidRandomPosition(myMap.getWidthTiledMap(), myMap.getHeightTiledMap(), myMap.getTiles(), chickenNest.getBoundingRectangle()));
 			targetPlayerEggsList.get(i).inicializar(point.x, point.y);
 			targetPlayerEggsList.get(i).setVisible(true);
 		}
 
 		//gera milhos em posi��es aleatorios
 		for(int i=0;i<PlayConfig.numCorns;i++){
-			point = new Vector2(Util.getValidRandomPosition(myMap.getWidthTiledMap(), myMap.getHeightTiledMap(), myMap.getTiles()));
+			point = new Vector2(Util.getValidRandomPosition(myMap.getWidthTiledMap(), myMap.getHeightTiledMap(), myMap.getTiles(), chickenNest.getBoundingRectangle()));
 			targetPlayerCornsList.get(i).inicializar(point.x, point.y);
 			targetPlayerCornsList.get(i).setVisible(true);
 		}
