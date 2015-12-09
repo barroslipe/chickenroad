@@ -88,7 +88,9 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_YELLOW_CORN, Texture.class);
 		assetManager.load(Constantes.URL_YELLOW_CORN_SCORE, Texture.class);
 		assetManager.load(Constantes.URL_EGGS_SCORE, Texture.class);
-		
+		//VEICULOS
+		assetManager.load(Constantes.URL_YELLOW_CAR_RIGHT, Texture.class);
+		assetManager.load(Constantes.URL_YELLOW_CAR_LEFT, Texture.class);	
 		
 		
 		//textos

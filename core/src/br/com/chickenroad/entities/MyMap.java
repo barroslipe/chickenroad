@@ -7,6 +7,7 @@ import br.com.chickenroad.screens.util.Constantes;
 import br.com.chickenroad.screens.util.MyProperties;
 import br.com.chickenroad.screens.util.Util;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -39,12 +40,14 @@ public class MyMap {
 	private MyProperties myProperties;
 
 	private ArrayList<Vehicle> vehicleList;
+	
+	private AssetManager assetManager;
 
 	//Deslocando a origem da pista para esquerda, essa variavel vai 
 	//evitar que os veículos vindos da esquerda para direita, surjam "do nada" na tela
 	private int DESLOC_INIT_X_ROAD = 200; 
 	
-	public MyMap(String aUrlMap) {
+	public MyMap(String aUrlMap, AssetManager assetManager) {
 
 		this.tiledMap = new TmxMapLoader().load(aUrlMap + ".tmx");
 		this.orthogonalTiledMapRenderer = new OrthogonalTiledMapRenderer(tiledMap);
@@ -57,6 +60,8 @@ public class MyMap {
 
 		this.myProperties.loadProperties(aUrlMap + ".properties");
 
+		this.assetManager = assetManager;
+		
 		calcPlayerOrigin();
 		saveColisionTiles();
 		saveRoads();
@@ -232,7 +237,7 @@ public class MyMap {
 	private void createVehicles() {
 
 		//TODO verificar os objetos que estarÃ£o nas estradas
-		String[] pictures = {"veicules/veiculo1D_carroca.png", "veicules/veiculo1E.png"};
+		String[] pictures = {"veicules/veiculo1D.png", "veicules/veiculo1E.png"};
 
 		vehicleList = new ArrayList<Vehicle>();
 
@@ -253,7 +258,7 @@ public class MyMap {
 
 				float positionX = faixa.getInitialPoint().x + faixa.getCarsDistance()*j;
 
-				vehicle = new Vehicle(pictures[(j%road.getRoadFaixaList().size())%2], faixa);
+				vehicle = new Vehicle(pictures[(j%road.getRoadFaixaList().size())%2], faixa, assetManager);
 				vehicle.init(positionX, positionY);
 				
 				vehicleList.add(vehicle);

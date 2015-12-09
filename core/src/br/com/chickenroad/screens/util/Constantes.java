@@ -85,7 +85,9 @@ public class Constantes {
 	public static final String URL_EGGS_SCORE = "ovoScore.png";
 	public static final String URL_GIFT_SHEEP = "maps/map_101/giftOvelha.png";
 	
-	
+	//veiculos
+		public static final String URL_YELLOW_CAR_RIGHT= "veicules/veiculo1D.png";
+		public static final String URL_YELLOW_CAR_LEFT= "veicules/veiculo1E.png";
 	//textos
 	public static final String URL_TEXT_FONT_KRAASH1 = "fonts/Kraash.ttf";
 	public static final String URL_TEXT_AMAZING = "amazing.png";
