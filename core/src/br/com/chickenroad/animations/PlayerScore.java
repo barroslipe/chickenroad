@@ -20,7 +20,7 @@ public class PlayerScore {
 	private int currentNoCatchedEggs;
 	private int currentNoCatchedCorns;
 
-	public BitmapFont defaultFont, scoreFont;
+	private BitmapFont defaultFont, scoreFont;
 
 
 	public PlayerScore() {

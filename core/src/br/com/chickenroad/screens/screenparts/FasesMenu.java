@@ -8,9 +8,13 @@ import br.com.chickenroad.screens.util.PreferencesUser;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 
 
 public class FasesMenu {
@@ -23,7 +27,9 @@ public class FasesMenu {
 
 	private ArrayList<Sprite> spriteFaseList;
 	
-	private ArrayList<Fase> openFaseList; 
+	private ArrayList<Fase> openFaseList;
+	
+	private BitmapFont defaultFont;
 
 	/**
 	 * 
@@ -33,18 +39,16 @@ public class FasesMenu {
 		
 		this.soundRooster = Gdx.audio.newSound(Gdx.files.internal(Constantes.URL_SOUND_ROOSTER));
 		this.openFaseList = PreferencesUser.getFases(seasonId);
-
-		//TODO
-		/**
-		 * Para cada fase tenho um método que retorna todos os presentes e o total do score ex:
-		 * 
-		 * for(Fase s: openFaseList){
-		 *      int totalScore = s.getFaseTotalScore();
-		 *      int totalGift = s.getFaseTotalGift();
-		 * }
-		 * 
-		 */
 		
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Constantes.URL_FONT_KRAASH_BLACK));
+		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+		parameter.size = 8;
+		parameter.borderColor = Color.BLACK;
+		parameter.borderWidth = 2;
+		defaultFont = generator.generateFont(parameter);
+		generator.dispose(); // don't forget to dispose to 
+		defaultFont.setColor(1.0f, 1.0f, 1.0f, 1.0f);	
+
 		//TODO trocar figura e string
 		spriteFaseList = new ArrayList<Sprite>();
 
@@ -77,7 +81,10 @@ public class FasesMenu {
 	public void draw(SpriteBatch spriteBatch) {
 
 		for(int i=0;i<spriteFaseList.size();i++){
-			spriteFaseList.get(i).draw(spriteBatch);	
+			spriteFaseList.get(i).draw(spriteBatch);
+			if(i< openFaseList.size()){
+				defaultFont.draw(spriteBatch, Integer.toString(openFaseList.get(i).getScore()), spriteFaseList.get(i).getX()+20 , spriteFaseList.get(i).getY() - 5);
+			}
 		}
 	}
 

@@ -8,9 +8,13 @@ import br.com.chickenroad.screens.util.PreferencesUser;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 
 
 public class SeasonMenu {
@@ -26,6 +30,9 @@ public class SeasonMenu {
 	//lista de temporadas abertas ao jogador
 	private ArrayList<Season> openSeasonList;
 	
+	private BitmapFont defaultFont;
+
+	
 	public SeasonMenu(){
 		
 		soundRooster = Gdx.audio.newSound(Gdx.files.internal(Constantes.URL_SOUND_ROOSTER));
@@ -34,17 +41,14 @@ public class SeasonMenu {
 		this.seasonSpriteList = new ArrayList<Sprite>();
 		this.openSeasonList = PreferencesUser.getSeasons();
 		
-		
-		//TODO
-		/**
-		 * Para cada temporada tenho um método que retorna todos os presentes e o total do score ex:
-		 * 
-		 * for(Season s: openSeasonList){
-		 *      int totalScore = s.getSeasonTotalScore();
-		 *      int totalGift = s.getSeasonTotalGift();
-		 * }
-		 * 
-		 */
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Constantes.URL_FONT_KRAASH_BLACK));
+		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+		parameter.size = 8;
+		parameter.borderColor = Color.BLACK;
+		parameter.borderWidth = 2;
+		defaultFont = generator.generateFont(parameter);
+		generator.dispose(); // don't forget to dispose to 
+		defaultFont.setColor(1.0f, 1.0f, 1.0f, 1.0f);	
 
 		int cont = 0;
 		int spriteFaseListHeight = 100;// Constantes.WORLD_HEIGHT/2+90;
@@ -77,6 +81,9 @@ public class SeasonMenu {
 		
 		for(int i=0;i<seasonSpriteList.size();i++){
 			seasonSpriteList.get(i).draw(spriteBatch);	
+			if(i< openSeasonList.size()){
+				defaultFont.draw(spriteBatch, Integer.toString(openSeasonList.get(i).getSeasonTotalScore()), seasonSpriteList.get(i).getX()+30 , seasonSpriteList.get(i).getY()+80);
+			}
 		}
 	}
 
