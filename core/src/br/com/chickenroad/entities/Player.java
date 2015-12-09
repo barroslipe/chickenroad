@@ -31,8 +31,8 @@ public class Player extends Sprite{
 	private PlayerLife playerLife;
 	private PlayerAnimation playerAnimation;
 	
-	public Player(String sprite, AssetManager assetManager, int aWidthTiledMap, int aHeightTiledMap) {
-		super(new Texture(sprite));
+	public Player(AssetManager assetManager, int aWidthTiledMap, int aHeightTiledMap) {
+		super((Texture) assetManager.get(Constantes.URL_PLAYER_AVATAR));
 
 		this.playerAnimation = new PlayerAnimation(assetManager);
 		this.widthTiledMap = aWidthTiledMap;
@@ -146,8 +146,8 @@ public class Player extends Sprite{
 		float declividadeReta; //relacionado ao angulo entre retas de toque na tela
 		float diffPontoX;
 		float diffPontoY;
-		final float noZero = 0.999999f; //usada para evitar ideterminação em 'diffPontoX' caso não haja variação em X
-		//final float infinitezimal = 100000000f; //evita que der angulo 90 graus, pois não tem tangente para e ele
+		final float noZero = 0.999999f; //usada para evitar ideterminaï¿½ï¿½o em 'diffPontoX' caso nï¿½o haja variaï¿½ï¿½o em X
+		//final float infinitezimal = 100000000f; //evita que der angulo 90 graus, pois nï¿½o tem tangente para e ele
 		
 		//calculos de declividade de reta
 		diffPontoX = (float)(pontoX - getX()*noZero);
@@ -163,7 +163,7 @@ public class Player extends Sprite{
 		 * m > 0, angulos menores que 90 graus
 		 * */
 		
-		// [EM RELAÇÃO A POSIÇÃO ATUAL DO PLAYER]
+		// [EM RELAï¿½ï¿½O A POSIï¿½ï¿½O ATUAL DO PLAYER]
 		//pontoX,Y = ponto que o jogador clicou
 		if(pontoX > getX()) {
 			if(declividadeReta <= 0.5 && declividadeReta >= -0.5) {

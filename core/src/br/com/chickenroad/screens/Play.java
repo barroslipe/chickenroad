@@ -3,12 +3,6 @@ package br.com.chickenroad.screens;
 import java.util.ArrayList;
 import java.util.Random;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
-
 import br.com.chickenroad.ChickenRoadGame;
 import br.com.chickenroad.animations.PlayerScore;
 import br.com.chickenroad.entities.ChickenNest;
@@ -28,65 +22,96 @@ import br.com.chickenroad.screens.util.PlayCamera;
 import br.com.chickenroad.screens.util.PreferencesUser;
 import br.com.chickenroad.screens.util.Util;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+
 /**
- * Responsável pelo controle da fase. Gerencia os componetes de mapa e player para renderizar a fase.
+ * Responsável pelo controle da fase
  * 
  *
  */
 public class Play extends ScreenBase {
 
+	//músicas da fase
 	private MyMusic myMusic;
 
+	//botões do jogo[menu de contexto]
 	private PlayMenuButtons playMenuButtons;
+	//ovos e espigas
 	private ArrayList<TargetPlayer> targetPlayerEggsList, targetPlayerCornsList;
+	//presente
 	private TargetPlayer targetPlayerGiftSheep;
-	private TextGame textGame[]; 
+	//textos
+	private TextGame textGame[];
+	//porcos
 	private Supporting supporting[];
+	//jogador
 	private Player player;
-	private MyMap myMap;
-	private StateGame stateGame;
-	private FinishPopup popupFinish;
-	private PlayCamera playCamera; 
+	//score do jogador
 	private PlayerScore playerScore;
+	//ninho
+	private ChickenNest chickenNest;
+	//mapa
+	private MyMap myMap;
+	//estado do jogo
+	private StateGame stateGame;
+	//popup de término
+	private FinishPopup popupFinish;
+	//camera do jogo
+	private PlayCamera playCamera; 
 
+	//variáveis de controle
 	private int contAmazing, contPow, contPlus15, contPlus100;
 	private int numCornCatchedIndex; //recebe o valor da posi��o do vetor de milhos encontrados
 	private boolean flagPlus15;
 	private boolean flagPlus100;
 	private boolean catchedGift;
 
-	private ChickenNest chickenNest;
-
 	public static int deltaXPositionButtons=0, deltaYPositionButtons=0;
-	
+
+	//parametros
 	private int seasonId, faseId;
 
+	/**
+	 * Inicialização dos atributos da classe
+	 * @param urlMap url do mapa
+	 * @param aChickenRoadGame referência a classe principal do jogo
+	 * @param seasonId identificador da temporada
+	 * @param faseId identificador da fase
+	 */
 	public Play(String urlMap, ChickenRoadGame aChickenRoadGame, int seasonId, int faseId) {
 		super(aChickenRoadGame);
 
 		this.seasonId = seasonId;
 		this.faseId = faseId;
-		
-		this.myMusic = new MyMusic(aChickenRoadGame);
 
-		this.chickenNest = new ChickenNest(Constantes.URL_CHICKENNEST);
+		this.myMusic = new MyMusic(getAssetManager());
+		this.chickenNest = new ChickenNest(getAssetManager());
 		this.myMap = new MyMap(urlMap, getAssetManager());
 		this.playMenuButtons = new PlayMenuButtons(getAssetManager());
 		this.playCamera = new PlayCamera();
-		this.player = new Player(Constantes.URL_PLAYER_AVATAR, getAssetManager(),  myMap.getWidthTiledMap(),
-				myMap.getHeightTiledMap());
+		this.player = new Player(getAssetManager(),  myMap.getWidthTiledMap(), myMap.getHeightTiledMap());
 		this.playerScore = new PlayerScore();
-		
+
+		//inicia fase
+		init();
+	}
+
+	private void init() {
+
 		this.numCornCatchedIndex=0;
 		this.contAmazing = 0;
 		this.contPow = 0;
 		this.contPlus15 = 0;
 		this.contPlus100 = 0;
-		
+
 		this.flagPlus15 = false;
 		this.flagPlus100 = false;
 		this.catchedGift = false;
-		
+
 		this.supporting = new Supporting[PlayConfig.numSupporting];
 		this.textGame = new TextGame[PlayConfig.numTexts];	
 
@@ -102,23 +127,73 @@ public class Play extends ScreenBase {
 				getAssetManager(), SupportingTypes.PIG_SLEEPING_RIGHT);
 		this.supporting[2] = new Supporting(Constantes.URL_PIG_SLEEPING_LEFT, 
 				getAssetManager(), SupportingTypes.PIG_SLEEPING_LEFT);
-		
+
 		//inicializa vetor de ovos com velocidades aleatorias
 		Random generator = new Random();
-		
+
 		this.targetPlayerEggsList = new ArrayList<TargetPlayer>();
 		for(int i=0;i<PlayConfig.numEggs;i++)
 			this.targetPlayerEggsList.add( new TargetPlayer(Constantes.URL_EGGS, getAssetManager(),TargetPlayerTypes.EGGS, 1f/(float)generator.nextInt(5)));
-		
+
 		//inicializa vetor de milhos com velocidades iguais
 		this.targetPlayerCornsList = new ArrayList<TargetPlayer>();
 		for(int i=0;i<PlayConfig.numCorns;i++)
 			this.targetPlayerCornsList.add(new TargetPlayer(Constantes.URL_YELLOW_CORN, getAssetManager(),TargetPlayerTypes.YELLOW_CORN,1f/7f ));
-		
+
 		this.targetPlayerGiftSheep = new TargetPlayer(Constantes.URL_GIFT_SHEEP, getAssetManager(), TargetPlayerTypes.SHEEP, 1f/4f);
-		
-		//inicia fase
-		initFase();
+
+
+		//muda o estado do jogo para 'PLAYING'
+		stateGame = StateGame.PLAYING;
+
+		float x = this.myMap.getPlayerOrigin().x;
+		float y = this.myMap.getPlayerOrigin().y;
+
+		myMusic.init();
+		player.inicializar(x, y);
+		playerScore.inicializar();
+		chickenNest.init();
+
+		numCornCatchedIndex=0;
+		contAmazing = 0;
+		contPow = 0;
+		contPlus15 = 0;
+		contPlus100 = 0;
+
+		flagPlus15 = false;
+		flagPlus100 = false;
+		catchedGift = false;
+
+		Random gerador = new Random();
+
+		//inicializa todos os textos
+		for(int i=0;i<PlayConfig.numTexts;i++)
+			textGame[i].inicializar(); //exibe texto na posi��o do player
+
+		//inicia vetor de coadjuvantes
+		for(int i=0;i<PlayConfig.numSupporting;i++){
+			int pigPosX=gerador.nextInt(130)+10;
+			int pigPosY = gerador.nextInt(150)+160;
+			supporting[i].inicializar(pigPosX, pigPosY);
+		}
+
+		Vector2 point;
+		//gera ovos em posi��es aleatorios
+		for(int i=0;i<PlayConfig.numEggs;i++){
+			point = new Vector2(Util.getValidRandomPosition(myMap.getWidthTiledMap(), myMap.getHeightTiledMap(), myMap.getTiles(), chickenNest.getBoundingRectangle()));
+			targetPlayerEggsList.get(i).inicializar(point.x, point.y);
+			targetPlayerEggsList.get(i).setVisible(true);
+		}
+
+		//gera milhos em posi��es aleatorios
+		for(int i=0;i<PlayConfig.numCorns;i++){
+			point = new Vector2(Util.getValidRandomPosition(myMap.getWidthTiledMap(), myMap.getHeightTiledMap(), myMap.getTiles(), chickenNest.getBoundingRectangle()));
+			targetPlayerCornsList.get(i).inicializar(point.x, point.y);
+			targetPlayerCornsList.get(i).setVisible(true);
+		}
+
+		//inicializa presente
+		targetPlayerGiftSheep.inicializar(500,  120);
 	}
 	@Override
 	public boolean keyDown(int keycode) {
@@ -186,7 +261,7 @@ public class Play extends ScreenBase {
 			break;
 
 		case RESTART:
-			initFase();
+			init();
 			break;
 
 		case GAME_OVER:
@@ -196,65 +271,6 @@ public class Play extends ScreenBase {
 		}
 		draw(delta);
 	}
-
-	private void initFase() {
-		//muda o estado do jogo para 'PLAYING'
-		stateGame = StateGame.PLAYING;
-
-		float x = this.myMap.getPlayerOrigin().x;
-		float y = this.myMap.getPlayerOrigin().y;
-
-		//se ainda estiver tocando, p�ra musica do munu inicial
-		if (myMusic.getSoundMenuBackground().isPlaying()) {
-			myMusic.getSoundMenuBackground().stop();
-		}
-		
-		player.inicializar(x, y);
-		playerScore.inicializar();
-		chickenNest.inicializar();
-		
-		numCornCatchedIndex=0;
-		contAmazing = 0;
-		contPow = 0;
-		contPlus15 = 0;
-		contPlus100 = 0;
-		
-		flagPlus15 = false;
-		flagPlus100 = false;
-		catchedGift = false;
-
-		Random gerador = new Random();
-
-		//inicializa todos os textos
-		for(int i=0;i<PlayConfig.numTexts;i++)
-			textGame[i].inicializar(); //exibe texto na posi��o do player
-
-		//inicia vetor de coadjuvantes
-		for(int i=0;i<PlayConfig.numSupporting;i++){
-			int pigPosX=gerador.nextInt(130)+10;
-			int pigPosY = gerador.nextInt(150)+160;
-			supporting[i].inicializar(pigPosX, pigPosY);
-		}
-
-		Vector2 point;
-		//gera ovos em posi��es aleatorios
-		for(int i=0;i<PlayConfig.numEggs;i++){
-			point = new Vector2(Util.getValidRandomPosition(myMap.getWidthTiledMap(), myMap.getHeightTiledMap(), myMap.getTiles(), chickenNest.getBoundingRectangle()));
-			targetPlayerEggsList.get(i).inicializar(point.x, point.y);
-			targetPlayerEggsList.get(i).setVisible(true);
-		}
-
-		//gera milhos em posi��es aleatorios
-		for(int i=0;i<PlayConfig.numCorns;i++){
-			point = new Vector2(Util.getValidRandomPosition(myMap.getWidthTiledMap(), myMap.getHeightTiledMap(), myMap.getTiles(), chickenNest.getBoundingRectangle()));
-			targetPlayerCornsList.get(i).inicializar(point.x, point.y);
-			targetPlayerCornsList.get(i).setVisible(true);
-		}
-		
-		//inicializa presente
-		targetPlayerGiftSheep.inicializar(500,  120);
-	}
-
 	private void draw(float delta) {		
 		Random gerador = new Random();
 
@@ -281,7 +297,7 @@ public class Play extends ScreenBase {
 		}
 
 
-		
+
 		//exibe presente - se pegar X milhos e Y ovos
 		if(playerScore.getCurrentNoCatchedEggs() == 0 && 
 				playerScore.getCurrentNoCatchedCorns() <= 49){//PlayConfig.numCorns/2) {
@@ -293,15 +309,15 @@ public class Play extends ScreenBase {
 		}
 		else
 			targetPlayerGiftSheep.setPosition(-100, -100);
-		
+
 		//se pegou todos os ovos, exibe texto animado de fim de fase
 		if(playerScore.getCurrentNoCatchedEggs() == 0 && chickenNest.checkColision(player)) {
-			
+
 			//TODO aqui será o sucesso da aplicação certo? então, aqui iremos persistir o score e o presente[não há variável do presente por enquanto]
 			if(stateGame != StateGame.FINISH)
 				PreferencesUser.setSucesso(seasonId, faseId, playerScore.getScoreGame());
-			
-			
+
+
 			if(contAmazing++ < 130) {//este if evitar que a anima��o fique infinita
 
 				myMusic.getSoundEndFase().play();
@@ -311,22 +327,18 @@ public class Play extends ScreenBase {
 				textGame[0].draw(chickenRoadGame.getSpriteBatch(), delta);
 			}
 
-			myMusic.getSoundBackgroundFase1().pause();
+			myMusic.getSoundBackgroundFase().pause();
 			myMusic.getSoundBackgroundChicken().pause();
 
 			stateGame = StateGame.FINISH;
-			
+
 
 		}
 		else { //else GAMBIARRA TEMPOR�RIA - :(
 
-			myMusic.getSoundBackgroundFase1().play();
-			myMusic.getSoundBackgroundChicken().play();
-
 			textGame[0].setPosition(-100, -200);
 			contAmazing = 0;
-			
-			
+
 		}
 
 		//exibe anima��o de colis�o se houve colis�o
@@ -347,7 +359,7 @@ public class Play extends ScreenBase {
 			//so pode pegar ovos se ele nao tiver sido pego antes
 			if(targetPlayerEggsList.get(i).checkColision(player) && (playerScore.getCurrentNoCatchedEggs() > 0)){ 
 				targetPlayerEggsList.get(i).setVisible(false);//apaga o ovo da tela
-				
+
 				myMusic.getSoundEggs().play();
 				playerScore.addScoreGame(PlayerScore.EGGS_SCORE);
 				playerScore.minusCurrentNoCatchedEggs();
@@ -393,8 +405,6 @@ public class Play extends ScreenBase {
 				contPlus100 = 0;
 				flagPlus100 = false;
 				targetPlayerCornsList.get(numCornCatchedIndex).setVisible(false);
-
-				
 			}
 		}
 
@@ -402,22 +412,22 @@ public class Play extends ScreenBase {
 		if(player.getPlayerLife().getLife() <= 0) {
 			player.getPlayerAnimation().setSpriteSheet(Constantes.URL_PLAYER_AVATAR_DEAD, PlayerTypes.AVATAR_DEAD); //muda para anima��o de avatar morto
 			player.draw(chickenRoadGame.getSpriteBatch(), delta);
-			
+
 			stateGame = StateGame.GAME_OVER;
-			
+
 			myMusic.getSoundBackgroundChicken().stop();
-			myMusic.getSoundBackgroundFase1().stop();
+			myMusic.getSoundBackgroundFase().stop();
 			myMusic.getSoundChickenDemage().stop();
-			
+
 		}
-		
+
 		myMap.drawVehicles(chickenRoadGame.getSpriteBatch(), stateGame);
 		playMenuButtons.draw(chickenRoadGame.getSpriteBatch(), stateGame, deltaXPositionButtons, deltaYPositionButtons);
 		playerScore.draw(chickenRoadGame.getSpriteBatch(), deltaXPositionButtons, deltaYPositionButtons);
 
 		chickenRoadGame.getSpriteBatch().end();
 
-		
+
 
 		//se aproximar do ninho, deixa um ovo
 		if(chickenNest.checkColision(player)) {
@@ -430,12 +440,12 @@ public class Play extends ScreenBase {
 				}
 			}
 		}
-		
+
 		//colisao com o presente ganho
 		if(targetPlayerGiftSheep.checkColision(player)) {
-				catchedGift = true;
-				myMusic.getSoundCoinEndFase().play();
-				myMusic.getSoundSheep().pause();
+			catchedGift = true;
+			myMusic.getSoundCoinEndFase().play();
+			myMusic.getSoundSheep().pause();
 		}
 	}//end draw()
 
@@ -447,13 +457,11 @@ public class Play extends ScreenBase {
 	@Override
 	public void dispose() {
 		this.chickenRoadGame = null;
-		//this.player.dispose();
 		this.playMenuButtons.dispose();
 		this.stateGame = null;
 		this.myMap.dispose();
 		this.playerScore = null;
-		//this.myMusic.dispose();
-
+	
 		for(int i=0;i<PlayConfig.numTexts;i++)
 			this.textGame[i].dispose();
 

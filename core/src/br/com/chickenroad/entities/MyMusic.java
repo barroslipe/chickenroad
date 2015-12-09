@@ -1,29 +1,43 @@
 package br.com.chickenroad.entities;
 
-import br.com.chickenroad.ChickenRoadGame;
 import br.com.chickenroad.screens.util.Constantes;
 
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 
+/**
+ * Responsável por gerenciar todas as músicas da fase
+ *
+ */
 public class MyMusic {
-	private Music soundEggs, soundCorns, soundChickenDemage, soundBackgroundFase1, 
-		soundCoinEndFase, soundEndFase, soundBackgroundChicken, soundSheep, soundMenuBackground;
 
-	public MyMusic(ChickenRoadGame aChickenRoadGame){
-		//sons	
-		this.soundBackgroundChicken = aChickenRoadGame.getResourceManager().getAssetManager().get(Constantes.URL_SOUND_BACKGROUND_CHICKEN);
-		this.soundEndFase =  aChickenRoadGame.getResourceManager().getAssetManager().get(Constantes.URL_SOUND_END_FASE);
-		this.soundCoinEndFase =  aChickenRoadGame.getResourceManager().getAssetManager().get(Constantes. URL_SOUND_END_FASE_COIN);
-		this.soundBackgroundFase1 = aChickenRoadGame.getResourceManager().getAssetManager().get(Constantes.URL_SOUND_BACKGROUND_FASE1);
-		this.soundEggs = aChickenRoadGame.getResourceManager().getAssetManager().get(Constantes.URL_SOUND_EGGS);
-		this.soundCorns = aChickenRoadGame.getResourceManager().getAssetManager().get(Constantes.URL_SOUND_CORNS);
-		this.soundChickenDemage = aChickenRoadGame.getResourceManager().getAssetManager().get(Constantes.URL_SOUND_CHICKEN_DEMAGE);
-		this.soundSheep = aChickenRoadGame.getResourceManager().getAssetManager().get(Constantes.URL_SOUND_SHEEP);
-		this.soundMenuBackground = aChickenRoadGame.getResourceManager().getAssetManager().get(Constantes.URL_SOUND_PRINCIPAL);
-		
-		soundBackgroundFase1.setVolume(0.2f);
-		soundBackgroundChicken.setVolume(0.4f);
-		soundMenuBackground.setVolume(0.3f);
+	private Music soundEggs,soundCorns, soundChickenDemage, soundBackgroundFase, 
+	soundCoinEndFase, soundEndFase, soundBackgroundChicken, soundSheep;
+
+	/**
+	 * Inicialização dos atributos da classe
+	 * @param assetManager referência a classe principal do jogo
+	 */
+	public MyMusic(AssetManager assetManager){
+
+		this.soundBackgroundChicken = assetManager.get(Constantes.URL_SOUND_BACKGROUND_CHICKEN);
+		this.soundEndFase =  assetManager.get(Constantes.URL_SOUND_END_FASE);
+		this.soundCoinEndFase =  assetManager.get(Constantes. URL_SOUND_END_FASE_COIN);
+		this.soundBackgroundFase = assetManager.get(Constantes.URL_SOUND_BACKGROUND_FASE1);
+		this.soundEggs = assetManager.get(Constantes.URL_SOUND_EGGS);
+		this.soundCorns = assetManager.get(Constantes.URL_SOUND_CORNS);
+		this.soundChickenDemage = assetManager.get(Constantes.URL_SOUND_CHICKEN_DEMAGE);
+		this.soundSheep = assetManager.get(Constantes.URL_SOUND_SHEEP);
+	}
+	/**
+	 * Inicializar a classe atribuíndo volume e tocando alguns sons
+	 */
+	public void init() {
+		this.soundBackgroundFase.setVolume(0.2f);
+		this.soundBackgroundChicken.setVolume(0.4f);
+
+		this.soundBackgroundFase.play();
+		this.soundBackgroundChicken.play();
 	}
 
 	public Music getSoundEggs() {
@@ -38,8 +52,8 @@ public class MyMusic {
 		return soundChickenDemage;
 	}
 
-	public Music getSoundBackgroundFase1() {
-		return soundBackgroundFase1;
+	public Music getSoundBackgroundFase() {
+		return soundBackgroundFase;
 	}
 
 	public Music getSoundCoinEndFase() {
@@ -56,21 +70,5 @@ public class MyMusic {
 
 	public Music getSoundSheep() {
 		return soundSheep;
-	}
-	
-	public Music getSoundMenuBackground() {
-		return soundMenuBackground;
-	}
-	
-	public void dispose() {
-		this.soundEggs.dispose();
-		this.soundCorns.dispose();
-		this.soundChickenDemage.dispose();
-		this.soundBackgroundFase1.dispose();
-		this.soundCoinEndFase.dispose();
-		this.soundEndFase.dispose();
-		this.soundBackgroundChicken.dispose();
-		this.soundSheep.dispose();
-		this.soundMenuBackground.dispose();
 	}
 }

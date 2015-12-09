@@ -24,6 +24,7 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_BACKGROUND, Texture.class);
 		assetManager.load(Constantes.URL_BACKGROUND_SEASON, Texture.class);
 		assetManager.load(Constantes.URL_BACKGROUND_ALL_SEASONS, Texture.class);
+		assetManager.load(Constantes.URL_CHICKENNEST, Texture.class);
 		
 
 		assetManager.load(Constantes.URL_EXIT_BUTTON, Texture.class);
@@ -63,6 +64,7 @@ public class ResourceManager {
 		assetManager.load("congratulation.png", Texture.class);
 
 		//player
+		assetManager.load(Constantes.URL_PLAYER_AVATAR, Texture.class);
 		assetManager.load(Constantes.URL_PLAYER_AVATAR_RIGHT, Texture.class);
 		assetManager.load(Constantes.URL_PLAYER_AVATAR_LEFT, Texture.class);
 		assetManager.load(Constantes.URL_PLAYER_AVATAR_JUMP_RIGHT, Texture.class);
