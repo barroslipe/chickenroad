@@ -33,7 +33,7 @@ public class TargetPlayer extends Sprite{
 		return false;
 	}
 
-	public void inicializar(float x, float y) {
+	public void init(float x, float y) {
 		setPosition(x, y);
 		targetPlayerAnimation.inicializar(x,y);
 		visible=true;

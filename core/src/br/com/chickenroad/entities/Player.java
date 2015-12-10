@@ -229,7 +229,7 @@ public class Player extends Sprite{
 	
 	}
 
-	public void inicializar(float x, float y) {
+	public void init(float x, float y) {
 		setPosition(x, y);
 		playerAnimation.inicializar(x, y);
 		

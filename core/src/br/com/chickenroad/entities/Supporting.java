@@ -30,7 +30,7 @@ public class Supporting extends Sprite{
 		return false;
 	}
 
-	public void inicializar(float x, float y) {
+	public void init(float x, float y) {
 		setPosition(x, y);
 		supportingAnimation.inicializar(x, y);
 	}

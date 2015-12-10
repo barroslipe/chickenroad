@@ -43,7 +43,7 @@ public class PlayerScore {
 
 	}
 
-	public void inicializar(){
+	public void init(){
 
 		scoreGame = 0;
 

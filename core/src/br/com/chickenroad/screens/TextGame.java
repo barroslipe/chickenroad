@@ -18,7 +18,7 @@ public class TextGame extends Sprite{
 	}
 
 
-	public void inicializar() {
+	public void init() {
 		textAnimation.inicializar();
 	}
 	
