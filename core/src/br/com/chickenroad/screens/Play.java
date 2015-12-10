@@ -3,6 +3,12 @@ package br.com.chickenroad.screens;
 import java.util.ArrayList;
 import java.util.Random;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.graphics.GL20;
+import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
+
 import br.com.chickenroad.ChickenRoadGame;
 import br.com.chickenroad.animations.PlayerScore;
 import br.com.chickenroad.entities.ChickenNest;
@@ -15,18 +21,13 @@ import br.com.chickenroad.entities.Supporting;
 import br.com.chickenroad.entities.SupportingTypes;
 import br.com.chickenroad.entities.TargetPlayer;
 import br.com.chickenroad.entities.TargetPlayerTypes;
-import br.com.chickenroad.screens.screenparts.FinishPopup;
 import br.com.chickenroad.screens.screenparts.PlayMenuButtons;
+import br.com.chickenroad.screens.screenparts.Popup;
+import br.com.chickenroad.screens.screenparts.PopupTypes;
 import br.com.chickenroad.screens.util.Constantes;
 import br.com.chickenroad.screens.util.PlayCamera;
 import br.com.chickenroad.screens.util.PreferencesUser;
 import br.com.chickenroad.screens.util.Util;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.graphics.GL20;
-import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.math.Vector3;
 
 /**
  * Responsável pelo controle da fase
@@ -59,7 +60,7 @@ public class Play extends ScreenBase {
 	//estado do jogo
 	private StateGame stateGame;
 	//popup de término
-	private FinishPopup popupFinish;
+	private Popup popupFinish;
 	//camera do jogo
 	private PlayCamera playCamera; 
 
@@ -341,18 +342,7 @@ public class Play extends ScreenBase {
 
 		}
 
-		//exibe anima��o de colis�o se houve colis�o
-		if(player.isColisionVehiclesStatus()) {
-			myMusic.getSoundChickenDemage().play();
 
-			if(contPow++ < 55) {
-				textGame[1].setPosition(player.getX()-30, player.getY()-30); //exibe texto na posi��o do playe
-				textGame[1].draw(chickenRoadGame.getSpriteBatch(), delta);
-			}
-		} else {//else GAMBIARRA TEMPOR�RIA - :(
-			textGame[1].setPosition(-100, -200);
-			contPow = 0;
-		}
 
 		//testa colis�o do alvo 
 		for(int i=0;i<PlayConfig.numEggs;i++){
@@ -408,23 +398,43 @@ public class Play extends ScreenBase {
 			}
 		}
 
+		myMap.drawVehicles(chickenRoadGame.getSpriteBatch(), stateGame);
+		playMenuButtons.draw(chickenRoadGame.getSpriteBatch(), stateGame, deltaXPositionButtons, deltaYPositionButtons);
+		playerScore.draw(chickenRoadGame.getSpriteBatch(), deltaXPositionButtons, deltaYPositionButtons);
+
+		//exibe anima��o de colis�o se houve colis�o
+		if(player.isColisionVehiclesStatus()) {
+			myMusic.getSoundChickenDemage().play();
+
+			if(contPow++ < 55) {
+				textGame[1].setPosition(player.getX()-30, player.getY()-30); //exibe texto na posi��o do playe
+				textGame[1].draw(chickenRoadGame.getSpriteBatch(), delta);
+			}
+		} else {//else GAMBIARRA TEMPOR�RIA - :(
+			textGame[1].setPosition(-100, -200);
+			contPow = 0;
+		}
+		
+		
 		//SE O LIFE FOR MENOR QUE ZERO - gameover
 		if(player.getPlayerLife().getLife() <= 0) {
 			player.getPlayerAnimation().setSpriteSheet(Constantes.URL_PLAYER_AVATAR_DEAD, PlayerTypes.AVATAR_DEAD); //muda para anima��o de avatar morto
 			player.draw(chickenRoadGame.getSpriteBatch(), delta);
 
+			stateGame = StateGame.PAUSE;
+			
 			stateGame = StateGame.GAME_OVER;
-
+			
 			myMusic.getSoundBackgroundChicken().stop();
 			myMusic.getSoundBackgroundFase().stop();
 			myMusic.getSoundChickenDemage().stop();
+		
+			popupFinish = new Popup(chickenRoadGame.getResourceManager(), PopupTypes.END_FASE);
+			popupFinish.draw(chickenRoadGame.getSpriteBatch(), delta);
 
 		}
 
-		myMap.drawVehicles(chickenRoadGame.getSpriteBatch(), stateGame);
-		playMenuButtons.draw(chickenRoadGame.getSpriteBatch(), stateGame, deltaXPositionButtons, deltaYPositionButtons);
-		playerScore.draw(chickenRoadGame.getSpriteBatch(), deltaXPositionButtons, deltaYPositionButtons);
-
+		
 		chickenRoadGame.getSpriteBatch().end();
 
 

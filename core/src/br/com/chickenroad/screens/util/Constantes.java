@@ -34,7 +34,9 @@ public class Constantes {
 	public static final String URL_BACKGROUND_ALL_SEASONS = "backgroundAllSeasons.png";
 	public static final String URL_PLAY_BUTTON = "playButton.png";
 	public static final String URL_EXIT_BUTTON = "exitButton.png";
+	public static final String URL_NEXT_FASE_BUTTON = "proximaFaseButton.png";
 
+	
 	//sons
 	public static final String URL_SOUND_ON_BUTTON = "soundOnButton.png";
 	public static final String URL_SOUND_OFF_BUTTON = "soundOffButton.png";
@@ -63,6 +65,7 @@ public class Constantes {
 	public static final String URL_PLAYER_NORMAL_LIFE = "player/normalLife.png";
 	public static final String URL_PLAYER_DEAD_LIFE = "player/deadLife.png";
 
+	
 	//player
 	public static final String URL_PLAYER_AVATAR_RIGHT ="player/playerD_caminhando.png"; 
 	public static final String URL_PLAYER_AVATAR_LEFT = "player/playerE_caminhando.png";
@@ -75,6 +78,10 @@ public class Constantes {
 	public static final String URL_PLAYER_AVATAR_DEAD = "player/player_morto.png";
 
 
+	//popup
+	public static final String URL_GAMEOVER_POPUP = "gameoverPopup.png";
+
+	
 	//sprites secundarios
 	public static final String URL_PIG_STOP_RIGHT = "maps/map_101/porcoD_parado.png";
 	public static final String URL_PIG_STOP_LEFT = "maps/map_101/porcoE_parado.png";

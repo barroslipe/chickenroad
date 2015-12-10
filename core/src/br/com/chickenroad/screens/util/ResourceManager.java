@@ -37,6 +37,7 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_POPUP_YES_BUTTON, Texture.class);
 		assetManager.load(Constantes.URL_POPUP_NO_BUTTON, Texture.class);
 		assetManager.load(Constantes.URL_POPUP_EXIT_BACKGROUND, Texture.class);
+		assetManager.load(Constantes.URL_NEXT_FASE_BUTTON, Texture.class);
 
 		
 		//sons
@@ -75,6 +76,9 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_PLAYER_AVATAR_DOWN, Texture.class);
 		assetManager.load(Constantes.URL_PLAYER_AVATAR_DEAD, Texture.class);
 
+		//popup
+		assetManager.load(Constantes.URL_GAMEOVER_POPUP, Texture.class);
+		
 		
 		//sprites secundarios do cenario
 		assetManager.load(Constantes.URL_EGGS, Texture.class);

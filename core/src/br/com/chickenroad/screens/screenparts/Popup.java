@@ -1,18 +1,17 @@
 package br.com.chickenroad.screens.screenparts;
 
-import br.com.chickenroad.screens.util.Constantes;
-import br.com.chickenroad.screens.util.ResourceManager;
-
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-public class FinishPopup{
+import br.com.chickenroad.screens.util.Constantes;
+import br.com.chickenroad.screens.util.ResourceManager;
+
+public class Popup{
 
 	private Sprite congratulationSprite;
 	private Sprite next, restart, backToMenu;
@@ -33,10 +32,9 @@ public class FinishPopup{
 	private int popupInitPositionX, popupInitPositionY, popupWidthSize, popupHeightSize;
 
 
-	public FinishPopup(ResourceManager resourceManager) {
-
-		popupWidthSize = 340;
-		popupHeightSize = 400;
+	public Popup(ResourceManager resourceManager, PopupTypes popupTypes) {
+		popupWidthSize = 50;
+		popupHeightSize = 50;
 		
 		popupInitPositionX = (Constantes.WORLD_WIDTH - popupWidthSize)/2;
 		popupInitPositionY = (Constantes.WORLD_HEIGHT - popupHeightSize)/2;
@@ -48,36 +46,54 @@ public class FinishPopup{
 		this.backgroundTexture = new Texture(backgroundPixmap);
 		this.backgroundTextureRegion = new TextureRegion(backgroundTexture, 0, 0, Constantes.WORLD_WIDTH, Constantes.WORLD_HEIGHT);
 
-		Pixmap popupPixmap = new Pixmap(100, 100, Format.RGBA8888);
+		Pixmap popupPixmap = new Pixmap(50, 50, Format.RGBA8888);
 		popupPixmap.setColor(Color.BLACK);
 		popupPixmap.fill();
 
 		this.popupTexture = new Texture(popupPixmap);
 		this.popupTextureRegion  = new TextureRegion(popupTexture, 0, 0, popupWidthSize, popupHeightSize);
 
-		Texture texture = resourceManager.getAssetManager().get("congratulation.png");
+		Texture texture = resourceManager.getAssetManager().get(Constantes.URL_GAMEOVER_POPUP);
 		this.congratulationSprite = new Sprite(texture);
-		this.congratulationSprite.setPosition(Constantes.WORLD_WIDTH/2 - congratulationSprite.getWidth()/2, Constantes.WORLD_HEIGHT/2 + Constantes.WORLD_HEIGHT/4);
+		this.congratulationSprite.setPosition((Constantes.WORLD_WIDTH/2) , (Constantes.WORLD_HEIGHT/2)+80);
 
 		
 		Texture texture3 = resourceManager.getAssetManager().get("restartFaseButton.png");
 		this.restart = new Sprite(texture3);
-		this.restart.setPosition(Constantes.WORLD_WIDTH/2 - restart.getWidth()/2, popupInitPositionY+50);
+		this.restart.setPosition(Constantes.WORLD_WIDTH/2 - restart.getWidth()/2+100, popupInitPositionY+50);
 		
 		Texture texture2 = resourceManager.getAssetManager().get("listFaseButton.png");
 		this.backToMenu = new Sprite(texture2);
-		this.backToMenu.setPosition(Constantes.WORLD_WIDTH/2 - restart.getWidth()/2 - 100, popupInitPositionY+50);
+		this.backToMenu.setPosition(Constantes.WORLD_WIDTH/2 - restart.getWidth()/2 +100, popupInitPositionY+50);
 		
-		Texture texture4 = resourceManager.getAssetManager().get("popupYesButton.png");
+		Texture texture4 = resourceManager.getAssetManager().get(Constantes.URL_NEXT_FASE_BUTTON);
 		this.next = new Sprite(texture4);
-		this.next.setPosition(Constantes.WORLD_WIDTH/2 + 100, popupInitPositionY+50);
+		this.next.setPosition(Constantes.WORLD_WIDTH/2 + 200, popupInitPositionY+50);
 
+		switch(popupTypes) {
+		case GAME_TUTORIAL:
+			
 
+			break;	
+
+		case GIFT_TUTORIAL:
+			
+			
+			break;
+			
+		case END_FASE:
+		
+				break;
+					
+		}
+		
+		
+		
+		
 	}
 
 	public void draw(Batch batch, float delta) {
 
-		//spriteBatch.begin();
 
 		batch.draw(backgroundTextureRegion, popupInitPositionX, popupInitPositionY);
 		batch.draw(popupTextureRegion, popupInitPositionX, popupInitPositionY);
@@ -87,7 +103,6 @@ public class FinishPopup{
 		restart.draw(batch);
 		next.draw(batch);
 
-		//batch.end();
 
 	}
 	
