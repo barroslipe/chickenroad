@@ -65,7 +65,7 @@ public class Play extends ScreenBase {
 	//estado do jogo
 	private StateGame stateGame;
 	//popup de término
-	private Popup popupFinish;
+	private Popup popupTutorial, popupFinish;
 	//camera do jogo
 	private PlayCamera playCamera;
 	//lista de estradas
@@ -192,6 +192,10 @@ public class Play extends ScreenBase {
 		saveRoads();
 		createVehicles();
 
+		//inicia popup de tutorial
+		popupTutorial = new Popup(chickenRoadGame.getResourceManager(), PopupTypes.GAME_TUTORIAL);
+
+		
 		//muda o estado do jogo para 'PLAYING'
 		stateGame = StateGame.PLAYING;
 
@@ -384,11 +388,14 @@ public class Play extends ScreenBase {
 			myMusic.getSoundBackgroundFase().stop();
 			myMusic.getSoundChickenDemage().stop();
 
-			popupFinish = new Popup(chickenRoadGame.getResourceManager(), PopupTypes.END_FASE);
-			popupFinish.draw(chickenRoadGame.getSpriteBatch(), delta);
+			//popupFinish = new Popup(chickenRoadGame.getResourceManager(), PopupTypes.END_FASE);
+			//popupFinish.draw(chickenRoadGame.getSpriteBatch(), delta);
 
 		}
 
+		//popup tutorial
+		popupTutorial.draw(chickenRoadGame.getSpriteBatch(), delta);
+						
 		chickenRoadGame.getSpriteBatch().end();
 
 		//se aproximar do ninho, deixa um ovo
@@ -455,7 +462,7 @@ public class Play extends ScreenBase {
 			chickenRoadGame.setScreenWithTransitionFade(new FasesScreen(chickenRoadGame, seasonId));
 			return true;
 		}
-
+/*
 		if(popupFinish != null && popupFinish.checkClickBackMenuButton(touchPoint.x, touchPoint.y)){
 			chickenRoadGame.setScreenWithTransitionFade(new FasesScreen(chickenRoadGame, seasonId));
 			return true;
@@ -469,6 +476,15 @@ public class Play extends ScreenBase {
 			return true;
 		}
 
+*/		
+		if(popupTutorial != null && popupTutorial.checkClickOkTutorialButton(touchPoint.x, touchPoint.y)){
+			popupTutorial.getOkTutorial().setPosition(-700, -100);
+			popupTutorial.getTutorialSprite().setPosition(-700, -100);
+			
+			return true;
+		}
+
+		
 		//se nao for clicando em nada acima, devo me movimentar
 		if(stateGame == StateGame.PLAYING) player.movimentar(touchPoint);
 

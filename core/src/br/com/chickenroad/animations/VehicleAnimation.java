@@ -51,18 +51,18 @@ public class VehicleAnimation {
 		switch(vehicleTypes){
 			case  YELLOW_CAR_RIGHT:
 				spriteSheet = assetManager.get(sprite);
-				spriteSheetTmp = TextureRegion.split(spriteSheet, spriteSheet.getWidth()/4, spriteSheet.getHeight());   
+				spriteSheetTmp = TextureRegion.split(spriteSheet, spriteSheet.getWidth()/2, spriteSheet.getHeight());   
 				
-				walkFrames = new TextureRegion[4]; 
+				walkFrames = new TextureRegion[2]; 
 
 				this.velAnimation = 1f/3f;
 
 			break;
 			case  YELLOW_CAR_LEFT:
 				spriteSheet = assetManager.get(sprite);
-				spriteSheetTmp = TextureRegion.split(spriteSheet, spriteSheet.getWidth()/4, spriteSheet.getHeight());   
+				spriteSheetTmp = TextureRegion.split(spriteSheet, spriteSheet.getWidth()/2, spriteSheet.getHeight());   
 				
-				walkFrames = new TextureRegion[4]; 
+				walkFrames = new TextureRegion[2]; 
 
 				this.velAnimation = 1f/5f;
 

@@ -5,5 +5,6 @@ package br.com.chickenroad.screens.screenparts;
 public enum PopupTypes {
 	END_FASE,
 	GAME_TUTORIAL,
+	GAME_OVER,
 	GIFT_TUTORIAL;
 }

@@ -231,6 +231,7 @@ public class Player extends Sprite{
 
 	public void init(float x, float y) {
 		setPosition(x, y);
+		setSize(40, 40);
 		playerAnimation.inicializar(x, y);
 		
 		velocity.x = 0;

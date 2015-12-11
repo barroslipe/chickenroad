@@ -78,7 +78,7 @@ public class ResourceManager {
 
 		//popup
 		assetManager.load(Constantes.URL_GAMEOVER_POPUP, Texture.class);
-		
+		assetManager.load(Constantes.URL_OK_BUTTON, Texture.class);
 		
 		//sprites secundarios do cenario
 		assetManager.load(Constantes.URL_EGGS, Texture.class);
@@ -98,6 +98,9 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_YELLOW_CAR_RIGHT, Texture.class);
 		assetManager.load(Constantes.URL_YELLOW_CAR_LEFT, Texture.class);	
 		
+		//popup
+		assetManager.load(Constantes.URL_GAMEOVER_POPUP, Texture.class);
+		assetManager.load(Constantes.URL_TURORIAL_POPUP, Texture.class);
 		
 		//textos
 		assetManager.load(Constantes.URL_TEXT_AMAZING, Texture.class);	

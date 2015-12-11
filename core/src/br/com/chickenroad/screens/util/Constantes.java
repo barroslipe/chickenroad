@@ -35,7 +35,7 @@ public class Constantes {
 	public static final String URL_PLAY_BUTTON = "playButton.png";
 	public static final String URL_EXIT_BUTTON = "exitButton.png";
 	public static final String URL_NEXT_FASE_BUTTON = "proximaFaseButton.png";
-
+	public static final String URL_OK_BUTTON = "okButton.png";
 	
 	//sons
 	public static final String URL_SOUND_ON_BUTTON = "soundOnButton.png";
@@ -80,7 +80,7 @@ public class Constantes {
 
 	//popup
 	public static final String URL_GAMEOVER_POPUP = "gameoverPopup.png";
-
+	public static final String URL_TURORIAL_POPUP = "tutorialPopup.png";
 	
 	//sprites secundarios
 	public static final String URL_PIG_STOP_RIGHT = "maps/map_101/porcoD_parado.png";
