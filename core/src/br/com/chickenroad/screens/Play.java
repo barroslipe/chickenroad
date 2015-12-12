@@ -6,6 +6,7 @@ import java.util.Random;
 
 import br.com.chickenroad.ChickenRoadGame;
 import br.com.chickenroad.animations.PlayerScore;
+import br.com.chickenroad.configuration.PlayConfig;
 import br.com.chickenroad.entities.ChickenNest;
 import br.com.chickenroad.entities.Direction;
 import br.com.chickenroad.entities.MyMap;
@@ -90,6 +91,8 @@ public class Play extends ScreenBase {
 
 	//parametros
 	private int seasonId, faseId;
+	//flag para visualizar popup
+	private boolean flagPopupTutorial;
 
 	/**
 	 * Inicialização dos atributos da classe
@@ -115,6 +118,8 @@ public class Play extends ScreenBase {
 		this.myProperties = new MyProperties();
 		this.myProperties.loadProperties(urlMap + ".properties");
 
+		//inicia popup de tutorial
+		this.popupTutorial = new Popup(getAssetManager(), PopupTypes.GAME_TUTORIAL);
 
 		//iniciar fase
 		init();
@@ -192,12 +197,13 @@ public class Play extends ScreenBase {
 		saveRoads();
 		createVehicles();
 
-		//inicia popup de tutorial
-		popupTutorial = new Popup(chickenRoadGame.getResourceManager(), PopupTypes.GAME_TUTORIAL);
+		//muda o estado do jogo para 'PAUSE', pois um popup irá aparecer e não posso ficar rodando a aplicação
+		stateGame = StateGame.PAUSE;
 
-		
-		//muda o estado do jogo para 'PLAYING'
-		stateGame = StateGame.PLAYING;
+		//visualizar popup - flag para auxiliar o jogador[tutorial]
+		//TODO pausar as animações quando a aplicação estiver em pause[pelo usuário ou por mostrar o popup tutorial]
+		this.flagPopupTutorial = true;
+		this.playMenuButtons.disable();
 
 	}
 
@@ -243,9 +249,11 @@ public class Play extends ScreenBase {
 
 		chickenRoadGame.getSpriteBatch().begin();
 
-		chickenNest.draw(chickenRoadGame.getSpriteBatch());	
-		player.draw(chickenRoadGame.getSpriteBatch(), delta);
+		//desenhar o ninho
+		chickenNest.draw(chickenRoadGame.getSpriteBatch());
 
+		//desenhar o jogador
+		player.draw(chickenRoadGame.getSpriteBatch(), delta);
 
 		//desenha os personagens coadjuvantes
 		for(int i=0;i<supporting.length;i++) {
@@ -333,17 +341,22 @@ public class Play extends ScreenBase {
 			}			
 		}
 
+		/**
+		 * Apresentar o +15 quando captura um ovo
+		 */
 		if(flagPlus15) {
 			if(contPlus15++ < 45) {
 				textGame[2].setPosition(player.getX()-20, player.getY()+30);
 				textGame[2].draw(chickenRoadGame.getSpriteBatch(), delta);
 			}else{
-				textGame[2].setPosition(-100, -200);
 				contPlus15 = 0;
 				flagPlus15 = false;
 			}
 		}
 
+		/**
+		 * Apresentar o +100 quando captura um milho
+		 */
 		if(flagPlus100) {
 			if(contPlus100++ < 48) {
 				//exibe apenas o milho encontrado
@@ -353,14 +366,16 @@ public class Play extends ScreenBase {
 				textGame[3].draw(chickenRoadGame.getSpriteBatch(), delta);
 
 			}else{
-				textGame[3].setPosition(-100, -200);
 				contPlus100 = 0;
 				flagPlus100 = false;
 				targetPlayerCornsList.get(numCornCatchedIndex).setVisible(false);
 			}
 		}
 
+		//renderizar os botões de play, restart, sair
 		playMenuButtons.draw(chickenRoadGame.getSpriteBatch(), stateGame, deltaXPositionButtons, deltaYPositionButtons);
+
+		//renderizar o score do player
 		playerScore.draw(chickenRoadGame.getSpriteBatch(), deltaXPositionButtons, deltaYPositionButtons);
 
 		//exibe anima��o de colis�o se houve colis�o
@@ -372,7 +387,6 @@ public class Play extends ScreenBase {
 				textGame[1].draw(chickenRoadGame.getSpriteBatch(), delta);
 			}
 		} else {//else GAMBIARRA TEMPOR�RIA - :(
-			textGame[1].setPosition(-100, -200);
 			contPow = 0;
 		}
 
@@ -394,8 +408,10 @@ public class Play extends ScreenBase {
 		}
 
 		//popup tutorial
-		popupTutorial.draw(chickenRoadGame.getSpriteBatch(), delta);
-						
+		//TODO implementar botão para apresentar o tutorial, caso o jogador tenha duvida
+		if(flagPopupTutorial)
+			popupTutorial.draw(chickenRoadGame.getSpriteBatch(), delta);
+
 		chickenRoadGame.getSpriteBatch().end();
 
 		//se aproximar do ninho, deixa um ovo
@@ -462,7 +478,7 @@ public class Play extends ScreenBase {
 			chickenRoadGame.setScreenWithTransitionFade(new FasesScreen(chickenRoadGame, seasonId));
 			return true;
 		}
-/*
+		/*
 		if(popupFinish != null && popupFinish.checkClickBackMenuButton(touchPoint.x, touchPoint.y)){
 			chickenRoadGame.setScreenWithTransitionFade(new FasesScreen(chickenRoadGame, seasonId));
 			return true;
@@ -476,15 +492,15 @@ public class Play extends ScreenBase {
 			return true;
 		}
 
-*/		
+		 */		
 		if(popupTutorial != null && popupTutorial.checkClickOkTutorialButton(touchPoint.x, touchPoint.y)){
-			popupTutorial.getOkTutorial().setPosition(-700, -100);
-			popupTutorial.getTutorialSprite().setPosition(-700, -100);
-			
+			flagPopupTutorial = false;
+			playMenuButtons.enable();
+			stateGame = StateGame.PLAYING;
 			return true;
 		}
 
-		
+
 		//se nao for clicando em nada acima, devo me movimentar
 		if(stateGame == StateGame.PLAYING) player.movimentar(touchPoint);
 

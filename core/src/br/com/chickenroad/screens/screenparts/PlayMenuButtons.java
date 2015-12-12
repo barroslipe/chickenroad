@@ -19,6 +19,9 @@ public class PlayMenuButtons{
 	private Sprite spriteCornQtd;
 	
 	public int playerLifeLevel;
+	
+	//flag para desabilitar os botões
+	private boolean flagDisable;
 
 	/**
 	 * @return the playerLifeLevel
@@ -56,13 +59,16 @@ public class PlayMenuButtons{
 		Texture CornQtd = assetManager.get(Constantes.URL_YELLOW_CORN_SCORE);
 		this.spriteCornQtd = new Sprite(new TextureRegion(CornQtd));	
 
-				
-
+		
+		flagDisable = false;
 	}
 
 
 	public boolean checkClickPlayButton(float x, float y) {
 
+		if(flagDisable) return false;
+
+		
 		if(spritePlay.getBoundingRectangle().contains(x, y))
 			return true;
 
@@ -70,6 +76,9 @@ public class PlayMenuButtons{
 	}
 	public boolean checkClickPauseButton(float x, float y) {
 
+		if(flagDisable) return false;
+
+		
 		if(spritePause.getBoundingRectangle().contains(x, y))
 			return true;
 
@@ -77,6 +86,9 @@ public class PlayMenuButtons{
 	}
 	public boolean checkClickRestartButton(float x, float y) {
 
+		if(flagDisable) return false;
+
+		
 		if(spriteRestart.getBoundingRectangle().contains(x, y))
 			return true;
 
@@ -84,6 +96,9 @@ public class PlayMenuButtons{
 	}
 	public boolean checkClickFaseListButton(float x, float y) {
 
+		if(flagDisable) return false;
+
+		
 		if(spriteFaseList.getBoundingRectangle().contains(x, y))
 			return true;
 
@@ -99,6 +114,7 @@ public class PlayMenuButtons{
 	}
 	public boolean checkClickCornQtdButton(float x, float y) {
 
+		
 		if(spriteCornQtd.getBoundingRectangle().contains(x, y))
 			return true;
 
@@ -135,7 +151,21 @@ public class PlayMenuButtons{
 
 	}
 
+	/**
+	 * Desabilitar os botões
+	 */
+	public void disable() {
+		flagDisable = true;
+	}
 
+	/**
+	 * Habilitar os botões
+	 */
+	public void enable() {
+		flagDisable = false;	
+	}
+
+	
 	public void dispose() {
 		this.spriteFaseList = null;
 		this.spritePause = null;

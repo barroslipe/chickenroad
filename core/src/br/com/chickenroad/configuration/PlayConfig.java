@@ -1,4 +1,4 @@
-package br.com.chickenroad.screens;
+package br.com.chickenroad.configuration;
 
 public class PlayConfig {
 

@@ -1,6 +1,6 @@
 package br.com.chickenroad.entities;
 
-import br.com.chickenroad.screens.PlayConfig;
+import br.com.chickenroad.configuration.PlayConfig;
 import br.com.chickenroad.screens.util.Constantes;
 
 import com.badlogic.gdx.assets.AssetManager;

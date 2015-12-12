@@ -1,14 +1,13 @@
 package br.com.chickenroad.animations;
 
+import br.com.chickenroad.entities.SupportingTypes;
+
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-
-import br.com.chickenroad.entities.SupportingTypes;
-import br.com.chickenroad.screens.util.Constantes;
 
 public class SupportingAnimation {
 	private Animation walkAnimation;         
@@ -29,7 +28,7 @@ public class SupportingAnimation {
 		super();
 
 		switch(supp){
-		case PIG_SLEEPING_RIGHT: //animação de ovos
+		case PIG_SLEEPING_RIGHT: //animaï¿½ï¿½o de ovos
 			//player spritesheet animation
 			supportingSheet = assetManager.get(sprite);
 			
@@ -40,7 +39,7 @@ public class SupportingAnimation {
 		
 			velAnimation = 1f/2f;
 			break;
-		case PIG_SLEEPING_LEFT: //animação de ovos
+		case PIG_SLEEPING_LEFT: //animaï¿½ï¿½o de ovos
 			//player spritesheet animation
 			supportingSheet = assetManager.get(sprite);
 			
@@ -51,7 +50,7 @@ public class SupportingAnimation {
 		
 			velAnimation = 1f/1.5f;
 			break;
-		case PIG_AWAKE_RIGHT: //animação de moedas
+		case PIG_AWAKE_RIGHT: //animaï¿½ï¿½o de moedas
 			//player spritesheet animation
 			supportingSheet = assetManager.get(sprite);
 			
@@ -62,7 +61,7 @@ public class SupportingAnimation {
 			velAnimation = 1f/1f;
 			break;
 		
-		case PIG_AWAKE_LEFT: //animação de moedas
+		case PIG_AWAKE_LEFT: //animaï¿½ï¿½o de moedas
 			//player spritesheet animation
 			supportingSheet = assetManager.get(sprite);
 			
@@ -112,7 +111,7 @@ public class SupportingAnimation {
 			tmp = spriteSheetTmp1;
 			break;
 		/*
-		 * case 2: // para a animação de pegar o objeto
+		 * case 2: // para a animaï¿½ï¿½o de pegar o objeto
 			tmp = spriteSheetTmp1;
 			break;
 		 * */

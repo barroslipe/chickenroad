@@ -34,12 +34,14 @@ public class Player extends Sprite{
 	public Player(AssetManager assetManager, int aWidthTiledMap, int aHeightTiledMap) {
 		super((Texture) assetManager.get(Constantes.URL_PLAYER_AVATAR));
 
-		this.playerAnimation = new PlayerAnimation(assetManager);
 		this.widthTiledMap = aWidthTiledMap;
 		this.heightTileMap = aHeightTiledMap;
 		this.demageTimerPerSecond = 3;
 		this.timer=0;
 		this.demage = false;
+		this.playerAnimation = new PlayerAnimation(assetManager);
+		this.playerAnimation.setSpriteSheet(Constantes.URL_PLAYER_AVATAR_STOP_RIGHT, PlayerTypes.AVATAR_STOP_RIGHT);
+
 
 		playerLife = new PlayerLife(assetManager);
 	}

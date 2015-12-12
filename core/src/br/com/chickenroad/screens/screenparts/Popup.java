@@ -1,5 +1,9 @@
 package br.com.chickenroad.screens.screenparts;
 
+import br.com.chickenroad.screens.Play;
+import br.com.chickenroad.screens.util.Constantes;
+
+import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
@@ -8,33 +12,30 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import br.com.chickenroad.screens.util.Constantes;
-import br.com.chickenroad.screens.util.ResourceManager;
-
 public class Popup{
 
-	
+
 	private Sprite tutorialSprite;
 	private Sprite next, restart, backToMenu, okTutorial;
 
 	private Texture backgroundTexture;
 	private TextureRegion backgroundTextureRegion;
-	
+
 	private Texture popupTexture;
 	//private TextureRegion popupTextureRegion;
 	private int popupInitPositionX, popupInitPositionY, popupWidthSize, popupHeightSize;
 
 	private PopupTypes popupTypes;
-	
-	public Popup(ResourceManager resourceManager, PopupTypes popupTypes) {
-		
+
+	public Popup(AssetManager assetManager, PopupTypes popupTypes) {
+
 		this.popupTypes = popupTypes;
 		popupWidthSize = 100;
 		popupHeightSize = 100;
-		
+
 		popupInitPositionX = (Constantes.WORLD_WIDTH - popupWidthSize)/2;
 		popupInitPositionY = (Constantes.WORLD_HEIGHT - popupHeightSize)/2;
-		
+
 		Pixmap backgroundPixmap = new Pixmap(300, Constantes.WORLD_HEIGHT, Format.RGBA8888);
 		backgroundPixmap.setColor(Color.BLACK);
 		backgroundPixmap.fill();
@@ -42,21 +43,21 @@ public class Popup{
 		this.backgroundTexture = new Texture(backgroundPixmap);
 		this.backgroundTextureRegion = new TextureRegion(backgroundTexture, 0, 0, 300, Constantes.WORLD_HEIGHT);
 
-		Texture texture = resourceManager.getAssetManager().get(Constantes.URL_TURORIAL_POPUP);
+		Texture texture = assetManager.get(Constantes.URL_TURORIAL_POPUP);
 		this.tutorialSprite = new Sprite(texture);
-		this.tutorialSprite.setPosition((Constantes.WORLD_WIDTH/2)+130 , (Constantes.WORLD_HEIGHT/3)-65);
+		//this.tutorialSprite.setPosition((Constantes.WORLD_WIDTH/2)+130 , (Constantes.WORLD_HEIGHT/3)-65);
 
-		Texture texture1 = resourceManager.getAssetManager().get(Constantes.URL_OK_BUTTON);
+		Texture texture1 = assetManager.get(Constantes.URL_OK_BUTTON);
 		this.okTutorial = new Sprite(texture1);
-		this.okTutorial.setPosition((Constantes.WORLD_WIDTH/2)+160+420, (Constantes.WORLD_HEIGHT/3)-90);
+		//this.okTutorial.setPosition((Constantes.WORLD_WIDTH/2)+160+420, (Constantes.WORLD_HEIGHT/3)-90);
 
-/*		
+		/*		
 		popupWidthSize = 300;
 		popupHeightSize = 200;
-		
+
 		popupInitPositionX = (Constantes.WORLD_WIDTH - popupWidthSize)/2;
 		popupInitPositionY = (Constantes.WORLD_HEIGHT - popupHeightSize)/2;
-		
+
 		Pixmap backgroundPixmap = new Pixmap(300, Constantes.WORLD_HEIGHT, Format.RGBA8888);
 		backgroundPixmap.setColor(Color.BLACK);
 		backgroundPixmap.fill();
@@ -71,36 +72,36 @@ public class Popup{
 		Texture texture1 = resourceManager.getAssetManager().get(Constantes.URL_TURORIAL_POPUP);
 		this.restart = new Sprite(texture1);
 		this.restart.setPosition(Constantes.WORLD_WIDTH/2 - restart.getWidth()/2+30, popupInitPositionY+50);
-		
+
 		Texture texture2 = resourceManager.getAssetManager().get("restartFaseButton.png");
 		this.backToMenu = new Sprite(texture2);
 		this.backToMenu.setPosition(Constantes.WORLD_WIDTH/2 - restart.getWidth()/2 +100, popupInitPositionY+50);
-		
+
 		Texture texture3 = resourceManager.getAssetManager().get(Constantes.URL_NEXT_FASE_BUTTON);
 		this.next = new Sprite(texture3);
 		this.next.setPosition(Constantes.WORLD_WIDTH/2- restart.getWidth()/2 +170, popupInitPositionY+50);
 
-*/		
+		 */		
 		switch(popupTypes) {
 		case GAME_TUTORIAL:
-			
+
 
 			break;	
 
 		case GIFT_TUTORIAL:
-			
-			
+
+
 			break;
-			
+
 		case END_FASE:
-		
-				break;
-					
+
+			break;
+
 		}
-		
-		
-		
-		
+
+
+
+
 	}
 
 
@@ -112,14 +113,15 @@ public class Popup{
 		this.popupInitPositionY = popupInitPositionY;
 	}
 
-
-
-
-	
 	public void draw(Batch batch, float delta) {
 
 		if(popupTypes == PopupTypes.GAME_TUTORIAL) {
-		
+
+			this.tutorialSprite.setPosition((Constantes.WORLD_WIDTH - tutorialSprite.getWidth())/2 + Play.deltaXPositionButtons,
+					(Constantes.WORLD_HEIGHT - tutorialSprite.getHeight())/2+Play.deltaYPositionButtons);
+			this.okTutorial.setPosition(Constantes.WORLD_WIDTH - okTutorial.getWidth()/2 -(Constantes.WORLD_WIDTH - tutorialSprite.getWidth())/2+Play.deltaXPositionButtons,
+					(Constantes.WORLD_HEIGHT - tutorialSprite.getHeight())/2 - okTutorial.getHeight()/2+Play.deltaYPositionButtons);
+
 			tutorialSprite.draw(batch);
 			okTutorial.draw(batch);
 		}
@@ -128,14 +130,14 @@ public class Popup{
 
 		//	batch.draw(popupTextureRegion, popupInitPositionX, popupInitPositionY);
 
-		
+
 		//backToMenu.draw(batch);
 		//restart.draw(batch);
 		//next.draw(batch);
 
 
 	}
-	
+
 
 
 	public boolean checkClickOkTutorialButton(float x, float y) {
@@ -167,7 +169,7 @@ public class Popup{
 
 		return false;
 	}*/
-	
+
 
 	public Sprite getTutorialSprite() {
 		return tutorialSprite;
