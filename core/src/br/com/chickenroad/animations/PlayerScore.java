@@ -1,6 +1,5 @@
 package br.com.chickenroad.animations;
 
-import br.com.chickenroad.configuration.PlayConfig;
 import br.com.chickenroad.screens.util.Constantes;
 
 import com.badlogic.gdx.Gdx;
@@ -27,10 +26,10 @@ public class PlayerScore {
 		this.scoreGame = 0;
 		this.currentNoCatchedEggs = 0;
 		this.currentNoCatchedCorns = 0;
-		
+
 		this.defaultFont = new BitmapFont();
 		//	Usando FreeTypeFont
-		
+
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Constantes.URL_FONT_KRAASH_BLACK));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 		parameter.size = 10;
@@ -43,12 +42,12 @@ public class PlayerScore {
 
 	}
 
-	public void init(){
+	public void init(int eggs, int corns){
 
 		scoreGame = 0;
 
-		currentNoCatchedEggs = PlayConfig.numEggs;
-		currentNoCatchedCorns = PlayConfig.numCorns;
+		currentNoCatchedEggs = eggs;
+		currentNoCatchedCorns = corns;
 
 		defaultFont.setColor(1.0f, 1.0f, 1.0f, 1.0f);	
 	}
@@ -85,7 +84,7 @@ public class PlayerScore {
 	}
 
 	public void draw(Batch batch, int deltaXPositionButtons, int deltaYPositionButtons){
-		
+
 		scoreFont.draw(batch, Integer.toString(scoreGame), 310+deltaXPositionButtons, 470+deltaYPositionButtons);
 
 		if(currentNoCatchedCorns<10){

@@ -12,6 +12,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -37,6 +38,12 @@ public class SeasonMenu {
 
 	private BitmapFont defaultFont;
 
+	/*
+	 * Auxiliar a impressão do score em cada temporada
+	 */
+	private GlyphLayout glyphLayout;
+	private String textScore;
+
 	/**
 	 * Inicialização dos atributos da classe
 	 * @param assetManager referência a classe que possui os recursos alocados
@@ -44,6 +51,7 @@ public class SeasonMenu {
 	public SeasonMenu(AssetManager assetManager){
 
 		this.soundRooster = assetManager.get(Constantes.URL_SOUND_ROOSTER);
+		this.glyphLayout = new GlyphLayout();
 		this.seasonPicturesList = Constantes.URL_SEASON_PICTURE_LIST;
 
 		//TODO trocar figura e string
@@ -95,7 +103,11 @@ public class SeasonMenu {
 		for(int i=0;i<seasonSpriteList.size();i++){
 			seasonSpriteList.get(i).draw(spriteBatch);	
 			if(i< openSeasonList.size()){
-				defaultFont.draw(spriteBatch, Integer.toString(openSeasonList.get(i).getSeasonTotalScore()), seasonSpriteList.get(i).getX()+30 , seasonSpriteList.get(i).getY()+80);
+				textScore = Integer.toString(openSeasonList.get(i).getSeasonTotalScore());
+				glyphLayout.setText(defaultFont, textScore);
+				defaultFont.draw(spriteBatch, textScore, 
+						seasonSpriteList.get(i).getX() + (seasonSpriteList.get(i).getWidth() - glyphLayout.width)/2,
+						seasonSpriteList.get(i).getY()+80);
 			}
 		}
 	}

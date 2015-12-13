@@ -12,6 +12,7 @@ import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -34,6 +35,12 @@ public class FasesMenu {
 
 	private BitmapFont defaultFont;
 
+	/*
+	 * Auxiliar a impressão do score em cada fase
+	 */
+	private GlyphLayout glyphLayout;
+	private String textScore;
+
 	/**
 	 * Inicialização dos atributos da classe
 	 * @param assetManager referência a classe que possui os recursos alocados
@@ -42,6 +49,7 @@ public class FasesMenu {
 	public FasesMenu(AssetManager assetManager, int seasonId){
 
 		this.soundRooster = assetManager.get(Constantes.URL_SOUND_ROOSTER);
+		this.glyphLayout = new GlyphLayout();
 		this.fasePicturesList = Constantes.URL_FASE_PICTURE_LIST;
 
 		//lista de fases abertas para a temporada escolhida
@@ -85,7 +93,7 @@ public class FasesMenu {
 		}
 	}
 	/**
-	 * Desenhar os botões das temporadas
+	 * Desenhar os botões das temporadas e o score relacionado
 	 * @param spriteBatch área de desenho da aplicação
 	 */
 	public void draw(SpriteBatch spriteBatch) {
@@ -93,7 +101,9 @@ public class FasesMenu {
 		for(int i=0;i<spriteFaseList.size();i++){
 			spriteFaseList.get(i).draw(spriteBatch);
 			if(i< openFaseList.size()){
-				defaultFont.draw(spriteBatch, Integer.toString(openFaseList.get(i).getScore()), spriteFaseList.get(i).getX()+20 , spriteFaseList.get(i).getY() - 5);
+				textScore = Integer.toString(openFaseList.get(i).getScore());
+				glyphLayout.setText(defaultFont, textScore);
+				defaultFont.draw(spriteBatch, textScore, spriteFaseList.get(i).getX() + (spriteFaseList.get(i).getWidth() - glyphLayout.width)/2 , spriteFaseList.get(i).getY() - 2);
 			}
 		}
 	}

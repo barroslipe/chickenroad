@@ -55,11 +55,8 @@ public class MainMenuButtons {
 	 */
 	public void draw(SpriteBatch spriteBatch){
 
-		final int positionXMenu = 68;
-		final int positionYMenu = 120;
-
-		spritePlay.setPosition(Constantes.WORLD_WIDTH/2-positionXMenu-35, Constantes.WORLD_HEIGHT/2);
-		spriteExit.setPosition(Constantes.WORLD_WIDTH/2-positionXMenu-35, Constantes.WORLD_HEIGHT/2-positionYMenu);
+		spritePlay.setPosition(Constantes.WORLD_WIDTH/2-spritePlay.getWidth()/2, Constantes.WORLD_HEIGHT/2);
+		spriteExit.setPosition(Constantes.WORLD_WIDTH/2-spriteExit.getWidth()/2, Constantes.WORLD_HEIGHT/2-120);
 
 		spritePlay.draw(spriteBatch);
 		spriteExit.draw(spriteBatch);

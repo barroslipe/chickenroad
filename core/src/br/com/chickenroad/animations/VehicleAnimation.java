@@ -75,7 +75,6 @@ public class VehicleAnimation {
 	}
 	
 	private void initSpriteSheet() {
-		System.err.println("iniciou spritesheet vehicle");
 		index = 0;
 
 		for (int i = 0; i < 1; i++){
@@ -94,7 +93,6 @@ public class VehicleAnimation {
 	 */
 	public TextureRegion getCurrentFrame() {
 		stateTime += Gdx.graphics.getDeltaTime();
-		System.err.println(stateTime);
 		currentFrame = walkAnimation.getKeyFrame(stateTime, true);
 		return currentFrame;
 	}

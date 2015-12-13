@@ -23,15 +23,10 @@ public class PreferencesUser {
 	 */
 	private static void saveStateInitial(){
 
-		System.err.println("INICIANDO PERSISTENCIA");
-
 		//se já houver algo gravado, não deve adicionar nada
 		if(preferences.getBoolean("STATUS")){
-			System.err.println("NÃO SERÁ NECESÁRIO GRAVAR");
 			return;
 		}
-
-		System.err.println("EXECUTANDO A PERSISTENCIA PELA PRIMEIRA VEZ");
 
 		UserInformation userInformation = new UserInformation();
 		save(userInformation);

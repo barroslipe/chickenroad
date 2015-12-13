@@ -1,6 +1,5 @@
 package br.com.chickenroad.entities;
 
-import br.com.chickenroad.configuration.PlayConfig;
 import br.com.chickenroad.screens.util.Constantes;
 
 import com.badlogic.gdx.assets.AssetManager;
@@ -35,7 +34,7 @@ public class ChickenNest extends Sprite{
 		return false;
 	}
 
-	public void init() {
-		setPosition(PlayConfig.x, PlayConfig.y);
+	public void init(float x, float y) {
+		setPosition(x, y);
 	}
 }

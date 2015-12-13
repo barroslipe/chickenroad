@@ -1,14 +1,13 @@
 package br.com.chickenroad.entities;
 
 
+import br.com.chickenroad.animations.VehicleAnimation;
+import br.com.chickenroad.screens.util.Constantes;
+
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-
-import br.com.chickenroad.animations.VehicleAnimation;
-import br.com.chickenroad.screens.util.Constantes;
 
 /**
  * Veículos da estrada

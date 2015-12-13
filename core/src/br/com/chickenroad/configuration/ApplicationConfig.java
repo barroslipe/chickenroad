@@ -8,4 +8,12 @@ public class ApplicationConfig {
 	
 	//4 temporadas na aplicação
 	public static int SEASON_PER_APPLICATION = 4;
+	
+	//textos do jogo
+	public static int numTexts = 4;
+
+	
+	//3 porquinhos
+	//TODO verificar se a quantidade de porcos será parametrizada em cada fase, se sim, deve ser retirado daqui
+	public static int numSupporting = 3;
 }

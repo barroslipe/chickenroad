@@ -22,9 +22,9 @@ public class MyProperties {
 	private InputStream inputStream;
 	private ArrayList<String> roads;
 	private String originPlayer;
-	private String egg;
-	
-	private String cesto;
+	private String originChickenNest;
+	private String numberEggs;
+	private String numberCorns;
 
 	public MyProperties(){
 		properties = new Properties();
@@ -61,12 +61,14 @@ public class MyProperties {
 			
 			if(param.equals("originPlayer"))
 				originPlayer = properties.getProperty(param);
-			else if(param.equals("ovo"))
-				egg = properties.getProperty(param);
-			else if(param.equals("cesto"))
-				cesto = properties.getProperty(param);
+			else if(param.equals("originChickenNest"))
+				originChickenNest = properties.getProperty(param);
+			else if(param.equals("numberEggs"))
+				numberEggs = properties.getProperty(param);
+			else if(param.equals("numberCorns"))
+				numberCorns = properties.getProperty(param);
 			else
-				roads.add(properties.getProperty((String)k));
+				roads.add(properties.getProperty(param));
 		}
 	}
 
@@ -77,12 +79,17 @@ public class MyProperties {
 	public ArrayList<String> getRoads(){
 		return roads;
 	}
-	public String getEgg() {
-		return egg;
+
+	public String getOriginChickenNest() {
+		return originChickenNest;
 	}
 
-	public String getCesto() {
-		return cesto;
+	public String getNumberEggs() {
+		return numberEggs;
+	}
+
+	public String getNumberCorns() {
+		return numberCorns;
 	}
 
 }

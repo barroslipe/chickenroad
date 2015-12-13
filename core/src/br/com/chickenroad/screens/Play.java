@@ -6,7 +6,7 @@ import java.util.Random;
 
 import br.com.chickenroad.ChickenRoadGame;
 import br.com.chickenroad.animations.PlayerScore;
-import br.com.chickenroad.configuration.PlayConfig;
+import br.com.chickenroad.configuration.ApplicationConfig;
 import br.com.chickenroad.entities.ChickenNest;
 import br.com.chickenroad.entities.Direction;
 import br.com.chickenroad.entities.MyMap;
@@ -130,8 +130,8 @@ public class Play extends ScreenBase {
 	 */
 	private void init() {
 
-		this.supporting = new Supporting[PlayConfig.numSupporting];
-		this.textGame = new TextGame[PlayConfig.numTexts];	
+		this.supporting = new Supporting[ApplicationConfig.numSupporting];
+		this.textGame = new TextGame[ApplicationConfig.numTexts];	
 
 		this. textGame[0] = new TextGame(Constantes.URL_TEXT_AMAZING, getAssetManager(), TextGameTypes.AMAZING);
 		this. textGame[1] = new TextGame(Constantes.URL_TEXT_POW, getAssetManager(), TextGameTypes.POW);
@@ -159,7 +159,7 @@ public class Play extends ScreenBase {
 		//inicializa lista de ovos
 		this.targetPlayerEggsList = new ArrayList<TargetPlayer>();
 		//gera ovos em posi��es aleatorios
-		for(int i=0;i<PlayConfig.numEggs;i++){
+		for(int i=0;i<Integer.parseInt(myProperties.getNumberEggs());i++){
 			this.targetPlayerEggsList.add( new TargetPlayer(Constantes.URL_EGGS, getAssetManager(),TargetPlayerTypes.EGGS, 1f/(float)generator.nextInt(5)));
 			point = new Vector2(Util.getValidRandomPosition(myMap.getWidthTiledMap(), myMap.getHeightTiledMap(), myMap.getTiles(), chickenNest.getBoundingRectangle()));
 			targetPlayerEggsList.get(i).init(point.x, point.y);
@@ -169,7 +169,7 @@ public class Play extends ScreenBase {
 		//inicializa lista de milhos
 		this.targetPlayerCornsList = new ArrayList<TargetPlayer>();
 		//gera milhos em posições aleatorios
-		for(int i=0;i<PlayConfig.numCorns;i++){
+		for(int i=0;i<Integer.parseInt(myProperties.getNumberCorns());i++){
 			this.targetPlayerCornsList.add(new TargetPlayer(Constantes.URL_YELLOW_CORN, getAssetManager(),TargetPlayerTypes.YELLOW_CORN,1f/7f ));
 			point = new Vector2(Util.getValidRandomPosition(myMap.getWidthTiledMap(), myMap.getHeightTiledMap(), myMap.getTiles(), chickenNest.getBoundingRectangle()));
 			targetPlayerCornsList.get(i).init(point.x, point.y);
@@ -180,8 +180,12 @@ public class Play extends ScreenBase {
 		player.init(Float.parseFloat(points[0])*Constantes.WIDTH_TILE,Float.parseFloat(points[1])*Constantes.HEIGHT_TILE);
 
 		myMusic.init();
-		playerScore.init();
-		chickenNest.init();
+
+		playerScore.init(Integer.parseInt(myProperties.getNumberEggs()), Integer.parseInt(myProperties.getNumberCorns()));
+
+		points = myProperties.getOriginChickenNest().split(",");
+		chickenNest.init(Float.parseFloat(points[0])*Constantes.WIDTH_TILE,Float.parseFloat(points[1])*Constantes.HEIGHT_TILE);
+
 		targetPlayerGiftSheep.init(500,  120);
 
 		numCornCatchedIndex=0;
@@ -309,7 +313,7 @@ public class Play extends ScreenBase {
 		}
 
 		//testa colis�o do alvo 
-		for(int i=0;i<PlayConfig.numEggs;i++){
+		for(int i=0;i<targetPlayerEggsList.size();i++){
 			//so pode pegar ovos se ele nao tiver sido pego antes
 			if(targetPlayerEggsList.get(i).checkColision(player) && (playerScore.getCurrentNoCatchedEggs() > 0)){ 
 				targetPlayerEggsList.get(i).setVisible(false);//apaga o ovo da tela
@@ -328,7 +332,7 @@ public class Play extends ScreenBase {
 		}
 
 		//testa colis�o do alvo - MILHOS ESCONDIDOS
-		for(int i=0;i<PlayConfig.numCorns;i++){
+		for(int i=0;i<targetPlayerCornsList.size();i++){
 			//so pode pegar ovos se ele nao tiver sido pego antes
 			if(targetPlayerCornsList.get(i).checkColision(player) && (playerScore.getCurrentNoCatchedEggs() > 0)){
 				targetPlayerCornsList.get(i).setVisible(false); //apaga milho da tela
@@ -417,9 +421,9 @@ public class Play extends ScreenBase {
 		//se aproximar do ninho, deixa um ovo
 		if(chickenNest.checkColision(player)) {
 			Random gerador = new Random();
-			for(int i=0;i<PlayConfig.numEggs;i++){
+			for(int i=0;i<targetPlayerEggsList.size();i++){
 				if(!targetPlayerEggsList.get(i).getVisible()){
-					targetPlayerEggsList.get(i).init(840+gerador.nextInt(30), 60+gerador.nextInt(10));
+					targetPlayerEggsList.get(i).init(24+chickenNest.getX()+gerador.nextInt(30), 30+chickenNest.getY()+gerador.nextInt(10));
 					targetPlayerEggsList.get(i).setVisible(true);
 					targetPlayerEggsList.get(i).setLocker(true);
 
@@ -522,16 +526,16 @@ public class Play extends ScreenBase {
 		this.playerScore = null;
 		this.vehicleList = null;
 
-		for(int i=0;i<PlayConfig.numTexts;i++)
+		for(int i=0;i<textGame.length;i++)
 			this.textGame[i].dispose();
 
-		for(int i=0;i<PlayConfig.numSupporting;i++)
+		for(int i=0;i<supporting.length;i++)
 			this.supporting[i].dispose();
 
-		for(int i=0;i<PlayConfig.numEggs;i++)
+		for(int i=0;i<targetPlayerEggsList.size();i++)
 			this.targetPlayerEggsList.get(i).dispose();
 
-		for(int i=0;i<PlayConfig.numCorns;i++)
+		for(int i=0;i<targetPlayerCornsList.size();i++)
 			this.targetPlayerCornsList.get(i).dispose();
 
 		this.targetPlayerGiftSheep.dispose();

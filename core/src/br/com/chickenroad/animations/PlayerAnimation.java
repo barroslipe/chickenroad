@@ -195,8 +195,6 @@ public class PlayerAnimation {
 	public TextureRegion getCurrentFrame() {
 		stateTime += Gdx.graphics.getDeltaTime();          
 		currentFrame = walkAnimation.getKeyFrame(stateTime, true);
-		System.err.println("player: "+stateTime);
-
 		return currentFrame;
 	}
 	
