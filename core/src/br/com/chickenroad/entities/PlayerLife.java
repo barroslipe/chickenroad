@@ -1,6 +1,6 @@
 package br.com.chickenroad.entities;
 
-import br.com.chickenroad.screens.Play;
+import br.com.chickenroad.screens.PlayScreen;
 import br.com.chickenroad.screens.util.Constantes;
 
 import com.badlogic.gdx.Gdx;
@@ -83,19 +83,19 @@ public class PlayerLife{
 
 		if(life <= 100 && life >= 75){
 			lifeProgressBar.setStyle(getProgresBarStyle(1));
-			spriteNormalLife.setPosition(10+Play.deltaXPositionButtons,  10+Play.deltaYPositionButtons);
+			spriteNormalLife.setPosition(10+PlayScreen.deltaXPositionButtons,  10+PlayScreen.deltaYPositionButtons);
 			spriteNormalLife.draw(batch);
 		}else if(life <  75 && life > 35) {
 			lifeProgressBar.setStyle(getProgresBarStyle(2));
-			spriteNormalLife.setPosition(10+Play.deltaXPositionButtons,  10+Play.deltaYPositionButtons);
+			spriteNormalLife.setPosition(10+PlayScreen.deltaXPositionButtons,  10+PlayScreen.deltaYPositionButtons);
 			spriteNormalLife.draw(batch);
 		}else{
 			lifeProgressBar.setStyle(getProgresBarStyle(3));
-			spriteDeadLife.setPosition(10+Play.deltaXPositionButtons,  10+Play.deltaYPositionButtons);
+			spriteDeadLife.setPosition(10+PlayScreen.deltaXPositionButtons,  10+PlayScreen.deltaYPositionButtons);
 			spriteDeadLife.draw(batch);
 		}
 
-		this.lifeProgressBar.setPosition(46+Play.deltaXPositionButtons,  15+Play.deltaYPositionButtons);
+		this.lifeProgressBar.setPosition(46+PlayScreen.deltaXPositionButtons,  15+PlayScreen.deltaYPositionButtons);
 		this.lifeProgressBar.draw(batch, 50);
 
 	}

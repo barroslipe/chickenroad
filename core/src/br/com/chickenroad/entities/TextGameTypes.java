@@ -1,4 +1,4 @@
-package br.com.chickenroad.screens;
+package br.com.chickenroad.entities;
 
 /* Natal, 26 de novembro de 2015
  * */

@@ -1,6 +1,6 @@
 package br.com.chickenroad.screens.util;
 
-import br.com.chickenroad.screens.Play;
+import br.com.chickenroad.screens.PlayScreen;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 
@@ -38,8 +38,8 @@ public class PlayCamera {
 			orthographicCamera.position.y = h-Constantes.WORLD_HEIGHT/2;
 		}
 
-		Play.deltaYPositionButtons = (int)(orthographicCamera.position.y - Constantes.WORLD_HEIGHT/2 > 0 ? orthographicCamera.position.y - Constantes.WORLD_HEIGHT/2 : 0);
-		Play.deltaXPositionButtons = (int)(orthographicCamera.position.x - Constantes.WORLD_WIDTH/2 > 0 ? orthographicCamera.position.x - Constantes.WORLD_WIDTH/2 : 0);
+		PlayScreen.deltaYPositionButtons = (int)(orthographicCamera.position.y - Constantes.WORLD_HEIGHT/2 > 0 ? orthographicCamera.position.y - Constantes.WORLD_HEIGHT/2 : 0);
+		PlayScreen.deltaXPositionButtons = (int)(orthographicCamera.position.x - Constantes.WORLD_WIDTH/2 > 0 ? orthographicCamera.position.x - Constantes.WORLD_WIDTH/2 : 0);
 
 
 		orthographicCamera.update();

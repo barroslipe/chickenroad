@@ -5,13 +5,13 @@ import java.util.List;
 import java.util.Random;
 
 import br.com.chickenroad.ChickenRoadGame;
-import br.com.chickenroad.animations.PlayerScore;
 import br.com.chickenroad.configuration.ApplicationConfig;
 import br.com.chickenroad.entities.ChickenNest;
 import br.com.chickenroad.entities.Direction;
 import br.com.chickenroad.entities.MyMap;
 import br.com.chickenroad.entities.MyMusic;
 import br.com.chickenroad.entities.Player;
+import br.com.chickenroad.entities.PlayerScore;
 import br.com.chickenroad.entities.PlayerTypes;
 import br.com.chickenroad.entities.Road;
 import br.com.chickenroad.entities.RoadFaixa;
@@ -20,6 +20,8 @@ import br.com.chickenroad.entities.Supporting;
 import br.com.chickenroad.entities.SupportingTypes;
 import br.com.chickenroad.entities.TargetPlayer;
 import br.com.chickenroad.entities.TargetPlayerTypes;
+import br.com.chickenroad.entities.TextGame;
+import br.com.chickenroad.entities.TextGameTypes;
 import br.com.chickenroad.entities.Vehicle;
 import br.com.chickenroad.screens.screenparts.PlayMenuButtons;
 import br.com.chickenroad.screens.screenparts.Popup;
@@ -41,7 +43,7 @@ import com.badlogic.gdx.math.Vector3;
  * 
  *
  */
-public class Play extends ScreenBase {
+public class PlayScreen extends ScreenBase {
 
 	//músicas da fase
 	private MyMusic myMusic;
@@ -81,7 +83,6 @@ public class Play extends ScreenBase {
 	private int numCornCatchedIndex; //recebe o valor da posi��o do vetor de milhos encontrados
 	private boolean flagPlus15;
 	private boolean flagPlus100;
-	private boolean catchedGift;
 
 	//Deslocando a origem da pista para esquerda, essa variavel vai 
 	//evitar que os ve�culos vindos da esquerda para direita, surjam "do nada" na tela
@@ -101,7 +102,7 @@ public class Play extends ScreenBase {
 	 * @param seasonId identificador da temporada
 	 * @param faseId identificador da fase
 	 */
-	public Play(String urlMap, ChickenRoadGame aChickenRoadGame, int seasonId, int faseId) {
+	public PlayScreen(String urlMap, ChickenRoadGame aChickenRoadGame, int seasonId, int faseId) {
 		super(aChickenRoadGame);
 
 		this.seasonId = seasonId;
@@ -180,14 +181,19 @@ public class Play extends ScreenBase {
 		player.init(Float.parseFloat(points[0])*Constantes.WIDTH_TILE,Float.parseFloat(points[1])*Constantes.HEIGHT_TILE);
 
 		myMusic.init();
+		myMusic.getSoundBackgroundFase().play();
+		myMusic.getSoundBackgroundChicken().play();
 
 		playerScore.init(Integer.parseInt(myProperties.getNumberEggs()), Integer.parseInt(myProperties.getNumberCorns()));
 
 		points = myProperties.getOriginChickenNest().split(",");
 		chickenNest.init(Float.parseFloat(points[0])*Constantes.WIDTH_TILE,Float.parseFloat(points[1])*Constantes.HEIGHT_TILE);
 
-		targetPlayerGiftSheep.init(500,  120);
-
+		point = new Vector2(Util.getValidRandomPosition(myMap.getWidthTiledMap(), myMap.getHeightTiledMap(), myMap.getTiles(), chickenNest.getBoundingRectangle()));
+		this.targetPlayerGiftSheep.init(point.x,  point.y);
+		//não está visível
+		this.targetPlayerGiftSheep.setVisible(false);
+		
 		numCornCatchedIndex=0;
 		contAmazing = 0;
 		contPow = 0;
@@ -196,7 +202,6 @@ public class Play extends ScreenBase {
 
 		flagPlus15 = false;
 		flagPlus100 = false;
-		catchedGift = false;
 
 		saveRoads();
 		createVehicles();
@@ -250,6 +255,10 @@ public class Play extends ScreenBase {
 		chickenRoadGame.getSpriteBatch().setProjectionMatrix(playCamera.getOrthographicCamera().combined);		
 
 		myMap.draw(playCamera.getOrthographicCamera());
+		
+		//musicas de fundo em looping
+		if(!myMusic.getSoundBackgroundFase().isPlaying()) myMusic.getSoundBackgroundFase().play();
+		if(!myMusic.getSoundBackgroundChicken().isPlaying()) myMusic.getSoundBackgroundChicken().play();
 
 		chickenRoadGame.getSpriteBatch().begin();
 
@@ -270,16 +279,17 @@ public class Play extends ScreenBase {
 		}
 
 		//exibe presente - se pegar X milhos e Y ovos
-		if(playerScore.getCurrentNoCatchedEggs() == 0 && playerScore.getCurrentNoCatchedCorns() <= 49){
-			if(!catchedGift) {
-				myMusic.getSoundSheep().play();
-				//TODO parametrizar ou verificar outra maneira de apontar a posição
-				targetPlayerGiftSheep.setPosition(500, 100);
-				targetPlayerGiftSheep.draw(chickenRoadGame.getSpriteBatch(), delta);
-			}
-		}
+		if(playerScore.getCurrentNoCatchedEggs() == 0 
+				&& playerScore.getCurrentNoCatchedCorns() <= 49 && !targetPlayerGiftSheep.isLocker())
+			targetPlayerGiftSheep.setVisible(true);
 		else
-			targetPlayerGiftSheep.setPosition(-100, -100);
+			targetPlayerGiftSheep.setVisible(false);
+
+
+		if(targetPlayerGiftSheep.isVisible()){	
+			myMusic.getSoundSheep().play();
+			targetPlayerGiftSheep.draw(chickenRoadGame.getSpriteBatch(), delta);
+		}
 
 		//se pegou todos os ovos, exibe texto animado de fim de fase
 		if(playerScore.getCurrentNoCatchedEggs() == 0 && chickenNest.checkColision(player)) {
@@ -294,7 +304,8 @@ public class Play extends ScreenBase {
 				myMusic.getSoundEndFase().play();
 
 				//mostra no meio da tela aproximadamente
-				textGame[0].setPosition(player.getX()-280, playCamera.getOrthographicCamera().viewportHeight/2 -40); //exibe texto na posi��o do playe
+				textGame[0].setPosition((Constantes.WORLD_WIDTH - 350)/2 + deltaXPositionButtons, 
+						(Constantes.WORLD_HEIGHT - 100)/2 + deltaYPositionButtons); //exibe texto na posi��o do playe
 				textGame[0].draw(chickenRoadGame.getSpriteBatch(), delta);
 			}
 
@@ -303,13 +314,9 @@ public class Play extends ScreenBase {
 
 			stateGame = StateGame.FINISH;
 
-
 		}
 		else { //else GAMBIARRA TEMPOR�RIA - :(
-
-			textGame[0].setPosition(-100, -200);
 			contAmazing = 0;
-
 		}
 
 		//testa colis�o do alvo 
@@ -422,7 +429,7 @@ public class Play extends ScreenBase {
 		if(chickenNest.checkColision(player)) {
 			Random gerador = new Random();
 			for(int i=0;i<targetPlayerEggsList.size();i++){
-				if(!targetPlayerEggsList.get(i).getVisible()){
+				if(!targetPlayerEggsList.get(i).isVisible()){
 					targetPlayerEggsList.get(i).init(24+chickenNest.getX()+gerador.nextInt(30), 30+chickenNest.getY()+gerador.nextInt(10));
 					targetPlayerEggsList.get(i).setVisible(true);
 					targetPlayerEggsList.get(i).setLocker(true);
@@ -433,7 +440,8 @@ public class Play extends ScreenBase {
 
 		//colisao com o presente ganho
 		if(targetPlayerGiftSheep.checkColision(player)) {
-			catchedGift = true;
+			targetPlayerGiftSheep.setVisible(false);
+			targetPlayerGiftSheep.setLocker(true);
 			myMusic.getSoundCoinEndFase().play();
 			myMusic.getSoundSheep().pause();
 		}

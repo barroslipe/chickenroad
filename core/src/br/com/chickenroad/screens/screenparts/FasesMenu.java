@@ -101,6 +101,9 @@ public class FasesMenu {
 		for(int i=0;i<spriteFaseList.size();i++){
 			spriteFaseList.get(i).draw(spriteBatch);
 			if(i< openFaseList.size()){
+				if(openFaseList.get(i).getScore() == 0)
+					continue;
+				
 				textScore = Integer.toString(openFaseList.get(i).getScore());
 				glyphLayout.setText(defaultFont, textScore);
 				defaultFont.draw(spriteBatch, textScore, spriteFaseList.get(i).getX() + (spriteFaseList.get(i).getWidth() - glyphLayout.width)/2 , spriteFaseList.get(i).getY() - 2);

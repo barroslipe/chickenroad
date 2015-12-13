@@ -11,8 +11,14 @@ import com.badlogic.gdx.math.Intersector;
 
 public class TargetPlayer extends Sprite{
 
-
-	private boolean visible, locker;
+	/**
+	 * Para apontar se o objeto deve estar visível no jogo
+	 */
+	private boolean visible;
+	/**
+	 * Apontar se o objeto pode ser manuseado
+	 */
+	private boolean locker;
 	
 	private TargetPlayerAnimation targetPlayerAnimation;
 
@@ -58,13 +64,14 @@ public class TargetPlayer extends Sprite{
 
 	}
 
-	public boolean getVisible() {
-		// TODO Auto-generated method stub
+	public boolean isVisible() {
 		return visible;
+	}
+	public boolean isLocker() {
+		return locker;
 	}
 
 	public void setLocker(boolean b) {
-
 		this.locker = b;
 	}
 

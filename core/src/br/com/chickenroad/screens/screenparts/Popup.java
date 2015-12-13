@@ -1,6 +1,6 @@
 package br.com.chickenroad.screens.screenparts;
 
-import br.com.chickenroad.screens.Play;
+import br.com.chickenroad.screens.PlayScreen;
 import br.com.chickenroad.screens.util.Constantes;
 
 import com.badlogic.gdx.assets.AssetManager;
@@ -117,10 +117,10 @@ public class Popup{
 
 		if(popupTypes == PopupTypes.GAME_TUTORIAL) {
 
-			this.tutorialSprite.setPosition((Constantes.WORLD_WIDTH - tutorialSprite.getWidth())/2 + Play.deltaXPositionButtons,
-					(Constantes.WORLD_HEIGHT - tutorialSprite.getHeight())/2+Play.deltaYPositionButtons);
-			this.okTutorial.setPosition(Constantes.WORLD_WIDTH - okTutorial.getWidth()/2 -(Constantes.WORLD_WIDTH - tutorialSprite.getWidth())/2+Play.deltaXPositionButtons,
-					(Constantes.WORLD_HEIGHT - tutorialSprite.getHeight())/2 - okTutorial.getHeight()/2+Play.deltaYPositionButtons);
+			this.tutorialSprite.setPosition((Constantes.WORLD_WIDTH - tutorialSprite.getWidth())/2 + PlayScreen.deltaXPositionButtons,
+					(Constantes.WORLD_HEIGHT - tutorialSprite.getHeight())/2+PlayScreen.deltaYPositionButtons);
+			this.okTutorial.setPosition(Constantes.WORLD_WIDTH - okTutorial.getWidth()/2 -(Constantes.WORLD_WIDTH - tutorialSprite.getWidth())/2+PlayScreen.deltaXPositionButtons,
+					(Constantes.WORLD_HEIGHT - tutorialSprite.getHeight())/2 - okTutorial.getHeight()/2+PlayScreen.deltaYPositionButtons);
 
 			tutorialSprite.draw(batch);
 			okTutorial.draw(batch);

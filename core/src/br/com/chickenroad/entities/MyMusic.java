@@ -35,9 +35,6 @@ public class MyMusic {
 	public void init() {
 		this.soundBackgroundFase.setVolume(0.2f);
 		this.soundBackgroundChicken.setVolume(0.4f);
-
-		this.soundBackgroundFase.play();
-		this.soundBackgroundChicken.play();
 	}
 
 	public Music getSoundEggs() {

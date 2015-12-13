@@ -1,4 +1,4 @@
-package br.com.chickenroad.screens;
+package br.com.chickenroad.entities;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;

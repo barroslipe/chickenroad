@@ -4,9 +4,13 @@ import br.com.chickenroad.ChickenRoadGame;
 import br.com.chickenroad.screens.util.Constantes;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 
 /**
  * A tela servirá para carregar os dados que a aplicação necessita. 
@@ -22,7 +26,9 @@ public class SplashScreen extends ScreenBase {
 	private long now;
 
 	private boolean nextScreen;
-
+	
+	//características da palavra loading
+	private BitmapFont defaultFont;
 
 	/**
 	 * Inicialização dos atributos da classe
@@ -36,6 +42,15 @@ public class SplashScreen extends ScreenBase {
 
 		this.nextScreen = true;
 
+		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Constantes.URL_FONT_KRAASH_BLACK));
+		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
+		parameter.size = 8;
+		parameter.borderColor = Color.BLACK;
+		parameter.borderWidth = 2;
+		defaultFont = generator.generateFont(parameter);
+		generator.dispose(); // don't forget to dispose to 
+		defaultFont.setColor(1.0f, 1.0f, 1.0f, 1.0f);	
+		
 	}
 
 	/**
@@ -57,6 +72,7 @@ public class SplashScreen extends ScreenBase {
 
 		chickenRoadGame.getSpriteBatch().begin();
 		spriteBackground.draw(chickenRoadGame.getSpriteBatch());
+		defaultFont.draw(chickenRoadGame.getSpriteBatch(), "LOADING...", Constantes.WORLD_WIDTH-100, 30);
 		chickenRoadGame.getSpriteBatch().end();
 
 		if(getAssetManager().getProgress() == 1){

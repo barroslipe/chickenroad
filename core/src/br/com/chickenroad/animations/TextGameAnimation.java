@@ -2,7 +2,7 @@
 /*
  * TargetPlayerAnimation.java
  * 
- * Um target é qualquer sprite que pode ser interessante para o player juntar pontos ou concluir tarefas: 
+ * Um target ï¿½ qualquer sprite que pode ser interessante para o player juntar pontos ou concluir tarefas: 
  * Ex. Ovos, moedas, alimento, ..etc
  * 
  * Natal, 23/11/2015
@@ -16,7 +16,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import br.com.chickenroad.screens.TextGameTypes;
+import br.com.chickenroad.entities.TextGameTypes;
 
 public class TextGameAnimation{
 
@@ -121,7 +121,7 @@ public class TextGameAnimation{
 			tmp = spriteSheetTmp1;
 			break;
 		/*
-		 * case 2: // para a animação de pegar o objeto
+		 * case 2: // para a animaï¿½ï¿½o de pegar o objeto
 			tmp = spriteSheetTmp1;
 			break;
 		 * */

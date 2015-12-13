@@ -1,4 +1,4 @@
-package br.com.chickenroad.animations;
+package br.com.chickenroad.entities;
 
 import br.com.chickenroad.screens.util.Constantes;
 
