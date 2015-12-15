@@ -33,7 +33,7 @@ public class Util {
 			Rectangle rect = new Rectangle(x, y, 20, 20);
 
 			//TODO parametrizar raio
-			Rectangle rect2 = new Rectangle(chickenNest.x, chickenNest.y, chickenNest.getWidth()+150, chickenNest.getHeight()+150);
+			Rectangle rect2 = new Rectangle(chickenNest.x - 150, chickenNest.y - 150, chickenNest.getWidth()+300, chickenNest.getHeight()+300);
 			if(Intersector.overlaps(rect2, rect)) flag= false;
 			else{
 				for(int i=0;i<tiles.size();i++){

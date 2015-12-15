@@ -73,7 +73,7 @@ public class FasesMenu {
 		String picture;
 		for(int i=0;i<fasePicturesList.length;i++){
 			if(i < openFaseList.size())
-				picture = fasePicturesList[0];    //Aqui ser� apontada a fase correta. Por enquanto, ser� a figura de fase 1 para todas as fases ABERTAS.
+				picture = fasePicturesList[i];    //Aqui ser� apontada a fase correta. Por enquanto, ser� a figura de fase 1 para todas as fases ABERTAS.
 			else
 				picture = "fases/fase_bloqueada.png";
 

@@ -27,9 +27,9 @@ public class FasesScreen extends ScreenBase {
 	private Sprite spriteBackground;
 
 	private Music soundPrincipal, soundClick;
-	
+
 	private int seasonId;
-	
+
 	/**
 	 * Inicialização dos atributos da classe
 	 * @param aChickenRoadGame referência a classe principal do jogo
@@ -51,7 +51,7 @@ public class FasesScreen extends ScreenBase {
 		soundClick = getAssetManager().get(Constantes.URL_SOUND_CLICK);
 
 	}
-	
+
 	/**
 	 * Renderizador principal da classe
 	 */
@@ -102,11 +102,7 @@ public class FasesScreen extends ScreenBase {
 		else{
 			soundClick.play();
 			soundPrincipal.stop();
-			if(faseId==0){
-				chickenRoadGame.setScreen(new PlayScreen(Constantes.URL_MAP_FASE_1_0_1, chickenRoadGame, seasonId, faseId));
-			}else if(faseId==1){
-				chickenRoadGame.setScreen(new PlayScreen(Constantes.URL_MAP_FASE_1_0_2, chickenRoadGame, seasonId, faseId));
-			}
+			chickenRoadGame.setScreen(new PlayScreen(Constantes.URL_MAPS[seasonId][faseId], chickenRoadGame, seasonId, faseId));
 		}
 	}
 

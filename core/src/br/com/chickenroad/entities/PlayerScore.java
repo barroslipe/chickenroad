@@ -12,20 +12,18 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 
 public class PlayerScore {
 
-
 	public static final int CORN_SCORE = 100;//100 pontos  para cada milho pego
 	public static final int EGGS_SCORE = 15;
+	
 	private int scoreGame;
 	private int currentNoCatchedEggs;
 	private int currentNoCatchedCorns;
+	private String scoreGameDraw, currentNoCatchedEggsDraw, currentNoCatchedCornsDraw;
 
 	private BitmapFont defaultFont, scoreFont;
 
 
 	public PlayerScore() {
-		this.scoreGame = 0;
-		this.currentNoCatchedEggs = 0;
-		this.currentNoCatchedCorns = 0;
 
 		this.defaultFont = new BitmapFont();
 		//	Usando FreeTypeFont
@@ -45,9 +43,13 @@ public class PlayerScore {
 	public void init(int eggs, int corns){
 
 		scoreGame = 0;
+		scoreGameDraw = "0";
 
 		currentNoCatchedEggs = eggs;
+		currentNoCatchedEggsDraw = Integer.toString(eggs);
+		
 		currentNoCatchedCorns = corns;
+		currentNoCatchedCornsDraw = Integer.toString(corns);
 
 		defaultFont.setColor(1.0f, 1.0f, 1.0f, 1.0f);	
 	}
@@ -85,26 +87,30 @@ public class PlayerScore {
 
 	public void draw(Batch batch, int deltaXPositionButtons, int deltaYPositionButtons){
 
-		scoreFont.draw(batch, Integer.toString(scoreGame), 310+deltaXPositionButtons, 470+deltaYPositionButtons);
+		scoreFont.draw(batch, scoreGameDraw, 310+deltaXPositionButtons, 470+deltaYPositionButtons);
 
 		if(currentNoCatchedCorns<10){
-			defaultFont.draw(batch, Integer.toString(currentNoCatchedEggs), 561+deltaXPositionButtons, 442+deltaYPositionButtons);
-			defaultFont.draw(batch, Integer.toString(currentNoCatchedCorns), 607+deltaXPositionButtons, 443+deltaYPositionButtons);
+			defaultFont.draw(batch, currentNoCatchedEggsDraw, 561+deltaXPositionButtons, 442+deltaYPositionButtons);
+			defaultFont.draw(batch, currentNoCatchedCornsDraw, 607+deltaXPositionButtons, 443+deltaYPositionButtons);
 		} else {
-			defaultFont.draw(batch, Integer.toString(currentNoCatchedEggs), 556+deltaXPositionButtons, 442+deltaYPositionButtons);
-			defaultFont.draw(batch, Integer.toString(currentNoCatchedCorns), 604+deltaXPositionButtons, 443+deltaYPositionButtons);
+			defaultFont.draw(batch, currentNoCatchedEggsDraw, 556+deltaXPositionButtons, 442+deltaYPositionButtons);
+			defaultFont.draw(batch, currentNoCatchedCornsDraw, 604+deltaXPositionButtons, 443+deltaYPositionButtons);
 		}
 	}
 
 	public void addScoreGame(int value) {
 		this.scoreGame += value;
+		this.scoreGameDraw = Integer.toString(scoreGame);
+
 	}
 
 	public void minusCurrentNoCatchedEggs() {
 		this.currentNoCatchedEggs -=1;
+		this.currentNoCatchedEggsDraw = Integer.toString(currentNoCatchedEggs);
 	}
 
 	public void minusCurrentNoCatchedCorn() {
 		this.currentNoCatchedCorns -= 1;
+		this.currentNoCatchedCornsDraw = Integer.toString(currentNoCatchedCorns);
 	}
 }

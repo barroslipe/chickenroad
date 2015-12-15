@@ -3,7 +3,6 @@ package br.com.chickenroad.entities;
 import br.com.chickenroad.screens.PlayScreen;
 import br.com.chickenroad.screens.util.Constantes;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Pixmap;
@@ -22,10 +21,27 @@ public class PlayerLife{
 
 	private float life;
 	private ProgressBar lifeProgressBar;
+	private Skin skin;
 
 	private Sprite spriteNormalLife, spriteDeadLife;
+	private TextureRegionDrawable textureRegionDrawableBlue, textureRegionDrawableGreen, textureRegionDrawableRed;
+	private ProgressBarStyle barStyle;
 
 	public PlayerLife(AssetManager assetManager){
+
+		this.skin = new Skin();
+		Pixmap pixmap = new Pixmap(18, 18, Format.RGBA8888);
+		pixmap.setColor(Color.WHITE);
+		pixmap.fill();
+		
+		this.skin.add("white", new Texture(pixmap));
+		
+		this.barStyle = new ProgressBarStyle();
+		barStyle.background = skin.newDrawable("white", Color.DARK_GRAY);		
+
+		this.textureRegionDrawableBlue = new TextureRegionDrawable(new TextureRegion((Texture)assetManager.get(Constantes.URL_LIFE_BARS[0])));
+		this.textureRegionDrawableGreen = new TextureRegionDrawable(new TextureRegion((Texture)assetManager.get(Constantes.URL_LIFE_BARS[1])));
+		this.textureRegionDrawableRed = new TextureRegionDrawable(new TextureRegion((Texture)assetManager.get(Constantes.URL_LIFE_BARS[2])));
 
 		this.life = 100;
 		this.lifeProgressBar = new ProgressBar(0, life, 1, false, getProgresBarStyle(1));
@@ -43,24 +59,15 @@ public class PlayerLife{
 
 	private ProgressBarStyle getProgresBarStyle(int option) {
 
-		Skin skin = new Skin();
-		
-		Pixmap pixmap = new Pixmap(18, 18, Format.RGBA8888);
-		pixmap.setColor(Color.WHITE);
-		pixmap.fill();
-		
-		skin.add("white", new Texture(pixmap));
-
 		TextureRegionDrawable textureBar = null;
 		if( option == 1)
-			textureBar =  new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("barBlue_horizontalBlue.png"))));
+			textureBar =  textureRegionDrawableBlue;
 		else if(option == 2)
-			textureBar =  new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("barGreen_horizontalMid.png"))));
+			textureBar =  textureRegionDrawableGreen;
 		else
-			textureBar =  new TextureRegionDrawable(new TextureRegion(new Texture(Gdx.files.internal("barRed_horizontalMid.png"))));
+			textureBar =  textureRegionDrawableRed;
 
-		ProgressBarStyle barStyle = new ProgressBarStyle(skin.newDrawable("white", Color.DARK_GRAY), textureBar);
-		barStyle.knobBefore = barStyle.knob;
+		barStyle.knobBefore = textureBar;
 		barStyle.knob=null;
 
 		return barStyle;

@@ -131,6 +131,26 @@ public class PlayScreen extends ScreenBase {
 	 */
 	private void init() {
 
+
+		String[] points = myProperties.getOriginPlayer().split(",");
+		player.init(Float.parseFloat(points[0])*Constantes.WIDTH_TILE,Float.parseFloat(points[1])*Constantes.HEIGHT_TILE);
+
+		myMusic.init();
+		myMusic.getSoundBackgroundFase().play();
+		myMusic.getSoundBackgroundChicken().play();
+
+		playerScore.init(Integer.parseInt(myProperties.getNumberEggs()), Integer.parseInt(myProperties.getNumberCorns()));
+
+		points = myProperties.getOriginChickenNest().split(",");
+		chickenNest.init(Float.parseFloat(points[0])*Constantes.WIDTH_TILE,Float.parseFloat(points[1])*Constantes.HEIGHT_TILE);
+
+		Vector2 point;
+
+		point = new Vector2(Util.getValidRandomPosition(myMap.getWidthTiledMap(), myMap.getHeightTiledMap(), myMap.getTiles(), chickenNest.getBoundingRectangle()));
+		this.targetPlayerGiftSheep.init(point.x,  point.y);
+		//não está visível
+		this.targetPlayerGiftSheep.setVisible(false);
+
 		this.supporting = new Supporting[ApplicationConfig.numSupporting];
 		this.textGame = new TextGame[ApplicationConfig.numTexts];	
 
@@ -156,7 +176,6 @@ public class PlayScreen extends ScreenBase {
 			supporting[i].init(generator.nextInt(130)+10, generator.nextInt(150)+160);
 		}
 
-		Vector2 point;
 		//inicializa lista de ovos
 		this.targetPlayerEggsList = new ArrayList<TargetPlayer>();
 		//gera ovos em posi��es aleatorios
@@ -177,23 +196,7 @@ public class PlayScreen extends ScreenBase {
 			targetPlayerCornsList.get(i).setVisible(true);
 		}
 
-		String[] points = myProperties.getOriginPlayer().split(",");
-		player.init(Float.parseFloat(points[0])*Constantes.WIDTH_TILE,Float.parseFloat(points[1])*Constantes.HEIGHT_TILE);
 
-		myMusic.init();
-		myMusic.getSoundBackgroundFase().play();
-		myMusic.getSoundBackgroundChicken().play();
-
-		playerScore.init(Integer.parseInt(myProperties.getNumberEggs()), Integer.parseInt(myProperties.getNumberCorns()));
-
-		points = myProperties.getOriginChickenNest().split(",");
-		chickenNest.init(Float.parseFloat(points[0])*Constantes.WIDTH_TILE,Float.parseFloat(points[1])*Constantes.HEIGHT_TILE);
-
-		point = new Vector2(Util.getValidRandomPosition(myMap.getWidthTiledMap(), myMap.getHeightTiledMap(), myMap.getTiles(), chickenNest.getBoundingRectangle()));
-		this.targetPlayerGiftSheep.init(point.x,  point.y);
-		//não está visível
-		this.targetPlayerGiftSheep.setVisible(false);
-		
 		numCornCatchedIndex=0;
 		contAmazing = 0;
 		contPow = 0;
@@ -255,7 +258,7 @@ public class PlayScreen extends ScreenBase {
 		chickenRoadGame.getSpriteBatch().setProjectionMatrix(playCamera.getOrthographicCamera().combined);		
 
 		myMap.draw(playCamera.getOrthographicCamera());
-		
+
 		//musicas de fundo em looping
 		if(!myMusic.getSoundBackgroundFase().isPlaying()) myMusic.getSoundBackgroundFase().play();
 		if(!myMusic.getSoundBackgroundChicken().isPlaying()) myMusic.getSoundBackgroundChicken().play();
@@ -299,7 +302,7 @@ public class PlayScreen extends ScreenBase {
 				PreferencesUser.setSucesso(seasonId, faseId, playerScore.getScoreGame());
 
 
-			if(contAmazing++ < 130) {//este if evitar que a anima��o fique infinita
+			if(contAmazing++ < 640) {//este if evitar que a anima��o fique infinita
 
 				myMusic.getSoundEndFase().play();
 
@@ -307,6 +310,8 @@ public class PlayScreen extends ScreenBase {
 				textGame[0].setPosition((Constantes.WORLD_WIDTH - 350)/2 + deltaXPositionButtons, 
 						(Constantes.WORLD_HEIGHT - 100)/2 + deltaYPositionButtons); //exibe texto na posi��o do playe
 				textGame[0].draw(chickenRoadGame.getSpriteBatch(), delta);
+			}else{
+				chickenRoadGame.setScreen(new PlayScreen(Constantes.URL_MAPS[seasonId][faseId+1], chickenRoadGame, seasonId, faseId+1));
 			}
 
 			myMusic.getSoundBackgroundFase().pause();
@@ -520,34 +525,6 @@ public class PlayScreen extends ScreenBase {
 	}
 
 
-	@Override
-	public void pause() {
-		stateGame = StateGame.PAUSE;
-	}
-
-	@Override
-	public void dispose() {
-		this.chickenRoadGame = null;
-		this.playMenuButtons.dispose();
-		this.stateGame = null;
-		this.myMap.dispose();
-		this.playerScore = null;
-		this.vehicleList = null;
-
-		for(int i=0;i<textGame.length;i++)
-			this.textGame[i].dispose();
-
-		for(int i=0;i<supporting.length;i++)
-			this.supporting[i].dispose();
-
-		for(int i=0;i<targetPlayerEggsList.size();i++)
-			this.targetPlayerEggsList.get(i).dispose();
-
-		for(int i=0;i<targetPlayerCornsList.size();i++)
-			this.targetPlayerCornsList.get(i).dispose();
-
-		this.targetPlayerGiftSheep.dispose();
-	}
 
 	/**
 	 * Capturar e salvar todas as estradas do mapa. Somente estradas HORIZONTAIS!!! Necessita de refatoração
@@ -639,5 +616,34 @@ public class PlayScreen extends ScreenBase {
 				if(positionX >faixa.getInitialPoint().x+road.getWidth()) a=false;
 			}
 		}
+	}
+
+	@Override
+	public void pause() {
+		stateGame = StateGame.PAUSE;
+	}
+
+	@Override
+	public void dispose() {
+		this.chickenRoadGame = null;
+		this.playMenuButtons.dispose();
+		this.stateGame = null;
+		this.myMap.dispose();
+		this.playerScore = null;
+		this.vehicleList = null;
+
+		for(int i=0;i<textGame.length;i++)
+			this.textGame[i].dispose();
+
+		for(int i=0;i<supporting.length;i++)
+			this.supporting[i].dispose();
+
+		for(int i=0;i<targetPlayerEggsList.size();i++)
+			this.targetPlayerEggsList.get(i).dispose();
+
+		for(int i=0;i<targetPlayerCornsList.size();i++)
+			this.targetPlayerCornsList.get(i).dispose();
+
+		this.targetPlayerGiftSheep.dispose();
 	}
 }

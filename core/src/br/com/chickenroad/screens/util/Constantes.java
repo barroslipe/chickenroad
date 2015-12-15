@@ -36,7 +36,7 @@ public class Constantes {
 	public static final String URL_EXIT_BUTTON = "exitButton.png";
 	public static final String URL_NEXT_FASE_BUTTON = "proximaFaseButton.png";
 	public static final String URL_OK_BUTTON = "okButton.png";
-	
+
 	//sons
 	public static final String URL_SOUND_ON_BUTTON = "soundOnButton.png";
 	public static final String URL_SOUND_OFF_BUTTON = "soundOffButton.png";
@@ -56,16 +56,13 @@ public class Constantes {
 	public static final String URL_POPUP_YES_BUTTON = "popupYesButton.png";
 	public static final String URL_POPUP_EXIT_BACKGROUND = "popupExitBackground.png";
 
-	//mapas
-	public static final String URL_MAP_FASE_1_0_1 = "maps/map_101/map_101";
-	public static final String URL_MAP_FASE_1_0_2 = "maps/map_102/map_102";
-
 	public static final String URL_PLAYER_AVATAR = "player/player.png";
 
 	public static final String URL_PLAYER_NORMAL_LIFE = "player/normalLife.png";
 	public static final String URL_PLAYER_DEAD_LIFE = "player/deadLife.png";
+	public static final String [] URL_LIFE_BARS = {"barBlue_horizontalBlue.png", "barGreen_horizontalMid.png", "barRed_horizontalMid.png"};
 
-	
+
 	//player
 	public static final String URL_PLAYER_AVATAR_RIGHT ="player/playerD_caminhando.png"; 
 	public static final String URL_PLAYER_AVATAR_LEFT = "player/playerE_caminhando.png";
@@ -81,7 +78,7 @@ public class Constantes {
 	//popup
 	public static final String URL_GAMEOVER_POPUP = "gameoverPopup.png";
 	public static final String URL_TURORIAL_POPUP = "tutorialPopup.png";
-	
+
 	//sprites secundarios
 	public static final String URL_PIG_STOP_RIGHT = "maps/map_101/porcoD_parado.png";
 	public static final String URL_PIG_STOP_LEFT = "maps/map_101/porcoE_parado.png";
@@ -114,5 +111,9 @@ public class Constantes {
 		"fases/fase_105.png", "fases/fase_106.png", "fases/fase_107.png", "fases/fase_108.png",
 		"fases/fase_109.png", "fases/fase_110.png", "fases/fase_111.png", "fases/fase_112.png",
 		"fases/fase_113.png", "fases/fase_114.png", "fases/fase_115.png"};
+
+	//mapas
+	public static final String [][]URL_MAPS = {{"maps/map_101/map_101", "maps/map_102/map_102", "maps/map_103/map_103", "maps/map_104/map_104"
+		, "maps/map_105/map_105", "maps/map_106/map_106"},{"maps/map_201/map_201", "maps/map_202/map_202"}};
 
 }
