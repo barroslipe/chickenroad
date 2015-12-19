@@ -302,7 +302,7 @@ public class PlayScreen extends ScreenBase {
 				PreferencesUser.setSucesso(seasonId, faseId, playerScore.getScoreGame());
 
 
-			if(contAmazing++ < 640) {//este if evitar que a anima��o fique infinita
+			if(contAmazing++ < 140) {//este if evitar que a anima��o fique infinita
 
 				myMusic.getSoundEndFase().play();
 
@@ -311,6 +311,7 @@ public class PlayScreen extends ScreenBase {
 						(Constantes.WORLD_HEIGHT - 100)/2 + deltaYPositionButtons); //exibe texto na posi��o do playe
 				textGame[0].draw(chickenRoadGame.getSpriteBatch(), delta);
 			}else{
+				myMusic.getSoundEndFase().stop();
 				chickenRoadGame.setScreen(new PlayScreen(Constantes.URL_MAPS[seasonId][faseId+1], chickenRoadGame, seasonId, faseId+1));
 			}
 

@@ -114,6 +114,6 @@ public class Constantes {
 
 	//mapas
 	public static final String [][]URL_MAPS = {{"maps/map_101/map_101", "maps/map_102/map_102", "maps/map_103/map_103", "maps/map_104/map_104"
-		, "maps/map_105/map_105", "maps/map_106/map_106"},{"maps/map_201/map_201", "maps/map_202/map_202"}};
+		, "maps/map_105/map_105", "maps/map_106/map_106", "maps/map_107/map_107"},{"maps/map_201/map_201", "maps/map_202/map_202"}};
 
 }
