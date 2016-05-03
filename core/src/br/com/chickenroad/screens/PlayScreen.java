@@ -312,7 +312,16 @@ public class PlayScreen extends ScreenBase {
 				textGame[0].draw(chickenRoadGame.getSpriteBatch(), delta);
 			}else{
 				myMusic.getSoundEndFase().stop();
-				chickenRoadGame.setScreen(new PlayScreen(Constantes.URL_MAPS[seasonId][faseId+1], chickenRoadGame, seasonId, faseId+1));
+				//TODO isso não deve existir quando não for protótipo
+				if((faseId+1) != Constantes.MAX_FASES){
+					myMusic.getSoundBackgroundChicken().stop();
+			    	myMusic.getSoundBackgroundFase().stop();
+					chickenRoadGame.setScreen(new PlayScreen(Constantes.URL_MAPS[seasonId][faseId+1], chickenRoadGame, seasonId, faseId+1));
+				}else{
+					myMusic.getSoundBackgroundChicken().stop();
+					myMusic.getSoundBackgroundFase().stop();
+					chickenRoadGame.setScreen(new FasesScreen(chickenRoadGame, seasonId));
+				}
 			}
 
 			myMusic.getSoundBackgroundFase().pause();
@@ -419,9 +428,6 @@ public class PlayScreen extends ScreenBase {
 			myMusic.getSoundBackgroundFase().stop();
 			myMusic.getSoundChickenDemage().stop();
 
-			//popupFinish = new Popup(chickenRoadGame.getResourceManager(), PopupTypes.END_FASE);
-			//popupFinish.draw(chickenRoadGame.getSpriteBatch(), delta);
-
 		}
 
 		//popup tutorial
@@ -496,21 +502,7 @@ public class PlayScreen extends ScreenBase {
 			chickenRoadGame.setScreenWithTransitionFade(new FasesScreen(chickenRoadGame, seasonId));
 			return true;
 		}
-		/*
-		if(popupFinish != null && popupFinish.checkClickBackMenuButton(touchPoint.x, touchPoint.y)){
-			chickenRoadGame.setScreenWithTransitionFade(new FasesScreen(chickenRoadGame, seasonId));
-			return true;
-		}
-		if(popupFinish != null && popupFinish.checkClickRestartButton(touchPoint.x, touchPoint.y)){
-			stateGame = StateGame.RESTART;
-			return true;
-		}
-		if(popupFinish != null && popupFinish.checkClicNextButton(touchPoint.x, touchPoint.y)){
-			System.err.println("proxima fase");
-			return true;
-		}
-
-		 */		
+		
 		if(popupTutorial != null && popupTutorial.checkClickOkTutorialButton(touchPoint.x, touchPoint.y)){
 			flagPopupTutorial = false;
 			playMenuButtons.enable();

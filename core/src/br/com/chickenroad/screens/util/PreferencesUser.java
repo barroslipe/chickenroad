@@ -51,8 +51,6 @@ public class PreferencesUser {
 	}
 
 	public static void setSucesso(int seasonId, int faseId, int scoreGame) {
-
-		System.err.println("GRAVANDO");
 		
 		UserInformation userInformation = getUserInformation();
 
@@ -67,7 +65,8 @@ public class PreferencesUser {
 			System.err.println("Score da fase atual não modificado");
 
 		}
-
+		//TODO isso não deve existir quando não for protótipo
+		if((faseId+1 )!= Constantes.MAX_FASES){
 		//se for a ultima fase aberta, deve ser aberta a próxima fase com o sucesso
 		if(faseId == (userInformation.getSeasonList().get(seasonId).getFaseList().size()-1)){
 
@@ -86,6 +85,7 @@ public class PreferencesUser {
 
 			}
 
+		}
 		}
 
 		save(userInformation);
