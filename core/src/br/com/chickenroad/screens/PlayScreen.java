@@ -16,8 +16,6 @@ import br.com.chickenroad.entities.PlayerTypes;
 import br.com.chickenroad.entities.Road;
 import br.com.chickenroad.entities.RoadFaixa;
 import br.com.chickenroad.entities.StateGame;
-import br.com.chickenroad.entities.Supporting;
-import br.com.chickenroad.entities.SupportingTypes;
 import br.com.chickenroad.entities.TargetPlayer;
 import br.com.chickenroad.entities.TargetPlayerTypes;
 import br.com.chickenroad.entities.TextGame;
@@ -34,6 +32,7 @@ import br.com.chickenroad.screens.util.Util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
+import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
@@ -56,7 +55,7 @@ public class PlayScreen extends ScreenBase {
 	//textos
 	private TextGame textGame[];
 	//porcos
-	private Supporting supporting[];
+	//private Supporting supporting[];
 	//jogador
 	private Player player;
 	//score do jogador
@@ -68,7 +67,7 @@ public class PlayScreen extends ScreenBase {
 	//estado do jogo
 	private StateGame stateGame;
 	//popup de término
-	private Popup popupTutorial, popupFinish;
+	private Popup popupTutorial;
 	//camera do jogo
 	private PlayCamera playCamera;
 	//lista de estradas
@@ -136,8 +135,6 @@ public class PlayScreen extends ScreenBase {
 		player.init(Float.parseFloat(points[0])*Constantes.WIDTH_TILE,Float.parseFloat(points[1])*Constantes.HEIGHT_TILE);
 
 		myMusic.init();
-		myMusic.getSoundBackgroundFase().play();
-		myMusic.getSoundBackgroundChicken().play();
 
 		playerScore.init(Integer.parseInt(myProperties.getNumberEggs()), Integer.parseInt(myProperties.getNumberCorns()));
 
@@ -151,7 +148,7 @@ public class PlayScreen extends ScreenBase {
 		//não está visível
 		this.targetPlayerGiftSheep.setVisible(false);
 
-		this.supporting = new Supporting[ApplicationConfig.numSupporting];
+		//this.supporting = new Supporting[ApplicationConfig.numSupporting];
 		this.textGame = new TextGame[ApplicationConfig.numTexts];	
 
 		this. textGame[0] = new TextGame(Constantes.URL_TEXT_AMAZING, getAssetManager(), TextGameTypes.AMAZING);
@@ -164,17 +161,19 @@ public class PlayScreen extends ScreenBase {
 			textGame[i].init(); //exibe texto na posi��o do player
 
 		//inicializa vetor de coadjuvantes - personagens secundarios
+		/*
+		 * TODO retirado os porcos, pois ainda não fechamos a real posição deles
 		this.supporting[0] = new Supporting(Constantes.URL_PIG_STOP_RIGHT, getAssetManager(), SupportingTypes.PIG_AWAKE_RIGHT);
 		this.supporting[1] = new Supporting(Constantes.URL_PIG_SLEEPING_RIGHT, getAssetManager(), SupportingTypes.PIG_SLEEPING_RIGHT);
 		this.supporting[2] = new Supporting(Constantes.URL_PIG_SLEEPING_LEFT, getAssetManager(), SupportingTypes.PIG_SLEEPING_LEFT);
-
+		 */
 		//inicializa vetor de ovos com velocidades aleatorias
 		Random generator = new Random();
 
 		//inicia vetor de coadjuvantes
-		for(int i=0;i<supporting.length;i++){
-			supporting[i].init(generator.nextInt(130)+10, generator.nextInt(150)+160);
-		}
+		//		for(int i=0;i<supporting.length;i++){
+		//			supporting[i].init(generator.nextInt(130)+10, generator.nextInt(150)+160);
+		//		}
 
 		//inicializa lista de ovos
 		this.targetPlayerEggsList = new ArrayList<TargetPlayer>();
@@ -219,6 +218,11 @@ public class PlayScreen extends ScreenBase {
 
 	}
 
+	private void playSound(Music sound) {
+		if(Constantes.SOUND_ON_FLAG && !sound.isPlaying())
+			sound.play();
+	}
+
 	/**
 	 * Renderizador principal da classe. Nele há a lógica de estados do jogo.
 	 */
@@ -260,8 +264,10 @@ public class PlayScreen extends ScreenBase {
 		myMap.draw(playCamera.getOrthographicCamera());
 
 		//musicas de fundo em looping
-		if(!myMusic.getSoundBackgroundFase().isPlaying()) myMusic.getSoundBackgroundFase().play();
-		if(!myMusic.getSoundBackgroundChicken().isPlaying()) myMusic.getSoundBackgroundChicken().play();
+		if(stateGame != StateGame.PAUSE){
+			playSound(myMusic.getSoundBackgroundFase());
+			playSound(myMusic.getSoundBackgroundChicken());
+		}
 
 		chickenRoadGame.getSpriteBatch().begin();
 
@@ -272,9 +278,9 @@ public class PlayScreen extends ScreenBase {
 		player.draw(chickenRoadGame.getSpriteBatch(), delta);
 
 		//desenha os personagens coadjuvantes
-		for(int i=0;i<supporting.length;i++) {
-			supporting[i].draw(chickenRoadGame.getSpriteBatch(), delta);
-		}
+		//		for(int i=0;i<supporting.length;i++) {
+		//			supporting[i].draw(chickenRoadGame.getSpriteBatch(), delta);
+		//		}
 
 		//desenhar todos os ovos
 		for(int i=0;i<targetPlayerEggsList.size();i++) {
@@ -290,12 +296,14 @@ public class PlayScreen extends ScreenBase {
 
 
 		if(targetPlayerGiftSheep.isVisible()){	
-			myMusic.getSoundSheep().play();
+			playSound(myMusic.getSoundSheep());
 			targetPlayerGiftSheep.draw(chickenRoadGame.getSpriteBatch(), delta);
 		}
 
 		//se pegou todos os ovos, exibe texto animado de fim de fase
 		if(playerScore.getCurrentNoCatchedEggs() == 0 && chickenNest.checkColision(player)) {
+
+			stopBackgroundMusic();
 
 			//TODO aqui será o sucesso da aplicação certo? então, aqui iremos persistir o score e o presente[não há variável do presente por enquanto]
 			if(stateGame != StateGame.FINISH)
@@ -304,7 +312,7 @@ public class PlayScreen extends ScreenBase {
 
 			if(contAmazing++ < 140) {//este if evitar que a anima��o fique infinita
 
-				myMusic.getSoundEndFase().play();
+				playSound(myMusic.getSoundEndFase());
 
 				//mostra no meio da tela aproximadamente
 				textGame[0].setPosition((Constantes.WORLD_WIDTH - 350)/2 + deltaXPositionButtons, 
@@ -312,14 +320,12 @@ public class PlayScreen extends ScreenBase {
 				textGame[0].draw(chickenRoadGame.getSpriteBatch(), delta);
 			}else{
 				myMusic.getSoundEndFase().stop();
+
 				//TODO isso não deve existir quando não for protótipo
 				if((faseId+1) != Constantes.MAX_FASES){
-					myMusic.getSoundBackgroundChicken().stop();
-			    	myMusic.getSoundBackgroundFase().stop();
+
 					chickenRoadGame.setScreen(new PlayScreen(Constantes.URL_MAPS[seasonId][faseId+1], chickenRoadGame, seasonId, faseId+1));
 				}else{
-					myMusic.getSoundBackgroundChicken().stop();
-					myMusic.getSoundBackgroundFase().stop();
 					chickenRoadGame.setScreen(new FasesScreen(chickenRoadGame, seasonId));
 				}
 			}
@@ -340,7 +346,7 @@ public class PlayScreen extends ScreenBase {
 			if(targetPlayerEggsList.get(i).checkColision(player) && (playerScore.getCurrentNoCatchedEggs() > 0)){ 
 				targetPlayerEggsList.get(i).setVisible(false);//apaga o ovo da tela
 
-				myMusic.getSoundEggs().play();
+				playSound(myMusic.getSoundEggs());
 				playerScore.addScoreGame(PlayerScore.EGGS_SCORE);
 				playerScore.minusCurrentNoCatchedEggs();
 				flagPlus15 = true;
@@ -359,7 +365,7 @@ public class PlayScreen extends ScreenBase {
 			if(targetPlayerCornsList.get(i).checkColision(player) && (playerScore.getCurrentNoCatchedEggs() > 0)){
 				targetPlayerCornsList.get(i).setVisible(false); //apaga milho da tela
 				targetPlayerCornsList.get(i).setLocker(true);
-				myMusic.getSoundCorns().play();
+				playSound(myMusic.getSoundCorns());
 				playerScore.addScoreGame(PlayerScore.CORN_SCORE);
 				playerScore.minusCurrentNoCatchedCorn();//decrementa o valor do milho
 				flagPlus100 = true;
@@ -406,7 +412,7 @@ public class PlayScreen extends ScreenBase {
 
 		//exibe anima��o de colis�o se houve colis�o
 		if(player.isColisionVehiclesStatus()) {
-			myMusic.getSoundChickenDemage().play();
+			playSound(myMusic.getSoundChickenDemage());
 
 			if(contPow++ < 55) {
 				textGame[1].setPosition(player.getX()-30, player.getY()-30); //exibe texto na posi��o do playe
@@ -424,9 +430,7 @@ public class PlayScreen extends ScreenBase {
 
 			stateGame = StateGame.GAME_OVER;
 
-			myMusic.getSoundBackgroundChicken().stop();
-			myMusic.getSoundBackgroundFase().stop();
-			myMusic.getSoundChickenDemage().stop();
+			stopBackgroundMusic();
 
 		}
 
@@ -454,10 +458,19 @@ public class PlayScreen extends ScreenBase {
 		if(targetPlayerGiftSheep.checkColision(player)) {
 			targetPlayerGiftSheep.setVisible(false);
 			targetPlayerGiftSheep.setLocker(true);
-			myMusic.getSoundCoinEndFase().play();
+			playSound(myMusic.getSoundCoinEndFase());
 			myMusic.getSoundSheep().pause();
 		}
 	}//end draw()
+
+	private void stopBackgroundMusic() {
+		myMusic.getSoundBackgroundChicken().stop();
+		myMusic.getSoundBackgroundFase().stop();
+		myMusic.getSoundCoinEndFase().stop();
+		myMusic.getSoundSheep().stop();
+		myMusic.getSoundChickenDemage().stop();
+
+	}
 
 	@Override
 	public boolean keyDown(int keycode) {
@@ -497,12 +510,12 @@ public class PlayScreen extends ScreenBase {
 		}
 		//clicou para sair da fase e ir a tela de fases
 		if(playMenuButtons.checkClickFaseListButton(touchPoint.x, touchPoint.y)){
-			myMusic.getSoundBackgroundChicken().stop();
-			myMusic.getSoundBackgroundFase().stop();
+			stopBackgroundMusic();
+			myMusic.getSoundEndFase().stop();
 			chickenRoadGame.setScreenWithTransitionFade(new FasesScreen(chickenRoadGame, seasonId));
 			return true;
 		}
-		
+
 		if(popupTutorial != null && popupTutorial.checkClickOkTutorialButton(touchPoint.x, touchPoint.y)){
 			flagPopupTutorial = false;
 			playMenuButtons.enable();
@@ -628,8 +641,8 @@ public class PlayScreen extends ScreenBase {
 		for(int i=0;i<textGame.length;i++)
 			this.textGame[i].dispose();
 
-		for(int i=0;i<supporting.length;i++)
-			this.supporting[i].dispose();
+		//		for(int i=0;i<supporting.length;i++)
+		//			this.supporting[i].dispose();
 
 		for(int i=0;i<targetPlayerEggsList.size();i++)
 			this.targetPlayerEggsList.get(i).dispose();

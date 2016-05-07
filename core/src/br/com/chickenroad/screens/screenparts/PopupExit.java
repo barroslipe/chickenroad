@@ -40,6 +40,7 @@ public class PopupExit {
 
 		this.texturePopupBackground = assetManager.get(Constantes.URL_POPUP_EXIT_BACKGROUND);
 		this.spritePopupBackground = new Sprite(texturePopupBackground);
+		this.spritePopupBackground.setScale(0.7f);
 	}
 
 	/**
@@ -48,8 +49,8 @@ public class PopupExit {
 	 */
 	public void draw(SpriteBatch spriteBatch){
 
-		spritePopupNo.setPosition(Constantes.WORLD_WIDTH/2 - 200, Constantes.WORLD_HEIGHT/2 - 50);
-		spritePopupYes.setPosition(Constantes.WORLD_WIDTH/2 + 200, Constantes.WORLD_HEIGHT/2 - 50);
+		spritePopupNo.setPosition(Constantes.WORLD_WIDTH/2 - 150, Constantes.WORLD_HEIGHT/2 - 100);
+		spritePopupYes.setPosition(Constantes.WORLD_WIDTH/2 + 150, Constantes.WORLD_HEIGHT/2 - 100);
 		spritePopupBackground.setPosition(Constantes.WORLD_WIDTH/2- 225, Constantes.WORLD_HEIGHT/2 - 80);
 
 		spritePopupBackground.draw(spriteBatch);

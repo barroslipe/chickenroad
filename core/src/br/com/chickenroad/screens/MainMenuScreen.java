@@ -87,11 +87,11 @@ public class MainMenuScreen extends ScreenBase {
 		if(showPopupExitFlag){
 
 			if(popupExit.checkClickYesButton(touchPoint.x, touchPoint.y)){
-				soundClick.play();
+				playSoundClick();
 				//TODO verificar uma possibilidade mais elegante de encerrar uma aplicação
 				Gdx.app.exit();
 			}else if(popupExit.checkClickNoButton(touchPoint.x, touchPoint.y)){
-				soundClick.play();
+				playSoundClick();
 				showPopupExitFlag=false;
 			}
 
@@ -102,18 +102,23 @@ public class MainMenuScreen extends ScreenBase {
 			 */
 
 			if(menuButtons.checkClickExitButton(touchPoint.x, touchPoint.y)){
-				soundClick.play();
+				playSoundClick();
 				showPopupExitFlag = true;
 			}else if(menuButtons.checkClickPlayButton(touchPoint.x, touchPoint.y)){
-				soundClick.play();
+				playSoundClick();
 				chickenRoadGame.setScreenWithTransitionFade(new SeasonScreen(chickenRoadGame));
 			}else if(menuButtons.checkClickSoundOnButton(touchPoint.x, touchPoint.y)){
-				soundClick.play();
 				Constantes.SOUND_ON_FLAG = !Constantes.SOUND_ON_FLAG;
 				if(!Constantes.SOUND_ON_FLAG) soundPrincipal.stop();
 			}
 		}
 		return true;
+	}
+
+	private void playSoundClick() {
+		if(Constantes.SOUND_ON_FLAG)
+			soundClick.play();
+		
 	}
 
 	/**

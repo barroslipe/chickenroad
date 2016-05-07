@@ -8,7 +8,6 @@ import br.com.chickenroad.screens.util.PreferencesUser;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -24,8 +23,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
  */
 public class FasesMenu {
 
-	//TODO ver método @getClickedFase
-	private Music soundRooster;
 	//com varias fases, trocar figuras
 	private String fasePicturesList[];
 
@@ -48,7 +45,6 @@ public class FasesMenu {
 	 */
 	public FasesMenu(AssetManager assetManager, int seasonId){
 
-		this.soundRooster = assetManager.get(Constantes.URL_SOUND_ROOSTER);
 		this.glyphLayout = new GlyphLayout();
 		this.fasePicturesList = Constantes.URL_FASE_PICTURE_LIST;
 
@@ -103,7 +99,7 @@ public class FasesMenu {
 			if(i< openFaseList.size()){
 				if(openFaseList.get(i).getScore() == 0)
 					continue;
-				
+
 				textScore = Integer.toString(openFaseList.get(i).getScore());
 				glyphLayout.setText(defaultFont, textScore);
 				defaultFont.draw(spriteBatch, textScore, spriteFaseList.get(i).getX() + (spriteFaseList.get(i).getWidth() - glyphLayout.width)/2 , spriteFaseList.get(i).getY() - 2);

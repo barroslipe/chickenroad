@@ -84,12 +84,18 @@ public class FasesScreen extends ScreenBase {
 
 		//se tocar na seta de volta, transita para season screen
 		if(spriteArrowBACK.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
-			soundClick.play();
+			playSoundClick();
 			chickenRoadGame.setScreenWithTransitionFade(new SeasonScreen(chickenRoadGame));
 		}else{
 			openFase(fasesMenu.getClickedFase(touchPoint.x, touchPoint.y));
 		}		
 		return false;
+	}
+
+	private void playSoundClick() {
+		if(Constantes.SOUND_ON_FLAG)
+			soundClick.play();
+		
 	}
 
 	/**
@@ -100,7 +106,7 @@ public class FasesScreen extends ScreenBase {
 
 		if(faseId==-1) return;
 		else{
-			soundClick.play();
+			playSoundClick();
 			soundPrincipal.stop();
 			chickenRoadGame.setScreen(new PlayScreen(Constantes.URL_MAPS[seasonId][faseId], chickenRoadGame, seasonId, faseId));
 		}

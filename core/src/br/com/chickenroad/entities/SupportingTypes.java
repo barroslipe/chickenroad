@@ -6,8 +6,5 @@ public enum SupportingTypes {
 	PIG_SLEEPING_RIGHT, 
 	PIG_SLEEPING_LEFT,
 	PIG_AWAKE_RIGHT,
-	PIG_AWAKE_LEFT,
-	BULL,
-	COW, 
-	PEOPLE;
+	PIG_AWAKE_LEFT;
 }

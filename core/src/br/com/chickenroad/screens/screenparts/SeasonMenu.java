@@ -8,7 +8,6 @@ import br.com.chickenroad.screens.util.PreferencesUser;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
@@ -23,9 +22,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
  *
  */
 public class SeasonMenu {
-
-	//TODO ver método @getClickedSeason
-	private Music soundRooster;
 
 	//TODO retirar os cadeados das figura
 	private String seasonPicturesList[];
@@ -50,7 +46,6 @@ public class SeasonMenu {
 	 */
 	public SeasonMenu(AssetManager assetManager){
 
-		this.soundRooster = assetManager.get(Constantes.URL_SOUND_ROOSTER);
 		this.glyphLayout = new GlyphLayout();
 		this.seasonPicturesList = Constantes.URL_SEASON_PICTURE_LIST;
 

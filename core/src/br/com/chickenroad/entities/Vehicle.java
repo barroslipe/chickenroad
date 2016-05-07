@@ -8,6 +8,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.Rectangle;
 
 /**
  * Veículos da estrada
@@ -60,6 +61,14 @@ public class Vehicle extends Sprite{
 		setPosition(x, y);
 		vehicleAnimation.inicializar(x, y);
 	}
+	@Override
+	public Rectangle getBoundingRectangle() {
+		Rectangle rectangle = new Rectangle();
+		
+		rectangle.set(getX(), getY(), getWidth(), getHeight()-getHeight()/2);
+		
+		return rectangle;
+	};
 	
 	@Override
 	public void draw(Batch batch, float delta){

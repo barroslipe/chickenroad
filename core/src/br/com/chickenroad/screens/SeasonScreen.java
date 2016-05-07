@@ -70,7 +70,7 @@ public class SeasonScreen extends ScreenBase {
 		if(!soundPrincipal.isPlaying() && Constantes.SOUND_ON_FLAG) soundPrincipal.play(); 
 
 	}
-	
+
 	/**
 	 * Tratar a entrada de dados do mouse ou touchScreen
 	 */
@@ -82,12 +82,18 @@ public class SeasonScreen extends ScreenBase {
 
 		//se tocar na seta de volta, transita para menu screen
 		if(spriteArrowBACK.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
-			soundClick.play();
+			playSoundClick();
 			chickenRoadGame.setScreenWithTransitionFade(new MainMenuScreen(chickenRoadGame));
 		}else{
 			openSeason(seasonMenu.getClickedSeason(touchPoint.x, touchPoint.y));
 		}		
 		return false;
+	}
+
+	private void playSoundClick() {
+		if(Constantes.SOUND_ON_FLAG)
+			soundClick.play();
+
 	}
 
 	/**
@@ -98,7 +104,7 @@ public class SeasonScreen extends ScreenBase {
 
 		if(seasonId==-1) return;
 		else{
-			soundClick.play();
+			playSoundClick();
 			chickenRoadGame.setScreenWithTransitionFade(new FasesScreen(chickenRoadGame, seasonId));
 		}
 	}
