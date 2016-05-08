@@ -25,6 +25,9 @@ public class PopupExit {
 	//popup background
 	private Texture texturePopupBackground;
 	private Sprite spritePopupBackground;
+	
+	private Texture textureBackground;
+	private Sprite spriteBackground;
 
 	/**
 	 * Inicialização dos atributos da classe
@@ -41,6 +44,10 @@ public class PopupExit {
 		this.texturePopupBackground = assetManager.get(Constantes.URL_POPUP_EXIT_BACKGROUND);
 		this.spritePopupBackground = new Sprite(texturePopupBackground);
 		this.spritePopupBackground.setScale(0.7f);
+		
+		this.textureBackground = assetManager.get(Constantes.URL_POPUP_EXIT_BACKGROUND_2);
+		this.spriteBackground = new Sprite(textureBackground);
+		
 	}
 
 	/**
@@ -49,10 +56,12 @@ public class PopupExit {
 	 */
 	public void draw(SpriteBatch spriteBatch){
 
-		spritePopupNo.setPosition(Constantes.WORLD_WIDTH/2 - 150, Constantes.WORLD_HEIGHT/2 - 100);
-		spritePopupYes.setPosition(Constantes.WORLD_WIDTH/2 + 150, Constantes.WORLD_HEIGHT/2 - 100);
-		spritePopupBackground.setPosition(Constantes.WORLD_WIDTH/2- 225, Constantes.WORLD_HEIGHT/2 - 80);
-
+		spritePopupNo.setPosition(Constantes.WORLD_WIDTH/2 - 120, Constantes.WORLD_HEIGHT/2 - 100);
+		spritePopupYes.setPosition(Constantes.WORLD_WIDTH/2 + 60, Constantes.WORLD_HEIGHT/2 - 100);
+		spritePopupBackground.setPosition(Constantes.WORLD_WIDTH/2- spritePopupBackground.getWidth()/2, Constantes.WORLD_HEIGHT/2 - spritePopupBackground.getHeight()/4);
+		spriteBackground.setBounds(-100, -100, Constantes.WORLD_WIDTH+200, Constantes.WORLD_HEIGHT+200);
+		
+		spriteBackground.draw(spriteBatch);
 		spritePopupBackground.draw(spriteBatch);
 		spritePopupNo.draw(spriteBatch);
 		spritePopupYes.draw(spriteBatch);	

@@ -55,6 +55,7 @@ public class Constantes {
 	public static final String URL_POPUP_NO_BUTTON = "popupNoButton.png";
 	public static final String URL_POPUP_YES_BUTTON = "popupYesButton.png";
 	public static final String URL_POPUP_EXIT_BACKGROUND = "popupExitBackground.png";
+	public static final String URL_POPUP_EXIT_BACKGROUND_2 = "exitBackground.png";
 
 	public static final String URL_PLAYER_AVATAR = "player/player.png";
 

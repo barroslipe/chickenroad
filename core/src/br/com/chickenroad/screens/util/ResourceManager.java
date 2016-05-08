@@ -38,6 +38,7 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_POPUP_NO_BUTTON, Texture.class);
 		assetManager.load(Constantes.URL_POPUP_EXIT_BACKGROUND, Texture.class);
 		assetManager.load(Constantes.URL_NEXT_FASE_BUTTON, Texture.class);
+		assetManager.load(Constantes.URL_POPUP_EXIT_BACKGROUND_2, Texture.class);
 
 		
 		//sons
