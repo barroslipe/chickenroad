@@ -150,4 +150,11 @@ public class MyMap {
 		orthogonalTiledMapRenderer.dispose();
 		tiledMap.dispose();
 	}
+
+	public void renderLayerIntermediaria() {
+		getOrthogonalTiledMapRenderer().getBatch().begin();
+		getOrthogonalTiledMapRenderer().renderTileLayer((TiledMapTileLayer)tiledMap.getLayers().get(1));
+		getOrthogonalTiledMapRenderer().getBatch().end();
+		
+	}
 }

@@ -19,6 +19,9 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
  */
 public class SplashScreen extends ScreenBase {
 
+	private static final int MIN_TIME_SPLASH_SCREEN = 2000;
+	private static final String LOADING = "LOADING...";
+	
 	private Texture textureBackground;
 	private Sprite spriteBackground;
 
@@ -42,15 +45,19 @@ public class SplashScreen extends ScreenBase {
 
 		this.nextScreen = true;
 
+		initFontWordLoading();	
+		
+	}
+
+	private void initFontWordLoading() {
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Constantes.URL_FONT_KRAASH_BLACK));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 		parameter.size = 8;
 		parameter.borderColor = Color.BLACK;
 		parameter.borderWidth = 2;
 		defaultFont = generator.generateFont(parameter);
-		generator.dispose(); // don't forget to dispose to 
-		defaultFont.setColor(1.0f, 1.0f, 1.0f, 1.0f);	
-		
+		generator.dispose(); 
+		defaultFont.setColor(1.0f, 1.0f, 1.0f, 1.0f);
 	}
 
 	/**
@@ -72,12 +79,12 @@ public class SplashScreen extends ScreenBase {
 
 		chickenRoadGame.getSpriteBatch().begin();
 		spriteBackground.draw(chickenRoadGame.getSpriteBatch());
-		defaultFont.draw(chickenRoadGame.getSpriteBatch(), "LOADING...", Constantes.WORLD_WIDTH-100, 30);
+		defaultFont.draw(chickenRoadGame.getSpriteBatch(), LOADING, Constantes.WORLD_WIDTH-100, 30);
 		chickenRoadGame.getSpriteBatch().end();
 
 		if(getAssetManager().getProgress() == 1){
 			now = System.currentTimeMillis() - start;
-			if(now > 2000 && nextScreen){
+			if(now > MIN_TIME_SPLASH_SCREEN && nextScreen){
 				nextScreen = false;
 				chickenRoadGame.setScreenWithTransitionFade(new MainMenuScreen(chickenRoadGame));
 			}

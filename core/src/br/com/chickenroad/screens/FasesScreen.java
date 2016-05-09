@@ -44,7 +44,7 @@ public class FasesScreen extends ScreenBase {
 		textureBACK = getAssetManager().get(Constantes.URL_BACK_BUTTON);
 		spriteArrowBACK = new Sprite(textureBACK);
 
-		textureBackground = getAssetManager().get(Constantes.URL_BACKGROUND_SEASON);
+		textureBackground = getAssetManager().get(Constantes.URL_BACKGROUND_SEASON_ROOSTER_SONG);
 		spriteBackground = new Sprite(textureBackground);
 
 		soundPrincipal = getAssetManager().get(Constantes.URL_SOUND_PRINCIPAL);

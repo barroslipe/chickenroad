@@ -9,7 +9,7 @@ import com.badlogic.gdx.audio.Music;
  * Responsável por gerenciar todas as músicas da fase
  *
  */
-public class MyMusic {
+public class MyPlayMusic {
 
 	private Music soundEggs,soundCorns, soundChickenDemage, soundBackgroundFase, 
 	soundCoinEndFase, soundEndFase, soundBackgroundChicken, soundSheep;
@@ -18,7 +18,7 @@ public class MyMusic {
 	 * Inicialização dos atributos da classe
 	 * @param assetManager referência a classe principal do jogo
 	 */
-	public MyMusic(AssetManager assetManager){
+	public MyPlayMusic(AssetManager assetManager){
 
 		this.soundBackgroundChicken = assetManager.get(Constantes.URL_SOUND_BACKGROUND_CHICKEN);
 		this.soundEndFase =  assetManager.get(Constantes.URL_SOUND_END_FASE);

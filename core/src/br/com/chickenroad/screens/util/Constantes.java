@@ -30,7 +30,7 @@ public class Constantes {
 
 	public static final String URL_BACK_BUTTON = "backButton.png";	
 	public static final String URL_BACKGROUND = "backgroundMenu.png";
-	public static final String URL_BACKGROUND_SEASON = "backgroundSeasonRoosterSong.png";
+	public static final String URL_BACKGROUND_SEASON_ROOSTER_SONG = "backgroundSeasonRoosterSong.png";
 	public static final String URL_BACKGROUND_ALL_SEASONS = "backgroundAllSeasons.png";
 	public static final String URL_PLAY_BUTTON = "playButton.png";
 	public static final String URL_EXIT_BUTTON = "exitButton.png";
@@ -85,13 +85,13 @@ public class Constantes {
 	public static final String URL_PIG_STOP_LEFT = "maps/map_101/porcoE_parado.png";
 	public static final String URL_PIG_SLEEPING_RIGHT = "maps/map_101/porcoD_durmindo.png";
 	public static final String URL_PIG_SLEEPING_LEFT = "maps/map_101/porcoE_durmindo.png";
-	public static final String URL_CHICKENNEST = "ninho.png";
-	public static final String URL_PORTAL = "portal.png";
+	public static final String URL_CHICKENNEST = "play/ninho.png";
+	public static final String URL_PORTAL = "play/portal.png";
 	public static final String URL_BACKGROUND_SPLASHSCREEN = "splashScreenBackground.jpg";
-	public static final String URL_YELLOW_CORN = "milhoAmarelo.png";
-	public static final String URL_YELLOW_CORN_SCORE = "milhoAmareloScore.png";
-	public static final String URL_EGGS = "ovo.png";
-	public static final String URL_EGGS_SCORE = "ovoScore.png";
+	public static final String URL_YELLOW_CORN = "play/milhoAmarelo.png";
+	public static final String URL_YELLOW_CORN_SCORE = "play/milhoAmareloScore.png";
+	public static final String URL_EGGS = "play/ovo.png";
+	public static final String URL_EGGS_SCORE = "play/ovoScore.png";
 	public static final String URL_GIFT_SHEEP = "maps/map_101/giftOvelha.png";
 
 	//veiculos
@@ -99,10 +99,10 @@ public class Constantes {
 	public static final String URL_YELLOW_CAR_LEFT= "veicules/veiculo1E.png";
 	//textos
 	public static final String URL_TEXT_FONT_KRAASH1 = "fonts/Kraash.ttf";
-	public static final String URL_TEXT_AMAZING = "amazing.png";
-	public static final String URL_TEXT_POW = "pow.png";
-	public static final String URL_TEXT_PLUS15 = "plus15.png";
-	public static final String URL_TEXT_PLUS100 = "plus100.png";
+	public static final String URL_TEXT_AMAZING = "play/amazing.png";
+	public static final String URL_TEXT_POW = "play/pow.png";
+	public static final String URL_TEXT_PLUS15 = "play/plus15.png";
+	public static final String URL_TEXT_PLUS100 = "play/plus100.png";
 	public static final String URL_FONT_KRAASH_BLACK = "fonts/Kraash Black.ttf";
 
 

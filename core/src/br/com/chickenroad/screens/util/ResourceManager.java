@@ -3,6 +3,7 @@ package br.com.chickenroad.screens.util;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
+import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Text;
 
 public class ResourceManager {
 
@@ -22,14 +23,13 @@ public class ResourceManager {
 		//texturas
 		assetManager.load(Constantes.URL_BACK_BUTTON, Texture.class);
 		assetManager.load(Constantes.URL_BACKGROUND, Texture.class);
-		assetManager.load(Constantes.URL_BACKGROUND_SEASON, Texture.class);
+		assetManager.load(Constantes.URL_BACKGROUND_SEASON_ROOSTER_SONG, Texture.class);
 		assetManager.load(Constantes.URL_BACKGROUND_ALL_SEASONS, Texture.class);
 		assetManager.load(Constantes.URL_CHICKENNEST, Texture.class);
 		
 
 		assetManager.load(Constantes.URL_EXIT_BUTTON, Texture.class);
-		assetManager.load("fase1.png", Texture.class);
-		assetManager.load("faseBloqueada.png", Texture.class);
+		
 		assetManager.load(Constantes.URL_PLAY_BUTTON, Texture.class);
 		assetManager.load(Constantes.URL_SOUND_OFF_BUTTON, Texture.class);
 		assetManager.load(Constantes.URL_SOUND_ON_BUTTON, Texture.class);
