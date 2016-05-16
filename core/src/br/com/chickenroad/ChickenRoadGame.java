@@ -49,14 +49,13 @@ public class ChickenRoadGame extends Game {
 
 		//carregar todos os arquivos
 		this.resourceManager = new ResourceManager();
-		this.resourceManager.load();
 
 		//direcionar para o Splash Screen e leva referencia da chickenroadgame.java
 		setScreenWithTransitionFade(new SplashScreen(this));
 
 	}
 	/**
-	 * Tempo da transição default de 0.5 ms
+	 * Tempo da transição
 	 * @param screen
 	 */
 	public void setScreenWithTransitionFade (ScreenBase screen) {
@@ -71,7 +70,7 @@ public class ChickenRoadGame extends Game {
 		setScreenWithTransition(screen, null);
 	}
 
-	public void setScreenWithTransition (ScreenBase screenBase, ScreenTransition aScreenTransition) {
+	private void setScreenWithTransition (ScreenBase screenBase, ScreenTransition aScreenTransition) {
 
 		nextScreen = screenBase;
 		nextScreen.show();
@@ -163,7 +162,6 @@ public class ChickenRoadGame extends Game {
 	public void resume () {
 		if (currentScreen != null) currentScreen.resume();
 	}
-
 
 	@Override
 	public void dispose () {

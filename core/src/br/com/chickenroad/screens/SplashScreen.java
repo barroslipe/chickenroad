@@ -21,7 +21,7 @@ public class SplashScreen extends ScreenBase {
 
 	private static final int MIN_TIME_SPLASH_SCREEN = 2000;
 	private static final String LOADING = "LOADING...";
-	
+
 	private Texture textureBackground;
 	private Sprite spriteBackground;
 
@@ -29,7 +29,7 @@ public class SplashScreen extends ScreenBase {
 	private long now;
 
 	private boolean nextScreen;
-	
+
 	//características da palavra loading
 	private BitmapFont defaultFont;
 
@@ -46,7 +46,7 @@ public class SplashScreen extends ScreenBase {
 		this.nextScreen = true;
 
 		initFontWordLoading();	
-		
+
 	}
 
 	private void initFontWordLoading() {
@@ -91,9 +91,6 @@ public class SplashScreen extends ScreenBase {
 		}
 	}
 
-	/**
-	 * Liberar recursos ao sair da tela
-	 */
 	@Override
 	public void dispose(){
 		this.textureBackground.dispose();

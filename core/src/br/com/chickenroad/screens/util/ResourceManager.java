@@ -3,11 +3,9 @@ package br.com.chickenroad.screens.util;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
-import com.sun.xml.internal.ws.policy.privateutil.PolicyUtils.Text;
 
 public class ResourceManager {
 
-	
 	private AssetManager assetManager;
 
 	public AssetManager getAssetManager() {
@@ -16,9 +14,10 @@ public class ResourceManager {
 
 	public ResourceManager(){
 		assetManager = new AssetManager();
+		load();
 	}
 
-	public void load(){
+	private void load(){
 
 		//texturas
 		assetManager.load(Constantes.URL_BACK_BUTTON, Texture.class);
@@ -38,8 +37,6 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_POPUP_NO_BUTTON, Texture.class);
 		assetManager.load(Constantes.URL_POPUP_EXIT_BACKGROUND, Texture.class);
 		assetManager.load(Constantes.URL_NEXT_FASE_BUTTON, Texture.class);
-		assetManager.load(Constantes.URL_POPUP_EXIT_BACKGROUND_2, Texture.class);
-
 		
 		//sons
 		assetManager.load(Constantes.URL_SOUND_CLICK, Music.class);
@@ -99,8 +96,8 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_YELLOW_CORN_SCORE, Texture.class);
 		assetManager.load(Constantes.URL_EGGS_SCORE, Texture.class);
 		//VEICULOS
-		assetManager.load(Constantes.URL_YELLOW_CAR_RIGHT, Texture.class);
-		assetManager.load(Constantes.URL_YELLOW_CAR_LEFT, Texture.class);	
+		assetManager.load(Constantes.URL_YELLOW_CAR_RIGHT[0], Texture.class);
+		assetManager.load(Constantes.URL_YELLOW_CAR_LEFT[0], Texture.class);	
 		
 		//popup
 		assetManager.load(Constantes.URL_GAMEOVER_POPUP, Texture.class);

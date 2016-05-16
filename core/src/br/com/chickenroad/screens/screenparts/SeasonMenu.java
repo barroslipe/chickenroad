@@ -118,9 +118,6 @@ public class SeasonMenu {
 		for(int i=0;i<seasonPicturesList.length;i++){
 			if(seasonSpriteList.get(i).getBoundingRectangle().contains(x, y)){
 				if(i<openSeasonList.size()){
-					//TODO deve tocar aqui?
-					//TODO  na classe SeasonScreen, há também uma musica quando eu clico, assim tenho 2 musicas para o mesmo clique. Qual deve ficar?
-					//soundRooster.play();
 					return i;
 				}
 			}

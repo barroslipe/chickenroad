@@ -69,7 +69,7 @@ public class MainMenuScreen extends ScreenBase {
 		drawPopupExit();
 		chickenRoadGame.getSpriteBatch().end();
 
-		if(!soundPrincipal.isPlaying() && Constantes.SOUND_ON_FLAG) soundPrincipal.play(); 
+		playSound(soundPrincipal); 
 
 	}
 	/**
@@ -87,11 +87,11 @@ public class MainMenuScreen extends ScreenBase {
 		if(showPopupExitFlag){
 
 			if(popupExit.checkClickYesButton(touchPoint.x, touchPoint.y)){
-				playSoundClick();
+				playSound(soundClick);
 				//TODO verificar uma possibilidade mais elegante de encerrar uma aplicação
 				Gdx.app.exit();
 			}else if(popupExit.checkClickNoButton(touchPoint.x, touchPoint.y)){
-				playSoundClick();
+				playSound(soundClick);
 				showPopupExitFlag=false;
 			}
 
@@ -102,23 +102,26 @@ public class MainMenuScreen extends ScreenBase {
 			 */
 
 			if(menuButtons.checkClickExitButton(touchPoint.x, touchPoint.y)){
-				playSoundClick();
+				playSound(soundClick);
 				showPopupExitFlag = true;
 			}else if(menuButtons.checkClickPlayButton(touchPoint.x, touchPoint.y)){
-				playSoundClick();
+				playSound(soundClick);
 				chickenRoadGame.setScreenWithTransitionFade(new SeasonScreen(chickenRoadGame));
-			}else if(menuButtons.checkClickSoundOnButton(touchPoint.x, touchPoint.y)){
-				Constantes.SOUND_ON_FLAG = !Constantes.SOUND_ON_FLAG;
-				if(!Constantes.SOUND_ON_FLAG) soundPrincipal.stop();
+			}else if(menuButtons.checkClickSoundOnButton(touchPoint.x, touchPoint.y)){				
+				disableSound();
 			}
 		}
 		return true;
 	}
 
-	private void playSoundClick() {
-		if(Constantes.SOUND_ON_FLAG)
-			soundClick.play();
-		
+	private void disableSound() {
+		Constantes.SOUND_ON_FLAG = !Constantes.SOUND_ON_FLAG;
+		if(!Constantes.SOUND_ON_FLAG) soundPrincipal.stop();
+	}
+
+	private void playSound(Music sound) {
+		if(Constantes.SOUND_ON_FLAG && !sound.isPlaying())
+			sound.play();
 	}
 
 	/**

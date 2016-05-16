@@ -363,7 +363,7 @@ public class PlayScreen extends ScreenBase {
 		//testa colis�o do alvo - MILHOS ESCONDIDOS
 		for(int i=0;i<targetPlayerCornsList.size();i++){
 			//so pode pegar ovos se ele nao tiver sido pego antes
-			if(targetPlayerCornsList.get(i).checkColision(player) && (playerScore.getCurrentNoCatchedEggs() > 0)){
+			if(targetPlayerCornsList.get(i).checkColision(player)){
 				targetPlayerCornsList.get(i).setVisible(false); //apaga milho da tela
 				targetPlayerCornsList.get(i).setLocker(true);
 				playSound(myPlayMusic.getSoundCorns());
@@ -376,7 +376,7 @@ public class PlayScreen extends ScreenBase {
 		
 		chickenRoadGame.getSpriteBatch().end();
 		//desenhar camada do mapa depois do player
-		myMap.renderLayerIntermediaria();
+		myMap.renderLayerColisaoObjetosImoveis();
 		
 		chickenRoadGame.getSpriteBatch().begin();
 
@@ -468,7 +468,7 @@ public class PlayScreen extends ScreenBase {
 			targetPlayerGiftSheep.setVisible(false);
 			targetPlayerGiftSheep.setLocker(true);
 			playSound(myPlayMusic.getSoundCoinEndFase());
-			myPlayMusic.getSoundSheep().pause();
+			myPlayMusic.getSoundSheep().stop();
 		}
 
 
@@ -586,7 +586,7 @@ public class PlayScreen extends ScreenBase {
 
 				//calcular distancia entre os carros
 				//carsDistance = (int)Util.getRandomPosition(width/16, width/14);
-				carsDistance = 140;
+				carsDistance = 150;
 				//cadastrar dados de cada faixa
 				roadFaixaList.add(new RoadFaixa(speed, new Vector2( initialPointX , initialPointY + vehicleHeight*j), width ,carsDistance, (j%2 == 0 ? Direction.RIGHT : Direction.LEFT)));
 			}
@@ -621,7 +621,7 @@ public class PlayScreen extends ScreenBase {
 				positionY = faixa.getInitialPoint().y;
 				float positionX =  faixa.getInitialPoint().x;
 				do {
-					vehicle = new Vehicle(pictures[(road.getRoadFaixaList().size())%2], faixa, getAssetManager());
+					vehicle = new Vehicle(pictures[j%2], faixa, getAssetManager());
 					vehicle.init(positionX, positionY);
 					vehicleList.add(vehicle);
 					positionX = positionX + faixa.getCarsDistance()*(Util.getRandomPosition(1, 4));

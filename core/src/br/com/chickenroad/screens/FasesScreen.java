@@ -70,8 +70,13 @@ public class FasesScreen extends ScreenBase {
 		spriteArrowBACK.draw(chickenRoadGame.getSpriteBatch());
 		chickenRoadGame.getSpriteBatch().end();
 
-		if(!soundPrincipal.isPlaying() && Constantes.SOUND_ON_FLAG) soundPrincipal.play(); 
+		playSound(soundPrincipal); 
 
+	}
+
+	private void playSound(Music sound) {
+		if(Constantes.SOUND_ON_FLAG && !sound.isPlaying())
+			sound.play();
 	}
 	/**
 	 * Tratar a entrada de dados do mouse ou touchScreen
@@ -84,18 +89,12 @@ public class FasesScreen extends ScreenBase {
 
 		//se tocar na seta de volta, transita para season screen
 		if(spriteArrowBACK.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
-			playSoundClick();
+			playSound(soundClick);
 			chickenRoadGame.setScreenWithTransitionFade(new SeasonScreen(chickenRoadGame));
 		}else{
 			openFase(fasesMenu.getClickedFase(touchPoint.x, touchPoint.y));
 		}		
 		return false;
-	}
-
-	private void playSoundClick() {
-		if(Constantes.SOUND_ON_FLAG)
-			soundClick.play();
-		
 	}
 
 	/**
@@ -106,7 +105,7 @@ public class FasesScreen extends ScreenBase {
 
 		if(faseId==-1) return;
 		else{
-			playSoundClick();
+			playSound(soundClick);
 			soundPrincipal.stop();
 			chickenRoadGame.setScreen(new PlayScreen(Constantes.URL_MAPS[seasonId][faseId], chickenRoadGame, seasonId, faseId));
 		}

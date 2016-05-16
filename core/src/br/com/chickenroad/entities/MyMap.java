@@ -151,9 +151,11 @@ public class MyMap {
 		tiledMap.dispose();
 	}
 
-	public void renderLayerIntermediaria() {
-		getOrthogonalTiledMapRenderer().getBatch().begin();
-		getOrthogonalTiledMapRenderer().renderTileLayer((TiledMapTileLayer)tiledMap.getLayers().get(1));
+	public void renderLayerColisaoObjetosImoveis() {
+		if(tiledMap.getLayers().get("intermediaria") == null) return;
+		
+		 getOrthogonalTiledMapRenderer().getBatch().begin();
+		getOrthogonalTiledMapRenderer().renderTileLayer((TiledMapTileLayer)tiledMap.getLayers().get("intermediaria"));
 		getOrthogonalTiledMapRenderer().getBatch().end();
 		
 	}

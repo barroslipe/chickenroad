@@ -19,45 +19,45 @@ public abstract class ScreenBase implements Screen, InputProcessor{
 	 * Referência à tela principal 
 	 */
 	protected ChickenRoadGame chickenRoadGame;
-	
+
 	public ScreenBase(ChickenRoadGame chickenRoadGame) {
 		this.chickenRoadGame = chickenRoadGame;
 	}
 	public AssetManager getAssetManager(){
 		return chickenRoadGame.getResourceManager().getAssetManager();
 	}
-	
+
 	@Override
 	public void show() {
 		// TODO Auto-generated method stub
-		
+
 	}
-	
+
 	@Override
 	public abstract void render(float delta);
 
 	@Override
 	public void resize(int width, int height) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void pause() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void resume() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void hide() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	/*
@@ -65,21 +65,21 @@ public abstract class ScreenBase implements Screen, InputProcessor{
 	 * @see com.badlogic.gdx.Screen#dispose()
 	 */
 	public abstract void dispose();
-	
+
 	/**
 	 * Habilita mouse e teclado
 	 */
 	public void enableInputProcessor(){
 		Gdx.input.setInputProcessor(this);
 	}
-	
+
 	/**
 	 * Desabilita mouse e teclado
 	 */
 	public void disableInputProcessor(){
 		Gdx.input.setInputProcessor(null);		
 	}
-	
+
 	@Override
 	public boolean keyDown(int keycode) {
 		// TODO Auto-generated method stub

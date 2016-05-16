@@ -55,7 +55,6 @@ public class Constantes {
 	public static final String URL_POPUP_NO_BUTTON = "popupNoButton.png";
 	public static final String URL_POPUP_YES_BUTTON = "popupYesButton.png";
 	public static final String URL_POPUP_EXIT_BACKGROUND = "popupExitBackground.png";
-	public static final String URL_POPUP_EXIT_BACKGROUND_2 = "exitBackground.png";
 
 	public static final String URL_PLAYER_AVATAR = "player/player.png";
 
@@ -95,8 +94,11 @@ public class Constantes {
 	public static final String URL_GIFT_SHEEP = "maps/map_101/giftOvelha.png";
 
 	//veiculos
-	public static final String URL_YELLOW_CAR_RIGHT= "veicules/veiculo1D.png";
-	public static final String URL_YELLOW_CAR_LEFT= "veicules/veiculo1E.png";
+	public static final String URL_YELLOW_CAR_RIGHT[] = {"veicules/veiculo1D.png", "veicules/veiculo2D.png", "veicules/veiculo3D.png"};
+	public static final String URL_YELLOW_CAR_LEFT[]  = {"veicules/veiculo1E.png", "veicules/veiculo2E.png", "veicules/veiculo3E.png"};
+	public static final String URL_MOTORCYCLE_LEFT[]  = {"veicules/moto1E.png", "veicules/moto2E.png"};
+	public static final String URL_MOTORCYCLE_RIGHT[] = {"veicules/moto1D.png", "veicules/moto1D.png"};
+	
 	//textos
 	public static final String URL_TEXT_FONT_KRAASH1 = "fonts/Kraash.ttf";
 	public static final String URL_TEXT_AMAZING = "play/amazing.png";
@@ -115,9 +117,9 @@ public class Constantes {
 
 	//mapas
 	public static final String [][]URL_MAPS = {
-		{"maps/map_101/map_101", "maps/map_102/map_102"}
+		{"maps/map_101/map_101", "maps/map_102/map_102", "maps/map_103/map_103", "maps/map_special/map_special"}
 		};
 	
-	public static final int MAX_FASES = 2; 
+	public static final int MAX_FASES = 4; 
 
 }
