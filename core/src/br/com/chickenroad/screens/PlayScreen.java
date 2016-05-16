@@ -373,11 +373,11 @@ public class PlayScreen extends ScreenBase {
 				numCornCatchedIndex = i;//recebe a posi��o do milho pego
 			}			
 		}
-		
+
 		chickenRoadGame.getSpriteBatch().end();
 		//desenhar camada do mapa depois do player
 		myMap.renderLayerColisaoObjetosImoveis();
-		
+
 		chickenRoadGame.getSpriteBatch().begin();
 
 
@@ -586,7 +586,7 @@ public class PlayScreen extends ScreenBase {
 
 				//calcular distancia entre os carros
 				//carsDistance = (int)Util.getRandomPosition(width/16, width/14);
-				carsDistance = 150;
+				carsDistance = Constantes.DISTANCE_MIN_BETWEEN_VEHICLES;
 				//cadastrar dados de cada faixa
 				roadFaixaList.add(new RoadFaixa(speed, new Vector2( initialPointX , initialPointY + vehicleHeight*j), width ,carsDistance, (j%2 == 0 ? Direction.RIGHT : Direction.LEFT)));
 			}
@@ -624,9 +624,9 @@ public class PlayScreen extends ScreenBase {
 					vehicle = new Vehicle(pictures[j%2], faixa, getAssetManager());
 					vehicle.init(positionX, positionY);
 					vehicleList.add(vehicle);
-					positionX = positionX + faixa.getCarsDistance()*(Util.getRandomPosition(1, 4));
+					positionX += vehicle.getWidth() + faixa.getCarsDistance()*Util.getRandomPosition(1, 4)*Util.getRandomPosition(1);
 				}
-				while(positionX < faixa.getInitialPoint().x+road.getWidth());
+				while(positionX < faixa.getInitialPoint().x+road.getWidth() - DESLOC_INIT_X_ROAD);
 			}
 		}
 	}
