@@ -3,6 +3,10 @@ package br.com.chickenroad.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.chickenroad.animations.PlayerAnimation;
+import br.com.chickenroad.screens.util.Constantes;
+import br.com.chickenroad.screens.util.Util;
+
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
@@ -11,10 +15,6 @@ import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
-
-import br.com.chickenroad.animations.PlayerAnimation;
-import br.com.chickenroad.screens.util.Constantes;
-import br.com.chickenroad.screens.util.Util;
 
 public class Player extends Sprite{
 
@@ -30,7 +30,7 @@ public class Player extends Sprite{
 
 	private PlayerLife playerLife;
 	private PlayerAnimation playerAnimation;
-	
+
 	public Player(AssetManager assetManager, int aWidthTiledMap, int aHeightTiledMap) {
 		super((Texture) assetManager.get(Constantes.URL_PLAYER_AVATAR));
 
@@ -93,7 +93,7 @@ public class Player extends Sprite{
 			playerDirectionY = Direction.NONE;
 			velocity.y = 0;
 		}
-		
+
 		if(velocity.x == 0 && velocity.y == 0)
 			playerAnimation.setSpriteSheet(Constantes.URL_PLAYER_AVATAR_STOP_RIGHT, PlayerTypes.AVATAR_STOP_RIGHT);
 	}
@@ -150,13 +150,13 @@ public class Player extends Sprite{
 		float diffPontoY;
 		final float noZero = 0.999999f; //usada para evitar idetermina��o em 'diffPontoX' caso n�o haja varia��o em X
 		//final float infinitezimal = 100000000f; //evita que der angulo 90 graus, pois n�o tem tangente para e ele
-		
+
 		//calculos de declividade de reta
 		diffPontoX = (float)(pontoX - getX()*noZero);
 		diffPontoY = (float)(pontoY - getY());
-		
+
 		declividadeReta = (diffPontoY)/(diffPontoX);
-		
+
 		/*
 		 * m = 0, angulo 0, retas paralelas no eixo X (toque paralelo)
 		 * m = 1,  angulo 45 graus
@@ -164,7 +164,7 @@ public class Player extends Sprite{
 		 * m < 0, angulos maiores que 90 graus
 		 * m > 0, angulos menores que 90 graus
 		 * */
-		
+
 		// [EM RELA��O A POSI��O ATUAL DO PLAYER]
 		//pontoX,Y = ponto que o jogador clicou
 		if(pontoX > getX()) {
@@ -184,7 +184,7 @@ public class Player extends Sprite{
 				playerAnimation.setSpriteSheet(Constantes.URL_PLAYER_AVATAR_DOWN, PlayerTypes.AVATAR_DOWN);
 			}
 		}
-		
+
 		if(pontoX < getX()) {
 			if(declividadeReta >= -0.5 && declividadeReta <=0.5) {
 				velocity.x = -speed;
@@ -203,14 +203,14 @@ public class Player extends Sprite{
 				playerAnimation.setSpriteSheet(Constantes.URL_PLAYER_AVATAR_DOWN, PlayerTypes.AVATAR_DOWN);
 			}
 		}
-		
+
 		/*
 		if(pontoX > getX()){
 			velocity.x = speed;
 			playerDirectionX = Direction.RIGHT;
 			playerAnimation.changeSpriteSheet(1);
 		}
-		
+
 		if(pontoX < getX()){
 			velocity.x = -speed;
 			playerDirectionX = Direction.LEFT;
@@ -222,20 +222,20 @@ public class Player extends Sprite{
 			playerDirectionY = Direction.UP;
 			playerAnimation.changeSpriteSheet(6);
 		}
-		
+
 		if(pontoY < getY()){
 			velocity.y = -speed;
 			playerDirectionY = Direction.DOWN;
 			playerAnimation.changeSpriteSheet(7);
 		}*/
-	
+
 	}
 
 	public void init(float x, float y) {
 		setPosition(x, y);
 		setSize(40, 40);
 		playerAnimation.inicializar(x, y);
-		
+
 		velocity.x = 0;
 		velocity.y = 0;
 		playerDirectionX = Direction.NONE;
@@ -260,7 +260,7 @@ public class Player extends Sprite{
 
 	@Override
 	public void draw(Batch batch, float delta){
-		
+
 		this.setRegion(playerAnimation.getCurrentFrame());
 
 		super.draw(batch);
@@ -278,8 +278,6 @@ public class Player extends Sprite{
 				setAlpha(1);
 			}
 		}
-		
-		playerLife.draw(batch);
 	}
 
 }

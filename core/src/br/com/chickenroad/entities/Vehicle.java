@@ -17,7 +17,7 @@ public class Vehicle extends Sprite{
 	private RoadFaixa roadFaixa;
 
 	public Vehicle(String sprite, RoadFaixa aRoadFaixa, AssetManager assetManager){
-		super(new Texture(sprite), new Texture(sprite).getWidth(), new Texture(sprite).getHeight());
+		super(new Texture(sprite));
 		setScale(0.7f);
 		roadFaixa = aRoadFaixa;
 
@@ -63,7 +63,8 @@ public class Vehicle extends Sprite{
 	public Rectangle getBoundingRectangle() {
 		Rectangle rectangle = new Rectangle();
 
-		rectangle.set(getX(), getY(), getWidth(), getHeight()-getHeight()/2);
+		rectangle.set(super.getBoundingRectangle());
+		rectangle.setHeight(rectangle.height/2);
 
 		return rectangle;
 	};

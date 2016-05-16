@@ -288,9 +288,8 @@ public class PlayScreen extends ScreenBase {
 			targetPlayerEggsList.get(i).draw(chickenRoadGame.getSpriteBatch(), delta);		
 		}
 
-		//exibe presente - se pegar X milhos e Y ovos
-		if(playerScore.getCurrentNoCatchedEggs() == 0 
-				&& playerScore.getCurrentNoCatchedCorns() <= 49 && !targetPlayerGiftSheep.isLocker())
+		//exibe presente - se pegar Y ovos
+		if(playerScore.getCurrentNoCatchedEggs() == 0 && !targetPlayerGiftSheep.isLocker())
 			targetPlayerGiftSheep.setVisible(true);
 		else
 			targetPlayerGiftSheep.setVisible(false);
@@ -412,12 +411,13 @@ public class PlayScreen extends ScreenBase {
 			}
 		}
 
-
 		//renderizar os botões de play, restart, sair
 		playMenuButtons.draw(chickenRoadGame.getSpriteBatch(), stateGame, deltaXPositionButtons, deltaYPositionButtons);
 
 		//renderizar o score do player
 		playerScore.draw(chickenRoadGame.getSpriteBatch(), deltaXPositionButtons, deltaYPositionButtons);
+		
+		player.getPlayerLife().draw(chickenRoadGame.getSpriteBatch());
 
 		//exibe anima��o de colis�o se houve colis�o
 		if(player.isColisionVehiclesStatus()) {

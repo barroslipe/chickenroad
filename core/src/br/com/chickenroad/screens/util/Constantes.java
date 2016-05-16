@@ -120,7 +120,7 @@ public class Constantes {
 		{"maps/map_101/map_101", "maps/map_102/map_102", "maps/map_103/map_103", "maps/map_special/map_special"}
 		};
 	
-	public static final int MAX_FASES = 4;
+	public static final int MAX_FASES = 3;
 	public static final int DISTANCE_MIN_BETWEEN_VEHICLES = 100;
 
 }
