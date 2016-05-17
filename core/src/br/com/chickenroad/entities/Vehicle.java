@@ -59,8 +59,8 @@ public class Vehicle extends Sprite{
 		setPosition(x, y);
 		//vehicleAnimation.inicializar(x, y);
 	}
-	@Override
-	public Rectangle getBoundingRectangle() {
+	
+	public Rectangle getBoundingRectangleColision() {
 		Rectangle rectangle = new Rectangle();
 
 		rectangle.set(super.getBoundingRectangle());

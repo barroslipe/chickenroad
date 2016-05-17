@@ -31,6 +31,9 @@ public class Player extends Sprite{
 	private PlayerLife playerLife;
 	private PlayerAnimation playerAnimation;
 
+	private final float WIDTH_PLAYER = 10; //dimensao de colis�o
+	private final float HEIGHT_PLAYER = 14;
+
 	public Player(AssetManager assetManager, int aWidthTiledMap, int aHeightTiledMap) {
 		super((Texture) assetManager.get(Constantes.URL_PLAYER_AVATAR));
 
@@ -111,7 +114,7 @@ public class Player extends Sprite{
 
 	private boolean checkTilesColision(float newPositionX, float newPositionY, List<Rectangle> tiles) {
 
-		Rectangle playerPosition = new Rectangle(newPositionX, newPositionY, Constantes.WIDTH_PLAYER, Constantes.HEIGHT_PLAYER);
+		Rectangle playerPosition = new Rectangle(newPositionX, newPositionY, WIDTH_PLAYER, HEIGHT_PLAYER);
 
 		for(Rectangle object : tiles){
 			if(Intersector.overlaps(object, playerPosition)){
@@ -126,11 +129,11 @@ public class Player extends Sprite{
 	public boolean checkVehiclesColision(ArrayList<Vehicle> vehiclesList){
 
 		//recebe a posi��o atual do player
-		Rectangle playerPosition = new Rectangle(getX(), getY(), Constantes.WIDTH_PLAYER, Constantes.HEIGHT_PLAYER);
+		Rectangle playerPosition = new Rectangle(getX(), getY(), WIDTH_PLAYER, HEIGHT_PLAYER);
 
 		//checa colis�o com veculo com cada posi��o atual do player
 		for(int i=0;i<vehiclesList.size();i++){
-			if(Intersector.overlaps(vehiclesList.get(i).getBoundingRectangle(), playerPosition)){
+			if(Intersector.overlaps(vehiclesList.get(i).getBoundingRectangleColision(), playerPosition)){
 				colisionVehiclesStatus = true;//colidiu
 				return true;
 			}
