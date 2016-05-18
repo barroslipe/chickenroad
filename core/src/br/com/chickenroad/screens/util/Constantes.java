@@ -116,10 +116,11 @@ public class Constantes {
 	//mapas
 	public static final String [][]URL_MAPS = {
 		{"maps/map_101/map_101", "maps/map_102/map_102", "maps/map_103/map_103", "maps/map_104/map_104",
-			"maps/map_105/map_105","maps/map_106/map_106","maps/map_107/map_107","maps/map_special/map_special"}
+			"maps/map_105/map_105","maps/map_106/map_106","maps/map_107/map_107",
+			"maps/map_108/map_108", "maps/map_special/map_special"}
 		};
 	
-	public static final int MAX_FASES = 7;
+	public static final int MAX_FASES = 8;
 	public static final int DISTANCE_MIN_BETWEEN_VEHICLES = 100;
 
 }
