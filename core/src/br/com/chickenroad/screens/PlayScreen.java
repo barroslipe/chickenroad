@@ -331,9 +331,9 @@ public class PlayScreen extends ScreenBase {
 		for(int i=0;i<vehicleList.size();i++){
 			if(stateGame == StateGame.PLAYING)
 				vehicleList.get(i).walkX();
-			
+			//a figura do carro tá estraha, por isso baixei 4 na figura da galinha
 			if(Intersector.overlaps(player.getBoundingRectangle(), vehicleList.get(i).getBoundingRectangle())
-					&& player.getY() > vehicleList.get(i).getY()){
+					&& player.getY() -4 >= vehicleList.get(i).getY()){
 				player.draw(chickenRoadGame.getSpriteBatch(), delta);
 				vehicleList.get(i).draw(chickenRoadGame.getSpriteBatch(), delta);
 				renderPlayer = false;
