@@ -32,7 +32,7 @@ public class MainMenuScreen extends ScreenBase {
 
 	/**
 	 * Inicialização dos atributos da classe
-	 * @param aChickenRoadGame referência a classe principal do jogo
+	 * @param aChickenRoadGame referencia a classe principal do jogo
 	 */
 	public MainMenuScreen(ChickenRoadGame aChickenRoadGame) {
 		super(aChickenRoadGame);
@@ -88,7 +88,6 @@ public class MainMenuScreen extends ScreenBase {
 
 			if(popupExit.checkClickYesButton(touchPoint.x, touchPoint.y)){
 				playSound(soundClick);
-				//TODO verificar uma possibilidade mais elegante de encerrar uma aplicação
 				Gdx.app.exit();
 			}else if(popupExit.checkClickNoButton(touchPoint.x, touchPoint.y)){
 				playSound(soundClick);

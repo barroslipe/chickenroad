@@ -25,6 +25,9 @@ public class MyProperties {
 	private String originChickenNest;
 	private String numberEggs;
 	private String numberCorns;
+	private String timerGame;
+	private String gift;
+	private String enemy;
 
 	public MyProperties(){
 		properties = new Properties();
@@ -67,6 +70,12 @@ public class MyProperties {
 				numberEggs = properties.getProperty(param);
 			else if(param.equals("numberCorns"))
 				numberCorns = properties.getProperty(param);
+			else if(param.equals("timerGame"))
+				timerGame = properties.getProperty(param);
+			else if(param.equals("gift"))
+				gift = properties.getProperty(param);
+			else if(param.equals("enemy"))
+				enemy = properties.getProperty(param);
 			else
 				roads.add(properties.getProperty(param));
 		}
@@ -90,6 +99,18 @@ public class MyProperties {
 
 	public String getNumberCorns() {
 		return numberCorns;
+	}
+
+	public String getTimerGame() {
+		return timerGame;
+	}
+
+	public String getGift() {
+		return gift;
+	}
+
+	public String getEnemy() {
+		return enemy;
 	}
 
 }

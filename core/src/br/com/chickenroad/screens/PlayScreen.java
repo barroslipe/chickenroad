@@ -5,16 +5,18 @@ import java.util.List;
 import java.util.Random;
 
 import br.com.chickenroad.ChickenRoadGame;
+import br.com.chickenroad.builder.CornsBuilder;
+import br.com.chickenroad.builder.EggsBuilder;
+import br.com.chickenroad.builder.RoadsBuilder;
+import br.com.chickenroad.builder.VehiclesBuilder;
 import br.com.chickenroad.configuration.ApplicationConfig;
 import br.com.chickenroad.entities.ChickenNest;
-import br.com.chickenroad.entities.Direction;
 import br.com.chickenroad.entities.MyMap;
 import br.com.chickenroad.entities.MyPlayMusic;
 import br.com.chickenroad.entities.Player;
 import br.com.chickenroad.entities.PlayerScore;
 import br.com.chickenroad.entities.PlayerTypes;
 import br.com.chickenroad.entities.Road;
-import br.com.chickenroad.entities.RoadFaixa;
 import br.com.chickenroad.entities.StateGame;
 import br.com.chickenroad.entities.TargetPlayer;
 import br.com.chickenroad.entities.TargetPlayerTypes;
@@ -84,10 +86,6 @@ public class PlayScreen extends ScreenBase {
 	private boolean flagPlus15;
 	private boolean flagPlus100;
 
-	//Deslocando a origem da pista para esquerda, essa variavel vai 
-	//evitar que os ve�culos vindos da esquerda para direita, surjam "do nada" na tela
-	private int DESLOC_INIT_X_ROAD = 200; 
-
 	public static int deltaXPositionButtons=0, deltaYPositionButtons=0;
 
 	//parametros
@@ -102,7 +100,7 @@ public class PlayScreen extends ScreenBase {
 	 * @param seasonId identificador da temporada
 	 * @param faseId identificador da fase
 	 */
-	public PlayScreen(String urlMap, ChickenRoadGame aChickenRoadGame, int seasonId, int faseId) {
+	public PlayScreen(ChickenRoadGame aChickenRoadGame, int seasonId, int faseId) {
 		super(aChickenRoadGame);
 
 		this.seasonId = seasonId;
@@ -110,14 +108,14 @@ public class PlayScreen extends ScreenBase {
 
 		this.myPlayMusic = new MyPlayMusic(getAssetManager());
 		this.chickenNest = new ChickenNest(getAssetManager());
-		this.myMap = new MyMap(urlMap);
+		this.myMap = new MyMap(Constantes.URL_MAPS[seasonId][faseId]);
 		this.playMenuButtons = new PlayMenuButtons(getAssetManager());
 		this.playCamera = new PlayCamera();
 		this.player = new Player(getAssetManager(),  myMap.getWidthTiledMap(), myMap.getHeightTiledMap());
 		this.playerScore = new PlayerScore();
 		this.targetPlayerGiftSheep = new TargetPlayer(Constantes.URL_GIFT_SHEEP, getAssetManager(), TargetPlayerTypes.SHEEP, 1f/4f);
 		this.myProperties = new MyProperties();
-		this.myProperties.loadProperties(urlMap + ".properties");
+		this.myProperties.loadProperties(Constantes.URL_MAPS[seasonId][faseId] + ".properties");
 
 		//inicia popup de tutorial
 		this.popupTutorial = new Popup(getAssetManager(), PopupTypes.GAME_TUTORIAL);
@@ -130,7 +128,6 @@ public class PlayScreen extends ScreenBase {
 	 * Inicializa váriaveis de contagem, flags de estado entre outras coisas
 	 */
 	private void init() {
-
 
 		String[] points = myProperties.getOriginPlayer().split(",");
 		player.init(Float.parseFloat(points[0])*Constantes.WIDTH_TILE,Float.parseFloat(points[1])*Constantes.HEIGHT_TILE);
@@ -177,25 +174,9 @@ public class PlayScreen extends ScreenBase {
 		//		}
 
 		//inicializa lista de ovos
-		this.targetPlayerEggsList = new ArrayList<TargetPlayer>();
-		//gera ovos em posi��es aleatorios
-		for(int i=0;i<Integer.parseInt(myProperties.getNumberEggs());i++){
-			this.targetPlayerEggsList.add( new TargetPlayer(Constantes.URL_EGGS, getAssetManager(),TargetPlayerTypes.EGGS, 1f/(float)generator.nextInt(5)));
-			point = new Vector2(Util.getValidRandomPosition(myMap.getWidthTiledMap(), myMap.getHeightTiledMap(), myMap.getTiles(), chickenNest.getBoundingRectangle()));
-			targetPlayerEggsList.get(i).init(point.x, point.y);
-			targetPlayerEggsList.get(i).setVisible(true);
-		}
-
+		this.targetPlayerEggsList = EggsBuilder.builder(myProperties, myMap, chickenNest, getAssetManager(), generator);
 		//inicializa lista de milhos
-		this.targetPlayerCornsList = new ArrayList<TargetPlayer>();
-		//gera milhos em posições aleatorios
-		for(int i=0;i<Integer.parseInt(myProperties.getNumberCorns());i++){
-			this.targetPlayerCornsList.add(new TargetPlayer(Constantes.URL_YELLOW_CORN, getAssetManager(),TargetPlayerTypes.YELLOW_CORN,1f/7f ));
-			point = new Vector2(Util.getValidRandomPosition(myMap.getWidthTiledMap(), myMap.getHeightTiledMap(), myMap.getTiles(), chickenNest.getBoundingRectangle()));
-			targetPlayerCornsList.get(i).init(point.x, point.y);
-			targetPlayerCornsList.get(i).setVisible(true);
-		}
-
+		this.targetPlayerCornsList = CornsBuilder.builder(myProperties, myMap, chickenNest, getAssetManager());
 
 		numCornCatchedIndex=0;
 		contAmazing = 0;
@@ -206,8 +187,8 @@ public class PlayScreen extends ScreenBase {
 		flagPlus15 = false;
 		flagPlus100 = false;
 
-		saveRoads();
-		createVehicles();
+		roadList = RoadsBuilder.builder(myProperties);
+		vehicleList = VehiclesBuilder.builder(roadList, getAssetManager());
 
 		//muda o estado do jogo para 'PAUSE', pois um popup irá aparecer e não posso ficar rodando a aplicação
 		stateGame = StateGame.PAUSE;
@@ -275,7 +256,6 @@ public class PlayScreen extends ScreenBase {
 		//desenhar o ninho
 		chickenNest.draw(chickenRoadGame.getSpriteBatch());
 
-
 		//desenha os personagens coadjuvantes
 		//		for(int i=0;i<supporting.length;i++) {
 		//			supporting[i].draw(chickenRoadGame.getSpriteBatch(), delta);
@@ -283,8 +263,6 @@ public class PlayScreen extends ScreenBase {
 
 		drawEggs(delta);
 		drawGift(delta);
-		
-		//player.draw(chickenRoadGame.getSpriteBatch(), delta);
 
 		drawPlayerAndVehicles(delta);
 
@@ -325,9 +303,9 @@ public class PlayScreen extends ScreenBase {
 	}//end draw()
 
 	private void drawPlayerAndVehicles(float delta) {
-		
+
 		boolean renderPlayer = true;
-		
+
 		for(int i=0;i<vehicleList.size();i++){
 			if(stateGame == StateGame.PLAYING)
 				vehicleList.get(i).walkX();
@@ -341,19 +319,11 @@ public class PlayScreen extends ScreenBase {
 				vehicleList.get(i).draw(chickenRoadGame.getSpriteBatch(), delta);
 			}
 		}
-		
+
 		if(renderPlayer) player.draw(chickenRoadGame.getSpriteBatch(), delta);
-		
+
 	}
 
-//	private void drawVehicles(float delta) {
-//		//desenhar os veículos
-//		for(int i=0;i<vehicleList.size();i++){
-//			if(stateGame == StateGame.PLAYING)
-//				vehicleList.get(i).walkX();
-//			vehicleList.get(i).draw(chickenRoadGame.getSpriteBatch(), delta);
-//		}
-//	}
 	private void drawGift(float delta) {
 		//exibe presente - se pegar Y ovos
 		if(playerScore.getCurrentNoCatchedEggs() == 0 && !targetPlayerGiftSheep.isLocker())
@@ -412,7 +382,7 @@ public class PlayScreen extends ScreenBase {
 
 			//TODO aqui será o sucesso da aplicação certo? então, aqui iremos persistir o score e o presente[não há variável do presente por enquanto]
 			if(stateGame != StateGame.FINISH)
-				PreferencesUser.setSucesso(seasonId, faseId, playerScore.getScoreGame());
+				PreferencesUser.setSucesso(seasonId, faseId, playerScore.getScoreGame()+player.getPlayerLife().calculateScoreLife());
 
 
 			if(contAmazing++ < 140) {//este if evitar que a anima��o fique infinita
@@ -428,8 +398,7 @@ public class PlayScreen extends ScreenBase {
 
 				//TODO isso não deve existir quando não for protótipo
 				if((faseId+1) != Constantes.MAX_FASES){
-
-					chickenRoadGame.setScreen(new PlayScreen(Constantes.URL_MAPS[seasonId][faseId+1], chickenRoadGame, seasonId, faseId+1));
+					chickenRoadGame.setScreen(new PlayScreen(chickenRoadGame, seasonId, faseId+1));
 				}else{
 					chickenRoadGame.setScreen(new FasesScreen(chickenRoadGame, seasonId));
 				}
@@ -587,101 +556,10 @@ public class PlayScreen extends ScreenBase {
 			return true;
 		}
 
-
 		//se nao for clicando em nada acima, devo me movimentar
 		if(stateGame == StateGame.PLAYING) player.movimentar(touchPoint);
 
 		return false;
-	}
-
-
-
-	/**
-	 * Capturar e salvar todas as estradas do mapa. Somente estradas HORIZONTAIS!!! Necessita de refatoração
-	 */
-	private void saveRoads() {
-
-		ArrayList<String> stringList = myProperties.getRoads();
-
-		roadList = new ArrayList<Road>();
-
-		float initialPointX, initialPointY, width, height;
-		int carsDistance;
-
-		//largura dos carros - padrão sendo a largura do tile  
-		int vehicleHeight = 64;
-
-		String[] values = new String[2];
-		ArrayList<RoadFaixa> roadFaixaList;
-		for (int i = 0; i < stringList.size(); i++) {
-
-			values = stringList.get(i).split(",");
-
-			//ponto inicial X da estrada
-			initialPointX = Float.parseFloat(values[0])*Constantes.WIDTH_TILE - DESLOC_INIT_X_ROAD;
-			//ponto inicial Y da estrada
-			initialPointY = Float.parseFloat(values[1])*Constantes.HEIGHT_TILE;
-			//comprimento da estrada - compensada com DESLOC_INIT_X_ROAD, devido a origem em X ser deslocada
-			width = Float.parseFloat(values[2])*Constantes.WIDTH_TILE + DESLOC_INIT_X_ROAD;
-			//largura da estrada
-			height = (Float.parseFloat(values[3]))*Constantes.HEIGHT_TILE;
-
-			//a lista de faixas de cada estrada
-			roadFaixaList = new ArrayList<RoadFaixa>();
-
-			//calcular o número de faixas para os carros
-			int numeroFaixas = (int)Math.floor(height/vehicleHeight);
-
-			for(int j=0;j<numeroFaixas;j++){
-
-				//calcular a velocidade de cada faixa
-				float speed = Util.getRandomPosition(5, 30)/10;
-
-				//calcular distancia entre os carros
-				//carsDistance = (int)Util.getRandomPosition(width/16, width/14);
-				carsDistance = Constantes.DISTANCE_MIN_BETWEEN_VEHICLES;
-				//cadastrar dados de cada faixa
-				roadFaixaList.add(new RoadFaixa(speed, new Vector2( initialPointX , initialPointY + vehicleHeight*j), width ,carsDistance, (j%2 == 0 ? Direction.RIGHT : Direction.LEFT)));
-			}
-
-			//estrada no jogo
-			roadList.add(new Road(initialPointX, initialPointY, width, height, roadFaixaList));
-		}
-	}
-
-
-	/**
-	 * Criar os veículos. Necessita de refatoração
-	 */
-	private void createVehicles() {
-
-		//TODO verificar os objetos que estarão nas estradas
-		String[] pictures = {"veicules/veiculo1D.png", "veicules/veiculo1E.png"};
-
-		vehicleList = new ArrayList<Vehicle>();
-
-		Vehicle vehicle;
-		float positionY;
-
-		//quantidade de estradas
-		for(int i=0;i<roadList.size();i++){
-
-			Road road = roadList.get(i);
-
-			for(int j=road.getRoadFaixaList().size()-1;j>=0;j--){
-				RoadFaixa faixa = road.getRoadFaixaList().get(j);
-
-				positionY = faixa.getInitialPoint().y;
-				float positionX =  faixa.getInitialPoint().x;
-				do {
-					vehicle = new Vehicle(pictures[j%2], faixa, getAssetManager());
-					vehicle.init(positionX, positionY);
-					vehicleList.add(vehicle);
-					positionX += vehicle.getWidth() + faixa.getCarsDistance()*Util.getRandomPosition(1, 4)*Util.getRandomPosition(1);
-				}
-				while(positionX < faixa.getInitialPoint().x+road.getWidth() - DESLOC_INIT_X_ROAD);
-			}
-		}
 	}
 
 	@Override

@@ -30,6 +30,7 @@ public class MainMenuButtons {
 	private Texture textureSoundOff;
 	private Sprite spriteSoundOff;
 
+
 	/**
 	 * Inicialização dos atributos da classe
 	 * @param assetManager referência a classe que possui os recursos alocados
@@ -39,15 +40,21 @@ public class MainMenuButtons {
 
 		this.texturePlay = assetManager.get(Constantes.URL_PLAY_BUTTON);
 		this.spritePlay = new Sprite(texturePlay);
-
 		this.textureExit = assetManager.get(Constantes.URL_EXIT_BUTTON);
 		this.spriteExit = new Sprite(textureExit);
 
 		this.textureSoundOn = assetManager.get(Constantes.URL_SOUND_ON_BUTTON);
 		this.spriteSoundOn = new Sprite(textureSoundOn);
-
 		this.textureSoundOff = assetManager.get(Constantes.URL_SOUND_OFF_BUTTON);
 		this.spriteSoundOff = new Sprite(textureSoundOff);
+
+		this.spritePlay.setPosition(Constantes.WORLD_WIDTH/2-spritePlay.getWidth()/2, Constantes.WORLD_HEIGHT/2);
+		this.spriteExit.setPosition(Constantes.WORLD_WIDTH/2-spriteExit.getWidth()/2, Constantes.WORLD_HEIGHT/2-120);
+
+		final int POSITION_SOUND = 20;
+		this.spriteSoundOn.setPosition(POSITION_SOUND, POSITION_SOUND);
+		this.spriteSoundOff.setPosition(POSITION_SOUND, POSITION_SOUND);
+
 	}
 	/**
 	 * Desenhar os botões do menu principal
@@ -55,19 +62,12 @@ public class MainMenuButtons {
 	 */
 	public void draw(SpriteBatch spriteBatch){
 
-		spritePlay.setPosition(Constantes.WORLD_WIDTH/2-spritePlay.getWidth()/2, Constantes.WORLD_HEIGHT/2);
-		spriteExit.setPosition(Constantes.WORLD_WIDTH/2-spriteExit.getWidth()/2, Constantes.WORLD_HEIGHT/2-120);
-
 		spritePlay.draw(spriteBatch);
 		spriteExit.draw(spriteBatch);
 
-		final int positionSound = 20;
-
 		if(Constantes.SOUND_ON_FLAG){
-			spriteSoundOn.setPosition(positionSound, positionSound);
 			spriteSoundOn.draw(spriteBatch);
 		}else{
-			spriteSoundOff.setPosition(positionSound, positionSound);
 			spriteSoundOff.draw(spriteBatch);
 		}
 	}
