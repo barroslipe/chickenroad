@@ -30,27 +30,20 @@ public class ChickenRoadGame extends Game {
 	private FrameBuffer currentFrameBuffer;
 	private FrameBuffer nextFrameBuffer;
 	private float timer;
-	private ScreenTransition screenTransition; //interface criada para fazer transição
+	private ScreenTransition screenTransition;
 
 	@Override
 	public void create () {
 
 		this.spriteBatch = new SpriteBatch();
-
-		//cria a câmera do "mundo"
 		this.orthographicCamera = new OrthographicCamera();
 		this.orthographicCamera.setToOrtho(false, Constantes.WORLD_WIDTH, Constantes.WORLD_HEIGHT);
-
+		
 		this.currentFrameBuffer = new FrameBuffer(Format.RGB888, Constantes.WORLD_WIDTH, Constantes.WORLD_HEIGHT, false);
 		this.nextFrameBuffer = new FrameBuffer(Format.RGB888,  Constantes.WORLD_WIDTH, Constantes.WORLD_HEIGHT, false);
-
-		//inabilitar botão de voltar do android
-		Gdx.input.setCatchBackKey(true);
-
-		//carregar todos os arquivos
 		this.resourceManager = new ResourceManager();
-
-		//direcionar para o Splash Screen e leva referencia da chickenroadgame.java
+		
+		Gdx.input.setCatchBackKey(true);
 		setScreenWithTransitionFade(new SplashScreen(this));
 
 	}

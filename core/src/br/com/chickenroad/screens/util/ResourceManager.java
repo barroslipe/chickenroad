@@ -25,10 +25,10 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_BACKGROUND_SEASON_ROOSTER_SONG, Texture.class);
 		assetManager.load(Constantes.URL_BACKGROUND_ALL_SEASONS, Texture.class);
 		assetManager.load(Constantes.URL_CHICKENNEST, Texture.class);
-		
+
 
 		assetManager.load(Constantes.URL_EXIT_BUTTON, Texture.class);
-		
+
 		assetManager.load(Constantes.URL_PLAY_BUTTON, Texture.class);
 		assetManager.load(Constantes.URL_SOUND_OFF_BUTTON, Texture.class);
 		assetManager.load(Constantes.URL_SOUND_ON_BUTTON, Texture.class);
@@ -37,7 +37,7 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_POPUP_NO_BUTTON, Texture.class);
 		assetManager.load(Constantes.URL_POPUP_EXIT_BACKGROUND, Texture.class);
 		assetManager.load(Constantes.URL_NEXT_FASE_BUTTON, Texture.class);
-		
+
 		//sons
 		assetManager.load(Constantes.URL_SOUND_CLICK, Music.class);
 		assetManager.load(Constantes.URL_SOUND_PRINCIPAL, Music.class);
@@ -55,14 +55,14 @@ public class ResourceManager {
 		assetManager.load("playFaseButton.png", Texture.class);
 		assetManager.load("restartFaseButton.png", Texture.class);
 		assetManager.load("listFaseButton.png", Texture.class);
-		
+
 		//life level player
 		assetManager.load(Constantes.URL_PLAYER_NORMAL_LIFE, Texture.class);
 		assetManager.load(Constantes.URL_PLAYER_DEAD_LIFE, Texture.class);
 		assetManager.load(Constantes.URL_LIFE_BARS[0], Texture.class);
 		assetManager.load(Constantes.URL_LIFE_BARS[1], Texture.class);
 		assetManager.load(Constantes.URL_LIFE_BARS[2], Texture.class);
-		
+
 		assetManager.load("congratulation.png", Texture.class);
 
 		//player
@@ -80,7 +80,7 @@ public class ResourceManager {
 		//popup
 		assetManager.load(Constantes.URL_GAMEOVER_POPUP, Texture.class);
 		assetManager.load(Constantes.URL_OK_BUTTON, Texture.class);
-		
+
 		//sprites secundarios do cenario
 		assetManager.load(Constantes.URL_EGGS, Texture.class);
 		assetManager.load(Constantes.URL_PIG_STOP_RIGHT, Texture.class);
@@ -89,7 +89,7 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_PIG_SLEEPING_LEFT, Texture.class);
 		assetManager.load(Constantes.URL_GIFT_SHEEP, Texture.class);
 
-		
+
 		assetManager.load(Constantes.URL_CHICKENNEST, Texture.class);
 		assetManager.load(Constantes.URL_PORTAL, Texture.class);
 		assetManager.load(Constantes.URL_YELLOW_CORN, Texture.class);
@@ -98,16 +98,28 @@ public class ResourceManager {
 		//VEICULOS
 		assetManager.load(Constantes.URL_YELLOW_CAR_RIGHT[0], Texture.class);
 		assetManager.load(Constantes.URL_YELLOW_CAR_LEFT[0], Texture.class);	
-		
+
 		//popup
 		assetManager.load(Constantes.URL_GAMEOVER_POPUP, Texture.class);
 		assetManager.load(Constantes.URL_TURORIAL_POPUP, Texture.class);
-		
+
 		//textos
 		assetManager.load(Constantes.URL_TEXT_AMAZING, Texture.class);	
 		assetManager.load(Constantes.URL_TEXT_POW, Texture.class);
 		assetManager.load(Constantes.URL_TEXT_PLUS15, Texture.class);
 		assetManager.load(Constantes.URL_TEXT_PLUS100, Texture.class);
+
+
+		assetManager.load(Constantes.URL_FASE_BLOQUEADA, Texture.class);
+
+		loadArray(Constantes.URL_SEASON_PICTURE_LIST);
+		loadArray(Constantes.URL_FASE_PICTURE_LIST);
+
+	}
+
+	private void loadArray(String[] list) {
+		for(int i=0;i<list.length;i++)
+			assetManager.load(list[i], Texture.class);
 
 	}
 

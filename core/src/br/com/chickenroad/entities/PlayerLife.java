@@ -27,15 +27,17 @@ public class PlayerLife{
 	private TextureRegionDrawable textureRegionDrawableBlue, textureRegionDrawableGreen, textureRegionDrawableRed;
 	private ProgressBarStyle barStyle;
 
+	private final int TOTAL_LIFE = 100;
+
 	public PlayerLife(AssetManager assetManager){
 
 		this.skin = new Skin();
 		Pixmap pixmap = new Pixmap(18, 18, Format.RGBA8888);
 		pixmap.setColor(Color.WHITE);
 		pixmap.fill();
-		
+
 		this.skin.add("white", new Texture(pixmap));
-		
+
 		this.barStyle = new ProgressBarStyle();
 		barStyle.background = skin.newDrawable("white", Color.DARK_GRAY);		
 
@@ -80,15 +82,15 @@ public class PlayerLife{
 
 	public void demageVehicle() {
 		life -= 20;
-		
+
 		if(life < 0 ) life = 0; 
-		
+
 		lifeProgressBar.setValue(life);
 	}
 
 	public void draw(Batch batch){
 
-		if(life <= 100 && life >= 75){
+		if(life <= TOTAL_LIFE && life >= 75){
 			lifeProgressBar.setStyle(getProgresBarStyle(1));
 			spriteNormalLife.setPosition(10+PlayScreen.deltaXPositionButtons,  10+PlayScreen.deltaYPositionButtons);
 			spriteNormalLife.draw(batch);
@@ -109,8 +111,20 @@ public class PlayerLife{
 
 
 	public void init() {
-		life = 100;
+		life = TOTAL_LIFE;
 		lifeProgressBar.setValue(life);
+	}
+
+	public int calculateScoreLife(){
+
+		int score;
+
+		if(life == TOTAL_LIFE) score = 2000;
+		else if(life >= 0.75*TOTAL_LIFE) score = 1000;
+		else if( life >= 0.5*TOTAL_LIFE) score = 500;
+		else score = 200;
+
+		return score;
 	}
 
 }

@@ -23,9 +23,6 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
  */
 public class FasesMenu {
 
-	//com varias fases, trocar figuras
-	private String fasePicturesList[];
-
 	private ArrayList<Sprite> spriteFaseList;
 
 	private ArrayList<Fase> openFaseList;
@@ -45,11 +42,11 @@ public class FasesMenu {
 	 */
 	public FasesMenu(AssetManager assetManager, int seasonId){
 
-		this.glyphLayout = new GlyphLayout();
-		this.fasePicturesList = Constantes.URL_FASE_PICTURE_LIST;
-
 		//lista de fases abertas para a temporada escolhida
 		this.openFaseList = PreferencesUser.getFases(seasonId);
+
+		this.glyphLayout = new GlyphLayout();
+		spriteFaseList = new ArrayList<Sprite>();
 
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Constantes.URL_FONT_KRAASH_BLACK));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
@@ -57,23 +54,24 @@ public class FasesMenu {
 		parameter.borderColor = Color.BLACK;
 		parameter.borderWidth = 2;
 		defaultFont = generator.generateFont(parameter);
-		generator.dispose(); // don't forget to dispose to 
-		defaultFont.setColor(1.0f, 1.0f, 1.0f, 1.0f);	
+		defaultFont.setColor(1.0f, 1.0f, 1.0f, 1.0f);
+		generator.dispose();
 
-		//TODO trocar figura e string
-		spriteFaseList = new ArrayList<Sprite>();
-
+		initFases(assetManager);
+	}
+	private void initFases(AssetManager assetManager) {
 		int cont = 0;
 		int spriteFaseListHeight = Constantes.WORLD_HEIGHT/2+110;
 
 		String picture;
-		for(int i=0;i<fasePicturesList.length;i++){
-			if(i < openFaseList.size())
-				picture = fasePicturesList[i];    //Aqui ser� apontada a fase correta. Por enquanto, ser� a figura de fase 1 para todas as fases ABERTAS.
-			else
-				picture = "fases/fase_bloqueada.png";
 
-			Sprite sprite = new Sprite(new Texture(picture));
+		for(int i=0;i<Constantes.URL_FASE_PICTURE_LIST.length;i++){
+			if(i < openFaseList.size())
+				picture = Constantes.URL_FASE_PICTURE_LIST[i];
+			else
+				picture = Constantes.URL_FASE_BLOQUEADA;
+
+			Sprite sprite = new Sprite((Texture)assetManager.get(picture));
 			spriteFaseList.add(sprite);
 
 			if(i%5 == 0) {
@@ -115,12 +113,9 @@ public class FasesMenu {
 	 */
 	public int getClickedFase(float x, float y) {
 
-		for(int i=0;i<fasePicturesList.length;i++){
+		for(int i=0;i<Constantes.URL_FASE_PICTURE_LIST.length;i++){
 			if(spriteFaseList.get(i).getBoundingRectangle().contains(x, y)){
 				if(i< openFaseList.size()){
-					//TODO deve tocar aqui?
-					//TODO  na classe FaseScreen, há também uma musica quando eu clico, assim tenho 2 musicas para o mesmo clique. Qual deve ficar?
-					//soundRooster.play();
 					return i;
 				}
 			}

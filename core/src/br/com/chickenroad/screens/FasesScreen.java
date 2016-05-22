@@ -107,7 +107,7 @@ public class FasesScreen extends ScreenBase {
 		else{
 			playSound(soundClick);
 			soundPrincipal.stop();
-			chickenRoadGame.setScreen(new PlayScreen(Constantes.URL_MAPS[seasonId][faseId], chickenRoadGame, seasonId, faseId));
+			chickenRoadGame.setScreen(new PlayScreen(chickenRoadGame, seasonId, faseId));
 		}
 	}
 
