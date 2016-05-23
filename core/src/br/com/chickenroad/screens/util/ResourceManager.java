@@ -36,7 +36,7 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_POPUP_YES_BUTTON, Texture.class);
 		assetManager.load(Constantes.URL_POPUP_NO_BUTTON, Texture.class);
 		assetManager.load(Constantes.URL_POPUP_EXIT_BACKGROUND, Texture.class);
-		assetManager.load(Constantes.URL_NEXT_FASE_BUTTON, Texture.class);
+		//assetManager.load(Constantes.URL_NEXT_FASE_BUTTON, Texture.class);
 
 		//sons
 		assetManager.load(Constantes.URL_SOUND_CLICK, Music.class);
@@ -44,7 +44,7 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_SOUND_EGGS, Music.class);
 		assetManager.load(Constantes.URL_SOUND_CORNS, Music.class);
 		assetManager.load(Constantes.URL_SOUND_CHICKEN_DEMAGE, Music.class);
-		assetManager.load(Constantes.URL_SOUND_ROOSTER, Music.class);
+		//assetManager.load(Constantes.URL_SOUND_ROOSTER, Music.class);
 		assetManager.load(Constantes.URL_SOUND_BACKGROUND_FASE1, Music.class);
 		assetManager.load(Constantes.URL_SOUND_BACKGROUND_CHICKEN, Music.class);
 		assetManager.load(Constantes.URL_SOUND_END_FASE, Music.class);
@@ -62,8 +62,6 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_LIFE_BARS[0], Texture.class);
 		assetManager.load(Constantes.URL_LIFE_BARS[1], Texture.class);
 		assetManager.load(Constantes.URL_LIFE_BARS[2], Texture.class);
-
-		assetManager.load("congratulation.png", Texture.class);
 
 		//player
 		assetManager.load(Constantes.URL_PLAYER_AVATAR, Texture.class);
@@ -91,13 +89,10 @@ public class ResourceManager {
 
 
 		assetManager.load(Constantes.URL_CHICKENNEST, Texture.class);
-		assetManager.load(Constantes.URL_PORTAL, Texture.class);
+		//assetManager.load(Constantes.URL_PORTAL, Texture.class);
 		assetManager.load(Constantes.URL_YELLOW_CORN, Texture.class);
 		assetManager.load(Constantes.URL_YELLOW_CORN_SCORE, Texture.class);
 		assetManager.load(Constantes.URL_EGGS_SCORE, Texture.class);
-		//VEICULOS
-		assetManager.load(Constantes.URL_YELLOW_CAR_RIGHT[0], Texture.class);
-		assetManager.load(Constantes.URL_YELLOW_CAR_LEFT[0], Texture.class);	
 
 		//popup
 		assetManager.load(Constantes.URL_GAMEOVER_POPUP, Texture.class);
@@ -114,6 +109,13 @@ public class ResourceManager {
 
 		loadArray(Constantes.URL_SEASON_PICTURE_LIST);
 		loadArray(Constantes.URL_FASE_PICTURE_LIST);
+
+		//veículos
+		loadArray(Constantes.URL_CAR_RIGHT);
+		loadArray(Constantes.URL_CAR_LEFT);
+		loadArray(Constantes.URL_MOTORCYCLE_LEFT);
+		loadArray(Constantes.URL_MOTORCYCLE_RIGHT);
+
 
 	}
 

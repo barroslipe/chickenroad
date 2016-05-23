@@ -2,24 +2,19 @@ package br.com.chickenroad.screens;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
 
 import br.com.chickenroad.ChickenRoadGame;
-import br.com.chickenroad.builder.CornsBuilder;
-import br.com.chickenroad.builder.EggsBuilder;
 import br.com.chickenroad.builder.RoadsBuilder;
+import br.com.chickenroad.builder.TargetPlayerBuilder;
 import br.com.chickenroad.builder.VehiclesBuilder;
-import br.com.chickenroad.configuration.ApplicationConfig;
 import br.com.chickenroad.entities.ChickenNest;
 import br.com.chickenroad.entities.MyMap;
 import br.com.chickenroad.entities.MyPlayMusic;
+import br.com.chickenroad.entities.PlayTimer;
 import br.com.chickenroad.entities.Player;
 import br.com.chickenroad.entities.PlayerScore;
-import br.com.chickenroad.entities.PlayerTypes;
 import br.com.chickenroad.entities.Road;
 import br.com.chickenroad.entities.StateGame;
-import br.com.chickenroad.entities.TargetPlayer;
-import br.com.chickenroad.entities.TargetPlayerTypes;
 import br.com.chickenroad.entities.TextGame;
 import br.com.chickenroad.entities.TextGameTypes;
 import br.com.chickenroad.entities.Vehicle;
@@ -30,14 +25,11 @@ import br.com.chickenroad.screens.util.Constantes;
 import br.com.chickenroad.screens.util.MyProperties;
 import br.com.chickenroad.screens.util.PlayCamera;
 import br.com.chickenroad.screens.util.PreferencesUser;
-import br.com.chickenroad.screens.util.Util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
-import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.math.Intersector;
-import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 
 /**
@@ -52,9 +44,7 @@ public class PlayScreen extends ScreenBase {
 	//botões do jogo[menu de contexto]
 	private PlayMenuButtons playMenuButtons;
 	//ovos e espigas
-	private ArrayList<TargetPlayer> targetPlayerEggsList, targetPlayerCornsList;
-	//presente
-	private TargetPlayer targetPlayerGiftSheep;
+	private TargetPlayerBuilder targetPlayerBuilder;
 	//textos
 	private TextGame textGame[];
 	//porcos
@@ -63,6 +53,8 @@ public class PlayScreen extends ScreenBase {
 	private Player player;
 	//score do jogador
 	private PlayerScore playerScore;
+	//timer
+	private PlayTimer playTimer;
 	//ninho
 	private ChickenNest chickenNest;
 	//mapa
@@ -81,10 +73,7 @@ public class PlayScreen extends ScreenBase {
 	private MyProperties myProperties;
 
 	//variáveis de controle
-	private int contAmazing, contPow, contPlus15, contPlus100;
-	private int numCornCatchedIndex; //recebe o valor da posi��o do vetor de milhos encontrados
-	private boolean flagPlus15;
-	private boolean flagPlus100;
+	private int contAmazing, contPow;
 
 	public static int deltaXPositionButtons=0, deltaYPositionButtons=0;
 
@@ -113,9 +102,11 @@ public class PlayScreen extends ScreenBase {
 		this.playCamera = new PlayCamera();
 		this.player = new Player(getAssetManager(),  myMap.getWidthTiledMap(), myMap.getHeightTiledMap());
 		this.playerScore = new PlayerScore();
-		this.targetPlayerGiftSheep = new TargetPlayer(Constantes.URL_GIFT_SHEEP, getAssetManager(), TargetPlayerTypes.SHEEP, 1f/4f);
+		this.playTimer = new PlayTimer();
 		this.myProperties = new MyProperties();
 		this.myProperties.loadProperties(Constantes.URL_MAPS[seasonId][faseId] + ".properties");
+
+		this.targetPlayerBuilder = new TargetPlayerBuilder();
 
 		//inicia popup de tutorial
 		this.popupTutorial = new Popup(getAssetManager(), PopupTypes.GAME_TUTORIAL);
@@ -136,23 +127,18 @@ public class PlayScreen extends ScreenBase {
 
 		playerScore.init(Integer.parseInt(myProperties.getNumberEggs()), Integer.parseInt(myProperties.getNumberCorns()));
 
+		playTimer.setTimer(myProperties.getTimerGame());
+
 		points = myProperties.getOriginChickenNest().split(",");
 		chickenNest.init(Float.parseFloat(points[0])*Constantes.WIDTH_TILE,Float.parseFloat(points[1])*Constantes.HEIGHT_TILE);
 
-		Vector2 point;
-
-		point = new Vector2(Util.getValidRandomPosition(myMap.getWidthTiledMap(), myMap.getHeightTiledMap(), myMap.getTiles(), chickenNest.getBoundingRectangle()));
-		this.targetPlayerGiftSheep.init(point.x,  point.y);
-		//não está visível
-		this.targetPlayerGiftSheep.setVisible(false);
 
 		//this.supporting = new Supporting[ApplicationConfig.numSupporting];
-		this.textGame = new TextGame[ApplicationConfig.numTexts];	
+		this.textGame = new TextGame[2];	
 
 		this. textGame[0] = new TextGame(Constantes.URL_TEXT_AMAZING, getAssetManager(), TextGameTypes.AMAZING);
 		this. textGame[1] = new TextGame(Constantes.URL_TEXT_POW, getAssetManager(), TextGameTypes.POW);
-		this. textGame[2] = new TextGame(Constantes.URL_TEXT_PLUS15, getAssetManager(), TextGameTypes.PLUS15);
-		this. textGame[3] = new TextGame(Constantes.URL_TEXT_PLUS100, getAssetManager(), TextGameTypes.PLUS100);
+
 
 		//inicializa todos os textos
 		for(int i=0;i<textGame.length;i++)
@@ -165,27 +151,16 @@ public class PlayScreen extends ScreenBase {
 		this.supporting[1] = new Supporting(Constantes.URL_PIG_SLEEPING_RIGHT, getAssetManager(), SupportingTypes.PIG_SLEEPING_RIGHT);
 		this.supporting[2] = new Supporting(Constantes.URL_PIG_SLEEPING_LEFT, getAssetManager(), SupportingTypes.PIG_SLEEPING_LEFT);
 		 */
-		//inicializa vetor de ovos com velocidades aleatorias
-		Random generator = new Random();
+
 
 		//inicia vetor de coadjuvantes
 		//		for(int i=0;i<supporting.length;i++){
 		//			supporting[i].init(generator.nextInt(130)+10, generator.nextInt(150)+160);
 		//		}
 
-		//inicializa lista de ovos
-		this.targetPlayerEggsList = EggsBuilder.builder(myProperties, myMap, chickenNest, getAssetManager(), generator);
-		//inicializa lista de milhos
-		this.targetPlayerCornsList = CornsBuilder.builder(myProperties, myMap, chickenNest, getAssetManager());
-
-		numCornCatchedIndex=0;
+		targetPlayerBuilder.init(myMap, myProperties, getAssetManager(), chickenNest);
 		contAmazing = 0;
 		contPow = 0;
-		contPlus15 = 0;
-		contPlus100 = 0;
-
-		flagPlus15 = false;
-		flagPlus100 = false;
 
 		roadList = RoadsBuilder.builder(myProperties);
 		vehicleList = VehiclesBuilder.builder(roadList, getAssetManager());
@@ -198,11 +173,6 @@ public class PlayScreen extends ScreenBase {
 		this.flagPopupTutorial = true;
 		this.playMenuButtons.disable();
 
-	}
-
-	private void playSound(Music sound) {
-		if(Constantes.SOUND_ON_FLAG && !sound.isPlaying())
-			sound.play();
 	}
 
 	/**
@@ -247,8 +217,8 @@ public class PlayScreen extends ScreenBase {
 
 		//musicas de fundo em looping
 		if(stateGame != StateGame.PAUSE){
-			playSound(myPlayMusic.getSoundBackgroundFase());
-			playSound(myPlayMusic.getSoundBackgroundChicken());
+			MyPlayMusic.playSound(myPlayMusic.getSoundBackgroundFase());
+			MyPlayMusic.playSound(myPlayMusic.getSoundBackgroundChicken());
 		}
 
 		chickenRoadGame.getSpriteBatch().begin();
@@ -261,7 +231,7 @@ public class PlayScreen extends ScreenBase {
 		//			supporting[i].draw(chickenRoadGame.getSpriteBatch(), delta);
 		//		}
 
-		drawEggs(delta);
+		targetPlayerBuilder.drawEggs(chickenRoadGame.getSpriteBatch(), delta);
 		drawGift(delta);
 
 		drawPlayerAndVehicles(delta);
@@ -278,13 +248,15 @@ public class PlayScreen extends ScreenBase {
 		//renderizar os botões de play, restart, sair
 		playMenuButtons.draw(chickenRoadGame.getSpriteBatch(), stateGame, deltaXPositionButtons, deltaYPositionButtons);
 
+		playTimer.draw(chickenRoadGame.getSpriteBatch(), deltaXPositionButtons, deltaYPositionButtons);
+
 		//renderizar o score do player
 		playerScore.draw(chickenRoadGame.getSpriteBatch(), deltaXPositionButtons, deltaYPositionButtons);
 
-		player.getPlayerLife().draw(chickenRoadGame.getSpriteBatch());
+		player.drawLife(chickenRoadGame.getSpriteBatch());
 
-		drawCatchEgg(delta);
-		drawCatchCorn(delta);
+		targetPlayerBuilder.drawCatchEggs(chickenRoadGame.getSpriteBatch(), player, delta);
+		targetPlayerBuilder.drawCatchCorn(chickenRoadGame.getSpriteBatch(), player, delta);
 
 		drawColisionPlayerCar(delta);
 
@@ -313,10 +285,10 @@ public class PlayScreen extends ScreenBase {
 			if(Intersector.overlaps(player.getBoundingRectangle(), vehicleList.get(i).getBoundingRectangle())
 					&& player.getY() -4 >= vehicleList.get(i).getY()){
 				player.draw(chickenRoadGame.getSpriteBatch(), delta);
-				vehicleList.get(i).draw(chickenRoadGame.getSpriteBatch(), delta);
+				vehicleList.get(i).draw(chickenRoadGame.getSpriteBatch());
 				renderPlayer = false;
 			}else{
-				vehicleList.get(i).draw(chickenRoadGame.getSpriteBatch(), delta);
+				vehicleList.get(i).draw(chickenRoadGame.getSpriteBatch());
 			}
 		}
 
@@ -326,50 +298,29 @@ public class PlayScreen extends ScreenBase {
 
 	private void drawGift(float delta) {
 		//exibe presente - se pegar Y ovos
-		if(playerScore.getCurrentNoCatchedEggs() == 0 && !targetPlayerGiftSheep.isLocker())
-			targetPlayerGiftSheep.setVisible(true);
-		else
-			targetPlayerGiftSheep.setVisible(false);
+		if(playerScore.getCurrentNoCatchedEggs() == 0 && !targetPlayerBuilder.getTargetPlayerGiftSheep().isLocker()){
+			targetPlayerBuilder.drawGift(chickenRoadGame.getSpriteBatch(), delta);
+			MyPlayMusic.playSound(myPlayMusic.getSoundSheep());
+		}else
+			targetPlayerBuilder.getTargetPlayerGiftSheep().setVisible(false);
 
-		if(targetPlayerGiftSheep.isVisible()){	
-			playSound(myPlayMusic.getSoundSheep());
-			targetPlayerGiftSheep.draw(chickenRoadGame.getSpriteBatch(), delta);
-		}
-	}
-
-	private void drawEggs(float delta) {
-		for(int i=0;i<targetPlayerEggsList.size();i++) {
-			targetPlayerEggsList.get(i).draw(chickenRoadGame.getSpriteBatch(), delta);		
-		}
 	}
 
 	private void testCollisionEgg() {
 
-		for(int i=0;i<targetPlayerEggsList.size();i++){
-			//so pode pegar ovos se ele nao tiver sido pego antes
-			if(targetPlayerEggsList.get(i).checkColision(player) && (playerScore.getCurrentNoCatchedEggs() > 0)){ 
-				targetPlayerEggsList.get(i).setVisible(false);//apaga o ovo da tela
-
-				playSound(myPlayMusic.getSoundEggs());
-				playerScore.addScoreGame(PlayerScore.EGGS_SCORE);
-				playerScore.minusCurrentNoCatchedEggs();
-				flagPlus15 = true;
-			}			
+		if(targetPlayerBuilder.testColissionEgg(player)){
+			MyPlayMusic.playSound(myPlayMusic.getSoundEggs());
+			playerScore.addScoreGame(PlayerScore.EGGS_SCORE);
+			playerScore.minusCurrentNoCatchedEggs();
 		}
 	}
 
 	private void testCollisionCorn() {
 
-		for(int i=0;i<targetPlayerCornsList.size();i++){
-			if(targetPlayerCornsList.get(i).checkColision(player)){
-				targetPlayerCornsList.get(i).setVisible(false); //apaga milho da tela
-				targetPlayerCornsList.get(i).setLocker(true);
-				playSound(myPlayMusic.getSoundCorns());
-				playerScore.addScoreGame(PlayerScore.CORN_SCORE);
-				playerScore.minusCurrentNoCatchedCorn();//decrementa o valor do milho
-				flagPlus100 = true;
-				numCornCatchedIndex = i;//recebe a posi��o do milho pego
-			}			
+		if(targetPlayerBuilder.testColissionCorn(player)){
+			MyPlayMusic.playSound(myPlayMusic.getSoundCorns());
+			playerScore.addScoreGame(PlayerScore.CORN_SCORE);
+			playerScore.minusCurrentNoCatchedCorn();//decrementa o valor do milho
 		}
 	}
 
@@ -378,16 +329,17 @@ public class PlayScreen extends ScreenBase {
 		//se pegou todos os ovos, exibe texto animado de fim de fase
 		if(playerScore.getCurrentNoCatchedEggs() == 0 && chickenNest.checkColision(player)) {
 
-			stopBackgroundMusic();
+			myPlayMusic.stopBackgroundMusic();
 
 			//TODO aqui será o sucesso da aplicação certo? então, aqui iremos persistir o score e o presente[não há variável do presente por enquanto]
-			if(stateGame != StateGame.FINISH)
-				PreferencesUser.setSucesso(seasonId, faseId, playerScore.getScoreGame()+player.getPlayerLife().calculateScoreLife());
-
+			if(stateGame != StateGame.FINISH){
+				playerScore.addScoreGame(player.getPlayerLife().calculateScoreLife());
+				PreferencesUser.setSucesso(seasonId, faseId, playerScore.getScoreGame());
+			}
 
 			if(contAmazing++ < 140) {//este if evitar que a anima��o fique infinita
 
-				playSound(myPlayMusic.getSoundEndFase());
+				MyPlayMusic.playSound(myPlayMusic.getSoundEndFase());
 
 				//mostra no meio da tela aproximadamente
 				textGame[0].setPosition((Constantes.WORLD_WIDTH - 350)/2 + deltaXPositionButtons, 
@@ -418,37 +370,24 @@ public class PlayScreen extends ScreenBase {
 	private void leaveEggInNest() {
 		//se aproximar do ninho, deixa um ovo
 		if(chickenNest.checkColision(player)) {
-			Random gerador = new Random();
-			for(int i=0;i<targetPlayerEggsList.size();i++){
-				if(!targetPlayerEggsList.get(i).isVisible()){
-					targetPlayerEggsList.get(i).init(24+chickenNest.getX()+gerador.nextInt(30), 30+chickenNest.getY()+gerador.nextInt(10));
-					targetPlayerEggsList.get(i).setVisible(true);
-					targetPlayerEggsList.get(i).setLocker(true);
-
-				}
-			}
+			targetPlayerBuilder.leaveEggInNest(chickenNest);
 		}
 	}
 
 	private void testCollisionGift() {
-		//colisao com o presente ganho
-		if(targetPlayerGiftSheep.checkColision(player)) {
-			targetPlayerGiftSheep.setVisible(false);
-			targetPlayerGiftSheep.setLocker(true);
-			playSound(myPlayMusic.getSoundCoinEndFase());
+
+		if(targetPlayerBuilder.testColissionGift(player)){
+			MyPlayMusic.playSound(myPlayMusic.getSoundCoinEndFase());
 			myPlayMusic.getSoundSheep().stop();
+
 		}
 	}
 
 	private void drawGameOver(float delta) {
-		//SE O LIFE FOR MENOR QUE ZERO - gameover
-		if(player.getPlayerLife().getLife() <= 0) {
-			player.getPlayerAnimation().setSpriteSheet(Constantes.URL_PLAYER_AVATAR_DEAD, PlayerTypes.AVATAR_DEAD); //muda para anima��o de avatar morto
-			//player.draw(chickenRoadGame.getSpriteBatch(), delta);
-
+		if(player.isDead()) {
+			player.changeDead();
 			stateGame = StateGame.GAME_OVER;
-
-			stopBackgroundMusic();
+			myPlayMusic.stopBackgroundMusic();
 
 		}
 	}
@@ -456,7 +395,7 @@ public class PlayScreen extends ScreenBase {
 	private void drawColisionPlayerCar(float delta) {
 		//exibe anima��o de colis�o se houve colis�o
 		if(player.isColisionVehiclesStatus()) {
-			playSound(myPlayMusic.getSoundChickenDemage());
+			MyPlayMusic.playSound(myPlayMusic.getSoundChickenDemage());
 
 			if(contPow++ < 55) {
 				textGame[1].setPosition(player.getX()-30, player.getY()-30); //exibe texto na posi��o do playe
@@ -465,44 +404,6 @@ public class PlayScreen extends ScreenBase {
 		} else {//else GAMBIARRA TEMPOR�RIA - :(
 			contPow = 0;
 		}
-	}
-
-	private void drawCatchEgg(float delta) {
-		if(flagPlus15) {
-			if(contPlus15++ < 45) {
-				textGame[2].setPosition(player.getX()-20, player.getY()+30);
-				textGame[2].draw(chickenRoadGame.getSpriteBatch(), delta);
-			}else{
-				contPlus15 = 0;
-				flagPlus15 = false;
-			}
-		}
-	}
-
-	private void drawCatchCorn(float delta) {
-		if(flagPlus100) {
-			if(contPlus100++ < 48) {
-				//exibe apenas o milho encontrado
-				targetPlayerCornsList.get(numCornCatchedIndex).setVisible(true);
-				targetPlayerCornsList.get(numCornCatchedIndex).draw(chickenRoadGame.getSpriteBatch(), delta);		
-				textGame[3].setPosition(player.getX()-20, player.getY()+30);
-				textGame[3].draw(chickenRoadGame.getSpriteBatch(), delta);
-
-			}else{
-				contPlus100 = 0;
-				flagPlus100 = false;
-				targetPlayerCornsList.get(numCornCatchedIndex).setVisible(false);
-			}
-		}
-	}
-
-	private void stopBackgroundMusic() {
-		myPlayMusic.getSoundBackgroundChicken().stop();
-		myPlayMusic.getSoundBackgroundFase().stop();
-		myPlayMusic.getSoundCoinEndFase().stop();
-		myPlayMusic.getSoundSheep().stop();
-		myPlayMusic.getSoundChickenDemage().stop();
-
 	}
 
 	@Override
@@ -543,7 +444,7 @@ public class PlayScreen extends ScreenBase {
 		}
 		//clicou para sair da fase e ir a tela de fases
 		if(playMenuButtons.checkClickFaseListButton(touchPoint.x, touchPoint.y)){
-			stopBackgroundMusic();
+			myPlayMusic.stopBackgroundMusic();
 			myPlayMusic.getSoundEndFase().stop();
 			chickenRoadGame.setScreenWithTransitionFade(new FasesScreen(chickenRoadGame, seasonId));
 			return true;
@@ -575,19 +476,11 @@ public class PlayScreen extends ScreenBase {
 		this.myMap.dispose();
 		this.playerScore = null;
 		this.vehicleList = null;
+		this.targetPlayerBuilder.dispose();
+		this.targetPlayerBuilder = null;
 
 		for(int i=0;i<textGame.length;i++)
 			this.textGame[i].dispose();
 
-		//		for(int i=0;i<supporting.length;i++)
-		//			this.supporting[i].dispose();
-
-		for(int i=0;i<targetPlayerEggsList.size();i++)
-			this.targetPlayerEggsList.get(i).dispose();
-
-		for(int i=0;i<targetPlayerCornsList.size();i++)
-			this.targetPlayerCornsList.get(i).dispose();
-
-		this.targetPlayerGiftSheep.dispose();
 	}
 }

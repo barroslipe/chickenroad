@@ -1,6 +1,7 @@
 package br.com.chickenroad.screens;
 
 import br.com.chickenroad.ChickenRoadGame;
+import br.com.chickenroad.entities.MyPlayMusic;
 import br.com.chickenroad.screens.screenparts.MainMenuButtons;
 import br.com.chickenroad.screens.screenparts.PopupExit;
 import br.com.chickenroad.screens.util.Constantes;
@@ -69,7 +70,7 @@ public class MainMenuScreen extends ScreenBase {
 		drawPopupExit();
 		chickenRoadGame.getSpriteBatch().end();
 
-		playSound(soundPrincipal); 
+		MyPlayMusic.playSound(soundPrincipal); 
 
 	}
 	/**
@@ -87,10 +88,10 @@ public class MainMenuScreen extends ScreenBase {
 		if(showPopupExitFlag){
 
 			if(popupExit.checkClickYesButton(touchPoint.x, touchPoint.y)){
-				playSound(soundClick);
+				MyPlayMusic.playSound(soundClick);
 				Gdx.app.exit();
 			}else if(popupExit.checkClickNoButton(touchPoint.x, touchPoint.y)){
-				playSound(soundClick);
+				MyPlayMusic.playSound(soundClick);
 				showPopupExitFlag=false;
 			}
 
@@ -101,10 +102,10 @@ public class MainMenuScreen extends ScreenBase {
 			 */
 
 			if(menuButtons.checkClickExitButton(touchPoint.x, touchPoint.y)){
-				playSound(soundClick);
+				MyPlayMusic.playSound(soundClick);
 				showPopupExitFlag = true;
 			}else if(menuButtons.checkClickPlayButton(touchPoint.x, touchPoint.y)){
-				playSound(soundClick);
+				MyPlayMusic.playSound(soundClick);
 				chickenRoadGame.setScreenWithTransitionFade(new SeasonScreen(chickenRoadGame));
 			}else if(menuButtons.checkClickSoundOnButton(touchPoint.x, touchPoint.y)){				
 				disableSound();
@@ -116,11 +117,6 @@ public class MainMenuScreen extends ScreenBase {
 	private void disableSound() {
 		Constantes.SOUND_ON_FLAG = !Constantes.SOUND_ON_FLAG;
 		if(!Constantes.SOUND_ON_FLAG) soundPrincipal.stop();
-	}
-
-	private void playSound(Music sound) {
-		if(Constantes.SOUND_ON_FLAG && !sound.isPlaying())
-			sound.play();
 	}
 
 	/**

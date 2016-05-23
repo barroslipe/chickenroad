@@ -3,6 +3,7 @@ package br.com.chickenroad.builder;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.chickenroad.entities.Direction;
 import br.com.chickenroad.entities.Road;
 import br.com.chickenroad.entities.RoadFaixa;
 import br.com.chickenroad.entities.Vehicle;
@@ -19,7 +20,7 @@ public class VehiclesBuilder {
 	public static ArrayList<Vehicle> builder(List<Road> roadList, AssetManager assetManager) {
 
 		//TODO verificar os objetos que estarão nas estradas
-		String[] pictures = {"veicules/veiculo1D.png", "veicules/veiculo1E.png"};
+		//String[] pictures = {"veicules/veiculo1D.png", "veicules/veiculo1E.png"};
 
 		ArrayList<Vehicle> vehicleList = new ArrayList<Vehicle>();
 
@@ -37,7 +38,7 @@ public class VehiclesBuilder {
 				positionY = faixa.getInitialPoint().y;
 				float positionX =  faixa.getInitialPoint().x;
 				do {
-					vehicle = new Vehicle(pictures[j%2], faixa, assetManager);
+					vehicle = new Vehicle("veicules/"+faixa.getVeiculo()+(faixa.getDirection() == Direction.RIGHT ? "D":"E")+".png", faixa, assetManager);
 					vehicle.init(positionX, positionY);
 					vehicleList.add(vehicle);
 					positionX += vehicle.getWidth() + faixa.getCarsDistance()*Util.getRandomPosition(1, 4)*Util.getRandomPosition(1);

@@ -16,7 +16,6 @@ public class TextGame extends Sprite{
 		this.textAnimation = new TextGameAnimation(sprite, assetManager, text);
 	}
 
-
 	public void init() {
 		textAnimation.inicializar();
 	}
@@ -28,8 +27,6 @@ public class TextGame extends Sprite{
 	public void dispose() {
 		getTexture().dispose();
 	}
-
-
 
 
 	@Override

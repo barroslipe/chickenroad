@@ -27,12 +27,13 @@ public class RoadsBuilder {
 		ArrayList<Road> roadList = new ArrayList<Road>();
 
 		float initialPointX, initialPointY, width, height;
+		String veiculo;
 		int carsDistance;
 
 		//largura dos carros - padrão sendo a largura do tile  
 		int vehicleHeight = 64;
 
-		String[] values = new String[2];
+		String[] values;
 		ArrayList<RoadFaixa> roadFaixaList;
 		for (int i = 0; i < stringList.size(); i++) {
 
@@ -46,6 +47,8 @@ public class RoadsBuilder {
 			width = Float.parseFloat(values[2])*Constantes.WIDTH_TILE + DESLOC_INIT_X_ROAD;
 			//largura da estrada
 			height = (Float.parseFloat(values[3]))*Constantes.HEIGHT_TILE;
+			
+			veiculo = values[4];
 
 			//a lista de faixas de cada estrada
 			roadFaixaList = new ArrayList<RoadFaixa>();
@@ -62,7 +65,7 @@ public class RoadsBuilder {
 				//carsDistance = (int)Util.getRandomPosition(width/16, width/14);
 				carsDistance = Constantes.DISTANCE_MIN_BETWEEN_VEHICLES;
 				//cadastrar dados de cada faixa
-				roadFaixaList.add(new RoadFaixa(speed, new Vector2( initialPointX , initialPointY + vehicleHeight*j), width ,carsDistance, (j%2 == 0 ? Direction.RIGHT : Direction.LEFT)));
+				roadFaixaList.add(new RoadFaixa(speed, new Vector2( initialPointX , initialPointY + vehicleHeight*j), width ,carsDistance, veiculo, (j%2 == 0 ? Direction.RIGHT : Direction.LEFT)));
 			}
 
 			//estrada no jogo

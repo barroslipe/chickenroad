@@ -68,4 +68,17 @@ public class MyPlayMusic {
 	public Music getSoundSheep() {
 		return soundSheep;
 	}
+
+	public void stopBackgroundMusic() {
+		soundBackgroundChicken.stop();
+		soundBackgroundFase.stop();
+		soundCoinEndFase.stop();
+		soundSheep.stop();
+		soundChickenDemage.stop();
+	}
+	public static void playSound(Music sound) {
+		if(Constantes.SOUND_ON_FLAG && !sound.isPlaying())
+			sound.play();
+
+	}
 }

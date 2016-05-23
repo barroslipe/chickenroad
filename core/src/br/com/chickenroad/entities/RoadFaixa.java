@@ -8,32 +8,24 @@ public class RoadFaixa {
 	private Vector2 initialPoint;
 	private int carsDistance;
 	private float width;
-	
+	private String veiculo;
 	private Direction direction;
 
-
-	public RoadFaixa(float aSpeed, Vector2 aInitialoint, float aWidth ,int aCarsDistance, Direction aDirection){
-		speed = aSpeed;
-		initialPoint = aInitialoint;
+	public RoadFaixa(float aSpeed, Vector2 aInitialoint, float aWidth ,int aCarsDistance, String aVeiculo, Direction aDirection){
+		this.speed = aSpeed;
+		this.initialPoint = aInitialoint;
 		this.carsDistance = aCarsDistance;
 		this.width = aWidth;
 		this.direction = aDirection;
+		this.veiculo = aVeiculo;
 	}
 
 	public float getSpeed() {
 		return speed;
 	}
 
-	public void setSpeed(float speed) {
-		this.speed = speed;
-	}
-
 	public Vector2 getInitialPoint() {
 		return initialPoint;
-	}
-
-	public void setInitialPoint(Vector2 initialPoint) {
-		this.initialPoint = initialPoint;
 	}
 
 	public int getCarsDistance() {
@@ -47,7 +39,8 @@ public class RoadFaixa {
 	public Direction getDirection() {
 		return direction;
 	}
-	public void setDirection(Direction aDirection){
-		this.direction = aDirection;
+
+	public String getVeiculo() {
+		return veiculo;
 	}
 }

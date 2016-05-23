@@ -11,6 +11,7 @@ import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -37,6 +38,7 @@ public class Player extends Sprite{
 	public Player(AssetManager assetManager, int aWidthTiledMap, int aHeightTiledMap) {
 		super((Texture) assetManager.get(Constantes.URL_PLAYER_AVATAR));
 
+		setScale(1.2f);
 		this.widthTiledMap = aWidthTiledMap;
 		this.heightTileMap = aHeightTiledMap;
 		this.demageTimerPerSecond = 3;
@@ -44,9 +46,7 @@ public class Player extends Sprite{
 		this.demage = false;
 		this.playerAnimation = new PlayerAnimation(assetManager);
 		this.playerAnimation.setSpriteSheet(Constantes.URL_PLAYER_AVATAR_STOP_RIGHT, PlayerTypes.AVATAR_STOP_RIGHT);
-
-
-		playerLife = new PlayerLife(assetManager);
+		this.playerLife = new PlayerLife(assetManager);
 	}
 
 	public boolean isColisionVehiclesStatus() {
@@ -283,4 +283,18 @@ public class Player extends Sprite{
 		}
 	}
 
+	public boolean isDead() {
+		if(playerLife.getLife() <= 0)
+			return true;
+		else
+			return false;
+	}
+
+	public void changeDead() {
+		playerAnimation.setSpriteSheet(Constantes.URL_PLAYER_AVATAR_DEAD, PlayerTypes.AVATAR_DEAD);
+	}
+
+	public void drawLife(SpriteBatch spriteBatch) {
+		playerLife.draw(spriteBatch);
+	}
 }

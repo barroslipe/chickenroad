@@ -1,6 +1,7 @@
 package br.com.chickenroad.screens;
 
 import br.com.chickenroad.ChickenRoadGame;
+import br.com.chickenroad.entities.MyPlayMusic;
 import br.com.chickenroad.screens.screenparts.SeasonMenu;
 import br.com.chickenroad.screens.util.Constantes;
 
@@ -67,15 +68,9 @@ public class SeasonScreen extends ScreenBase {
 		spriteArrowBACK.draw(chickenRoadGame.getSpriteBatch());
 		chickenRoadGame.getSpriteBatch().end();
 
-		playSound(soundPrincipal);
+		MyPlayMusic.playSound(soundPrincipal);
 
 	}
-
-	private void playSound(Music sound) {
-		if(Constantes.SOUND_ON_FLAG && !sound.isPlaying())
-			sound.play();
-	}
-
 	/**
 	 * Tratar a entrada de dados do mouse ou touchScreen
 	 */
@@ -87,7 +82,7 @@ public class SeasonScreen extends ScreenBase {
 
 		//se tocar na seta de volta, transita para menu screen
 		if(spriteArrowBACK.getBoundingRectangle().contains(touchPoint.x, touchPoint.y)){
-			playSound(soundClick);
+			MyPlayMusic.playSound(soundClick);
 			chickenRoadGame.setScreenWithTransitionFade(new MainMenuScreen(chickenRoadGame));
 		}else{
 			openSeason(seasonMenu.getClickedSeason(touchPoint.x, touchPoint.y));
@@ -103,7 +98,7 @@ public class SeasonScreen extends ScreenBase {
 
 		if(seasonId==-1) return;
 		else{
-			playSound(soundClick);
+			MyPlayMusic.playSound(soundClick);
 			chickenRoadGame.setScreenWithTransitionFade(new FasesScreen(chickenRoadGame, seasonId));
 		}
 	}
