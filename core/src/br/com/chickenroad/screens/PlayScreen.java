@@ -10,7 +10,7 @@ import br.com.chickenroad.builder.VehiclesBuilder;
 import br.com.chickenroad.entities.ChickenNest;
 import br.com.chickenroad.entities.MyMap;
 import br.com.chickenroad.entities.MyPlayMusic;
-import br.com.chickenroad.entities.PlayTimer;
+import br.com.chickenroad.entities.Timer;
 import br.com.chickenroad.entities.Player;
 import br.com.chickenroad.entities.PlayerScore;
 import br.com.chickenroad.entities.Road;
@@ -54,7 +54,7 @@ public class PlayScreen extends ScreenBase {
 	//score do jogador
 	private PlayerScore playerScore;
 	//timer
-	private PlayTimer playTimer;
+	private Timer timer;
 	//ninho
 	private ChickenNest chickenNest;
 	//mapa
@@ -102,10 +102,9 @@ public class PlayScreen extends ScreenBase {
 		this.playCamera = new PlayCamera();
 		this.player = new Player(getAssetManager(),  myMap.getWidthTiledMap(), myMap.getHeightTiledMap());
 		this.playerScore = new PlayerScore();
-		this.playTimer = new PlayTimer();
 		this.myProperties = new MyProperties();
 		this.myProperties.loadProperties(Constantes.URL_MAPS[seasonId][faseId] + ".properties");
-
+		this.timer = new Timer();
 		this.targetPlayerBuilder = new TargetPlayerBuilder();
 
 		//inicia popup de tutorial
@@ -127,7 +126,7 @@ public class PlayScreen extends ScreenBase {
 
 		playerScore.init(Integer.parseInt(myProperties.getNumberEggs()), Integer.parseInt(myProperties.getNumberCorns()));
 
-		playTimer.setTimer(myProperties.getTimerGame());
+		timer.setTimer(myProperties.getTimer());
 
 		points = myProperties.getOriginChickenNest().split(",");
 		chickenNest.init(Float.parseFloat(points[0])*Constantes.WIDTH_TILE,Float.parseFloat(points[1])*Constantes.HEIGHT_TILE);
@@ -248,7 +247,7 @@ public class PlayScreen extends ScreenBase {
 		//renderizar os botões de play, restart, sair
 		playMenuButtons.draw(chickenRoadGame.getSpriteBatch(), stateGame, deltaXPositionButtons, deltaYPositionButtons);
 
-		playTimer.draw(chickenRoadGame.getSpriteBatch(), deltaXPositionButtons, deltaYPositionButtons);
+		timer.draw(chickenRoadGame.getSpriteBatch(), stateGame, delta, deltaXPositionButtons, deltaYPositionButtons);
 
 		//renderizar o score do player
 		playerScore.draw(chickenRoadGame.getSpriteBatch(), deltaXPositionButtons, deltaYPositionButtons);
@@ -384,7 +383,7 @@ public class PlayScreen extends ScreenBase {
 	}
 
 	private void drawGameOver(float delta) {
-		if(player.isDead()) {
+		if(player.isDead() || (timer.possuiTimer() && timer.getTimer() < 1) ){
 			player.changeDead();
 			stateGame = StateGame.GAME_OVER;
 			myPlayMusic.stopBackgroundMusic();

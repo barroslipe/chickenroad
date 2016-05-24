@@ -25,7 +25,7 @@ public class MyProperties {
 	private String originChickenNest;
 	private String numberEggs;
 	private String numberCorns;
-	private String timerGame;
+	private String timer;
 	private String gift;
 	private String enemy;
 
@@ -70,8 +70,8 @@ public class MyProperties {
 				numberEggs = properties.getProperty(param);
 			else if(param.equals("numberCorns"))
 				numberCorns = properties.getProperty(param);
-			else if(param.equals("timerGame"))
-				timerGame = properties.getProperty(param);
+			else if(param.equals("timer"))
+				timer = properties.getProperty(param);
 			else if(param.equals("gift"))
 				gift = properties.getProperty(param);
 			else if(param.equals("enemy"))
@@ -101,8 +101,8 @@ public class MyProperties {
 		return numberCorns;
 	}
 
-	public String getTimerGame() {
-		return timerGame;
+	public String getTimer() {
+		return timer;
 	}
 
 	public String getGift() {

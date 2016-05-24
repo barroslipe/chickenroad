@@ -4,8 +4,8 @@ import br.com.chickenroad.screens.util.Constantes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 
@@ -34,7 +34,7 @@ public class PlayerScore {
 		parameter.borderColor = Color.BLACK;
 		parameter.borderWidth = 2;
 		defaultFont = generator.generateFont(parameter);
-		parameter.size = 20;
+		parameter.size = 15;
 		scoreFont = generator.generateFont(parameter);
 		generator.dispose(); // don't forget to dispose to 
 
@@ -85,16 +85,16 @@ public class PlayerScore {
 		this.currentNoCatchedCorns = scoreCorns;
 	}
 
-	public void draw(Batch batch, int deltaXPositionButtons, int deltaYPositionButtons){
+	public void draw(SpriteBatch spriteBatch, int deltaXPositionButtons, int deltaYPositionButtons){
 
-		scoreFont.draw(batch, scoreGameDraw, 310+deltaXPositionButtons, 470+deltaYPositionButtons);
+		scoreFont.draw(spriteBatch, scoreGameDraw, 550+deltaXPositionButtons, 420+deltaYPositionButtons);
 
 		if(currentNoCatchedCorns<10){
-			defaultFont.draw(batch, currentNoCatchedEggsDraw, 561+deltaXPositionButtons, 442+deltaYPositionButtons);
-			defaultFont.draw(batch, currentNoCatchedCornsDraw, 607+deltaXPositionButtons, 443+deltaYPositionButtons);
+			defaultFont.draw(spriteBatch, currentNoCatchedEggsDraw, 561+deltaXPositionButtons, 442+deltaYPositionButtons);
+			defaultFont.draw(spriteBatch, currentNoCatchedCornsDraw, 607+deltaXPositionButtons, 443+deltaYPositionButtons);
 		} else {
-			defaultFont.draw(batch, currentNoCatchedEggsDraw, 556+deltaXPositionButtons, 442+deltaYPositionButtons);
-			defaultFont.draw(batch, currentNoCatchedCornsDraw, 604+deltaXPositionButtons, 443+deltaYPositionButtons);
+			defaultFont.draw(spriteBatch, currentNoCatchedEggsDraw, 556+deltaXPositionButtons, 442+deltaYPositionButtons);
+			defaultFont.draw(spriteBatch, currentNoCatchedCornsDraw, 604+deltaXPositionButtons, 443+deltaYPositionButtons);
 		}
 	}
 

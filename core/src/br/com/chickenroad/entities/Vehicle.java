@@ -53,10 +53,8 @@ public class Vehicle extends Sprite{
 		rectangle.set(super.getBoundingRectangle());
 		
 		if(vehicleType == VehicleTypes.MOTO){
-			System.out.println("moto");
 			rectangle.setHeight(rectangle.height/6);
 		}else{
-			System.out.println("carro");
 			rectangle.setHeight(rectangle.height/3);
 		}
 		return rectangle;

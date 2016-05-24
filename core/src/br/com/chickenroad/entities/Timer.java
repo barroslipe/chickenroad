@@ -9,18 +9,19 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFontParameter;
 
-public class PlayTimer {
+public class Timer {
 
 	private BitmapFont defaultFont;
 	private float timer;
+	private boolean possuiTimer;
 
-	public PlayTimer(){
+	public Timer(){
 
 		this.defaultFont = new BitmapFont();
-
+		this.possuiTimer = false;
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Constantes.URL_FONT_KRAASH_BLACK));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-		parameter.size = 10;
+		parameter.size = 17;
 		parameter.borderColor = Color.BLACK;
 		parameter.borderWidth = 2;
 		defaultFont = generator.generateFont(parameter);
@@ -29,20 +30,34 @@ public class PlayTimer {
 	}
 
 
-	public void draw(SpriteBatch spriteBatch, int deltaXPositionButtons, int deltaYPositionButtons) {
+	public void draw(SpriteBatch spriteBatch, StateGame stateGame, float delta, int deltaXPositionButtons, int deltaYPositionButtons) {
 
-		//defaultFont.draw(spriteBatch, ""+timer, 100+deltaXPositionButtons, 100+deltaYPositionButtons);
-
-	}
-
-
-	public void setTimer(String timerGame) {
-		if(timerGame != null && !timerGame.equals("")){
-			timer = Float.parseFloat(timerGame);
+		if(possuiTimer){
+			if(stateGame == StateGame.PLAYING && timer > 0)
+				timer -= delta;
+	
+			String minutos =  ((int)timer/60 > 10 ? ""+(int)timer/60 : "0"+ (int)timer/60);
+			String segundos = ((int)timer%60 > 10 ? ""+(int)timer%60 : "0"+(int)timer%60);
+			
+			defaultFont.draw(spriteBatch, ""+minutos+":"+segundos, Constantes.WORLD_WIDTH/2 - 25+deltaXPositionButtons, 470+deltaYPositionButtons);
 		}
 
 	}
 
+	public void setTimer(String timerGame) {
+		if(timerGame != null && !timerGame.equals("")){
+			timer = Float.parseFloat(timerGame)*60;
+			possuiTimer = true;
+		}
+	}
 
+	public float getTimer(){
+		return timer;
+	}
+
+
+	public boolean possuiTimer() {
+		return possuiTimer;
+	}
 
 }

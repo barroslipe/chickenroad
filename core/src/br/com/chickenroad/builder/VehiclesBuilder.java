@@ -19,9 +19,6 @@ public class VehiclesBuilder {
 
 	public static ArrayList<Vehicle> builder(List<Road> roadList, AssetManager assetManager) {
 
-		//TODO verificar os objetos que estarão nas estradas
-		//String[] pictures = {"veicules/veiculo1D.png", "veicules/veiculo1E.png"};
-
 		ArrayList<Vehicle> vehicleList = new ArrayList<Vehicle>();
 
 		Vehicle vehicle;
