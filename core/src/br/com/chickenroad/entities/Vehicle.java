@@ -14,11 +14,14 @@ import com.badlogic.gdx.math.Rectangle;
 public class Vehicle extends Sprite{
 
 	private RoadFaixa roadFaixa;
+	private VehicleTypes vehicleType;
 
 	public Vehicle(String sprite, RoadFaixa aRoadFaixa, AssetManager assetManager){
 		super(new Texture(sprite));
 		roadFaixa = aRoadFaixa;
 		setScale(0.7f);
+		//verificar outra forma de atribuir tipo do veiculo
+		vehicleType = (sprite.substring(9, sprite.length()-6).equalsIgnoreCase((VehicleTypes.MOTO).valor) ? VehicleTypes.MOTO : VehicleTypes.CAR);
 	}
 
 	public void walkX(){
@@ -48,8 +51,14 @@ public class Vehicle extends Sprite{
 		Rectangle rectangle = new Rectangle();
 
 		rectangle.set(super.getBoundingRectangle());
-		rectangle.setHeight(rectangle.height/2);
-
+		
+		if(vehicleType == VehicleTypes.MOTO){
+			System.out.println("moto");
+			rectangle.setHeight(rectangle.height/6);
+		}else{
+			System.out.println("carro");
+			rectangle.setHeight(rectangle.height/3);
+		}
 		return rectangle;
 	};
 
