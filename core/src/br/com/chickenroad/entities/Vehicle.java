@@ -51,7 +51,7 @@ public class Vehicle extends Sprite{
 		Rectangle rectangle = new Rectangle();
 
 		rectangle.set(super.getBoundingRectangle());
-		
+
 		if(vehicleType == VehicleTypes.MOTO){
 			rectangle.setHeight(rectangle.height/6);
 		}else{
@@ -62,6 +62,31 @@ public class Vehicle extends Sprite{
 
 	public void dispose(){
 		//getTexture().dispose();
+	}
+
+	public boolean isNearToHork(Rectangle bound) {
+
+		int distance_max = 5;
+		float altura = (vehicleType == VehicleTypes.MOTO ? getHeight()/6 : getHeight()/3);
+
+		if(roadFaixa.getDirection() == Direction.RIGHT){
+
+			if( (getX() + getWidth() < bound.x && getX()+getWidth()+distance_max >= bound.x)
+					&& (getY() < bound.y && bound.y <= getY()+altura) ){
+				return true;
+			}
+
+		}else if(roadFaixa.getDirection() == Direction.LEFT){
+			//adicionei 60 pois esse libgdx é louco!
+			if( (getX() - distance_max - 60 <= bound.x &&  bound.x < getX())
+					&&
+					(getY() < bound.y && bound.y <= getY()+altura) ){
+
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 }

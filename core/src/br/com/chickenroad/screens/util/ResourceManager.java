@@ -44,12 +44,12 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_SOUND_EGGS, Music.class);
 		assetManager.load(Constantes.URL_SOUND_CORNS, Music.class);
 		assetManager.load(Constantes.URL_SOUND_CHICKEN_DEMAGE, Music.class);
-		//assetManager.load(Constantes.URL_SOUND_ROOSTER, Music.class);
 		assetManager.load(Constantes.URL_SOUND_BACKGROUND_FASE1, Music.class);
 		assetManager.load(Constantes.URL_SOUND_BACKGROUND_CHICKEN, Music.class);
 		assetManager.load(Constantes.URL_SOUND_END_FASE, Music.class);
 		assetManager.load(Constantes.URL_SOUND_END_FASE_COIN, Music.class);
 		assetManager.load(Constantes.URL_SOUND_SHEEP, Music.class);
+		assetManager.load(Constantes.URL_SOUND_HORN, Music.class);
 
 		assetManager.load("pauseFaseButton.png", Texture.class);
 		assetManager.load("playFaseButton.png", Texture.class);

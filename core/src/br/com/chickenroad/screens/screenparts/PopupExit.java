@@ -40,7 +40,6 @@ public class PopupExit {
 
 		this.texturePopupBackground = assetManager.get(Constantes.URL_POPUP_EXIT_BACKGROUND);
 		this.spritePopupBackground = new Sprite(texturePopupBackground);
-		this.spritePopupBackground.setScale(1.2f);
 
 	}
 
@@ -50,8 +49,8 @@ public class PopupExit {
 	 */
 	public void draw(SpriteBatch spriteBatch){
 
-		spritePopupNo.setPosition(Constantes.WORLD_WIDTH/2 - 120, Constantes.WORLD_HEIGHT/2 - 140);
-		spritePopupYes.setPosition(Constantes.WORLD_WIDTH/2 + 60, Constantes.WORLD_HEIGHT/2 - 140);
+		spritePopupNo.setPosition(Constantes.WORLD_WIDTH/2 - 120, Constantes.WORLD_HEIGHT/2 - 180);
+		spritePopupYes.setPosition(Constantes.WORLD_WIDTH/2 + 60, Constantes.WORLD_HEIGHT/2 - 180);
 		spritePopupBackground.setPosition(Constantes.WORLD_WIDTH/2- spritePopupBackground.getWidth()/2, Constantes.WORLD_HEIGHT/2 - spritePopupBackground.getHeight()/2);
 
 		spritePopupBackground.draw(spriteBatch);

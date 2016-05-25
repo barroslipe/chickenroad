@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 public class Timer {
 
 	private BitmapFont defaultFont;
+	private float TOTAL_TIMER;
 	private float timer;
 	private boolean possuiTimer;
 
@@ -35,10 +36,10 @@ public class Timer {
 		if(possuiTimer){
 			if(stateGame == StateGame.PLAYING && timer > 0)
 				timer -= delta;
-	
+
 			String minutos =  ((int)timer/60 > 10 ? ""+(int)timer/60 : "0"+ (int)timer/60);
 			String segundos = ((int)timer%60 > 10 ? ""+(int)timer%60 : "0"+(int)timer%60);
-			
+
 			defaultFont.draw(spriteBatch, ""+minutos+":"+segundos, Constantes.WORLD_WIDTH/2 - 25+deltaXPositionButtons, 470+deltaYPositionButtons);
 		}
 
@@ -47,6 +48,7 @@ public class Timer {
 	public void setTimer(String timerGame) {
 		if(timerGame != null && !timerGame.equals("")){
 			timer = Float.parseFloat(timerGame)*60;
+			TOTAL_TIMER = timer;
 			possuiTimer = true;
 		}
 	}
@@ -58,6 +60,20 @@ public class Timer {
 
 	public boolean possuiTimer() {
 		return possuiTimer;
+	}
+
+
+	public int calculateScoreTimer() {
+
+		if(!possuiTimer) return 0;
+
+		float tempo_decorrido = TOTAL_TIMER - timer;
+		if(0.3*TOTAL_TIMER >= tempo_decorrido)
+			return 1000;
+		else if(0.6*TOTAL_TIMER >= tempo_decorrido)
+			return 500;
+		else
+			return 200;
 	}
 
 }

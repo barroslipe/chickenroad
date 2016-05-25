@@ -46,6 +46,7 @@ public class Constantes {
 	public static final String URL_SOUND_END_FASE_COIN = "sounds/soundCoinEndFase.mp3";
 	public static final String URL_SOUND_BACKGROUND_CHICKEN = "sounds/soundChickenBackground.mp3";
 	public static final String URL_SOUND_SHEEP = "sounds/soundSheep.mp3";
+	public static final String URL_SOUND_HORN = "sounds/soundHorn.mp3";
 
 	public static final String URL_PLAYER_NORMAL_LIFE = "player/normalLife.png";
 	public static final String URL_PLAYER_DEAD_LIFE = "player/deadLife.png";

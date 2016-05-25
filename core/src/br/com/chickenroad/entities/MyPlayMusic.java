@@ -12,7 +12,7 @@ import com.badlogic.gdx.audio.Music;
 public class MyPlayMusic {
 
 	private Music soundEggs,soundCorns, soundChickenDemage, soundBackgroundFase, 
-	soundCoinEndFase, soundEndFase, soundBackgroundChicken, soundSheep;
+	soundCoinEndFase, soundEndFase, soundBackgroundChicken, soundSheep, soundHorn;
 
 	/**
 	 * Inicialização dos atributos da classe
@@ -28,6 +28,7 @@ public class MyPlayMusic {
 		this.soundCorns = assetManager.get(Constantes.URL_SOUND_CORNS);
 		this.soundChickenDemage = assetManager.get(Constantes.URL_SOUND_CHICKEN_DEMAGE);
 		this.soundSheep = assetManager.get(Constantes.URL_SOUND_SHEEP);
+		this.soundHorn = assetManager.get(Constantes.URL_SOUND_HORN);
 	}
 	/**
 	 * Inicializar a classe atribuíndo volume e tocando alguns sons
@@ -35,6 +36,7 @@ public class MyPlayMusic {
 	public void init() {
 		this.soundBackgroundFase.setVolume(0.2f);
 		this.soundBackgroundChicken.setVolume(0.4f);
+		//this.soundHorn.setVolume(0.5f);
 	}
 
 	public Music getSoundEggs() {
@@ -67,6 +69,10 @@ public class MyPlayMusic {
 
 	public Music getSoundSheep() {
 		return soundSheep;
+	}
+
+	public Music getSoundHorn() {
+		return soundHorn;
 	}
 
 	public void stopBackgroundMusic() {

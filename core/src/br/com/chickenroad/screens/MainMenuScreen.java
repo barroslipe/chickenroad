@@ -86,7 +86,6 @@ public class MainMenuScreen extends ScreenBase {
 		 * Botões do menu de saída da aplicação
 		 */
 		if(showPopupExitFlag){
-
 			if(popupExit.checkClickYesButton(touchPoint.x, touchPoint.y)){
 				MyPlayMusic.playSound(soundClick);
 				Gdx.app.exit();

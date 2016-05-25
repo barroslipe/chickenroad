@@ -66,8 +66,10 @@ public class PlayerLife{
 			textureBar =  textureRegionDrawableBlue;
 		else if(option == 2)
 			textureBar =  textureRegionDrawableGreen;
-		else
+		else if(option == 3)
 			textureBar =  textureRegionDrawableRed;
+		else
+			textureBar = null;
 
 		barStyle.knobBefore = textureBar;
 		barStyle.knob=null;
@@ -90,20 +92,22 @@ public class PlayerLife{
 
 	public void draw(Batch batch){
 
-		//		if(life <= TOTAL_LIFE && life >= 75){
-		//			lifeProgressBar.setStyle(getProgresBarStyle(1));
-		//			spriteNormalLife.setPosition(10+PlayScreen.deltaXPositionButtons,  10+PlayScreen.deltaYPositionButtons);
-		//			spriteNormalLife.draw(batch);
-		//		}else if(life <  75 && life > 35) {
-		//			lifeProgressBar.setStyle(getProgresBarStyle(2));
-		//			spriteNormalLife.setPosition(10+PlayScreen.deltaXPositionButtons,  10+PlayScreen.deltaYPositionButtons);
-		//			spriteNormalLife.draw(batch);
-		//		}else{
-		//			lifeProgressBar.setStyle(getProgresBarStyle(3));
-		//			spriteDeadLife.setPosition(10+PlayScreen.deltaXPositionButtons,  10+PlayScreen.deltaYPositionButtons);
-		//			spriteDeadLife.draw(batch);
-		//		}
+		if(life <= TOTAL_LIFE && life >= 75){
+			lifeProgressBar.setStyle(getProgresBarStyle(1));
+			//spriteNormalLife.setPosition(10+PlayScreen.deltaXPositionButtons,  10+PlayScreen.deltaYPositionButtons);
+			//spriteNormalLife.draw(batch);
+		}else if(life > 35) {
+			lifeProgressBar.setStyle(getProgresBarStyle(2));
+			//spriteNormalLife.setPosition(10+PlayScreen.deltaXPositionButtons,  10+PlayScreen.deltaYPositionButtons);
+			//spriteNormalLife.draw(batch);
+		}else if(life > 0){
+			lifeProgressBar.setStyle(getProgresBarStyle(3));
+			//spriteDeadLife.setPosition(10+PlayScreen.deltaXPositionButtons,  10+PlayScreen.deltaYPositionButtons);
+			//spriteDeadLife.draw(batch);
+		}else
+			lifeProgressBar.setStyle(getProgresBarStyle(4));
 
+		
 		this.lifeProgressBar.setPosition(430+PlayScreen.deltaXPositionButtons,  440+PlayScreen.deltaYPositionButtons);
 		this.lifeProgressBar.draw(batch, 50);
 
