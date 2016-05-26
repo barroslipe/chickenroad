@@ -1,7 +1,7 @@
 package br.com.chickenroad.screens.screenparts;
 
+import br.com.chickenroad.Constantes;
 import br.com.chickenroad.entities.StateGame;
-import br.com.chickenroad.screens.util.Constantes;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
@@ -16,25 +16,8 @@ public class PlayMenuButtons{
 	private Sprite spriteEggsQtd;
 	private Sprite spriteCornQtd;
 
-	public int playerLifeLevel;
-
 	//flag para desabilitar os botões
 	private boolean flagDisable;
-
-	/**
-	 * @return the playerLifeLevel
-	 */
-	public int getPlayerLifeLevel() {
-		return playerLifeLevel;
-	}
-
-
-	/**
-	 * @param playerLifeLevel the playerLifeLevel to set
-	 */
-	public void setPlayerLifeLevel(int playerLifeLevel) {
-		this.playerLifeLevel = playerLifeLevel;
-	}
 
 
 	public PlayMenuButtons(AssetManager assetManager) {
@@ -112,7 +95,6 @@ public class PlayMenuButtons{
 	public void enable() {
 		flagDisable = false;	
 	}
-
 
 	public void dispose() {
 		this.spritePause = null;

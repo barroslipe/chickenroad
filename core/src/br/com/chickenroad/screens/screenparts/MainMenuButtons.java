@@ -1,6 +1,6 @@
 package br.com.chickenroad.screens.screenparts;
 
-import br.com.chickenroad.screens.util.Constantes;
+import br.com.chickenroad.Constantes;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
@@ -15,19 +15,15 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 public class MainMenuButtons {
 
 	//play button
-	private Texture texturePlay;
 	private Sprite spritePlay;
 
 	//quit button
-	private Texture textureExit;
 	private Sprite spriteExit;
 
 	//sound on button
-	private Texture textureSoundOn;
 	private Sprite spriteSoundOn;
 
 	//sound off button
-	private Texture textureSoundOff;
 	private Sprite spriteSoundOff;
 
 
@@ -38,14 +34,14 @@ public class MainMenuButtons {
 
 	public MainMenuButtons(AssetManager assetManager) {
 
-		this.texturePlay = assetManager.get(Constantes.URL_PLAY_BUTTON);
+		Texture texturePlay = assetManager.get(Constantes.URL_PLAY_BUTTON);
 		this.spritePlay = new Sprite(texturePlay);
-		this.textureExit = assetManager.get(Constantes.URL_EXIT_BUTTON);
+		Texture textureExit = assetManager.get(Constantes.URL_EXIT_BUTTON);
 		this.spriteExit = new Sprite(textureExit);
 
-		this.textureSoundOn = assetManager.get(Constantes.URL_SOUND_ON_BUTTON);
+		Texture textureSoundOn = assetManager.get(Constantes.URL_SOUND_ON_BUTTON);
 		this.spriteSoundOn = new Sprite(textureSoundOn);
-		this.textureSoundOff = assetManager.get(Constantes.URL_SOUND_OFF_BUTTON);
+		Texture textureSoundOff = assetManager.get(Constantes.URL_SOUND_OFF_BUTTON);
 		this.spriteSoundOff = new Sprite(textureSoundOff);
 
 		this.spritePlay.setPosition(Constantes.WORLD_WIDTH/2-spritePlay.getWidth()/2, Constantes.WORLD_HEIGHT/2);

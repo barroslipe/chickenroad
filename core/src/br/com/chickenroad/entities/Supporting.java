@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Intersector;
 
+import br.com.chickenroad.Constantes;
 import br.com.chickenroad.animations.SupportingAnimation;
-import br.com.chickenroad.screens.util.Constantes;
 
 /*Refere-se aos personagens de segundo plano do cenario do game.
  *  Pessoas, animais, etc..

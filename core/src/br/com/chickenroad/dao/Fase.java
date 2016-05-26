@@ -34,7 +34,7 @@ public class Fase {
 	 */
 	public Fase(int id){
 		
-		this.setId(id);
+		this.id = id;
 		this.score = 0;
 		this.gift = 0;
 	}

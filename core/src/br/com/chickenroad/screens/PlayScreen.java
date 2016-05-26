@@ -4,12 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.chickenroad.ChickenRoadGame;
+import br.com.chickenroad.Constantes;
 import br.com.chickenroad.builder.RoadsBuilder;
 import br.com.chickenroad.builder.TargetPlayerBuilder;
 import br.com.chickenroad.builder.VehiclesBuilder;
+import br.com.chickenroad.dao.PreferencesUser;
 import br.com.chickenroad.entities.ChickenNest;
 import br.com.chickenroad.entities.MyMap;
 import br.com.chickenroad.entities.MyPlayMusic;
+import br.com.chickenroad.entities.PlayCamera;
 import br.com.chickenroad.entities.Player;
 import br.com.chickenroad.entities.PlayerScore;
 import br.com.chickenroad.entities.Road;
@@ -20,11 +23,9 @@ import br.com.chickenroad.entities.Timer;
 import br.com.chickenroad.entities.Vehicle;
 import br.com.chickenroad.screens.screenparts.PlayMenuButtons;
 import br.com.chickenroad.screens.screenparts.PopupGameOver;
+import br.com.chickenroad.screens.screenparts.PopupPause;
 import br.com.chickenroad.screens.screenparts.PopupTutorial;
-import br.com.chickenroad.screens.util.Constantes;
 import br.com.chickenroad.screens.util.MyProperties;
-import br.com.chickenroad.screens.util.PlayCamera;
-import br.com.chickenroad.screens.util.PreferencesUser;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -61,7 +62,7 @@ public class PlayScreen extends ScreenBase {
 	private MyMap myMap;
 	//estado do jogo
 	private StateGame stateGame;
-
+	private PopupPause popupPause;
 	private PopupGameOver popupGameOver;
 	private PopupTutorial popupTutorial;
 	//camera do jogo
@@ -101,16 +102,16 @@ public class PlayScreen extends ScreenBase {
 		this.myMap = new MyMap(Constantes.URL_MAPS[seasonId][faseId]);
 		this.playMenuButtons = new PlayMenuButtons(getAssetManager());
 		this.playCamera = new PlayCamera();
-		this.player = new Player(getAssetManager(),  myMap.getWidthTiledMap(), myMap.getHeightTiledMap());
+		this.player = new Player(getAssetManager());
 		this.playerScore = new PlayerScore();
 		this.myProperties = new MyProperties();
 		this.myProperties.loadProperties(Constantes.URL_MAPS[seasonId][faseId] + ".properties");
 		this.timer = new Timer();
 		this.targetPlayerBuilder = new TargetPlayerBuilder();
 
-		//inicia popup de tutorial
 		this.popupTutorial = new PopupTutorial(getAssetManager());
 		this.popupGameOver = new PopupGameOver(getAssetManager());
+		this.popupPause = new PopupPause(getAssetManager());
 
 		//iniciar fase
 		init();
@@ -184,7 +185,7 @@ public class PlayScreen extends ScreenBase {
 
 		switch (stateGame) {
 		case PLAYING:
-			player.updatePlayerPosition(Gdx.graphics.getDeltaTime(), myMap.getTiles(), vehicleList);
+			player.updatePlayerPosition(delta, myMap.getTiles(), vehicleList, myMap.getWidthTiledMap(), myMap.getHeightTiledMap());
 			break;
 
 		case RESTART:
@@ -215,7 +216,7 @@ public class PlayScreen extends ScreenBase {
 		chickenRoadGame.getSpriteBatch().setProjectionMatrix(playCamera.getOrthographicCamera().combined);		
 
 		myMap.draw(playCamera.getOrthographicCamera());
-		
+
 		//musicas de fundo em looping
 		if(stateGame != StateGame.PAUSE){
 			MyPlayMusic.playSound(myPlayMusic.getSoundBackgroundFase());
@@ -262,6 +263,7 @@ public class PlayScreen extends ScreenBase {
 		drawColisionPlayerCar(delta);
 
 		drawGameOver(delta);
+		drawPausePopup();
 		drawFinishGame(delta);
 
 		//popup tutorial
@@ -274,6 +276,14 @@ public class PlayScreen extends ScreenBase {
 		testCollisionGift();
 
 	}//end draw()
+
+	private void drawPausePopup() {
+		if(stateGame == StateGame.PAUSE && !flagPopupTutorial){
+			playMenuButtons.disable();
+			this.popupPause.draw(chickenRoadGame.getSpriteBatch());
+		}
+
+	}
 
 	private void drawPlayerAndVehicles(float delta) {
 
@@ -331,14 +341,15 @@ public class PlayScreen extends ScreenBase {
 
 	private void drawFinishGame(float delta) {
 		//se pegou todos os ovos, exibe texto animado de fim de fase
-		if(playerScore.getCurrentNoCatchedEggs() == 0 && chickenNest.checkColision(player)) {
+		if(playerScore.getCurrentNoCatchedEggs() == 0 && chickenNest.checkColision(player.getBoundingRectangle())) {
 
 			myPlayMusic.stopBackgroundMusic();
 
 			//TODO aqui será o sucesso da aplicação certo? então, aqui iremos persistir o score e o presente[não há variável do presente por enquanto]
-			if(stateGame != StateGame.FINISH){
+			if(stateGame != StateGame.SUCCESS){
 				playerScore.addScoreGame(player.getPlayerLife().calculateScoreLife());
-					playerScore.addScoreGame(timer.calculateScoreTimer());
+				playerScore.addScoreGame(timer.calculateScoreTimer());
+				playMenuButtons.disable();
 				PreferencesUser.setSucesso(seasonId, faseId, playerScore.getScoreGame());
 			}
 
@@ -364,7 +375,7 @@ public class PlayScreen extends ScreenBase {
 			myPlayMusic.getSoundBackgroundFase().pause();
 			myPlayMusic.getSoundBackgroundChicken().pause();
 
-			stateGame = StateGame.FINISH;
+			stateGame = StateGame.SUCCESS;
 
 		}
 		else { //else GAMBIARRA TEMPOR�RIA - :(
@@ -374,7 +385,7 @@ public class PlayScreen extends ScreenBase {
 
 	private void leaveEggInNest() {
 		//se aproximar do ninho, deixa um ovo
-		if(chickenNest.checkColision(player)) {
+		if(chickenNest.checkColision(player.getBoundingRectangle())) {
 			targetPlayerBuilder.leaveEggInNest(chickenNest);
 		}
 	}
@@ -436,33 +447,42 @@ public class PlayScreen extends ScreenBase {
 		playCamera.getOrthographicCamera().unproject(touchPoint);
 
 		//clicou em pause
-		if((stateGame != StateGame.PAUSE) && playMenuButtons.checkClickPauseButton(touchPoint.x, touchPoint.y)){
+		if(playMenuButtons.checkClickPauseButton(touchPoint.x, touchPoint.y)){
 			stateGame = StateGame.PAUSE;
 			return true;
 		}
 		//clicou no play
-		if(playMenuButtons.checkClickPlayButton(touchPoint.x, touchPoint.y)){
+		if(popupPause.checkClickPlayButton(touchPoint.x, touchPoint.y) && stateGame == StateGame.PAUSE){
+			playMenuButtons.enable();
 			stateGame = StateGame.PLAYING;
 			return true;
 		}
 		//clicou no restart
-		if(popupGameOver.checkClickRestartButton(touchPoint.x, touchPoint.y) && stateGame == StateGame.GAME_OVER){
+		if((popupGameOver.checkClickRestartButton(touchPoint.x, touchPoint.y) && stateGame == StateGame.GAME_OVER) 
+				|| popupPause.checkClickRestartButton(touchPoint.x, touchPoint.y) && stateGame == StateGame.PAUSE){
 			stateGame = StateGame.RESTART;
 			return true;
 		}
 		//clicou para sair da fase e ir a tela de fases
-		if(popupGameOver.checkClickFaseListButton(touchPoint.x, touchPoint.y) && stateGame == StateGame.GAME_OVER){
+		if((popupGameOver.checkClickFaseListButton(touchPoint.x, touchPoint.y)  && stateGame == StateGame.GAME_OVER) 
+			|| (popupPause.checkClickFaseListButton(touchPoint.x, touchPoint.y)  && stateGame == StateGame.PAUSE)){
 			myPlayMusic.stopBackgroundMusic();
 			myPlayMusic.getSoundEndFase().stop();
 			chickenRoadGame.setScreenWithTransitionFade(new FasesScreen(chickenRoadGame, seasonId));
 			return true;
 		}
 
-		if(popupTutorial != null && popupTutorial.checkClickOkTutorialButton(touchPoint.x, touchPoint.y)){
+		if(popupTutorial.checkClickOkTutorialButton(touchPoint.x, touchPoint.y) && flagPopupTutorial){
 			flagPopupTutorial = false;
 			playMenuButtons.enable();
 			stateGame = StateGame.PLAYING;
 			return true;
+		}
+
+		if(popupPause.checkClickSoundOnButton(touchPoint.x, touchPoint.y) && stateGame == StateGame.PAUSE){
+			Constantes.SOUND_ON_FLAG = !Constantes.SOUND_ON_FLAG;
+			if(!Constantes.SOUND_ON_FLAG) myPlayMusic.stopBackgroundMusic();
+
 		}
 
 		//se nao for clicando em nada acima, devo me movimentar

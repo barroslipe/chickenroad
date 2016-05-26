@@ -38,7 +38,7 @@ public class VehiclesBuilder {
 					vehicle = new Vehicle("veicules/"+faixa.getVeiculo()+(faixa.getDirection() == Direction.RIGHT ? "D":"E")+".png", faixa, assetManager);
 					vehicle.init(positionX, positionY);
 					vehicleList.add(vehicle);
-					positionX += vehicle.getWidth() + faixa.getCarsDistance()*Util.getRandomPosition(1, 4)*Util.getRandomPosition(1);
+					positionX += vehicle.getWidth() + faixa.getCarsBetweenDistance()*Util.getRandomPosition(1, 4)*Util.getRandomPosition(1);
 				}
 				while(positionX < faixa.getInitialPoint().x+road.getWidth() - DESLOC_INIT_X_ROAD);
 			}

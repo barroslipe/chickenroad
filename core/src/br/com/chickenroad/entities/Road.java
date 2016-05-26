@@ -11,19 +11,19 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class Road {
 
-	private Vector2 point;
+	private Vector2 initialPoint;
 	private float width, height;
 	private ArrayList<RoadFaixa> roadFaixaList;
 	
 	public Road(float pointX, float pointY, float width, float height, ArrayList<RoadFaixa> aRoadFaixaList){
-		point = new Vector2(pointX, pointY);
+		this.initialPoint = new Vector2(pointX, pointY);
 		this.width = width;
 		this.height = height;
 		this.roadFaixaList = aRoadFaixaList;
 	}
 
 	public Vector2 getPoint() {
-		return point;
+		return initialPoint;
 	}
 	
 	public float getWidth() {
@@ -40,6 +40,6 @@ public class Road {
 
 	@Override
 	public String toString(){
-		return "Ponto (x,y) => ("+point.x+", "+point.y+") / width: "+width +" , height: "+height;
+		return "Ponto (x,y) => ("+initialPoint.x+", "+initialPoint.y+") / width: "+width +" , height: "+height;
 	}
 }

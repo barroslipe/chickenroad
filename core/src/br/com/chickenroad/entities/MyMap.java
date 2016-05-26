@@ -3,7 +3,7 @@ package br.com.chickenroad.entities;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.chickenroad.screens.util.Constantes;
+import br.com.chickenroad.Constantes;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -141,7 +141,7 @@ public class MyMap {
 		getOrthogonalTiledMapRenderer().setView(orthographicCamera);
 		getOrthogonalTiledMapRenderer().render();		
 	}
-	
+
 	/**
 	 * Liberar recursos
 	 */
@@ -153,10 +153,10 @@ public class MyMap {
 
 	public void renderLayerColisaoObjetosImoveis() {
 		if(tiledMap.getLayers().get("intermediaria") == null) return;
-		
-		 getOrthogonalTiledMapRenderer().getBatch().begin();
+
+		getOrthogonalTiledMapRenderer().getBatch().begin();
 		getOrthogonalTiledMapRenderer().renderTileLayer((TiledMapTileLayer)tiledMap.getLayers().get("intermediaria"));
 		getOrthogonalTiledMapRenderer().getBatch().end();
-		
+
 	}
 }

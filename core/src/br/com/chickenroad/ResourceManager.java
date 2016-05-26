@@ -1,4 +1,4 @@
-package br.com.chickenroad.screens.util;
+package br.com.chickenroad;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
@@ -77,6 +77,7 @@ public class ResourceManager {
 
 		//popup
 		assetManager.load(Constantes.URL_GAMEOVER_POPUP, Texture.class);
+		assetManager.load(Constantes.URL_PAUSE_POPUP, Texture.class);
 		assetManager.load(Constantes.URL_OK_BUTTON, Texture.class);
 
 		//sprites secundarios do cenario

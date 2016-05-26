@@ -1,11 +1,12 @@
 package br.com.chickenroad.entities;
 
-import br.com.chickenroad.screens.util.Constantes;
+import br.com.chickenroad.Constantes;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.Intersector;
+import com.badlogic.gdx.math.Rectangle;
 
 /**
  * Modela o ninho da galinha - onde os ovos serão depositados
@@ -26,9 +27,9 @@ public class ChickenNest extends Sprite{
 	 * @return true caso haja colisão
 	 * 		   false caso não haja colisão
 	 */
-	public boolean checkColision(Player player){
+	public boolean checkColision(Rectangle rectangle){
 
-		if(Intersector.overlaps(getBoundingRectangle(), player.getBoundingRectangle()))
+		if(Intersector.overlaps(getBoundingRectangle(), rectangle))
 			return true;
 
 		return false;

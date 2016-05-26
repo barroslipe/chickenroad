@@ -10,6 +10,6 @@ public enum StateGame {
 		PLAYING,
 		RESTART,
 		GAME_OVER,
-		FINISH;
+		SUCCESS;
 		
 }

@@ -2,9 +2,9 @@ package br.com.chickenroad.screens.screenparts;
 
 import java.util.ArrayList;
 
+import br.com.chickenroad.Constantes;
+import br.com.chickenroad.dao.PreferencesUser;
 import br.com.chickenroad.dao.Season;
-import br.com.chickenroad.screens.util.Constantes;
-import br.com.chickenroad.screens.util.PreferencesUser;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;

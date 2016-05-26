@@ -6,11 +6,11 @@ import java.util.Random;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.math.Vector2;
 
+import br.com.chickenroad.Constantes;
 import br.com.chickenroad.entities.ChickenNest;
 import br.com.chickenroad.entities.MyMap;
 import br.com.chickenroad.entities.TargetPlayer;
 import br.com.chickenroad.entities.TargetPlayerTypes;
-import br.com.chickenroad.screens.util.Constantes;
 import br.com.chickenroad.screens.util.MyProperties;
 import br.com.chickenroad.screens.util.Util;
 

@@ -1,6 +1,6 @@
 package br.com.chickenroad.entities;
 
-import br.com.chickenroad.screens.util.Constantes;
+import br.com.chickenroad.Constantes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -40,7 +40,7 @@ public class Timer {
 			String minutos =  ((int)timer/60 > 10 ? ""+(int)timer/60 : "0"+ (int)timer/60);
 			String segundos = ((int)timer%60 > 10 ? ""+(int)timer%60 : "0"+(int)timer%60);
 
-			defaultFont.draw(spriteBatch, ""+minutos+":"+segundos, Constantes.WORLD_WIDTH/2 - 25+deltaXPositionButtons, 470+deltaYPositionButtons);
+			defaultFont.draw(spriteBatch, ""+minutos+":"+segundos, Constantes.WORLD_WIDTH/2 - 50+deltaXPositionButtons, 470+deltaYPositionButtons);
 		}
 
 	}

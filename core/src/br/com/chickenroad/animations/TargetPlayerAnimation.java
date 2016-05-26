@@ -64,7 +64,7 @@ public class TargetPlayerAnimation{
 			velAnimation  = velAnim;
 		break;
 
-		case SHEEP: //animação de nilhos
+		case SHEEP: //animaï¿½ï¿½o de nilhos
 			//player spritesheet animation
 			eggsSheet = assetManager.get(sprite);
 			

@@ -4,8 +4,6 @@ import br.com.chickenroad.screens.ScreenBase;
 import br.com.chickenroad.screens.SplashScreen;
 import br.com.chickenroad.screens.transitions.ScreenTransition;
 import br.com.chickenroad.screens.transitions.ScreenTransitionFade;
-import br.com.chickenroad.screens.util.Constantes;
-import br.com.chickenroad.screens.util.ResourceManager;
 
 import com.badlogic.gdx.Game;
 import com.badlogic.gdx.Gdx;

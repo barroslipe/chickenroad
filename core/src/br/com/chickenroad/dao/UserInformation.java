@@ -9,7 +9,7 @@ import java.util.ArrayList;
  */
 public class UserInformation implements Serializable{
 
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 
 	/**
 	 * Temporadas abertas pelo usuário

@@ -1,7 +1,7 @@
 package br.com.chickenroad.entities;
 
+import br.com.chickenroad.Constantes;
 import br.com.chickenroad.screens.PlayScreen;
-import br.com.chickenroad.screens.util.Constantes;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
@@ -9,7 +9,6 @@ import com.badlogic.gdx.graphics.Pixmap;
 import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
 import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar.ProgressBarStyle;
@@ -23,7 +22,6 @@ public class PlayerLife{
 	private ProgressBar lifeProgressBar;
 	private Skin skin;
 
-	private Sprite spriteNormalLife, spriteDeadLife;
 	private TextureRegionDrawable textureRegionDrawableBlue, textureRegionDrawableGreen, textureRegionDrawableRed;
 	private ProgressBarStyle barStyle;
 
@@ -50,14 +48,7 @@ public class PlayerLife{
 		this.lifeProgressBar.setWidth(80);
 		this.lifeProgressBar.setValue(life);
 
-		Texture normalLife = assetManager.get(Constantes.URL_PLAYER_NORMAL_LIFE);
-		Texture deadLife = assetManager.get(Constantes.URL_PLAYER_DEAD_LIFE);
-
-		this.spriteNormalLife = new Sprite(normalLife);	
-		this.spriteDeadLife = new Sprite(deadLife);
-
 	}
-
 
 	private ProgressBarStyle getProgresBarStyle(int option) {
 
@@ -94,25 +85,17 @@ public class PlayerLife{
 
 		if(life <= TOTAL_LIFE && life >= 75){
 			lifeProgressBar.setStyle(getProgresBarStyle(1));
-			//spriteNormalLife.setPosition(10+PlayScreen.deltaXPositionButtons,  10+PlayScreen.deltaYPositionButtons);
-			//spriteNormalLife.draw(batch);
 		}else if(life > 35) {
 			lifeProgressBar.setStyle(getProgresBarStyle(2));
-			//spriteNormalLife.setPosition(10+PlayScreen.deltaXPositionButtons,  10+PlayScreen.deltaYPositionButtons);
-			//spriteNormalLife.draw(batch);
 		}else if(life > 0){
 			lifeProgressBar.setStyle(getProgresBarStyle(3));
-			//spriteDeadLife.setPosition(10+PlayScreen.deltaXPositionButtons,  10+PlayScreen.deltaYPositionButtons);
-			//spriteDeadLife.draw(batch);
 		}else
 			lifeProgressBar.setStyle(getProgresBarStyle(4));
-
 		
 		this.lifeProgressBar.setPosition(430+PlayScreen.deltaXPositionButtons,  440+PlayScreen.deltaYPositionButtons);
 		this.lifeProgressBar.draw(batch, 50);
 
 	}
-
 
 	public void init() {
 		life = TOTAL_LIFE;

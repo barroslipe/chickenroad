@@ -24,9 +24,7 @@ public class Season implements Serializable{
 	 */
 	private ArrayList<Fase> faseList;
 
-	public Season(){
-		
-	}
+	public Season(){}
 	
 	/**
 	 * Criar uma temporada
@@ -40,20 +38,20 @@ public class Season implements Serializable{
 		this.faseList.add(new Fase(0));
 	}
 
-	public ArrayList<Fase> getFaseList() {
-		return faseList;
-	}
-
-	public void setFaseList(ArrayList<Fase> faseList) {
-		this.faseList = faseList;
-	}
-
 	public int getId() {
 		return id;
 	}
 
 	public void setId(int id) {
 		this.id = id;
+	}
+
+	public ArrayList<Fase> getFaseList() {
+		return faseList;
+	}
+
+	public void setFaseList(ArrayList<Fase> faseList) {
+		this.faseList = faseList;
 	}
 
 	/**

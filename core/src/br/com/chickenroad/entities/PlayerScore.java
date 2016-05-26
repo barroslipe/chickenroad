@@ -1,6 +1,6 @@
 package br.com.chickenroad.entities;
 
-import br.com.chickenroad.screens.util.Constantes;
+import br.com.chickenroad.Constantes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -30,7 +30,7 @@ public class PlayerScore {
 
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Constantes.URL_FONT_KRAASH_BLACK));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
-		parameter.size = 10;
+		parameter.size = 7;
 		parameter.borderColor = Color.BLACK;
 		parameter.borderWidth = 2;
 		defaultFont = generator.generateFont(parameter);

@@ -2,9 +2,9 @@ package br.com.chickenroad.screens.screenparts;
 
 import java.util.ArrayList;
 
+import br.com.chickenroad.Constantes;
 import br.com.chickenroad.dao.Fase;
-import br.com.chickenroad.screens.util.Constantes;
-import br.com.chickenroad.screens.util.PreferencesUser;
+import br.com.chickenroad.dao.PreferencesUser;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
@@ -43,7 +43,7 @@ public class FasesMenu {
 	public FasesMenu(AssetManager assetManager, int seasonId){
 
 		//lista de fases abertas para a temporada escolhida
-		this.openFaseList = PreferencesUser.getFases(seasonId);
+		this.openFaseList = PreferencesUser.getOpenFases(seasonId);
 
 		this.glyphLayout = new GlyphLayout();
 		spriteFaseList = new ArrayList<Sprite>();

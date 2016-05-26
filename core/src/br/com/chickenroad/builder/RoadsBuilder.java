@@ -2,10 +2,10 @@ package br.com.chickenroad.builder;
 
 import java.util.ArrayList;
 
+import br.com.chickenroad.Constantes;
 import br.com.chickenroad.entities.Direction;
 import br.com.chickenroad.entities.Road;
 import br.com.chickenroad.entities.RoadFaixa;
-import br.com.chickenroad.screens.util.Constantes;
 import br.com.chickenroad.screens.util.MyProperties;
 import br.com.chickenroad.screens.util.Util;
 

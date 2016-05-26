@@ -1,11 +1,8 @@
-package br.com.chickenroad.screens.util;
+package br.com.chickenroad.dao;
 
 import java.util.ArrayList;
 
 import br.com.chickenroad.configuration.ApplicationConfig;
-import br.com.chickenroad.dao.Fase;
-import br.com.chickenroad.dao.Season;
-import br.com.chickenroad.dao.UserInformation;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
@@ -15,13 +12,13 @@ public class PreferencesUser {
 
 	private static Preferences preferences = Gdx.app.getPreferences("Preferences user");
 	static{
-		saveStateInitial();
+		saveInitialState();
 	}
 
 	/**
 	 * Será executado a primeira vez na aplicação
 	 */
-	private static void saveStateInitial(){
+	private static void saveInitialState(){
 
 		//se já houver algo gravado, não deve adicionar nada
 		if(preferences.getBoolean("STATUS")){
@@ -32,6 +29,13 @@ public class PreferencesUser {
 		save(userInformation);
 
 	}
+
+	public static UserInformation getUserInformation(){
+		UserInformation userInformation = 
+				new Json().fromJson(UserInformation.class, preferences.getString("INFORMATION", null));
+		return userInformation;
+	}
+
 	/**
 	 * 
 	 * @return todas as temporadas e fases abertas
@@ -40,33 +44,19 @@ public class PreferencesUser {
 		return getUserInformation().getSeasonList();
 
 	}
-	public static UserInformation getUserInformation(){
-		Json json = new Json();
-		UserInformation userInformation = json.fromJson(UserInformation.class, preferences.getString("INFORMATION", null));
-		return userInformation;
-	}
 
-	public static ArrayList<Fase> getFases(int seasonId){
+	public static ArrayList<Fase> getOpenFases(int seasonId){
 		return getSeasons().get(seasonId).getFaseList();
 	}
 
 	public static void setSucesso(int seasonId, int faseId, int scoreGame) {
-		
+
 		UserInformation userInformation = getUserInformation();
 
 		//verifico se o score atual da fase é maior que o já registrado, 
-		//lembrando que o jogador pode jogar a mesma fase quantas vezes quiser
-		if(scoreGame > userInformation.getSeasonList().get(seasonId).getFaseList().get(faseId).getScore()){
+		if(scoreGame > userInformation.getSeasonList().get(seasonId).getFaseList().get(faseId).getScore())
 			userInformation.getSeasonList().get(seasonId).getFaseList().get(faseId).setScore(scoreGame);
-			
-			System.err.println("Modificando o score da fase atual");
 
-		}else{
-			System.err.println("Score da fase atual não modificado");
-
-		}
-		//TODO isso não deve existir quando não for protótipo
-		if((faseId+1 )!= Constantes.MAX_FASES){
 		//se for a ultima fase aberta, deve ser aberta a próxima fase com o sucesso
 		if(faseId == (userInformation.getSeasonList().get(seasonId).getFaseList().size()-1)){
 
@@ -74,27 +64,18 @@ public class PreferencesUser {
 			if(faseId == (ApplicationConfig.FASES_PER_SEASON-1)){
 
 				//caso não seja a ultima fase da ultima temporada
-				if(seasonId < (ApplicationConfig.SEASON_PER_APPLICATION-1)){ 
+				if(seasonId < (ApplicationConfig.SEASON_PER_APPLICATION-1))
 					userInformation.getSeasonList().add(new Season(seasonId+1));
-					System.err.println("Criando uma temporada");
-				}
 
-			}else{ //abrir apenas a proxima fase da mesma temporada
+			}else //abrir apenas a proxima fase da mesma temporada
 				userInformation.getSeasonList().get(seasonId).getFaseList().add(new Fase(faseId+1));
-				System.err.println("Abrindo uma fase da mesma temporada");
-
-			}
-
-		}
 		}
 
 		save(userInformation);
 	}
+
 	private static void save(UserInformation userInformation) {
-
-		Json json = new Json();
-
-		String user = json.toJson(userInformation);
+		String user = new Json().toJson(userInformation);
 		preferences.putString("INFORMATION", user);
 		preferences.putBoolean("STATUS",Boolean.TRUE);
 		preferences.flush();

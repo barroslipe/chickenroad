@@ -1,4 +1,4 @@
-package br.com.chickenroad.screens.util;
+package br.com.chickenroad;
 
 /**
  * 
@@ -67,6 +67,7 @@ public class Constantes {
 
 	//popup
 	public static final String URL_GAMEOVER_POPUP = "gameoverPopup.png";
+	public static final String URL_PAUSE_POPUP = "pausePopup.png";
 	public static final String URL_TURORIAL_POPUP = "tutorialPopup.png";
 
 	//sprites secundarios

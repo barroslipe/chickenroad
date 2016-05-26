@@ -3,8 +3,8 @@ package br.com.chickenroad.entities;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.chickenroad.Constantes;
 import br.com.chickenroad.animations.PlayerAnimation;
-import br.com.chickenroad.screens.util.Constantes;
 import br.com.chickenroad.screens.util.Util;
 
 import com.badlogic.gdx.assets.AssetManager;
@@ -24,35 +24,32 @@ public class Player extends Sprite{
 	private int pontoX = 0; //ponto de click/toque na tela
 	private int pontoY = 0;
 	private Direction playerDirectionX, playerDirectionY;
-	private float demageTimerPerSecond, timer;
+
+	private float timer;
 	private boolean demage;
 	private boolean colisionVehiclesStatus; // retorna o estado atual da colis�o com veiculos
-	private int widthTiledMap, heightTileMap;
 
 	private PlayerLife playerLife;
 	private PlayerAnimation playerAnimation;
 
-	private final float WIDTH_PLAYER = 10; //dimensao de colis�o
-	private final float HEIGHT_PLAYER = 14;
+	private final float DEMAGE_TIMER_PER_SECOND=3;
+	private final float WIDTH_PLAYER_COLISION = 10;
+	private final float HEIGHT_PLAYER_COLISION = 14;
 
-	public Player(AssetManager assetManager, int aWidthTiledMap, int aHeightTiledMap) {
+	public Player(AssetManager assetManager) {
 		super((Texture) assetManager.get(Constantes.URL_PLAYER_AVATAR));
 
 		setScale(1.2f);
-		this.widthTiledMap = aWidthTiledMap;
-		this.heightTileMap = aHeightTiledMap;
-		this.demageTimerPerSecond = 3;
 		this.timer=0;
 		this.demage = false;
 		this.playerAnimation = new PlayerAnimation(assetManager);
-		this.playerAnimation.setSpriteSheet(Constantes.URL_PLAYER_AVATAR_STOP_RIGHT, PlayerTypes.AVATAR_STOP_RIGHT);
 		this.playerLife = new PlayerLife(assetManager);
 	}
 
 	public boolean isColisionVehiclesStatus() {
 		return colisionVehiclesStatus;
 	}
-	public void updatePlayerPosition(float delta, List<Rectangle> tiles, ArrayList<Vehicle> vehiclesList) {
+	public void updatePlayerPosition(float delta, List<Rectangle> tiles, ArrayList<Vehicle> vehiclesList, int widthTiledMap, int heightTiledMap) {
 
 		float newPositionX = this.getX()+velocity.x*delta;
 		float newPositionY = this.getY()+velocity.y*delta;
@@ -61,8 +58,8 @@ public class Player extends Sprite{
 			newPositionX = widthTiledMap-32;
 		if(newPositionX < 0)
 			newPositionX = 0;
-		if(newPositionY > heightTileMap-20)
-			newPositionY = heightTileMap-20;
+		if(newPositionY > heightTiledMap-20)
+			newPositionY = heightTiledMap-20;
 		if(newPositionY <0)
 			newPositionY = 0;
 
@@ -114,7 +111,7 @@ public class Player extends Sprite{
 
 	private boolean checkTilesColision(float newPositionX, float newPositionY, List<Rectangle> tiles) {
 
-		Rectangle playerPosition = new Rectangle(newPositionX, newPositionY, WIDTH_PLAYER, HEIGHT_PLAYER);
+		Rectangle playerPosition = new Rectangle(newPositionX, newPositionY, WIDTH_PLAYER_COLISION, HEIGHT_PLAYER_COLISION);
 
 		for(Rectangle object : tiles){
 			if(Intersector.overlaps(object, playerPosition)){
@@ -129,7 +126,7 @@ public class Player extends Sprite{
 	public boolean checkVehiclesColision(ArrayList<Vehicle> vehiclesList){
 
 		//recebe a posi��o atual do player
-		Rectangle playerPosition = new Rectangle(getX(), getY(), WIDTH_PLAYER, HEIGHT_PLAYER);
+		Rectangle playerPosition = new Rectangle(getX(), getY(), WIDTH_PLAYER_COLISION, HEIGHT_PLAYER_COLISION);
 
 		//checa colis�o com veculo com cada posi��o atual do player
 		for(int i=0;i<vehiclesList.size();i++){
@@ -206,38 +203,11 @@ public class Player extends Sprite{
 				playerAnimation.setSpriteSheet(Constantes.URL_PLAYER_AVATAR_DOWN, PlayerTypes.AVATAR_DOWN);
 			}
 		}
-
-		/*
-		if(pontoX > getX()){
-			velocity.x = speed;
-			playerDirectionX = Direction.RIGHT;
-			playerAnimation.changeSpriteSheet(1);
-		}
-
-		if(pontoX < getX()){
-			velocity.x = -speed;
-			playerDirectionX = Direction.LEFT;
-			playerAnimation.changeSpriteSheet(2);
-		}
-
-		if(pontoY > getY()){
-			velocity.y = speed;
-			playerDirectionY = Direction.UP;
-			playerAnimation.changeSpriteSheet(6);
-		}
-
-		if(pontoY < getY()){
-			velocity.y = -speed;
-			playerDirectionY = Direction.DOWN;
-			playerAnimation.changeSpriteSheet(7);
-		}*/
-
 	}
 
 	public void init(float x, float y) {
 		setPosition(x, y);
 		setSize(40, 40);
-		playerAnimation.inicializar(x, y);
 
 		velocity.x = 0;
 		velocity.y = 0;
@@ -264,7 +234,7 @@ public class Player extends Sprite{
 	@Override
 	public void draw(Batch batch, float delta){
 
-		this.setRegion(playerAnimation.getCurrentFrame());
+		this.setRegion(playerAnimation.getCurrentFrame(delta));
 
 		super.draw(batch);
 
@@ -275,7 +245,7 @@ public class Player extends Sprite{
 			setAlpha(Util.getRandomPosition(3, 8)/10);
 
 			// incrementa 'delta' at� que chegue a aprox. 3 segundos ("demageTimerPerSecond")
-			if(timer > demageTimerPerSecond){
+			if(timer > DEMAGE_TIMER_PER_SECOND){
 				timer=0;
 				demage = false;
 				setAlpha(1);
