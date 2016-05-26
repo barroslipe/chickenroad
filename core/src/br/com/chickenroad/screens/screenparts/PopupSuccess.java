@@ -2,6 +2,7 @@ package br.com.chickenroad.screens.screenparts;
 
 import br.com.chickenroad.Constantes;
 import br.com.chickenroad.screens.PlayScreen;
+import br.com.chickenroad.screens.util.Util;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
@@ -78,18 +79,8 @@ public class PopupSuccess {
 		spriteNextFase.draw(spriteBatch);
 		spriteRestart.draw(spriteBatch);
 		
-		if(scoreGame <= 0.45*maxScoreGame){
-			spriteStar[0].setPosition(Constantes.WORLD_WIDTH/2 - 157 +PlayScreen.deltaXPositionButtons, 207+PlayScreen.deltaYPositionButtons);
-			spriteStar[0].draw(spriteBatch);
-		}else if(scoreGame <= 0.85*maxScoreGame){
-			spriteStar[1].setPosition(Constantes.WORLD_WIDTH/2 - 157 +PlayScreen.deltaXPositionButtons, 207+PlayScreen.deltaYPositionButtons);
-			spriteStar[1].draw(spriteBatch);
-			
-		}else{
-			spriteStar[2].setPosition(Constantes.WORLD_WIDTH/2 - 157 +PlayScreen.deltaXPositionButtons, 207+PlayScreen.deltaYPositionButtons);
-			spriteStar[2].draw(spriteBatch);
-		}
-		
+		spriteStar[Util.getNumberStarPerSeason(scoreGame, maxScoreGame)-1].setPosition(Constantes.WORLD_WIDTH/2 - 157 +PlayScreen.deltaXPositionButtons, 207+PlayScreen.deltaYPositionButtons);
+		spriteStar[Util.getNumberStarPerSeason(scoreGame, maxScoreGame)-1].draw(spriteBatch);
 		
 	}
 }

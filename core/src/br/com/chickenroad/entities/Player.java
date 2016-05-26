@@ -205,8 +205,11 @@ public class Player extends Sprite{
 		}
 	}
 
-	public void init(float x, float y) {
-		setPosition(x, y);
+	public void init(String[] points) {
+		float posX = Float.parseFloat(points[0])*Constantes.WIDTH_TILE;
+		float posY = Float.parseFloat(points[1])*Constantes.HEIGHT_TILE;
+		
+		setPosition(posX, posY);
 		setSize(40, 40);
 
 		velocity.x = 0;

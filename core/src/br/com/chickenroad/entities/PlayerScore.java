@@ -40,16 +40,19 @@ public class PlayerScore {
 
 	}
 
-	public void init(int eggs, int corns){
+	public void init(String eggs, String corns){
 
+		int numberEggs = Integer.parseInt(eggs);
+		int numberCorns =  Integer.parseInt(corns);
+		
 		scoreGame = 0;
 		scoreGameDraw = "0";
 
-		currentNoCatchedEggs = eggs;
-		currentNoCatchedEggsDraw = Integer.toString(eggs);
+		currentNoCatchedEggs = numberEggs;
+		currentNoCatchedEggsDraw = Integer.toString(numberEggs);
 		
-		currentNoCatchedCorns = corns;
-		currentNoCatchedCornsDraw = Integer.toString(corns);
+		currentNoCatchedCorns = numberCorns;
+		currentNoCatchedCornsDraw = Integer.toString(numberCorns);
 
 		defaultFont.setColor(1.0f, 1.0f, 1.0f, 1.0f);	
 	}

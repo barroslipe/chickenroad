@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import br.com.chickenroad.Constantes;
 import br.com.chickenroad.dao.PreferencesUser;
 import br.com.chickenroad.dao.Season;
+import br.com.chickenroad.screens.util.MyProperties;
+import br.com.chickenroad.screens.util.Util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
@@ -28,6 +30,7 @@ public class SeasonMenu {
 
 	//lista de temporadas abertas ao jogador - base de dados
 	private ArrayList<Season> openSeasonList;
+	private ArrayList<Integer> maxScoreFase;
 
 	private BitmapFont defaultFont;
 
@@ -35,7 +38,7 @@ public class SeasonMenu {
 	 * Auxiliar a impressão do score em cada temporada
 	 */
 	private GlyphLayout glyphLayout;
-	private String textScore;
+	private String textScore, textStar;
 
 
 
@@ -46,6 +49,8 @@ public class SeasonMenu {
 	public SeasonMenu(AssetManager assetManager){
 
 		this.openSeasonList = PreferencesUser.getSeasons();
+		this.maxScoreFase = new ArrayList<Integer>();
+
 
 		this.glyphLayout = new GlyphLayout();
 		this.seasonSpriteList = new ArrayList<Sprite>();
@@ -66,23 +71,31 @@ public class SeasonMenu {
 
 	private void initSeasons(AssetManager assetManager) {
 
+		MyProperties myProperties = new MyProperties();
+
 		int cont = 0;
-		int spriteSeasonListHeight = 100;
+		int positionY = 100;
 
 		for(int i=0;i<Constantes.URL_SEASON_PICTURE_LIST.length;i++){
+			if(i< openSeasonList.size()){
+				for(int j=0;j<openSeasonList.get(i).getFaseList().size();j++){
+					myProperties.loadProperties(Constantes.URL_MAPS[i][j] + ".properties");
+					maxScoreFase.add(Util.getMaxScoreFase(myProperties.getNumberEggs(), myProperties.getNumberEggs()));
+				}
+			}
 
 			Sprite sprite = new Sprite((Texture)assetManager.get(Constantes.URL_SEASON_PICTURE_LIST[i]));
 			seasonSpriteList.add(sprite);
 
 			if(i%5 == 0) {
 
-				if(cont != 0) spriteSeasonListHeight -= 110;
+				if(cont != 0) positionY -= 110;
 
 				cont = 0;
-				seasonSpriteList.get(i).setPosition(Constantes.WORLD_WIDTH/2 - 236, spriteSeasonListHeight);
+				seasonSpriteList.get(i).setPosition(Constantes.WORLD_WIDTH/2 - 236, positionY);
 			}else {
 				++cont;
-				seasonSpriteList.get(i).setPosition(Constantes.WORLD_WIDTH/2- 236 +125*cont, spriteSeasonListHeight);
+				seasonSpriteList.get(i).setPosition(Constantes.WORLD_WIDTH/2- 236 +125*cont, positionY);
 			}
 		}
 	}
@@ -97,13 +110,35 @@ public class SeasonMenu {
 			seasonSpriteList.get(i).draw(spriteBatch);	
 			if(i< openSeasonList.size()){
 				textScore = Integer.toString(openSeasonList.get(i).getSeasonTotalScore());
-				glyphLayout.setText(defaultFont, textScore);
-				defaultFont.draw(spriteBatch, textScore, 
-						seasonSpriteList.get(i).getX() + (seasonSpriteList.get(i).getWidth() - glyphLayout.width)/2,
-						seasonSpriteList.get(i).getY()+80);
+				textStar = Integer.toString(getStarTotal(openSeasonList.get(i)));
+			}else{
+				textScore = "0";
+				textStar = "0";
 			}
+
+			glyphLayout.setText(defaultFont, textScore);
+			defaultFont.draw(spriteBatch, textScore, 
+					seasonSpriteList.get(i).getX() + (seasonSpriteList.get(i).getWidth() - glyphLayout.width)/2,
+					seasonSpriteList.get(i).getY()+87);
+			glyphLayout.setText(defaultFont, textStar);
+			defaultFont.draw(spriteBatch, textStar, 
+					seasonSpriteList.get(i).getX() - 18 + (seasonSpriteList.get(i).getWidth() - glyphLayout.width)/2,
+					seasonSpriteList.get(i).getY()+33);
+
+
 		}
 	}
+	private int getStarTotal(Season season) {
+
+		int total = 0;
+		for(int i=0;i<season.getFaseList().size();i++){
+			if(season.getFaseList().get(i).getScore() != 0)
+				total += Util.getNumberStarPerSeason(season.getFaseList().get(i).getScore(), maxScoreFase.get(i));
+		}
+
+		return total;
+	}
+
 	/**
 	 * Verificar se houve o clique em alguma temporada
 	 * @param x posição x

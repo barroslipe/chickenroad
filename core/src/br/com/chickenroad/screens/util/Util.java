@@ -3,6 +3,8 @@ package br.com.chickenroad.screens.util;
 import java.util.List;
 import java.util.Random;
 
+import br.com.chickenroad.entities.PlayerScore;
+
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
@@ -28,7 +30,7 @@ public class Util {
 			int y = random.nextInt(height - 20);
 			point.x = x;
 			point.y = y;
-			
+
 			//TODO parametrizar tamanho do ovo e milho
 			Rectangle rect = new Rectangle(x, y, 20, 20);
 
@@ -47,5 +49,16 @@ public class Util {
 
 
 		return point;
+	}
+
+	public static int getMaxScoreFase(String numberEggs, String numberCorns){
+		int total = Integer.parseInt(numberEggs)*PlayerScore.EGGS_SCORE + 
+				Integer.parseInt(numberCorns)*PlayerScore.CORN_SCORE + 2000 + 1000;
+		return total;
+	}
+	public static int getNumberStarPerSeason(int faseScore, int maxScoreFase){
+		if(faseScore <= 0.45*maxScoreFase) return 1;
+		else if(faseScore <= 0.8*maxScoreFase) return 2;
+		else return 3;
 	}
 }

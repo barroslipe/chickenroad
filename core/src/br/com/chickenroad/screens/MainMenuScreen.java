@@ -49,6 +49,10 @@ public class MainMenuScreen extends ScreenBase {
 
 		this.showPopupExitFlag = false;
 		this.touchPoint = new Vector3();
+		
+		//essa operação de diminuir volume nas duas músicas abaixo não deve ser realizada em outras classes 
+		this.soundPrincipal.setVolume(0.1f);
+		this.soundClick.setVolume(0.4f);
 
 	}
 
@@ -106,7 +110,7 @@ public class MainMenuScreen extends ScreenBase {
 			}else if(menuButtons.checkClickPlayButton(touchPoint.x, touchPoint.y)){
 				MyPlayMusic.playSound(soundClick);
 				chickenRoadGame.setScreenWithTransitionFade(new SeasonScreen(chickenRoadGame));
-			}else if(menuButtons.checkClickSoundOnButton(touchPoint.x, touchPoint.y)){				
+			}else if(menuButtons.checkClickSoundButton(touchPoint.x, touchPoint.y)){				
 				disableSound();
 			}
 		}

@@ -36,11 +36,11 @@ public class FasesScreen extends ScreenBase {
 	 * @param aChickenRoadGame referência a classe principal do jogo
 	 * @param seasonId identificador da temporada selecionada
 	 */
-	public FasesScreen(ChickenRoadGame aChickenRoadGame, int seasonId) {
+	public FasesScreen(ChickenRoadGame aChickenRoadGame, int aSeasonId) {
 		super(aChickenRoadGame);
 
-		this.seasonId = seasonId;
-		this.fasesMenu = new FasesMenu(getAssetManager(), seasonId);
+		this.seasonId = aSeasonId;
+		this.fasesMenu = new FasesMenu(getAssetManager(), aSeasonId);
 
 		textureBACK = getAssetManager().get(Constantes.URL_BACK_BUTTON);
 		spriteArrowBACK = new Sprite(textureBACK);

@@ -112,10 +112,4 @@ public class MyProperties {
 	public String getEnemy() {
 		return enemy;
 	}
-
-	public Integer getMaxScore() {
-		int total = Integer.parseInt(numberEggs)*15 + Integer.parseInt(numberCorns)*100 + 2000 + 1000;
-		return total;
-	}
-
 }

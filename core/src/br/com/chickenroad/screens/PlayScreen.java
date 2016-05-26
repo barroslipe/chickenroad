@@ -27,6 +27,7 @@ import br.com.chickenroad.screens.screenparts.PopupPause;
 import br.com.chickenroad.screens.screenparts.PopupSuccess;
 import br.com.chickenroad.screens.screenparts.PopupTutorial;
 import br.com.chickenroad.screens.util.MyProperties;
+import br.com.chickenroad.screens.util.Util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input.Keys;
@@ -129,25 +130,15 @@ public class PlayScreen extends ScreenBase {
 	private void init() {
 
 		isSaved = false;
-		String[] points = myProperties.getOriginPlayer().split(",");
-		player.init(Float.parseFloat(points[0])*Constantes.WIDTH_TILE,Float.parseFloat(points[1])*Constantes.HEIGHT_TILE);
-
-		myPlayMusic.init();
-
-		playerScore.init(Integer.parseInt(myProperties.getNumberEggs()), Integer.parseInt(myProperties.getNumberCorns()));
-
+		
+		player.init(myProperties.getOriginPlayer().split(","));
+		playerScore.init(myProperties.getNumberEggs(),myProperties.getNumberCorns());
 		timer.setTimer(myProperties.getTimer());
+		chickenNest.init(myProperties.getOriginChickenNest().split(","));
 
-		points = myProperties.getOriginChickenNest().split(",");
-		chickenNest.init(Float.parseFloat(points[0])*Constantes.WIDTH_TILE,Float.parseFloat(points[1])*Constantes.HEIGHT_TILE);
-
-
-		//this.supporting = new Supporting[ApplicationConfig.numSupporting];
 		this.textGame = new TextGame[2];	
-
 		this. textGame[0] = new TextGame(Constantes.URL_TEXT_AMAZING, getAssetManager(), TextGameTypes.AMAZING);
 		this. textGame[1] = new TextGame(Constantes.URL_TEXT_POW, getAssetManager(), TextGameTypes.POW);
-
 
 		//inicializa todos os textos
 		for(int i=0;i<textGame.length;i++)
@@ -371,7 +362,8 @@ public class PlayScreen extends ScreenBase {
 				textGame[0].draw(chickenRoadGame.getSpriteBatch(), delta);
 			}else{
 				myPlayMusic.getSoundEndFase().stop();
-				popupSuccess.draw(chickenRoadGame.getSpriteBatch(), playerScore.getScoreGame() ,myProperties.getMaxScore());
+				popupSuccess.draw(chickenRoadGame.getSpriteBatch(), playerScore.getScoreGame(), 
+						Util.getMaxScoreFase(myProperties.getNumberEggs(), myProperties.getNumberEggs()));
 	
 			}
 

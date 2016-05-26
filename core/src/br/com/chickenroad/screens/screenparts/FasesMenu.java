@@ -6,13 +6,13 @@ import br.com.chickenroad.Constantes;
 import br.com.chickenroad.dao.Fase;
 import br.com.chickenroad.dao.PreferencesUser;
 import br.com.chickenroad.screens.util.MyProperties;
+import br.com.chickenroad.screens.util.Util;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
-import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
@@ -27,44 +27,33 @@ public class FasesMenu {
 	private ArrayList<Sprite> spriteFaseList;
 
 	private ArrayList<Fase> openFaseList;
-	private ArrayList<Integer> scoreMaxfase;
+	private ArrayList<Integer> maxScoreFase;
 
 	private BitmapFont defaultFont;
-	
-	private Sprite spriteStar[];
-	
-	private MyProperties myProperties;
-	
-	private int seasonId;
-	
 
-	/*
-	 * Auxiliar a impressão do score em cada fase
-	 */
-	private GlyphLayout glyphLayout;
-	private String textScore;
+	private Sprite spriteStar[];
+
+	private int seasonId;
 
 	/**
 	 * Inicialização dos atributos da classe
 	 * @param assetManager referência a classe que possui os recursos alocados
 	 * @param seasonId identificador da temporada
 	 */
-	public FasesMenu(AssetManager assetManager, int seasonId){
+	public FasesMenu(AssetManager assetManager, int aSeasonId){
 
-		this.seasonId = seasonId;
-		
+		this.seasonId = aSeasonId;
+
 		//lista de fases abertas para a temporada escolhida
 		this.openFaseList = PreferencesUser.getOpenFases(seasonId);
-		this.scoreMaxfase = new ArrayList<Integer>();
-		
-		this.myProperties = new MyProperties();
+		this.maxScoreFase = new ArrayList<Integer>();
 
-		this.glyphLayout = new GlyphLayout();
 		this.spriteFaseList = new ArrayList<Sprite>();
+
 		this.spriteStar = new Sprite[3];
-		this.spriteStar[0] = new Sprite((Texture)assetManager.get(Constantes.URL_STAR1));
-		this.spriteStar[1] = new Sprite((Texture)assetManager.get(Constantes.URL_STAR2));
-		this.spriteStar[2] = new Sprite((Texture)assetManager.get(Constantes.URL_STAR3));
+		this.spriteStar[0] = new Sprite((Texture)assetManager.get(Constantes.URL_STAR1_SCORE));
+		this.spriteStar[1] = new Sprite((Texture)assetManager.get(Constantes.URL_STAR2_SCORE));
+		this.spriteStar[2] = new Sprite((Texture)assetManager.get(Constantes.URL_STAR3_SCORE));
 
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Constantes.URL_FONT_KRAASH_BLACK));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
@@ -77,33 +66,42 @@ public class FasesMenu {
 
 		initFases(assetManager);
 	}
-	private void initFases(AssetManager assetManager) {
+
+	private void initFases(AssetManager assetManager) {	
+
+		MyProperties myProperties = new MyProperties();
+
 		int cont = 0;
-		int spriteFaseListHeight = Constantes.WORLD_HEIGHT/2+110;
+		int positionY = Constantes.WORLD_HEIGHT/2+110;
+		int positionX = Constantes.WORLD_WIDTH/2 - 245;
+		int distanceBetweenFases_X = 105;
+		int distanceBetweenFases_Y = 110;
 
 		String picture;
 
-		for(int i=0;i<Constantes.URL_FASE_PICTURE_LIST.length;i++){
+		for(int i=0;i<Constantes.URL_FASE_PICTURE_LIST[seasonId].length;i++){
 			if(i < openFaseList.size()){
-				picture = Constantes.URL_FASE_PICTURE_LIST[i];
-				this.myProperties.loadProperties(Constantes.URL_MAPS[seasonId][i] + ".properties");
-				this.scoreMaxfase.add(myProperties.getMaxScore());
+				picture = Constantes.URL_FASE_PICTURE_LIST[seasonId][i];
+				myProperties.loadProperties(Constantes.URL_MAPS[seasonId][i] + ".properties");
+				this.maxScoreFase.add(Util.getMaxScoreFase(myProperties.getNumberEggs(), myProperties.getNumberEggs()));
 			}else
 				picture = Constantes.URL_FASE_BLOQUEADA;
 
 			Sprite sprite = new Sprite((Texture)assetManager.get(picture));
-			spriteFaseList.add(sprite);
 
 			if(i%5 == 0) {
 
-				if(cont != 0) spriteFaseListHeight -= 110;
+				if(cont != 0) positionY -= distanceBetweenFases_Y;
 
 				cont = 0;
-				spriteFaseList.get(i).setPosition(Constantes.WORLD_WIDTH/2 - 245, spriteFaseListHeight);
+				sprite.setPosition(positionX, positionY);
 			}else {
 				++cont;
-				spriteFaseList.get(i).setPosition(Constantes.WORLD_WIDTH/2- 245 +105*cont, spriteFaseListHeight);
+				sprite.setPosition(positionX + distanceBetweenFases_X*cont, positionY);
 			}
+			
+			spriteFaseList.add(sprite);
+
 		}
 	}
 	/**
@@ -114,25 +112,13 @@ public class FasesMenu {
 
 		for(int i=0;i<spriteFaseList.size();i++){
 			spriteFaseList.get(i).draw(spriteBatch);
-			if(i< openFaseList.size()){
+			if(i < openFaseList.size()){
 				if(openFaseList.get(i).getScore() == 0)
 					continue;
-				
-				textScore = Integer.toString(openFaseList.get(i).getScore());
-				glyphLayout.setText(defaultFont, textScore);
-				defaultFont.draw(spriteBatch, textScore, spriteFaseList.get(i).getX() + (spriteFaseList.get(i).getWidth() - glyphLayout.width)/2 , spriteFaseList.get(i).getY() - 2);
-				
-				if(openFaseList.get(i).getScore() <= 0.45*scoreMaxfase.get(i)){
-					spriteStar[0].setPosition(spriteFaseList.get(i).getX()+5, spriteFaseList.get(i).getY()+2);
-					spriteStar[0].draw(spriteBatch);
-				}else if(openFaseList.get(i).getScore() <= 0.85*scoreMaxfase.get(i)){
-					spriteStar[1].setPosition(spriteFaseList.get(i).getX()+5, spriteFaseList.get(i).getY()+2);
-					spriteStar[1].draw(spriteBatch);
-					
-				}else{
-					spriteStar[2].setPosition(spriteFaseList.get(i).getX()+5, spriteFaseList.get(i).getY()+2);
-					spriteStar[2].draw(spriteBatch);
-				}
+
+				spriteStar[Util.getNumberStarPerSeason(openFaseList.get(i).getScore(), maxScoreFase.get(i)) - 1].setPosition(spriteFaseList.get(i).getX()+5, spriteFaseList.get(i).getY()+2);
+				spriteStar[Util.getNumberStarPerSeason(openFaseList.get(i).getScore(), maxScoreFase.get(i)) - 1].draw(spriteBatch);
+	
 			}
 		}
 	}
@@ -145,7 +131,7 @@ public class FasesMenu {
 	 */
 	public int getClickedFase(float x, float y) {
 
-		for(int i=0;i<Constantes.URL_FASE_PICTURE_LIST.length;i++){
+		for(int i=0;i<Constantes.URL_FASE_PICTURE_LIST[seasonId].length;i++){
 			if(spriteFaseList.get(i).getBoundingRectangle().contains(x, y)){
 				if(i< openFaseList.size()){
 					return i;

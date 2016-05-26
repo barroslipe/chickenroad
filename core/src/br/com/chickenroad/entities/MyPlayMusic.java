@@ -29,14 +29,9 @@ public class MyPlayMusic {
 		this.soundChickenDemage = assetManager.get(Constantes.URL_SOUND_CHICKEN_DEMAGE);
 		this.soundSheep = assetManager.get(Constantes.URL_SOUND_SHEEP);
 		this.soundHorn = assetManager.get(Constantes.URL_SOUND_HORN);
-	}
-	/**
-	 * Inicializar a classe atribuíndo volume e tocando alguns sons
-	 */
-	public void init() {
+		
 		this.soundBackgroundFase.setVolume(0.2f);
 		this.soundBackgroundChicken.setVolume(0.4f);
-		//this.soundHorn.setVolume(0.5f);
 	}
 
 	public Music getSoundEggs() {

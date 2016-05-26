@@ -35,7 +35,9 @@ public class ChickenNest extends Sprite{
 		return false;
 	}
 
-	public void init(float x, float y) {
-		setPosition(x, y);
+	public void init(String[] points) {
+		float posX = Float.parseFloat(points[0])*Constantes.WIDTH_TILE;
+		float posY = Float.parseFloat(points[1])*Constantes.HEIGHT_TILE;
+		setPosition(posX, posY);
 	}
 }

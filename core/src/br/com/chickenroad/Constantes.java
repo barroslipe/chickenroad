@@ -101,10 +101,22 @@ public class Constantes {
 
 	public static final String URL_SEASON_PICTURE_LIST[] = {"seasons/seasonRoosterSong.png", "seasons/seasonFireInFarm.png",  
 		"seasons/seasonInvasion1.png", "seasons/seasonHorrorNight.png"};
-	public static final String URL_FASE_PICTURE_LIST [] = {"fases/fase_101.png", "fases/fase_102.png", "fases/fase_103.png", "fases/fase_104.png",
+	public static final String URL_FASE_PICTURE_LIST [][] = {{"fases/fase_101.png", "fases/fase_102.png", "fases/fase_103.png", "fases/fase_104.png",
 		"fases/fase_105.png", "fases/fase_106.png", "fases/fase_107.png", "fases/fase_108.png",
 		"fases/fase_109.png", "fases/fase_110.png", "fases/fase_111.png", "fases/fase_112.png",
-		"fases/fase_113.png", "fases/fase_114.png", "fases/fase_115.png"};
+		"fases/fase_113.png", "fases/fase_114.png", "fases/fase_115.png"},
+		{"fases/fase_201.png", "fases/fase_202.png", "fases/fase_203.png", "fases/fase_204.png",
+			"fases/fase_205.png", "fases/fase_206.png", "fases/fase_207.png", "fases/fase_208.png",
+			"fases/fase_209.png", "fases/fase_210.png", "fases/fase_211.png", "fases/fase_212.png",
+			"fases/fase_213.png", "fases/fase_214.png", "fases/fase_215.png"},
+			{"fases/fase_301.png", "fases/fase_302.png", "fases/fase_303.png", "fases/fase_304.png",
+				"fases/fase_305.png", "fases/fase_306.png", "fases/fase_307.png", "fases/fase_308.png",
+				"fases/fase_309.png", "fases/fase_310.png", "fases/fase_311.png", "fases/fase_312.png",
+				"fases/fase_313.png", "fases/fase_314.png", "fases/fase_315.png"},
+				{"fases/fase_401.png", "fases/fase_402.png", "fases/fase_403.png", "fases/fase_404.png",
+					"fases/fase_405.png", "fases/fase_406.png", "fases/fase_407.png", "fases/fase_408.png",
+					"fases/fase_409.png", "fases/fase_410.png", "fases/fase_411.png", "fases/fase_412.png",
+					"fases/fase_413.png", "fases/fase_414.png", "fases/fase_415.png"},};
 	public static final String URL_FASE_BLOQUEADA = "fases/fase_bloqueada.png";
 
 	//mapas
@@ -113,12 +125,12 @@ public class Constantes {
 			"maps/map_105/map_105","maps/map_106/map_106","maps/map_107/map_107",
 			"maps/map_108/map_108", "maps/map_115/map_115", "maps/map_special/map_special"}
 	};
-	public static final String URL_STAR1 = "star1.png";
-	public static final String URL_STAR2 = "star2.png";
-	public static final String URL_STAR3 = "star3.png";
-	
+	public static final String URL_STAR1_SCORE = "star1.png";
+	public static final String URL_STAR2_SCORE = "star2.png";
+	public static final String URL_STAR3_SCORE = "star3.png";
+
 	public static final String URL_STAR1_POPUP = "star1Popup.png";
 	public static final String URL_STAR2_POPUP = "star2Popup.png";
 	public static final String URL_STAR3_POPUP = "star3Popup.png";
-	
+
 }

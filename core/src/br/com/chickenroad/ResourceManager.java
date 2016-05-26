@@ -1,5 +1,7 @@
 package br.com.chickenroad;
 
+import br.com.chickenroad.configuration.ApplicationConfig;
+
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.graphics.Texture;
@@ -108,17 +110,17 @@ public class ResourceManager {
 
 
 		assetManager.load(Constantes.URL_FASE_BLOQUEADA, Texture.class);
-		
-		assetManager.load(Constantes.URL_STAR1, Texture.class);
-		assetManager.load(Constantes.URL_STAR2, Texture.class);
-		assetManager.load(Constantes.URL_STAR3, Texture.class);
+
+		assetManager.load(Constantes.URL_STAR1_SCORE, Texture.class);
+		assetManager.load(Constantes.URL_STAR2_SCORE, Texture.class);
+		assetManager.load(Constantes.URL_STAR3_SCORE, Texture.class);
 		assetManager.load(Constantes.URL_STAR1_POPUP, Texture.class);
 		assetManager.load(Constantes.URL_STAR2_POPUP, Texture.class);
 		assetManager.load(Constantes.URL_STAR3_POPUP, Texture.class);
 
 
 		loadArray(Constantes.URL_SEASON_PICTURE_LIST);
-		loadArray(Constantes.URL_FASE_PICTURE_LIST);
+		loadArrayBi(Constantes.URL_FASE_PICTURE_LIST);
 
 		//veículos
 		loadArray(Constantes.URL_CAR_RIGHT);
@@ -132,6 +134,13 @@ public class ResourceManager {
 	private void loadArray(String[] list) {
 		for(int i=0;i<list.length;i++)
 			assetManager.load(list[i], Texture.class);
+
+	}
+	private void loadArrayBi(String[][] list) {
+
+		for(int i=0;i<ApplicationConfig.SEASON_PER_APPLICATION;i++)
+			for(int j=0;j<ApplicationConfig.FASES_PER_SEASON;j++)
+				assetManager.load(list[i][j], Texture.class);
 
 	}
 

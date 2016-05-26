@@ -102,23 +102,9 @@ public class MainMenuButtons {
 	 * @return true quando houver clique no botão
 	 * 		   false quando não houver clique no botão
 	 */
-	public boolean checkClickSoundOnButton(float x, float y) {
+	public boolean checkClickSoundButton(float x, float y) {
 
 		if(spriteSoundOn.getBoundingRectangle().contains(x, y))
-			return true;
-
-		return false;
-	}
-	/**
-	 * Verificar se houve o clique no botão de habilitar som
-	 * @param x posição x
-	 * @param y posição y
-	 * @return true quando houver clique no botão
-	 * 		   false quando não houver clique no botão
-	 */
-	public boolean checkClickSoundOffButton(float x, float y) {
-
-		if(spriteSoundOff.getBoundingRectangle().contains(x, y))
 			return true;
 
 		return false;
