@@ -24,6 +24,7 @@ import br.com.chickenroad.entities.Vehicle;
 import br.com.chickenroad.screens.screenparts.PlayMenuButtons;
 import br.com.chickenroad.screens.screenparts.PopupGameOver;
 import br.com.chickenroad.screens.screenparts.PopupPause;
+import br.com.chickenroad.screens.screenparts.PopupSuccess;
 import br.com.chickenroad.screens.screenparts.PopupTutorial;
 import br.com.chickenroad.screens.util.MyProperties;
 
@@ -62,6 +63,8 @@ public class PlayScreen extends ScreenBase {
 	private MyMap myMap;
 	//estado do jogo
 	private StateGame stateGame;
+	
+	private PopupSuccess popupSuccess;
 	private PopupPause popupPause;
 	private PopupGameOver popupGameOver;
 	private PopupTutorial popupTutorial;
@@ -83,6 +86,8 @@ public class PlayScreen extends ScreenBase {
 	private int seasonId, faseId;
 	//flag para visualizar popup
 	private boolean flagPopupTutorial;
+	
+	private boolean isSaved;
 
 	/**
 	 * Inicialização dos atributos da classe
@@ -112,6 +117,7 @@ public class PlayScreen extends ScreenBase {
 		this.popupTutorial = new PopupTutorial(getAssetManager());
 		this.popupGameOver = new PopupGameOver(getAssetManager());
 		this.popupPause = new PopupPause(getAssetManager());
+		this.popupSuccess = new PopupSuccess(getAssetManager());
 
 		//iniciar fase
 		init();
@@ -122,6 +128,7 @@ public class PlayScreen extends ScreenBase {
 	 */
 	private void init() {
 
+		isSaved = false;
 		String[] points = myProperties.getOriginPlayer().split(",");
 		player.init(Float.parseFloat(points[0])*Constantes.WIDTH_TILE,Float.parseFloat(points[1])*Constantes.HEIGHT_TILE);
 
@@ -234,7 +241,7 @@ public class PlayScreen extends ScreenBase {
 		//		}
 
 		targetPlayerBuilder.drawEggs(chickenRoadGame.getSpriteBatch(), delta);
-		drawGift(delta);
+		//drawGift(delta);
 
 		drawPlayerAndVehicles(delta);
 
@@ -273,7 +280,7 @@ public class PlayScreen extends ScreenBase {
 		chickenRoadGame.getSpriteBatch().end();
 
 		leaveEggInNest();
-		testCollisionGift();
+		//testCollisionGift();
 
 	}//end draw()
 
@@ -309,16 +316,16 @@ public class PlayScreen extends ScreenBase {
 		if(renderPlayer) player.draw(chickenRoadGame.getSpriteBatch(), delta);
 
 	}
-
-	private void drawGift(float delta) {
-		//exibe presente - se pegar Y ovos
-		if(playerScore.getCurrentNoCatchedEggs() == 0 && !targetPlayerBuilder.getTargetPlayerGiftSheep().isLocker()){
-			targetPlayerBuilder.drawGift(chickenRoadGame.getSpriteBatch(), delta);
-			MyPlayMusic.playSound(myPlayMusic.getSoundSheep());
-		}else
-			targetPlayerBuilder.getTargetPlayerGiftSheep().setVisible(false);
-
-	}
+	//
+	//	private void drawGift(float delta) {
+	//		//exibe presente - se pegar Y ovos
+	//		if(playerScore.getCurrentNoCatchedEggs() == 0 && !targetPlayerBuilder.getTargetPlayerGiftSheep().isLocker()){
+	//			targetPlayerBuilder.drawGift(chickenRoadGame.getSpriteBatch(), delta);
+	//			MyPlayMusic.playSound(myPlayMusic.getSoundSheep());
+	//		}else
+	//			targetPlayerBuilder.getTargetPlayerGiftSheep().setVisible(false);
+	//
+	//	}
 
 	private void testCollisionEgg() {
 
@@ -346,11 +353,12 @@ public class PlayScreen extends ScreenBase {
 			myPlayMusic.stopBackgroundMusic();
 
 			//TODO aqui será o sucesso da aplicação certo? então, aqui iremos persistir o score e o presente[não há variável do presente por enquanto]
-			if(stateGame != StateGame.SUCCESS){
+			if(!isSaved){
 				playerScore.addScoreGame(player.getPlayerLife().calculateScoreLife());
 				playerScore.addScoreGame(timer.calculateScoreTimer());
 				playMenuButtons.disable();
 				PreferencesUser.setSucesso(seasonId, faseId, playerScore.getScoreGame());
+				isSaved = true;
 			}
 
 			if(contAmazing++ < 140) {//este if evitar que a anima��o fique infinita
@@ -363,13 +371,8 @@ public class PlayScreen extends ScreenBase {
 				textGame[0].draw(chickenRoadGame.getSpriteBatch(), delta);
 			}else{
 				myPlayMusic.getSoundEndFase().stop();
-
-				//TODO isso não deve existir quando não for protótipo
-				if((faseId+1) != Constantes.MAX_FASES){
-					chickenRoadGame.setScreen(new PlayScreen(chickenRoadGame, seasonId, faseId+1));
-				}else{
-					chickenRoadGame.setScreen(new FasesScreen(chickenRoadGame, seasonId));
-				}
+				popupSuccess.draw(chickenRoadGame.getSpriteBatch(), playerScore.getScoreGame() ,myProperties.getMaxScore());
+	
 			}
 
 			myPlayMusic.getSoundBackgroundFase().pause();
@@ -389,15 +392,15 @@ public class PlayScreen extends ScreenBase {
 			targetPlayerBuilder.leaveEggInNest(chickenNest);
 		}
 	}
-
-	private void testCollisionGift() {
-
-		if(targetPlayerBuilder.testColissionGift(player)){
-			MyPlayMusic.playSound(myPlayMusic.getSoundCoinEndFase());
-			myPlayMusic.getSoundSheep().stop();
-
-		}
-	}
+	//
+	//	private void testCollisionGift() {
+	//
+	//		if(targetPlayerBuilder.testColissionGift(player)){
+	//			MyPlayMusic.playSound(myPlayMusic.getSoundCoinEndFase());
+	//			myPlayMusic.getSoundSheep().stop();
+	//
+	//		}
+	//	}
 
 	private void drawGameOver(float delta) {
 		if(player.isDead() || (timer.possuiTimer() && timer.getTimer() < 1) ){
@@ -459,13 +462,15 @@ public class PlayScreen extends ScreenBase {
 		}
 		//clicou no restart
 		if((popupGameOver.checkClickRestartButton(touchPoint.x, touchPoint.y) && stateGame == StateGame.GAME_OVER) 
-				|| popupPause.checkClickRestartButton(touchPoint.x, touchPoint.y) && stateGame == StateGame.PAUSE){
+				|| (popupPause.checkClickRestartButton(touchPoint.x, touchPoint.y) && stateGame == StateGame.PAUSE)
+				|| (popupSuccess.checkClickRestartButton(touchPoint.x, touchPoint.y) && stateGame == StateGame.SUCCESS)){
 			stateGame = StateGame.RESTART;
 			return true;
 		}
 		//clicou para sair da fase e ir a tela de fases
 		if((popupGameOver.checkClickFaseListButton(touchPoint.x, touchPoint.y)  && stateGame == StateGame.GAME_OVER) 
-			|| (popupPause.checkClickFaseListButton(touchPoint.x, touchPoint.y)  && stateGame == StateGame.PAUSE)){
+				|| (popupPause.checkClickFaseListButton(touchPoint.x, touchPoint.y)  && stateGame == StateGame.PAUSE)
+				|| (popupSuccess.checkClickFaseListButton(touchPoint.x, touchPoint.y) && stateGame == StateGame.SUCCESS)){
 			myPlayMusic.stopBackgroundMusic();
 			myPlayMusic.getSoundEndFase().stop();
 			chickenRoadGame.setScreenWithTransitionFade(new FasesScreen(chickenRoadGame, seasonId));
@@ -483,6 +488,15 @@ public class PlayScreen extends ScreenBase {
 			Constantes.SOUND_ON_FLAG = !Constantes.SOUND_ON_FLAG;
 			if(!Constantes.SOUND_ON_FLAG) myPlayMusic.stopBackgroundMusic();
 
+		}
+		if(popupSuccess.checkClickNextButton(touchPoint.x, touchPoint.y) && stateGame == StateGame.SUCCESS){
+
+			//TODO isso não deve existir quando não for protótipo
+			if((faseId+1) != Constantes.MAX_FASES){
+				chickenRoadGame.setScreen(new PlayScreen(chickenRoadGame, seasonId, faseId+1));
+			}else{
+				chickenRoadGame.setScreen(new FasesScreen(chickenRoadGame, seasonId));
+			}
 		}
 
 		//se nao for clicando em nada acima, devo me movimentar

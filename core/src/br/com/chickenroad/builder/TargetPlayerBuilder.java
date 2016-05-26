@@ -8,7 +8,6 @@ import br.com.chickenroad.entities.ChickenNest;
 import br.com.chickenroad.entities.MyMap;
 import br.com.chickenroad.entities.Player;
 import br.com.chickenroad.entities.TargetPlayer;
-import br.com.chickenroad.entities.TargetPlayerTypes;
 import br.com.chickenroad.entities.TextGame;
 import br.com.chickenroad.entities.TextGameTypes;
 import br.com.chickenroad.screens.util.MyProperties;
@@ -35,7 +34,7 @@ public class TargetPlayerBuilder {
 	private ArrayList<TargetPlayer> targetPlayerEggsList, targetPlayerCornsList;
 
 	//presente
-	private TargetPlayer targetPlayerGiftSheep;
+	//private TargetPlayer targetPlayerGiftSheep;
 
 
 	public TargetPlayerBuilder(){
@@ -62,9 +61,9 @@ public class TargetPlayerBuilder {
 
 		point = new Vector2(Util.getValidRandomPosition(myMap.getWidthTiledMap(), myMap.getHeightTiledMap(), myMap.getTiles(), chickenNest.getBoundingRectangle()));
 
-		this.targetPlayerGiftSheep = new TargetPlayer(Constantes.URL_GIFT_SHEEP, assetManager, TargetPlayerTypes.SHEEP, 1f/4f);
-		this.targetPlayerGiftSheep.init(point.x,  point.y);
-		this.targetPlayerGiftSheep.setVisible(false);
+		//		this.targetPlayerGiftSheep = new TargetPlayer(Constantes.URL_GIFT_SHEEP, assetManager, TargetPlayerTypes.SHEEP, 1f/4f);
+		//		this.targetPlayerGiftSheep.init(point.x,  point.y);
+		//		this.targetPlayerGiftSheep.setVisible(false);
 
 		Random generator = new Random();
 		//inicializa lista de ovos
@@ -152,29 +151,29 @@ public class TargetPlayerBuilder {
 			}
 		}
 	}
+	//
+	//	public void drawGift(SpriteBatch spriteBatch, float delta){
+	//		targetPlayerGiftSheep.setVisible(true);
+	//		targetPlayerGiftSheep.draw(spriteBatch, delta);
+	//	}
 
-	public void drawGift(SpriteBatch spriteBatch, float delta){
-		targetPlayerGiftSheep.setVisible(true);
-		targetPlayerGiftSheep.draw(spriteBatch, delta);
-	}
-
-
-	public boolean testColissionGift(Player player) {
-
-		//colisao com o presente ganho
-		if(targetPlayerGiftSheep.checkColision(player)) {
-			targetPlayerGiftSheep.setVisible(false);
-			targetPlayerGiftSheep.setLocker(true);
-			return true;
-
-		}
-		return false;
-
-	}
-
-	public TargetPlayer getTargetPlayerGiftSheep() {
-		return targetPlayerGiftSheep;
-	}
+	//
+	//	public boolean testColissionGift(Player player) {
+	//
+	//		//colisao com o presente ganho
+	//		if(targetPlayerGiftSheep.checkColision(player)) {
+	//			targetPlayerGiftSheep.setVisible(false);
+	//			targetPlayerGiftSheep.setLocker(true);
+	//			return true;
+	//
+	//		}
+	//		return false;
+	//
+	//	}
+	//
+	//	public TargetPlayer getTargetPlayerGiftSheep() {
+	//		return targetPlayerGiftSheep;
+	//	}
 
 	public void dispose(){
 
@@ -187,6 +186,6 @@ public class TargetPlayerBuilder {
 		for(int i=0;i<targetPlayerCornsList.size();i++)
 			this.targetPlayerCornsList.get(i).dispose();
 
-		this.targetPlayerGiftSheep.dispose();
+		//this.targetPlayerGiftSheep.dispose();
 	}
 }

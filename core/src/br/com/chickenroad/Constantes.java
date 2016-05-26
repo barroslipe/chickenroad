@@ -25,7 +25,7 @@ public class Constantes {
 	public static final String URL_BACKGROUND_SPLASHSCREEN = "splashScreenBackground.jpg";
 	public static final String URL_PLAY_BUTTON = "playButton.png";
 	public static final String URL_EXIT_BUTTON = "exitButton.png";
-	//public static final String URL_NEXT_FASE_BUTTON = "proximaFaseButton.png";
+	public static final String URL_NEXT_FASE_BUTTON = "nextFaseButton.png";
 	public static final String URL_OK_BUTTON = "okButton.png";
 	public static final String URL_BACK_BUTTON = "backButton.png";	
 	public static final String URL_SOUND_ON_BUTTON = "soundOnButton.png";
@@ -69,6 +69,7 @@ public class Constantes {
 	public static final String URL_GAMEOVER_POPUP = "gameoverPopup.png";
 	public static final String URL_PAUSE_POPUP = "pausePopup.png";
 	public static final String URL_TURORIAL_POPUP = "tutorialPopup.png";
+	public static final String URL_SUCCESS_POPUP = "successPopup.png";
 
 	//sprites secundarios
 	public static final String URL_PIG_STOP_RIGHT = "play/porcoD_parado.png";
@@ -112,4 +113,12 @@ public class Constantes {
 			"maps/map_105/map_105","maps/map_106/map_106","maps/map_107/map_107",
 			"maps/map_108/map_108", "maps/map_115/map_115", "maps/map_special/map_special"}
 	};
+	public static final String URL_STAR1 = "star1.png";
+	public static final String URL_STAR2 = "star2.png";
+	public static final String URL_STAR3 = "star3.png";
+	
+	public static final String URL_STAR1_POPUP = "star1Popup.png";
+	public static final String URL_STAR2_POPUP = "star2Popup.png";
+	public static final String URL_STAR3_POPUP = "star3Popup.png";
+	
 }

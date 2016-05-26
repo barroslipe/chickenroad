@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import br.com.chickenroad.Constantes;
 import br.com.chickenroad.dao.Fase;
 import br.com.chickenroad.dao.PreferencesUser;
+import br.com.chickenroad.screens.util.MyProperties;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
@@ -26,8 +27,16 @@ public class FasesMenu {
 	private ArrayList<Sprite> spriteFaseList;
 
 	private ArrayList<Fase> openFaseList;
+	private ArrayList<Integer> scoreMaxfase;
 
 	private BitmapFont defaultFont;
+	
+	private Sprite spriteStar[];
+	
+	private MyProperties myProperties;
+	
+	private int seasonId;
+	
 
 	/*
 	 * Auxiliar a impressão do score em cada fase
@@ -42,11 +51,20 @@ public class FasesMenu {
 	 */
 	public FasesMenu(AssetManager assetManager, int seasonId){
 
+		this.seasonId = seasonId;
+		
 		//lista de fases abertas para a temporada escolhida
 		this.openFaseList = PreferencesUser.getOpenFases(seasonId);
+		this.scoreMaxfase = new ArrayList<Integer>();
+		
+		this.myProperties = new MyProperties();
 
 		this.glyphLayout = new GlyphLayout();
-		spriteFaseList = new ArrayList<Sprite>();
+		this.spriteFaseList = new ArrayList<Sprite>();
+		this.spriteStar = new Sprite[3];
+		this.spriteStar[0] = new Sprite((Texture)assetManager.get(Constantes.URL_STAR1));
+		this.spriteStar[1] = new Sprite((Texture)assetManager.get(Constantes.URL_STAR2));
+		this.spriteStar[2] = new Sprite((Texture)assetManager.get(Constantes.URL_STAR3));
 
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Constantes.URL_FONT_KRAASH_BLACK));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
@@ -66,9 +84,11 @@ public class FasesMenu {
 		String picture;
 
 		for(int i=0;i<Constantes.URL_FASE_PICTURE_LIST.length;i++){
-			if(i < openFaseList.size())
+			if(i < openFaseList.size()){
 				picture = Constantes.URL_FASE_PICTURE_LIST[i];
-			else
+				this.myProperties.loadProperties(Constantes.URL_MAPS[seasonId][i] + ".properties");
+				this.scoreMaxfase.add(myProperties.getMaxScore());
+			}else
 				picture = Constantes.URL_FASE_BLOQUEADA;
 
 			Sprite sprite = new Sprite((Texture)assetManager.get(picture));
@@ -97,10 +117,22 @@ public class FasesMenu {
 			if(i< openFaseList.size()){
 				if(openFaseList.get(i).getScore() == 0)
 					continue;
-
+				
 				textScore = Integer.toString(openFaseList.get(i).getScore());
 				glyphLayout.setText(defaultFont, textScore);
 				defaultFont.draw(spriteBatch, textScore, spriteFaseList.get(i).getX() + (spriteFaseList.get(i).getWidth() - glyphLayout.width)/2 , spriteFaseList.get(i).getY() - 2);
+				
+				if(openFaseList.get(i).getScore() <= 0.45*scoreMaxfase.get(i)){
+					spriteStar[0].setPosition(spriteFaseList.get(i).getX()+5, spriteFaseList.get(i).getY()+2);
+					spriteStar[0].draw(spriteBatch);
+				}else if(openFaseList.get(i).getScore() <= 0.85*scoreMaxfase.get(i)){
+					spriteStar[1].setPosition(spriteFaseList.get(i).getX()+5, spriteFaseList.get(i).getY()+2);
+					spriteStar[1].draw(spriteBatch);
+					
+				}else{
+					spriteStar[2].setPosition(spriteFaseList.get(i).getX()+5, spriteFaseList.get(i).getY()+2);
+					spriteStar[2].draw(spriteBatch);
+				}
 			}
 		}
 	}

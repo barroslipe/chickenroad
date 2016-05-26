@@ -24,7 +24,6 @@ public class PopupPause {
 		Texture texture = assetManager.get(Constantes.URL_PAUSE_POPUP);
 		this.spriteBackground = new Sprite(texture);
 
-
 		Texture listFase = assetManager.get("listFaseButton.png");
 		this.spriteFaseList = new Sprite(listFase);
 		this.spriteFaseList.setScale(0.8f);
@@ -84,11 +83,11 @@ public class PopupPause {
 		spriteSoundOn.setPosition(Constantes.WORLD_WIDTH/2 - 145 +PlayScreen.deltaXPositionButtons,  145+PlayScreen.deltaYPositionButtons);
 		spriteSoundOff.setPosition(Constantes.WORLD_WIDTH/2 - 145 +PlayScreen.deltaXPositionButtons,  145+PlayScreen.deltaYPositionButtons);
 		
-		spriteFaseList.setPosition(Constantes.WORLD_WIDTH/2 - 160 +PlayScreen.deltaXPositionButtons,  35+PlayScreen.deltaYPositionButtons);
+		spriteFaseList.setPosition(Constantes.WORLD_WIDTH/2 - 150 +PlayScreen.deltaXPositionButtons,  35+PlayScreen.deltaYPositionButtons);
 
-		spritePlay.setPosition(Constantes.WORLD_WIDTH/2  -60+ PlayScreen.deltaXPositionButtons,  35+PlayScreen.deltaYPositionButtons);
+		spritePlay.setPosition(Constantes.WORLD_WIDTH/2  -50+ PlayScreen.deltaXPositionButtons,  35+PlayScreen.deltaYPositionButtons);
 
-		spriteRestart.setPosition(Constantes.WORLD_WIDTH/2 +40 +PlayScreen.deltaXPositionButtons,  35+PlayScreen.deltaYPositionButtons);
+		spriteRestart.setPosition(Constantes.WORLD_WIDTH/2 +50 +PlayScreen.deltaXPositionButtons,  35+PlayScreen.deltaYPositionButtons);
 
 		spriteBackground.draw(spriteBatch);
 

@@ -36,7 +36,7 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_POPUP_YES_BUTTON, Texture.class);
 		assetManager.load(Constantes.URL_POPUP_NO_BUTTON, Texture.class);
 		assetManager.load(Constantes.URL_POPUP_EXIT_BACKGROUND, Texture.class);
-		//assetManager.load(Constantes.URL_NEXT_FASE_BUTTON, Texture.class);
+		assetManager.load(Constantes.URL_NEXT_FASE_BUTTON, Texture.class);
 
 		//sons
 		assetManager.load(Constantes.URL_SOUND_CLICK, Music.class);
@@ -79,6 +79,7 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_GAMEOVER_POPUP, Texture.class);
 		assetManager.load(Constantes.URL_PAUSE_POPUP, Texture.class);
 		assetManager.load(Constantes.URL_OK_BUTTON, Texture.class);
+		assetManager.load(Constantes.URL_SUCCESS_POPUP, Texture.class);
 
 		//sprites secundarios do cenario
 		assetManager.load(Constantes.URL_EGGS, Texture.class);
@@ -107,6 +108,14 @@ public class ResourceManager {
 
 
 		assetManager.load(Constantes.URL_FASE_BLOQUEADA, Texture.class);
+		
+		assetManager.load(Constantes.URL_STAR1, Texture.class);
+		assetManager.load(Constantes.URL_STAR2, Texture.class);
+		assetManager.load(Constantes.URL_STAR3, Texture.class);
+		assetManager.load(Constantes.URL_STAR1_POPUP, Texture.class);
+		assetManager.load(Constantes.URL_STAR2_POPUP, Texture.class);
+		assetManager.load(Constantes.URL_STAR3_POPUP, Texture.class);
+
 
 		loadArray(Constantes.URL_SEASON_PICTURE_LIST);
 		loadArray(Constantes.URL_FASE_PICTURE_LIST);
