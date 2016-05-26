@@ -450,27 +450,27 @@ public class PlayScreen extends ScreenBase {
 		playCamera.getOrthographicCamera().unproject(touchPoint);
 
 		//clicou em pause
-		if(playMenuButtons.checkClickPauseButton(touchPoint.x, touchPoint.y)){
+		if(playMenuButtons.checkClickPauseButton(touchPoint.x, touchPoint.y) && (stateGame == StateGame.PLAYING) && !flagPopupTutorial){
 			stateGame = StateGame.PAUSE;
 			return true;
 		}
 		//clicou no play
-		if(popupPause.checkClickPlayButton(touchPoint.x, touchPoint.y) && stateGame == StateGame.PAUSE){
+		if(popupPause.checkClickPlayButton(touchPoint.x, touchPoint.y) && (stateGame == StateGame.PAUSE) && !flagPopupTutorial){
 			playMenuButtons.enable();
 			stateGame = StateGame.PLAYING;
 			return true;
 		}
 		//clicou no restart
-		if((popupGameOver.checkClickRestartButton(touchPoint.x, touchPoint.y) && stateGame == StateGame.GAME_OVER) 
-				|| (popupPause.checkClickRestartButton(touchPoint.x, touchPoint.y) && stateGame == StateGame.PAUSE)
-				|| (popupSuccess.checkClickRestartButton(touchPoint.x, touchPoint.y) && stateGame == StateGame.SUCCESS)){
+		if(((popupGameOver.checkClickRestartButton(touchPoint.x, touchPoint.y) && (stateGame == StateGame.GAME_OVER))
+				|| (popupPause.checkClickRestartButton(touchPoint.x, touchPoint.y) && (stateGame == StateGame.PAUSE))
+				|| (popupSuccess.checkClickRestartButton(touchPoint.x, touchPoint.y) && (stateGame == StateGame.SUCCESS))) && !flagPopupTutorial){
 			stateGame = StateGame.RESTART;
 			return true;
 		}
 		//clicou para sair da fase e ir a tela de fases
-		if((popupGameOver.checkClickFaseListButton(touchPoint.x, touchPoint.y)  && stateGame == StateGame.GAME_OVER) 
-				|| (popupPause.checkClickFaseListButton(touchPoint.x, touchPoint.y)  && stateGame == StateGame.PAUSE)
-				|| (popupSuccess.checkClickFaseListButton(touchPoint.x, touchPoint.y) && stateGame == StateGame.SUCCESS)){
+		if(((popupGameOver.checkClickFaseListButton(touchPoint.x, touchPoint.y)  && (stateGame == StateGame.GAME_OVER)) 
+				|| (popupPause.checkClickFaseListButton(touchPoint.x, touchPoint.y)  && (stateGame == StateGame.PAUSE))
+				|| (popupSuccess.checkClickFaseListButton(touchPoint.x, touchPoint.y) && (stateGame == StateGame.SUCCESS))) && !flagPopupTutorial){
 			myPlayMusic.stopBackgroundMusic();
 			myPlayMusic.getSoundEndFase().stop();
 			chickenRoadGame.setScreenWithTransitionFade(new FasesScreen(chickenRoadGame, seasonId));
@@ -484,12 +484,12 @@ public class PlayScreen extends ScreenBase {
 			return true;
 		}
 
-		if(popupPause.checkClickSoundOnButton(touchPoint.x, touchPoint.y) && stateGame == StateGame.PAUSE){
+		if(popupPause.checkClickSoundOnButton(touchPoint.x, touchPoint.y) && (stateGame == StateGame.PAUSE) && !flagPopupTutorial){
 			Constantes.SOUND_ON_FLAG = !Constantes.SOUND_ON_FLAG;
 			if(!Constantes.SOUND_ON_FLAG) myPlayMusic.stopBackgroundMusic();
 
 		}
-		if(popupSuccess.checkClickNextButton(touchPoint.x, touchPoint.y) && stateGame == StateGame.SUCCESS){
+		if(popupSuccess.checkClickNextButton(touchPoint.x, touchPoint.y) && (stateGame == StateGame.SUCCESS) && !flagPopupTutorial){
 
 			//TODO isso não deve existir quando não for protótipo
 			if((faseId+1) != Constantes.MAX_FASES){
@@ -500,7 +500,7 @@ public class PlayScreen extends ScreenBase {
 		}
 
 		//se nao for clicando em nada acima, devo me movimentar
-		if(stateGame == StateGame.PLAYING) player.movimentar(touchPoint);
+		if(stateGame == StateGame.PLAYING && !flagPopupTutorial) player.movimentar(touchPoint);
 
 		return false;
 	}
