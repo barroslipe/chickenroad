@@ -48,11 +48,6 @@ public class Constantes {
 	public static final String URL_SOUND_SHEEP = "sounds/soundSheep.mp3";
 	public static final String URL_SOUND_HORN = "sounds/soundHorn.mp3";
 
-	public static final String URL_PLAYER_NORMAL_LIFE = "player/normalLife.png";
-	public static final String URL_PLAYER_DEAD_LIFE = "player/deadLife.png";
-	public static final String [] URL_LIFE_BARS = {"barBlue_horizontalBlue.png", "barGreen_horizontalMid.png", "barRed_horizontalMid.png"};
-
-
 	//player
 	public static final String URL_PLAYER_AVATAR = "player/player.png";
 	public static final String URL_PLAYER_AVATAR_RIGHT ="player/playerD_caminhando.png"; 
@@ -64,7 +59,11 @@ public class Constantes {
 	public static final String URL_PLAYER_AVATAR_UP = "player/playerU_caminhando.png";
 	public static final String URL_PLAYER_AVATAR_DOWN = "player/playerB_caminhando.png";
 	public static final String URL_PLAYER_AVATAR_DEAD = "player/player_morto.png";
-
+	
+	public static final String URL_LIFE_FULL = "player/full.png";
+	public static final String URL_LIFE_HALF = "player/half.png";
+	public static final String URL_LIFE_EMPTY = "player/empty.png";
+	
 	//popup
 	public static final String URL_GAMEOVER_POPUP = "gameoverPopup.png";
 	public static final String URL_PAUSE_POPUP = "pausePopup.png";

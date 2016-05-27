@@ -4,68 +4,31 @@ import br.com.chickenroad.Constantes;
 import br.com.chickenroad.screens.PlayScreen;
 
 import com.badlogic.gdx.assets.AssetManager;
-import com.badlogic.gdx.graphics.Color;
-import com.badlogic.gdx.graphics.Pixmap;
-import com.badlogic.gdx.graphics.Pixmap.Format;
 import com.badlogic.gdx.graphics.Texture;
-import com.badlogic.gdx.graphics.g2d.Batch;
-import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar;
-import com.badlogic.gdx.scenes.scene2d.ui.ProgressBar.ProgressBarStyle;
-import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 
 public class PlayerLife{
 
-	private float life;
-	private ProgressBar lifeProgressBar;
-	private Skin skin;
+	private final int DEMAGE_VEHICLE = 20;
+	private final int TOTAL_LIFE = 60;
+	private final int lifeHalf = 10;
+	private final int lifeFull = 20;
 
-	private TextureRegionDrawable textureRegionDrawableBlue, textureRegionDrawableGreen, textureRegionDrawableRed;
-	private ProgressBarStyle barStyle;
+	private int life;
 
-	private final int TOTAL_LIFE = 100;
+	private Sprite spriteFull, spriteHalf, spriteEmpty;
 
 	public PlayerLife(AssetManager assetManager){
 
-		this.skin = new Skin();
-		Pixmap pixmap = new Pixmap(18, 18, Format.RGBA8888);
-		pixmap.setColor(Color.WHITE);
-		pixmap.fill();
-
-		this.skin.add("white", new Texture(pixmap));
-
-		this.barStyle = new ProgressBarStyle();
-		barStyle.background = skin.newDrawable("white", Color.DARK_GRAY);		
-
-		this.textureRegionDrawableBlue = new TextureRegionDrawable(new TextureRegion((Texture)assetManager.get(Constantes.URL_LIFE_BARS[0])));
-		this.textureRegionDrawableGreen = new TextureRegionDrawable(new TextureRegion((Texture)assetManager.get(Constantes.URL_LIFE_BARS[1])));
-		this.textureRegionDrawableRed = new TextureRegionDrawable(new TextureRegion((Texture)assetManager.get(Constantes.URL_LIFE_BARS[2])));
-
-		this.life = 100;
-		this.lifeProgressBar = new ProgressBar(0, life, 1, false, getProgresBarStyle(1));
-		this.lifeProgressBar.setWidth(80);
-		this.lifeProgressBar.setValue(life);
-
+		this.spriteFull = new Sprite((Texture)assetManager.get(Constantes.URL_LIFE_FULL));
+		this.spriteHalf = new Sprite((Texture)assetManager.get(Constantes.URL_LIFE_HALF));
+		this.spriteEmpty = new Sprite((Texture)assetManager.get(Constantes.URL_LIFE_EMPTY));
 	}
 
-	private ProgressBarStyle getProgresBarStyle(int option) {
-
-		TextureRegionDrawable textureBar = null;
-		if( option == 1)
-			textureBar =  textureRegionDrawableBlue;
-		else if(option == 2)
-			textureBar =  textureRegionDrawableGreen;
-		else if(option == 3)
-			textureBar =  textureRegionDrawableRed;
-		else
-			textureBar = null;
-
-		barStyle.knobBefore = textureBar;
-		barStyle.knob=null;
-
-		return barStyle;
+	public void init() {
+		life = TOTAL_LIFE;
 	}
 
 
@@ -74,41 +37,46 @@ public class PlayerLife{
 	}
 
 	public void demageVehicle() {
-		life -= 20;
+		life -= DEMAGE_VEHICLE;
 
 		if(life < 0 ) life = 0; 
 
-		lifeProgressBar.setValue(life);
 	}
 
-	public void draw(Batch batch){
+	public void draw(SpriteBatch spriteBatch){
 
-		if(life <= TOTAL_LIFE && life >= 75){
-			lifeProgressBar.setStyle(getProgresBarStyle(1));
-		}else if(life > 35) {
-			lifeProgressBar.setStyle(getProgresBarStyle(2));
-		}else if(life > 0){
-			lifeProgressBar.setStyle(getProgresBarStyle(3));
-		}else
-			lifeProgressBar.setStyle(getProgresBarStyle(4));
-		
-		this.lifeProgressBar.setPosition(430+PlayScreen.deltaXPositionButtons,  440+PlayScreen.deltaYPositionButtons);
-		this.lifeProgressBar.draw(batch, 50);
+		int lifeLocal = life;
+
+		for(int i=0;i<getTotalNumberHearts();i++){
+			int result = lifeLocal%lifeFull;
+			if(result == 0 && (lifeLocal - lifeFull >= 0)){
+				lifeLocal -= lifeFull;
+				spriteBatch.draw(spriteFull,60+PlayScreen.deltaXPositionButtons + i*30, 445+PlayScreen.deltaYPositionButtons);
+			}else{
+				result = lifeLocal%lifeHalf;
+				if(result == 0 && (lifeLocal - lifeHalf >= 0)){
+					lifeLocal -= lifeHalf;
+					spriteBatch.draw(spriteHalf,60+PlayScreen.deltaXPositionButtons + i*30, 445+PlayScreen.deltaYPositionButtons);
+				}else{
+					spriteBatch.draw(spriteEmpty,60+PlayScreen.deltaXPositionButtons + i*30, 445+PlayScreen.deltaYPositionButtons);
+				}
+			}
+
+		}
 
 	}
 
-	public void init() {
-		life = TOTAL_LIFE;
-		lifeProgressBar.setValue(life);
+	private int getTotalNumberHearts(){
+		return TOTAL_LIFE/lifeFull;
 	}
+
 
 	public int calculateScoreLife(){
 
 		int score;
 
-		if(life == TOTAL_LIFE) score = 2000;
-		else if(life >= 0.75*TOTAL_LIFE) score = 1000;
-		else if( life >= 0.5*TOTAL_LIFE) score = 500;
+		if(life == TOTAL_LIFE) score = 1000;
+		else if(life >= 0.5*TOTAL_LIFE) score = 500;
 		else score = 200;
 
 		return score;

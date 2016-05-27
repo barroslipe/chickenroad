@@ -52,8 +52,9 @@ public class Util {
 	}
 
 	public static int getMaxScoreFase(String numberEggs, String numberCorns){
+		
 		int total = Integer.parseInt(numberEggs)*PlayerScore.EGGS_SCORE + 
-				Integer.parseInt(numberCorns)*PlayerScore.CORN_SCORE + 2000 + 1000;
+				Integer.parseInt(numberCorns)*PlayerScore.CORN_SCORE + 1000 + 1000;
 		return total;
 	}
 	public static int getNumberStarPerSeason(int faseScore, int maxScoreFase){

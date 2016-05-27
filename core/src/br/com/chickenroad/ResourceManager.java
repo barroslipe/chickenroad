@@ -58,13 +58,6 @@ public class ResourceManager {
 		assetManager.load("restartFaseButton.png", Texture.class);
 		assetManager.load("listFaseButton.png", Texture.class);
 
-		//life level player
-		assetManager.load(Constantes.URL_PLAYER_NORMAL_LIFE, Texture.class);
-		assetManager.load(Constantes.URL_PLAYER_DEAD_LIFE, Texture.class);
-		assetManager.load(Constantes.URL_LIFE_BARS[0], Texture.class);
-		assetManager.load(Constantes.URL_LIFE_BARS[1], Texture.class);
-		assetManager.load(Constantes.URL_LIFE_BARS[2], Texture.class);
-
 		//player
 		assetManager.load(Constantes.URL_PLAYER_AVATAR, Texture.class);
 		assetManager.load(Constantes.URL_PLAYER_AVATAR_RIGHT, Texture.class);
@@ -76,6 +69,10 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_PLAYER_AVATAR_UP, Texture.class);
 		assetManager.load(Constantes.URL_PLAYER_AVATAR_DOWN, Texture.class);
 		assetManager.load(Constantes.URL_PLAYER_AVATAR_DEAD, Texture.class);
+		
+		assetManager.load(Constantes.URL_LIFE_FULL, Texture.class);
+		assetManager.load(Constantes.URL_LIFE_HALF, Texture.class);
+		assetManager.load(Constantes.URL_LIFE_EMPTY, Texture.class);
 
 		//popup
 		assetManager.load(Constantes.URL_GAMEOVER_POPUP, Texture.class);
@@ -107,7 +104,6 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_TEXT_POW, Texture.class);
 		assetManager.load(Constantes.URL_TEXT_PLUS15, Texture.class);
 		assetManager.load(Constantes.URL_TEXT_PLUS100, Texture.class);
-
 
 		assetManager.load(Constantes.URL_FASE_BLOQUEADA, Texture.class);
 

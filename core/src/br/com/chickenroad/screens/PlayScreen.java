@@ -64,7 +64,7 @@ public class PlayScreen extends ScreenBase {
 	private MyMap myMap;
 	//estado do jogo
 	private StateGame stateGame;
-	
+
 	private PopupSuccess popupSuccess;
 	private PopupPause popupPause;
 	private PopupGameOver popupGameOver;
@@ -87,7 +87,7 @@ public class PlayScreen extends ScreenBase {
 	private int seasonId, faseId;
 	//flag para visualizar popup
 	private boolean flagPopupTutorial;
-	
+
 	private boolean isSaved;
 
 	/**
@@ -130,7 +130,7 @@ public class PlayScreen extends ScreenBase {
 	private void init() {
 
 		isSaved = false;
-		
+
 		player.init(myProperties.getOriginPlayer().split(","));
 		playerScore.init(myProperties.getNumberEggs(),myProperties.getNumberCorns());
 		timer.setTimer(myProperties.getTimer());
@@ -165,14 +165,16 @@ public class PlayScreen extends ScreenBase {
 		roadList = RoadsBuilder.builder(myProperties);
 		vehicleList = VehiclesBuilder.builder(roadList, getAssetManager());
 
-		//muda o estado do jogo para 'PAUSE', pois um popup irá aparecer e não posso ficar rodando a aplicação
-		stateGame = StateGame.PAUSE;
-
 		//visualizar popup - flag para auxiliar o jogador[tutorial]
 		//TODO pausar as animações quando a aplicação estiver em pause[pelo usuário ou por mostrar o popup tutorial]
-		this.flagPopupTutorial = true;
-		this.playMenuButtons.disable();
+		if(faseId == 0){
 
+			//muda o estado do jogo para 'PAUSE', pois um popup irá aparecer e não posso ficar rodando a aplicação
+			stateGame = StateGame.PAUSE;
+			this.flagPopupTutorial = true;
+			this.playMenuButtons.disable();
+		}else
+			stateGame = StateGame.PLAYING;
 	}
 
 	/**
@@ -364,7 +366,7 @@ public class PlayScreen extends ScreenBase {
 				myPlayMusic.getSoundEndFase().stop();
 				popupSuccess.draw(chickenRoadGame.getSpriteBatch(), playerScore.getScoreGame(), 
 						Util.getMaxScoreFase(myProperties.getNumberEggs(), myProperties.getNumberEggs()));
-	
+
 			}
 
 			myPlayMusic.getSoundBackgroundFase().pause();

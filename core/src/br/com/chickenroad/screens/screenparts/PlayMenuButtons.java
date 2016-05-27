@@ -26,10 +26,6 @@ public class PlayMenuButtons{
 		this.spritePause = new Sprite(new TextureRegion(pauseFase));
 		this.spritePause.setScale(0.8f);
 
-		Texture playFase = assetManager.get("playFaseButton.png");
-		this.spritePlay = new Sprite(new TextureRegion(playFase));
-		this.spritePlay.setScale(0.8f);
-
 		Texture EggsQtd = assetManager.get(Constantes.URL_EGGS_SCORE);
 		this.spriteEggsQtd = new Sprite(new TextureRegion(EggsQtd));
 		this.spriteEggsQtd.setScale(0.8f);
@@ -68,9 +64,6 @@ public class PlayMenuButtons{
 				spritePause.setPosition(10+deltaXPositionButtons,  430+deltaYPositionButtons);
 				spritePause.draw(spriteBatch);
 
-			}else{
-				spritePlay.setPosition(10+deltaXPositionButtons,  430+deltaYPositionButtons);
-				spritePlay.draw(spriteBatch);
 			}
 
 		}
