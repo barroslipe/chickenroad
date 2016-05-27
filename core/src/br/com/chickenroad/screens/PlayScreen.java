@@ -173,8 +173,10 @@ public class PlayScreen extends ScreenBase {
 			stateGame = StateGame.PAUSE;
 			this.flagPopupTutorial = true;
 			this.playMenuButtons.disable();
-		}else
+		}else{
 			stateGame = StateGame.PLAYING;
+			playMenuButtons.enable();
+		}
 	}
 
 	/**
