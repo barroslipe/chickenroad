@@ -12,8 +12,8 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 
 public class PlayerScore {
 
-	public static final int CORN_SCORE = 100;//100 pontos  para cada milho pego
-	public static final int EGGS_SCORE = 15;
+	public static final int CORN_SCORE = 15;//100 pontos  para cada milho pego
+	public static final int EGGS_SCORE = 100;
 	
 	private int scoreGame;
 	private int currentNoCatchedEggs;

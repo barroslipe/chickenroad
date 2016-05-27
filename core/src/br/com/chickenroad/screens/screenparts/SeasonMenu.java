@@ -80,7 +80,7 @@ public class SeasonMenu {
 			if(i< openSeasonList.size()){
 				for(int j=0;j<openSeasonList.get(i).getFaseList().size();j++){
 					myProperties.loadProperties(Constantes.URL_MAPS[i][j] + ".properties");
-					maxScoreFase.add(Util.getMaxScoreFase(myProperties.getNumberEggs(), myProperties.getNumberEggs()));
+					maxScoreFase.add(Util.getMaxScoreFase(myProperties.getNumberEggs(), myProperties.getNumberCorns()));
 				}
 			}
 

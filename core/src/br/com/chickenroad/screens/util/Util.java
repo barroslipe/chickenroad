@@ -3,7 +3,9 @@ package br.com.chickenroad.screens.util;
 import java.util.List;
 import java.util.Random;
 
+import br.com.chickenroad.entities.PlayerLife;
 import br.com.chickenroad.entities.PlayerScore;
+import br.com.chickenroad.entities.Timer;
 
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
@@ -54,12 +56,12 @@ public class Util {
 	public static int getMaxScoreFase(String numberEggs, String numberCorns){
 		
 		int total = Integer.parseInt(numberEggs)*PlayerScore.EGGS_SCORE + 
-				Integer.parseInt(numberCorns)*PlayerScore.CORN_SCORE + 1000 + 1000;
+				Integer.parseInt(numberCorns)*PlayerScore.CORN_SCORE + PlayerLife.MAX_SCORE_LIFE + Timer.MAX_SCORE_TIMER;
 		return total;
 	}
 	public static int getNumberStarPerSeason(int faseScore, int maxScoreFase){
 		if(faseScore <= 0.45*maxScoreFase) return 1;
-		else if(faseScore <= 0.8*maxScoreFase) return 2;
+		else if(faseScore <= 0.75*maxScoreFase) return 2;
 		else return 3;
 	}
 }

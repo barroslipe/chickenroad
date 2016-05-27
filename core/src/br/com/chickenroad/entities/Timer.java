@@ -11,6 +11,7 @@ import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator.FreeTypeFont
 
 public class Timer {
 
+	public static final int MAX_SCORE_TIMER = 1000;
 	private BitmapFont defaultFont;
 	private float TOTAL_TIMER;
 	private float timer;
@@ -69,11 +70,11 @@ public class Timer {
 
 		float tempo_decorrido = TOTAL_TIMER - timer;
 		if(0.3*TOTAL_TIMER >= tempo_decorrido)
-			return 1000;
+			return MAX_SCORE_TIMER;
 		else if(0.6*TOTAL_TIMER >= tempo_decorrido)
-			return 500;
+			return MAX_SCORE_TIMER/2;
 		else
-			return 200;
+			return MAX_SCORE_TIMER/5;
 	}
 
 }

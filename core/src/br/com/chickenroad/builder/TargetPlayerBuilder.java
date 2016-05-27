@@ -25,10 +25,10 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class TargetPlayerBuilder {
 
-	private int contPlus15, contPlus100;
+	private int contPlus100, contPlus15;
 	private int numCornCatchedIndex; //recebe o valor da posi��o do vetor de milhos encontrados
-	private boolean flagPlus15;
 	private boolean flagPlus100;
+	private boolean flagPlus15;
 
 	private TextGame textGame[];
 	private ArrayList<TargetPlayer> targetPlayerEggsList, targetPlayerCornsList;
@@ -39,10 +39,10 @@ public class TargetPlayerBuilder {
 
 	public TargetPlayerBuilder(){
 		numCornCatchedIndex=0;
-		contPlus15 = 0;
 		contPlus100 = 0;
-		flagPlus15 = false;
+		contPlus15 = 0;
 		flagPlus100 = false;
+		flagPlus15 = false;
 
 		this.textGame = new TextGame[2];
 
@@ -51,8 +51,8 @@ public class TargetPlayerBuilder {
 	public void init(MyMap myMap, MyProperties myProperties, AssetManager assetManager, ChickenNest chickenNest){
 
 
-		this.textGame[0] = new TextGame(Constantes.URL_TEXT_PLUS15, assetManager, TextGameTypes.PLUS15);
-		this.textGame[1] = new TextGame(Constantes.URL_TEXT_PLUS100, assetManager, TextGameTypes.PLUS100);
+		this.textGame[0] = new TextGame(Constantes.URL_TEXT_PLUS100, assetManager, TextGameTypes.PLUS100);
+		this.textGame[1] = new TextGame(Constantes.URL_TEXT_PLUS15, assetManager, TextGameTypes.PLUS15);
 
 		this.textGame[0].init();
 		this.textGame[1].init();
@@ -84,7 +84,7 @@ public class TargetPlayerBuilder {
 			//so pode pegar ovos se ele nao tiver sido pego antes
 			if(targetPlayerEggsList.get(i).checkColision(player)){ // && (playerScore.getCurrentNoCatchedEggs() > 0)){ 
 				targetPlayerEggsList.get(i).setVisible(false);//apaga o ovo da tela
-				flagPlus15 = true;
+				flagPlus100 = true;
 				return true;
 			}			
 		}
@@ -97,7 +97,7 @@ public class TargetPlayerBuilder {
 				targetPlayerCornsList.get(i).setVisible(false); //apaga milho da tela
 				targetPlayerCornsList.get(i).setLocker(true);
 
-				flagPlus100 = true;
+				flagPlus15 = true;
 				numCornCatchedIndex = i;//recebe a posi��o do milho pego
 				return true;
 			}			
@@ -122,13 +122,13 @@ public class TargetPlayerBuilder {
 	public void drawCatchEggs(SpriteBatch spriteBatch, Player player, float delta) {
 
 
-		if(flagPlus15) {
-			if(contPlus15++ < 45) {
+		if(flagPlus100) {
+			if(contPlus100++ < 45) {
 				textGame[0].setPosition(player.getX()-20, player.getY()+30);
 				textGame[0].draw(spriteBatch, delta);
 			}else{
-				contPlus15 = 0;
-				flagPlus15 = false;
+				contPlus100 = 0;
+				flagPlus100 = false;
 			}
 		}
 
@@ -136,8 +136,8 @@ public class TargetPlayerBuilder {
 
 
 	public void drawCatchCorn(SpriteBatch spriteBatch, Player player, float delta) {
-		if(flagPlus100) {
-			if(contPlus100++ < 48) {
+		if(flagPlus15) {
+			if(contPlus15++ < 48) {
 				//exibe apenas o milho encontrado
 				targetPlayerCornsList.get(numCornCatchedIndex).setVisible(true);
 				targetPlayerCornsList.get(numCornCatchedIndex).draw(spriteBatch, delta);		
@@ -145,8 +145,8 @@ public class TargetPlayerBuilder {
 				textGame[1].draw(spriteBatch, delta);
 
 			}else{
-				contPlus100 = 0;
-				flagPlus100 = false;
+				contPlus15 = 0;
+				flagPlus15 = false;
 				targetPlayerCornsList.get(numCornCatchedIndex).setVisible(false);
 			}
 		}

@@ -83,7 +83,7 @@ public class FasesMenu {
 			if(i < openFaseList.size()){
 				picture = Constantes.URL_FASE_PICTURE_LIST[seasonId][i];
 				myProperties.loadProperties(Constantes.URL_MAPS[seasonId][i] + ".properties");
-				this.maxScoreFase.add(Util.getMaxScoreFase(myProperties.getNumberEggs(), myProperties.getNumberEggs()));
+				this.maxScoreFase.add(Util.getMaxScoreFase(myProperties.getNumberEggs(), myProperties.getNumberCorns()));
 			}else
 				picture = Constantes.URL_FASE_BLOQUEADA;
 

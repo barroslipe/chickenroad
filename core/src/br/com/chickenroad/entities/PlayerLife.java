@@ -4,6 +4,7 @@ import br.com.chickenroad.Constantes;
 import br.com.chickenroad.screens.PlayScreen;
 
 import com.badlogic.gdx.assets.AssetManager;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -15,6 +16,7 @@ public class PlayerLife{
 	private final int TOTAL_LIFE = 60;
 	private final int lifeHalf = 10;
 	private final int lifeFull = 20;
+	public static int MAX_SCORE_LIFE = 1500;
 
 	private int life;
 
@@ -45,6 +47,7 @@ public class PlayerLife{
 
 	public void draw(SpriteBatch spriteBatch){
 
+		Color color = spriteBatch.getColor();
 		int lifeLocal = life;
 
 		for(int i=0;i<getTotalNumberHearts();i++){
@@ -58,12 +61,13 @@ public class PlayerLife{
 					lifeLocal -= lifeHalf;
 					spriteBatch.draw(spriteHalf,60+PlayScreen.deltaXPositionButtons + i*30, 445+PlayScreen.deltaYPositionButtons);
 				}else{
+					spriteBatch.setColor(color.r, color.g, color.b, .3f);
 					spriteBatch.draw(spriteEmpty,60+PlayScreen.deltaXPositionButtons + i*30, 445+PlayScreen.deltaYPositionButtons);
 				}
 			}
 
 		}
-
+		spriteBatch.setColor(color.r, color.g, color.b, 1f);
 	}
 
 	private int getTotalNumberHearts(){
@@ -75,9 +79,9 @@ public class PlayerLife{
 
 		int score;
 
-		if(life == TOTAL_LIFE) score = 1000;
-		else if(life >= 0.5*TOTAL_LIFE) score = 500;
-		else score = 200;
+		if(life == TOTAL_LIFE) score = MAX_SCORE_LIFE;
+		else if(life >= 0.75*TOTAL_LIFE) score = MAX_SCORE_LIFE/2;
+		else score = MAX_SCORE_LIFE/5;
 
 		return score;
 	}
