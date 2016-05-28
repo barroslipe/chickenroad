@@ -220,7 +220,7 @@ public class PlayScreen extends ScreenBase {
 		myMap.draw(playCamera.getOrthographicCamera());
 
 		//musicas de fundo em looping
-		if(stateGame != StateGame.PAUSE){
+		if((stateGame == StateGame.PAUSE) || (stateGame == StateGame.PLAYING)){
 			MyPlayMusic.playSound(myPlayMusic.getSoundBackgroundFase());
 			MyPlayMusic.playSound(myPlayMusic.getSoundBackgroundChicken());
 		}
@@ -461,6 +461,8 @@ public class PlayScreen extends ScreenBase {
 				|| (popupPause.checkClickRestartButton(touchPoint.x, touchPoint.y) && (stateGame == StateGame.PAUSE))
 				|| (popupSuccess.checkClickRestartButton(touchPoint.x, touchPoint.y) && (stateGame == StateGame.SUCCESS))) && !flagPopupTutorial){
 			stateGame = StateGame.RESTART;
+			myPlayMusic.stopBackgroundMusic();
+			myPlayMusic.getSoundEndFase().stop();
 			return true;
 		}
 		//clicou para sair da fase e ir a tela de fases
@@ -469,7 +471,7 @@ public class PlayScreen extends ScreenBase {
 				|| (popupSuccess.checkClickFaseListButton(touchPoint.x, touchPoint.y) && (stateGame == StateGame.SUCCESS))) && !flagPopupTutorial){
 			myPlayMusic.stopBackgroundMusic();
 			myPlayMusic.getSoundEndFase().stop();
-			chickenRoadGame.setScreenWithTransitionFade(new FasesScreen(chickenRoadGame, seasonId));
+			chickenRoadGame.setScreen(new FasesScreen(chickenRoadGame, seasonId));
 			return true;
 		}
 
@@ -500,11 +502,11 @@ public class PlayScreen extends ScreenBase {
 
 		return false;
 	}
-
 	@Override
 	public void pause() {
 		stateGame = StateGame.PAUSE;
-	}
+	};
+
 
 	@Override
 	public void dispose() {
