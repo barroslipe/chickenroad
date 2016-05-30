@@ -36,18 +36,21 @@ public class MainMenuButtons {
 
 		Texture texturePlay = assetManager.get(Constantes.URL_PLAY_BUTTON);
 		this.spritePlay = new Sprite(texturePlay);
+		
 		Texture textureExit = assetManager.get(Constantes.URL_EXIT_BUTTON);
 		this.spriteExit = new Sprite(textureExit);
+		this.spriteExit.setScale(0.7f);
 
 		Texture textureSoundOn = assetManager.get(Constantes.URL_SOUND_ON_BUTTON);
 		this.spriteSoundOn = new Sprite(textureSoundOn);
 		Texture textureSoundOff = assetManager.get(Constantes.URL_SOUND_OFF_BUTTON);
 		this.spriteSoundOff = new Sprite(textureSoundOff);
 
-		this.spritePlay.setPosition(Constantes.WORLD_WIDTH/2-spritePlay.getWidth()/2, Constantes.WORLD_HEIGHT/2);
-		this.spriteExit.setPosition(Constantes.WORLD_WIDTH/2-spriteExit.getWidth()/2, Constantes.WORLD_HEIGHT/2-120);
-
+		this.spritePlay.setPosition(Constantes.WORLD_WIDTH/2-spritePlay.getWidth()/2+2, Constantes.WORLD_HEIGHT/2 - 54);
+		
 		final int POSITION_SOUND = 20;
+		this.spriteExit.setPosition(Constantes.WORLD_WIDTH-spriteExit.getWidth(), POSITION_SOUND+5);
+
 		this.spriteSoundOn.setPosition(POSITION_SOUND, POSITION_SOUND);
 		this.spriteSoundOff.setPosition(POSITION_SOUND, POSITION_SOUND);
 

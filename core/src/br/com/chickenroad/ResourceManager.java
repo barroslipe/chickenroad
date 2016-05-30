@@ -30,8 +30,6 @@ public class ResourceManager {
 
 
 		assetManager.load(Constantes.URL_EXIT_BUTTON, Texture.class);
-
-		assetManager.load(Constantes.URL_PLAY_BUTTON, Texture.class);
 		assetManager.load(Constantes.URL_SOUND_OFF_BUTTON, Texture.class);
 		assetManager.load(Constantes.URL_SOUND_ON_BUTTON, Texture.class);
 
@@ -54,7 +52,7 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_SOUND_HORN, Music.class);
 
 		assetManager.load("pauseFaseButton.png", Texture.class);
-		assetManager.load("playFaseButton.png", Texture.class);
+		assetManager.load(Constantes.URL_PLAY_BUTTON, Texture.class);
 		assetManager.load("restartFaseButton.png", Texture.class);
 		assetManager.load("listFaseButton.png", Texture.class);
 
@@ -119,11 +117,8 @@ public class ResourceManager {
 		loadArrayBi(Constantes.URL_FASE_PICTURE_LIST);
 
 		//veículos
-		loadArray(Constantes.URL_CAR_RIGHT);
-		loadArray(Constantes.URL_CAR_LEFT);
-		loadArray(Constantes.URL_MOTORCYCLE_LEFT);
-		loadArray(Constantes.URL_MOTORCYCLE_RIGHT);
-
+		loadArray(Constantes.URL_VEHICLE_RIGHT);
+		loadArray(Constantes.URL_VEHICLE_LEFT);
 
 	}
 

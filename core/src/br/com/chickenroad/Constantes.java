@@ -23,7 +23,6 @@ public class Constantes {
 	public static final String URL_BACKGROUND_SEASON_ROOSTER_SONG = "backgroundSeasonRoosterSong.png";
 	public static final String URL_BACKGROUND_ALL_SEASONS = "backgroundAllSeasons.png";
 	public static final String URL_BACKGROUND_SPLASHSCREEN = "splashScreenBackground.jpg";
-	public static final String URL_PLAY_BUTTON = "playButton.png";
 	public static final String URL_EXIT_BUTTON = "exitButton.png";
 	public static final String URL_NEXT_FASE_BUTTON = "nextFaseButton.png";
 	public static final String URL_OK_BUTTON = "okButton.png";
@@ -84,10 +83,8 @@ public class Constantes {
 	public static final String URL_GIFT_SHEEP = "play/giftOvelha.png";
 
 	//veiculos
-	public static final String URL_CAR_RIGHT[] = {"veicules/veiculo1D.png", "veicules/veiculo2D.png", "veicules/veiculo3D.png"};
-	public static final String URL_CAR_LEFT[]  = {"veicules/veiculo1E.png", "veicules/veiculo2E.png", "veicules/veiculo3E.png"};
-	public static final String URL_MOTORCYCLE_LEFT[]  = {"veicules/moto1E.png", "veicules/moto2E.png"};
-	public static final String URL_MOTORCYCLE_RIGHT[] = {"veicules/moto1D.png", "veicules/moto1D.png"};
+	public static final String URL_VEHICLE_RIGHT[] = {"vehicles/veiculo1D.png","vehicles/moto1D.png", "vehicles/veiculo2D.png", "vehicles/veiculo3D.png", "vehicles/moto2D.png"};
+	public static final String URL_VEHICLE_LEFT[]  = {"vehicles/veiculo1E.png", "vehicles/moto2E.png", "vehicles/veiculo2E.png", "vehicles/veiculo3E.png", "vehicles/moto1E.png"};
 
 	//textos
 	public static final String URL_TEXT_FONT_KRAASH1 = "fonts/Kraash.ttf";
@@ -131,5 +128,6 @@ public class Constantes {
 	public static final String URL_STAR1_POPUP = "star1Popup.png";
 	public static final String URL_STAR2_POPUP = "star2Popup.png";
 	public static final String URL_STAR3_POPUP = "star3Popup.png";
+	public static final String URL_PLAY_BUTTON = "playFaseButton.png";
 
 }

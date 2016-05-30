@@ -28,7 +28,7 @@ public class PopupPause {
 		this.spriteFaseList = new Sprite(listFase);
 		this.spriteFaseList.setScale(0.8f);
 
-		Texture playFase = assetManager.get("playFaseButton.png");
+		Texture playFase = assetManager.get(Constantes.URL_PLAY_BUTTON);
 		this.spritePlay = new Sprite(playFase);
 		this.spritePlay.setScale(0.8f);
 

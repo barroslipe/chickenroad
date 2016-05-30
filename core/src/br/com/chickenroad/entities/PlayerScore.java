@@ -25,9 +25,6 @@ public class PlayerScore {
 
 	public PlayerScore() {
 
-		this.defaultFont = new BitmapFont();
-		//	Usando FreeTypeFont
-
 		FreeTypeFontGenerator generator = new FreeTypeFontGenerator(Gdx.files.internal(Constantes.URL_FONT_KRAASH_BLACK));
 		FreeTypeFontParameter parameter = new FreeTypeFontParameter();
 		parameter.size = 7;

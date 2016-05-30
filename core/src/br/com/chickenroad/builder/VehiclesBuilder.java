@@ -3,6 +3,7 @@ package br.com.chickenroad.builder;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.chickenroad.Constantes;
 import br.com.chickenroad.entities.Direction;
 import br.com.chickenroad.entities.Road;
 import br.com.chickenroad.entities.RoadFaixa;
@@ -35,7 +36,12 @@ public class VehiclesBuilder {
 				positionY = faixa.getInitialPoint().y;
 				float positionX =  faixa.getInitialPoint().x;
 				do {
-					vehicle = new Vehicle("veicules/"+faixa.getVeiculo()+(faixa.getDirection() == Direction.RIGHT ? "D":"E")+".png", faixa, assetManager);
+					//escolher carro aleatoriamente
+					String picture = (faixa.getDirection() == Direction.RIGHT ?
+							Constantes.URL_VEHICLE_RIGHT[(int)Util.getRandomPosition(0, Constantes.URL_VEHICLE_LEFT.length)]:
+							Constantes.URL_VEHICLE_LEFT[(int)Util.getRandomPosition(0, Constantes.URL_VEHICLE_LEFT.length)]); 
+					
+					vehicle = new Vehicle(picture, faixa, assetManager);
 					vehicle.init(positionX, positionY);
 					vehicleList.add(vehicle);
 					positionX += vehicle.getWidth() + faixa.getCarsBetweenDistance()*Util.getRandomPosition(1, 4)*Util.getRandomPosition(1);

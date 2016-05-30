@@ -366,6 +366,7 @@ public class PlayScreen extends ScreenBase {
 				textGame[0].draw(chickenRoadGame.getSpriteBatch(), delta);
 			}else{
 				myPlayMusic.getSoundEndFase().stop();
+				
 				popupSuccess.draw(chickenRoadGame.getSpriteBatch(), playerScore.getScoreGame(), 
 						Util.getMaxScoreFase(myProperties.getNumberEggs(), myProperties.getNumberCorns()));
 
