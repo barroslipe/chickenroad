@@ -1,6 +1,7 @@
 package br.com.chickenroad.entities;
 
-import br.com.chickenroad.Constantes;
+import br.com.chickenroad.entities.enums.StateGame;
+import br.com.chickenroad.screens.util.Constantes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -30,7 +31,6 @@ public class Timer {
 
 		generator.dispose();
 	}
-
 
 	public void draw(SpriteBatch spriteBatch, StateGame stateGame, float delta, int deltaXPositionButtons, int deltaYPositionButtons) {
 

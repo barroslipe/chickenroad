@@ -3,7 +3,7 @@ package br.com.chickenroad.entities;
 import java.util.ArrayList;
 import java.util.List;
 
-import br.com.chickenroad.Constantes;
+import br.com.chickenroad.screens.util.Constantes;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.maps.tiled.TiledMap;

@@ -1,7 +1,7 @@
 package br.com.chickenroad.entities;
 
-import br.com.chickenroad.Constantes;
 import br.com.chickenroad.screens.PlayScreen;
+import br.com.chickenroad.screens.util.Constantes;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
 

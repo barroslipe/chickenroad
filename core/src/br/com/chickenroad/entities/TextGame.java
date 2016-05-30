@@ -1,6 +1,7 @@
 package br.com.chickenroad.entities;
 
 import br.com.chickenroad.animations.TextGameAnimation;
+import br.com.chickenroad.entities.enums.TextGameTypes;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;

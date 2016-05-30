@@ -1,6 +1,6 @@
 package br.com.chickenroad.entities;
 
-import br.com.chickenroad.Constantes;
+import br.com.chickenroad.screens.util.Constantes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
@@ -98,7 +98,7 @@ public class PlayerScore {
 		}
 	}
 
-	public void addScoreGame(int value) {
+	public void addToScore(int value) {
 		this.scoreGame += value;
 		this.scoreGameDraw = Integer.toString(scoreGame);
 

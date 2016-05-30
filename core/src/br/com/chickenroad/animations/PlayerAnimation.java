@@ -1,7 +1,7 @@
 package br.com.chickenroad.animations;
 
-import br.com.chickenroad.Constantes;
-import br.com.chickenroad.entities.PlayerTypes;
+import br.com.chickenroad.entities.enums.PlayerTypes;
+import br.com.chickenroad.screens.util.Constantes;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
@@ -125,5 +125,10 @@ public class PlayerAnimation {
 		stateTime += delta;          
 		currentFrame = walkAnimation.getKeyFrame(stateTime, true);
 		return currentFrame;
+	}
+
+	public void dispose() {
+		// TODO Auto-generated method stub
+		
 	}
 }

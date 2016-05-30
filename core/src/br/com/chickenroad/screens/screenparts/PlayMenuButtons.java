@@ -1,7 +1,7 @@
 package br.com.chickenroad.screens.screenparts;
 
-import br.com.chickenroad.Constantes;
-import br.com.chickenroad.entities.StateGame;
+import br.com.chickenroad.entities.enums.StateGame;
+import br.com.chickenroad.screens.util.Constantes;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,7 +12,6 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class PlayMenuButtons{
 
 	private Sprite spritePause;
-	private Sprite spritePlay;
 	private Sprite spriteEggsQtd;
 	private Sprite spriteCornQtd;
 
@@ -37,14 +36,6 @@ public class PlayMenuButtons{
 		flagDisable = false;
 	}
 
-
-	public boolean checkClickPlayButton(float x, float y) {
-
-		if(spritePlay.getBoundingRectangle().contains(x, y))
-			return true;
-
-		return false;
-	}
 	public boolean checkClickPauseButton(float x, float y) {
 
 		if(spritePause.getBoundingRectangle().contains(x, y))
@@ -91,7 +82,6 @@ public class PlayMenuButtons{
 
 	public void dispose() {
 		this.spritePause = null;
-		this.spritePlay = null;
 		this.spriteEggsQtd = null;
 		this.spriteCornQtd = null;
 	}

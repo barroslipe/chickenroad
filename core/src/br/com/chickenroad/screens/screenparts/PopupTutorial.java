@@ -1,7 +1,7 @@
 package br.com.chickenroad.screens.screenparts;
 
-import br.com.chickenroad.Constantes;
 import br.com.chickenroad.screens.PlayScreen;
+import br.com.chickenroad.screens.util.Constantes;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
@@ -12,6 +12,8 @@ public class PopupTutorial{
 
 	private Sprite tutorialSprite;
 	private Sprite okTutorial;
+	
+	private boolean visible;
 
 	public PopupTutorial(AssetManager assetManager) {
 
@@ -24,10 +26,14 @@ public class PopupTutorial{
 
 		Texture texture1 = assetManager.get(Constantes.URL_OK_BUTTON);
 		this.okTutorial = new Sprite(texture1);
+		
+		this.visible = false;
 	}
 
 
 	public void draw(Batch batch) {
+		
+		if(!visible) return;
 
 		this.tutorialSprite.setPosition((Constantes.WORLD_WIDTH - tutorialSprite.getWidth())/2 + PlayScreen.deltaXPositionButtons,
 				(Constantes.WORLD_HEIGHT - tutorialSprite.getHeight())/2+PlayScreen.deltaYPositionButtons);
@@ -62,5 +68,17 @@ public class PopupTutorial{
 
 	public void setOkTutorial(Sprite okTutorial) {
 		this.okTutorial = okTutorial;
+	}
+
+
+	public void setVisible(boolean aVisible) {
+		this.visible = aVisible;
+		
+	}
+
+
+	public boolean isVisible() {
+		// TODO Auto-generated method stub
+		return visible;
 	}
 }

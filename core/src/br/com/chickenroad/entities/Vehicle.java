@@ -1,6 +1,9 @@
 package br.com.chickenroad.entities;
 
 
+import br.com.chickenroad.entities.enums.Direction;
+import br.com.chickenroad.entities.enums.VehicleTypes;
+
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
@@ -17,76 +20,76 @@ public class Vehicle extends Sprite{
 	private VehicleTypes vehicleType;
 
 	public Vehicle(String sprite, RoadFaixa aRoadFaixa, AssetManager assetManager){
-		super(new Texture(sprite));
-		roadFaixa = aRoadFaixa;
+		super((Texture) assetManager.get(sprite));
+		
+		this.roadFaixa = aRoadFaixa;
+		//TODO para pegar o original
+		setOrigin(0, 0);
 		setScale(0.7f);
-		//verificar outra forma de atribuir tipo do veiculo
+		
+		//TODO verificar outra forma de atribuir tipo do veiculo
 		vehicleType = (sprite.substring(9, sprite.length()-6).equalsIgnoreCase((VehicleTypes.MOTO).valor) ? VehicleTypes.MOTO : VehicleTypes.CAR);
 	}
 
-	public void walkX(){
+	public void runX(){
 
 		if(roadFaixa.getDirection() == Direction.RIGHT){
 
 			if(getX() <= roadFaixa.getInitialPoint().x + roadFaixa.getWidth())
 				setX(getX() + roadFaixa.getSpeed());
 			else
-				init(roadFaixa.getInitialPoint().x, getY());
+				setPosition(roadFaixa.getInitialPoint().x, getY());
+			
 		}else if(roadFaixa.getDirection() == Direction.LEFT){
-
 
 			if(getX() >= roadFaixa.getInitialPoint().x)
 				setX(getX() - roadFaixa.getSpeed());
 			else
-				init(roadFaixa.getWidth(), getY());
+				setPosition(roadFaixa.getWidth(), getY());
 
 		}
 	}
 
-	public void init(float x, float y) {
-		setPosition(x, y);
-	}
-
-	public Rectangle getBoundingRectangleColision() {
-		Rectangle rectangle = new Rectangle();
-
-		rectangle.set(super.getBoundingRectangle());
-
+	public Rectangle getCollisionBounds() {
+		
+		int diffX = 75;
+		Rectangle rectangle = new Rectangle(getX(), getY(), this.getWidth() - diffX, this.getHeight());
+		
 		if(vehicleType == VehicleTypes.MOTO){
-			rectangle.setHeight(rectangle.height/6);
+			rectangle.setHeight(rectangle.height/9);
 		}else{
-			rectangle.setHeight(rectangle.height/3);
+			rectangle.setHeight(rectangle.height/5);
 		}
 		return rectangle;
 	};
 
-	public void dispose(){
-		//getTexture().dispose();
-	}
+	public boolean isNearToHork(Rectangle player) {
 
-	public boolean isNearToHork(Rectangle bound) {
-
-		int distance_max = 5;
-		float altura = (vehicleType == VehicleTypes.MOTO ? getHeight()/6 : getHeight()/3);
+		final int DISTANCE_MAX = 40;
+		final Rectangle vehicleBounds = getCollisionBounds();
 
 		if(roadFaixa.getDirection() == Direction.RIGHT){
 
-			if( (getX() + getWidth() < bound.x && getX()+getWidth()+distance_max >= bound.x)
-					&& (getY() < bound.y && bound.y <= getY()+altura) ){
+			if( (vehicleBounds.getX() + vehicleBounds.getWidth() < player.x 
+					&& vehicleBounds.getX()+vehicleBounds.getWidth()+DISTANCE_MAX >= player.x)
+					&& (vehicleBounds.getY() < player.y && player.y <= vehicleBounds.getY()+vehicleBounds.getHeight()) ){
 				return true;
 			}
 
 		}else if(roadFaixa.getDirection() == Direction.LEFT){
 			//adicionei 60 pois esse libgdx é louco!
-			if( (getX() - distance_max - 60 <= bound.x &&  bound.x < getX())
-					&&
-					(getY() < bound.y && bound.y <= getY()+altura) ){
+			if( (vehicleBounds.getX() - DISTANCE_MAX - 60 <= player.x &&  player.x < vehicleBounds.getX())
+					&& (vehicleBounds.getY() < player.y && player.y <= vehicleBounds.getY()+vehicleBounds.getHeight()) ){
 
 				return true;
 			}
 		}
 
 		return false;
+	}
+
+	public void dispose(){
+		getTexture().dispose();
 	}
 
 }

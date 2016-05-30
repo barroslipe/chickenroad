@@ -16,7 +16,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import br.com.chickenroad.entities.TextGameTypes;
+import br.com.chickenroad.entities.enums.TextGameTypes;
 
 public class TextGameAnimation{
 

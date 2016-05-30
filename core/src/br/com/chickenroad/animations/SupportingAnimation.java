@@ -1,6 +1,6 @@
 package br.com.chickenroad.animations;
 
-import br.com.chickenroad.entities.SupportingTypes;
+import br.com.chickenroad.entities.enums.SupportingTypes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;

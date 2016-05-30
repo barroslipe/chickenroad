@@ -3,19 +3,17 @@ package br.com.chickenroad.builder;
 import java.util.ArrayList;
 import java.util.Random;
 
-import br.com.chickenroad.Constantes;
 import br.com.chickenroad.entities.ChickenNest;
 import br.com.chickenroad.entities.MyMap;
 import br.com.chickenroad.entities.Player;
 import br.com.chickenroad.entities.TargetPlayer;
 import br.com.chickenroad.entities.TextGame;
-import br.com.chickenroad.entities.TextGameTypes;
+import br.com.chickenroad.entities.enums.TextGameTypes;
+import br.com.chickenroad.screens.util.Constantes;
 import br.com.chickenroad.screens.util.MyProperties;
-import br.com.chickenroad.screens.util.Util;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.math.Vector2;
 
 
 /**
@@ -25,7 +23,8 @@ import com.badlogic.gdx.math.Vector2;
  */
 public class TargetPlayerBuilder {
 
-	private int contPlus100, contPlus15;
+	private int contPlus100;
+	private int contPlus15;
 	private int numCornCatchedIndex; //recebe o valor da posi��o do vetor de milhos encontrados
 	private boolean flagPlus100;
 	private boolean flagPlus15;
@@ -56,14 +55,6 @@ public class TargetPlayerBuilder {
 
 		this.textGame[0].init();
 		this.textGame[1].init();
-
-		Vector2 point;
-
-		point = new Vector2(Util.getValidRandomPosition(myMap.getWidthTiledMap(), myMap.getHeightTiledMap(), myMap.getTiles(), chickenNest.getBoundingRectangle()));
-
-		//		this.targetPlayerGiftSheep = new TargetPlayer(Constantes.URL_GIFT_SHEEP, assetManager, TargetPlayerTypes.SHEEP, 1f/4f);
-		//		this.targetPlayerGiftSheep.init(point.x,  point.y);
-		//		this.targetPlayerGiftSheep.setVisible(false);
 
 		Random generator = new Random();
 		//inicializa lista de ovos
@@ -187,5 +178,9 @@ public class TargetPlayerBuilder {
 			this.targetPlayerCornsList.get(i).dispose();
 
 		//this.targetPlayerGiftSheep.dispose();
+	}
+
+	public ArrayList<TargetPlayer> getTargetPlayerEggsList() {
+		return targetPlayerEggsList;
 	}
 }

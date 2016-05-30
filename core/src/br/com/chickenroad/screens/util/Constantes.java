@@ -1,4 +1,4 @@
-package br.com.chickenroad;
+package br.com.chickenroad.screens.util;
 
 /**
  * 
@@ -129,5 +129,8 @@ public class Constantes {
 	public static final String URL_STAR2_POPUP = "star2Popup.png";
 	public static final String URL_STAR3_POPUP = "star3Popup.png";
 	public static final String URL_PLAY_BUTTON = "playFaseButton.png";
+	public static final String URL_PAUSE_BUTTON = "pauseFaseButton.png";
+	public static final String URL_RESTART_BUTTON = "restartFaseButton.png";
+	public static final String URL_LIST_FASE_BUTTON = "listFaseButton.png";
 
 }

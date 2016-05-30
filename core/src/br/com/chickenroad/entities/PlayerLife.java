@@ -1,7 +1,8 @@
 package br.com.chickenroad.entities;
 
-import br.com.chickenroad.Constantes;
+import br.com.chickenroad.entities.enums.DemageTypes;
 import br.com.chickenroad.screens.PlayScreen;
+import br.com.chickenroad.screens.util.Constantes;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.Color;
@@ -12,7 +13,6 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class PlayerLife{
 
-	private final int DEMAGE_VEHICLE = 20;
 	private final int TOTAL_LIFE = 60;
 	private final int lifeHalf = 10;
 	private final int lifeFull = 20;
@@ -23,7 +23,6 @@ public class PlayerLife{
 	private Sprite spriteFull, spriteHalf, spriteEmpty;
 
 	public PlayerLife(AssetManager assetManager){
-
 		this.spriteFull = new Sprite((Texture)assetManager.get(Constantes.URL_LIFE_FULL));
 		this.spriteHalf = new Sprite((Texture)assetManager.get(Constantes.URL_LIFE_HALF));
 		this.spriteEmpty = new Sprite((Texture)assetManager.get(Constantes.URL_LIFE_EMPTY));
@@ -33,16 +32,12 @@ public class PlayerLife{
 		life = TOTAL_LIFE;
 	}
 
-
+	public void demage(DemageTypes demageType) {
+		life -= demageType.value;
+		if(life < 0 ) life = 0; 
+	}
 	public float getLife() {
 		return life;
-	}
-
-	public void demageVehicle() {
-		life -= DEMAGE_VEHICLE;
-
-		if(life < 0 ) life = 0; 
-
 	}
 
 	public void draw(SpriteBatch spriteBatch){
@@ -74,7 +69,6 @@ public class PlayerLife{
 		return TOTAL_LIFE/lifeFull;
 	}
 
-
 	public int calculateScoreLife(){
 
 		int score;
@@ -84,6 +78,11 @@ public class PlayerLife{
 		else score = MAX_SCORE_LIFE/5;
 
 		return score;
+	}
+
+	public void dispose() {
+		// TODO Auto-generated method stub
+
 	}
 
 }

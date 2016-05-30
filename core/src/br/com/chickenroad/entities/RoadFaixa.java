@@ -1,5 +1,7 @@
 package br.com.chickenroad.entities;
 
+import br.com.chickenroad.entities.enums.Direction;
+
 import com.badlogic.gdx.math.Vector2;
 
 public class RoadFaixa {

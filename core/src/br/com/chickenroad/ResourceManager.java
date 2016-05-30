@@ -1,6 +1,7 @@
 package br.com.chickenroad;
 
 import br.com.chickenroad.configuration.ApplicationConfig;
+import br.com.chickenroad.screens.util.Constantes;
 
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.audio.Music;
@@ -28,7 +29,6 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_BACKGROUND_ALL_SEASONS, Texture.class);
 		assetManager.load(Constantes.URL_CHICKENNEST, Texture.class);
 
-
 		assetManager.load(Constantes.URL_EXIT_BUTTON, Texture.class);
 		assetManager.load(Constantes.URL_SOUND_OFF_BUTTON, Texture.class);
 		assetManager.load(Constantes.URL_SOUND_ON_BUTTON, Texture.class);
@@ -51,10 +51,10 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_SOUND_SHEEP, Music.class);
 		assetManager.load(Constantes.URL_SOUND_HORN, Music.class);
 
-		assetManager.load("pauseFaseButton.png", Texture.class);
+		assetManager.load(Constantes.URL_PAUSE_BUTTON, Texture.class);
 		assetManager.load(Constantes.URL_PLAY_BUTTON, Texture.class);
-		assetManager.load("restartFaseButton.png", Texture.class);
-		assetManager.load("listFaseButton.png", Texture.class);
+		assetManager.load(Constantes.URL_RESTART_BUTTON, Texture.class);
+		assetManager.load(Constantes.URL_LIST_FASE_BUTTON, Texture.class);
 
 		//player
 		assetManager.load(Constantes.URL_PLAYER_AVATAR, Texture.class);
@@ -85,10 +85,7 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_PIG_SLEEPING_RIGHT, Texture.class);
 		assetManager.load(Constantes.URL_PIG_SLEEPING_LEFT, Texture.class);
 		assetManager.load(Constantes.URL_GIFT_SHEEP, Texture.class);
-
-
 		assetManager.load(Constantes.URL_CHICKENNEST, Texture.class);
-		//assetManager.load(Constantes.URL_PORTAL, Texture.class);
 		assetManager.load(Constantes.URL_YELLOW_CORN, Texture.class);
 		assetManager.load(Constantes.URL_YELLOW_CORN_SCORE, Texture.class);
 		assetManager.load(Constantes.URL_EGGS_SCORE, Texture.class);

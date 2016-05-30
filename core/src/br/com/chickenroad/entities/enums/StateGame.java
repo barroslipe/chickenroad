@@ -1,4 +1,4 @@
-package br.com.chickenroad.entities;
+package br.com.chickenroad.entities.enums;
 
 /**
  * Modelar os estados da aplicação

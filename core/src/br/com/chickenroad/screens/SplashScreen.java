@@ -1,7 +1,7 @@
 package br.com.chickenroad.screens;
 
 import br.com.chickenroad.ChickenRoadGame;
-import br.com.chickenroad.Constantes;
+import br.com.chickenroad.screens.util.Constantes;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
