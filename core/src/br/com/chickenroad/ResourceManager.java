@@ -108,6 +108,10 @@ public class ResourceManager {
 		assetManager.load(Constantes.URL_STAR1_POPUP, Texture.class);
 		assetManager.load(Constantes.URL_STAR2_POPUP, Texture.class);
 		assetManager.load(Constantes.URL_STAR3_POPUP, Texture.class);
+		
+		assetManager.load("enemy/fox_sleep.png", Texture.class);
+		assetManager.load("enemy/raposa1.png", Texture.class);
+		
 
 
 		loadArray(Constantes.URL_SEASON_PICTURE_LIST);

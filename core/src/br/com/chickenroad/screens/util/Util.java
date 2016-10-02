@@ -64,4 +64,15 @@ public class Util {
 		else if(faseScore <= 0.75*maxScoreFase) return 2;
 		else return 3;
 	}
+	
+	public static float[] getPoints(String points){
+		String p[] = points.split(",");
+		
+		float posX = Float.parseFloat(p[0])*Constantes.WIDTH_TILE;
+		float posY = Float.parseFloat(p[1])*Constantes.HEIGHT_TILE;
+		
+		float retorno[] = {posX, posY};
+		
+		return retorno;
+	}
 }

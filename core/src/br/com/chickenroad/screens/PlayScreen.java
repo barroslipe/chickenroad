@@ -1,9 +1,9 @@
 package br.com.chickenroad.screens;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import br.com.chickenroad.ChickenRoadGame;
+import br.com.chickenroad.builder.EnemiesBuilder;
 import br.com.chickenroad.builder.RoadsBuilder;
 import br.com.chickenroad.builder.TargetPlayerBuilder;
 import br.com.chickenroad.builder.VehiclesBuilder;
@@ -17,7 +17,7 @@ import br.com.chickenroad.entities.PlayerScore;
 import br.com.chickenroad.entities.RoadFaixa;
 import br.com.chickenroad.entities.TextGame;
 import br.com.chickenroad.entities.Timer;
-import br.com.chickenroad.entities.Vehicle;
+import br.com.chickenroad.entities.enums.DemageTypes;
 import br.com.chickenroad.entities.enums.StateGame;
 import br.com.chickenroad.entities.enums.TextGameTypes;
 import br.com.chickenroad.screens.screenparts.PlayMenuButtons;
@@ -48,10 +48,9 @@ public class PlayScreen extends ScreenBase {
 	private PlayMenuButtons playMenuButtons;
 	//ovos e espigas
 	private TargetPlayerBuilder targetPlayerBuilder;
+	private EnemiesBuilder enemiesBuilder;
 	//textos
 	private TextGame textGame[];
-	//porcos
-	//private Supporting supporting[];
 	//jogador
 	private Player player;
 	//score do jogador
@@ -75,7 +74,7 @@ public class PlayScreen extends ScreenBase {
 	//lista de estradas
 	private List<RoadFaixa> roadFaixaList;
 	//veiculos
-	private ArrayList<Vehicle> vehicleList;
+	private VehiclesBuilder vehiclesBuilder;
 	//propriedades da fase
 	private MyProperties myProperties;
 
@@ -110,6 +109,8 @@ public class PlayScreen extends ScreenBase {
 		this.myProperties.loadProperties(Constantes.URL_MAPS[seasonId][faseId] + ".properties");
 		this.timer = new Timer();
 		this.targetPlayerBuilder = new TargetPlayerBuilder();
+		this.enemiesBuilder = new EnemiesBuilder();
+		this.vehiclesBuilder = new VehiclesBuilder();
 
 		this.popupTutorial = new PopupTutorial(getAssetManager());
 		this.popupGameOver = new PopupGameOver(getAssetManager());
@@ -140,9 +141,12 @@ public class PlayScreen extends ScreenBase {
 		for(int i=0;i<textGame.length;i++)
 			textGame[i].init(); //exibe texto na posi��o do player
 
-		targetPlayerBuilder.init(myMap, myProperties, getAssetManager(), chickenNest);
 		roadFaixaList = RoadsBuilder.builder(myProperties);
-		vehicleList = VehiclesBuilder.builder(roadFaixaList, getAssetManager());
+
+		targetPlayerBuilder.init(myMap, myProperties, getAssetManager(), chickenNest);
+		enemiesBuilder.init(myMap, myProperties, getAssetManager());
+		vehiclesBuilder.init(roadFaixaList, getAssetManager());
+
 
 		//visualizar popup - flag para auxiliar o jogador[tutorial]
 		//TODO pausar as animações quando a aplicação estiver em pause[pelo usuário ou por mostrar o popup tutorial]
@@ -166,9 +170,11 @@ public class PlayScreen extends ScreenBase {
 
 		switch (stateGame) {
 		case PLAYING:
-			player.updatePlayerPosition(delta, myMap.getTiles(), vehicleList, myMap.getWidthTiledMap(), myMap.getHeightTiledMap());
+			player.updatePlayerPosition(delta, myMap.getTiles(), myMap.getWidthTiledMap(), myMap.getHeightTiledMap());
+			checkColissionVehicles();
 			checkCollisionEgg();
 			checkCollisionCorn();
+			checkCollisionEnemy();
 			leaveEggInNest();
 			break;
 
@@ -184,6 +190,8 @@ public class PlayScreen extends ScreenBase {
 		//desenhar na tela
 		draw(delta);
 	}
+
+
 	/**
 	 * Método principal de desenho
 	 * @param delta
@@ -233,6 +241,8 @@ public class PlayScreen extends ScreenBase {
 		targetPlayerBuilder.drawCatchEggs(chickenRoadGame.getSpriteBatch(), player, delta);
 		targetPlayerBuilder.drawCatchCorn(chickenRoadGame.getSpriteBatch(), player, delta);
 
+		enemiesBuilder.drawEnemies(chickenRoadGame.getSpriteBatch(), delta, player);
+
 		drawColisionPlayerCar(delta);
 
 		drawGameOver(delta);
@@ -257,24 +267,49 @@ public class PlayScreen extends ScreenBase {
 
 		boolean renderPlayer = true;
 
-		for(int i=0;i<vehicleList.size();i++){
+		for(int i=0;i<vehiclesBuilder.getVehiclesList().size();i++){
 			if(stateGame == StateGame.PLAYING)
-				vehicleList.get(i).runX();
+				vehiclesBuilder.getVehiclesList().get(i).runX();
 			//a figura do carro tá estranha, por isso baixei 4 na figura da galinha
-			if(Intersector.overlaps(player.getBoundingRectangle(), vehicleList.get(i).getBoundingRectangle())
-					&& player.getY() -6 >= vehicleList.get(i).getY()){
+			if(Intersector.overlaps(player.getBoundingRectangle(), vehiclesBuilder.getVehiclesList().get(i).getBoundingRectangle())
+					&& player.getY() -6 >= vehiclesBuilder.getVehiclesList().get(i).getY()){
 				player.draw(chickenRoadGame.getSpriteBatch(), delta);
-				vehicleList.get(i).draw(chickenRoadGame.getSpriteBatch());
+				vehiclesBuilder.getVehiclesList().get(i).draw(chickenRoadGame.getSpriteBatch());
 				renderPlayer = false;
 			}else{
-				vehicleList.get(i).draw(chickenRoadGame.getSpriteBatch());
+				vehiclesBuilder.getVehiclesList().get(i).draw(chickenRoadGame.getSpriteBatch());
 			}
-			if(stateGame == StateGame.PLAYING && vehicleList.get(i).isNearToHork(player.getBoundingRectangle())){
+			if(stateGame == StateGame.PLAYING && vehiclesBuilder.getVehiclesList().get(i).isNearToHork(player.getBoundingRectangle())){
 				MyPlayMusic.playSound(myPlayMusic.getSoundHorn());
 			}
 		}
 
 		if(renderPlayer) player.draw(chickenRoadGame.getSpriteBatch(), delta);
+
+	}
+
+
+	private void checkColissionVehicles() {		
+
+		if(player.isDemage()){
+			return;
+		}else{
+			player.setCollisionVehiclesStatus(false);
+		}
+
+		if(vehiclesBuilder.testColissionVehicles(player)){
+			MyPlayMusic.playSound(myPlayMusic.getSoundChickenDemage());
+			player.demage(DemageTypes.VEHICLE_DEMAGE);
+			player.setCollisionVehiclesStatus(true);
+		}
+
+	}
+
+	private void checkCollisionEnemy() {
+		if(enemiesBuilder.testColissionEnemy(player)){
+			MyPlayMusic.playSound(myPlayMusic.getSoundChickenDemage());
+			player.demage(DemageTypes.ENEMY_DEMAGE);
+		}
 
 	}
 
@@ -343,12 +378,11 @@ public class PlayScreen extends ScreenBase {
 			myPlayMusic.stopBackgroundMusic();
 			popupGameOver.draw(chickenRoadGame.getSpriteBatch());
 			playMenuButtons.disable();
-
-
 		}
 	}
 
 	private void drawColisionPlayerCar(float delta) {
+
 		//exibe anima��o de colis�o se houve colis�o
 		if(player.isColisionVehiclesStatus()) {
 			MyPlayMusic.playSound(myPlayMusic.getSoundChickenDemage());
@@ -448,7 +482,6 @@ public class PlayScreen extends ScreenBase {
 		this.stateGame = null;
 		this.myMap.dispose();
 		this.playerScore = null;
-		this.vehicleList = null;
 		this.targetPlayerBuilder.dispose();
 		this.targetPlayerBuilder = null;
 

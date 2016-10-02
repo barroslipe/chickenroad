@@ -1,6 +1,5 @@
 package br.com.chickenroad.entities;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import br.com.chickenroad.animations.PlayerAnimation;
@@ -29,6 +28,7 @@ public class Player extends Sprite{
 
 	private float timerDemage;
 	private boolean demage;
+
 	private boolean collisionVehiclesStatus; // retorna o estado atual da colisao com veiculos
 
 	private PlayerLife playerLife;
@@ -129,7 +129,7 @@ public class Player extends Sprite{
 		}
 	}
 	
-	public void updatePlayerPosition(float delta, List<Rectangle> tiles, ArrayList<Vehicle> vehiclesList, int mapWidth, int mapHeight) {
+	public void updatePlayerPosition(float delta, List<Rectangle> tiles, int mapWidth, int mapHeight) {
 
 		float newPositionX = this.getX()+this.velocity.x*delta;
 		float newPositionY = this.getY()+this.velocity.y*delta;
@@ -137,7 +137,6 @@ public class Player extends Sprite{
 		newPositionX = checkForOutOfBoundX(mapWidth, newPositionX);
 		newPositionY = checkForOutOfBoundsY(mapHeight, newPositionY);
 
-		checkVehiclesCollision(vehiclesList);
 		checkTilesMapCollision(newPositionX, newPositionY, tiles);
 
 		checkStopPlayer();
@@ -158,32 +157,38 @@ public class Player extends Sprite{
 			newPositionY = 0;
 		return newPositionY;
 	}
+//
+//	/**
+//	 * Verificar se houve colisao com algum veículo do cenário
+//	 * @param vehiclesList os veículos do cenário
+//	 */
+//	private void checkVehiclesCollision(List<Vehicle> vehiclesList) {
+//
+//		if(demage)
+//			return;
+//		else
+//			collisionVehiclesStatus=false;
+//
+//		Rectangle playerCollisionBounds = getCollisionBounds();
+//
+//		for(int i=0;i<vehiclesList.size();i++){
+//			if(Intersector.overlaps(vehiclesList.get(i).getCollisionBounds(), playerCollisionBounds)){
+//				demage(DemageTypes.VEHICLE_DEMAGE);
+//				collisionVehiclesStatus=true;
+//				return;
+//			}
+//		}
+//	}
 
-	/**
-	 * Verificar se houve colisao com algum veículo do cenário
-	 * @param vehiclesList os veículos do cenário
-	 */
-	private void checkVehiclesCollision(ArrayList<Vehicle> vehiclesList) {
-
-		if(demage)
-			return;
-		else
-			collisionVehiclesStatus=false;
-
+	public Rectangle getCollisionBounds() {
+		
 		float diffX = 4;
 		float diffY = 2;
 
 		//diminuição do limite de colisão do jogador
 		Rectangle playerCollisionBounds = new Rectangle(this.getX() + diffX, this.getY()+diffY,
 				this.getWidth()-diffX, this.getHeight()/4);
-
-		for(int i=0;i<vehiclesList.size();i++){
-			if(Intersector.overlaps(vehiclesList.get(i).getCollisionBounds(), playerCollisionBounds)){
-				demage(DemageTypes.VEHICLE_DEMAGE);
-				collisionVehiclesStatus=true;
-				return;
-			}
-		}
+		return playerCollisionBounds;
 	}
 
 	/**
@@ -238,7 +243,7 @@ public class Player extends Sprite{
 			playerAnimation.setSpriteSheet(Constantes.URL_PLAYER_AVATAR_STOP_RIGHT, PlayerTypes.AVATAR_STOP_RIGHT);
 	}
 
-	private void demage(DemageTypes demageType) {
+	public void demage(DemageTypes demageType) {
 		if(demage) return;
 		playerLife.demage(demageType);
 		demage = true;
@@ -272,6 +277,15 @@ public class Player extends Sprite{
 		else
 			return false;
 	}
+	
+
+	public boolean isDemage() {
+		return demage;
+	}
+
+	public void setCollisionVehiclesStatus(boolean collisionVehiclesStatus) {
+		this.collisionVehiclesStatus = collisionVehiclesStatus;
+	}
 
 	public void changeDead() {
 		playerAnimation.setSpriteSheet(Constantes.URL_PLAYER_AVATAR_DEAD, PlayerTypes.AVATAR_DEAD);
@@ -293,5 +307,25 @@ public class Player extends Sprite{
 		getTexture().dispose();
 		playerLife.dispose();
 		playerAnimation.dispose();
+	}
+
+	public boolean isNear(Enemy enemy, int distance) {
+
+		if(getX() < enemy.getX() && getX() + distance > enemy.getX()){
+			if(getY() < enemy.getY() && getY() + distance > enemy.getY()){
+				return true;
+			}else if(getY() > enemy.getY() && getY() - distance < enemy.getY())
+				return true;
+			
+		}else if(getX() > enemy.getX() && getX() - distance < enemy.getX()){
+			if(getY() < enemy.getY() && getY() + distance > enemy.getY()){
+				return true;
+			}else if(getY() > enemy.getY() && getY() - distance < enemy.getY())
+				return true;
+		}
+		
+		
+		return false;
+		
 	}
 }
